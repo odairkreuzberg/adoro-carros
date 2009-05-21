@@ -6,6 +6,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import br.iav.ac.telas.cliente.*;
+import br.iav.ac.telas.cor.PanelCorPrincipal;
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo
@@ -22,7 +23,8 @@ import br.iav.ac.telas.cliente.*;
 public class TelaPrincipal extends javax.swing.JFrame {
 	private JPanel panelOpções;
 	private JPanel panelPrincipal;
-	private PanelClienteConsulta panelClienteConsulta;
+	private PanelClientePrincipal panelClientePrincipal;
+	private PanelCorPrincipal panelCorPrincipal;
 	private JTree jtOpcoes;
 	private JScrollPane jspOpcoes;
 
@@ -74,8 +76,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						DefaultMutableTreeNode nodoPrincipal = new DefaultMutableTreeNode("Adoro Carros");
 						DefaultMutableTreeNode nodoClientes = new DefaultMutableTreeNode("Clientes");
 						DefaultMutableTreeNode nodoFuncionarios = new DefaultMutableTreeNode("Funcionários");
+						DefaultMutableTreeNode nodoCores = new DefaultMutableTreeNode("Cores");
 						nodoPrincipal.add(nodoClientes);
 						nodoPrincipal.add(nodoFuncionarios);
+						nodoPrincipal.add(nodoCores);
 						jtOpcoes = new JTree(nodoPrincipal);
 						jtOpcoes.addTreeSelectionListener(new TreeSelectionHandler());
 						jspOpcoes.setViewportView(jtOpcoes);
@@ -95,6 +99,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	}
 	
 	class TreeSelectionHandler implements TreeSelectionListener {
+
 		@Override
 		public void valueChanged(TreeSelectionEvent e) {
 			String path = e.getPath().toString().trim();
@@ -102,12 +107,22 @@ public class TelaPrincipal extends javax.swing.JFrame {
 				JOptionPane.showMessageDialog(TelaPrincipal.this, "Tela Principal");
 			} else if (path.equals("[Adoro Carros, Clientes]")) {
 				panelPrincipal.removeAll();
-				if (panelClienteConsulta == null) {
-					panelClienteConsulta = new PanelClienteConsulta();
+				if (panelClientePrincipal == null) {
+					panelClientePrincipal = new PanelClientePrincipal();
 				} else {
 					
 				}
-				panelPrincipal.add(panelClienteConsulta);
+				panelPrincipal.add(panelClientePrincipal);
+				panelPrincipal.validate();
+				panelPrincipal.repaint();
+			} else if (path.equals("[Adoro Carros, Cores]")) {
+				panelPrincipal.removeAll();
+				if (panelCorPrincipal == null) {
+					panelCorPrincipal = new PanelCorPrincipal();
+				} else {
+					
+				}
+				panelPrincipal.add(panelCorPrincipal);
 				panelPrincipal.validate();
 				panelPrincipal.repaint();
 			} else if (path.equals("[Adoro Carros, Funcionários]")) {
