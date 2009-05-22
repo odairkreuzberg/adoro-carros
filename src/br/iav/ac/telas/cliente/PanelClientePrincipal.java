@@ -1,10 +1,13 @@
 package br.iav.ac.telas.cliente;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo
@@ -22,10 +25,18 @@ public class PanelClientePrincipal extends javax.swing.JPanel {
 
 	private JLabel lblTitulo;
 	private JTable tbPrincipal;
+	private JScrollPane jspTabela;
+	private JButton btnExcluir;
+	private JButton btnEditar;
+	private JButton btnCadastrar;
+	
+	//JPanel Tela Principal
+	private JPanel pTela;
 
-	public PanelClientePrincipal() {
+	public PanelClientePrincipal(JPanel p) {
 		super();
 		initGUI();
+		pTela = p;
 	}
 	
 	private void initGUI() {
@@ -40,16 +51,56 @@ public class PanelClientePrincipal extends javax.swing.JPanel {
 				lblTitulo.setFont(new java.awt.Font("Tahoma",1,14));
 			}
 			{
-				String[][] tbData = new String[][] { { "Furlan", "35243395" }, { "Fernando", "35235337" } };
-				String[] tbTitulo = new String[] { "Nome", "Telefone" };
-				tbPrincipal = new JTable();
-				this.add(tbPrincipal);
-				tbPrincipal.setModel(new DefaultTableModel(tbData, tbTitulo));
-				tbPrincipal.setBounds(12, 39, 525, 452);
-				tbPrincipal.setBorder(new LineBorder(new java.awt.Color(0,0,0), 1, false));
+				btnCadastrar = new JButton();
+				this.add(btnCadastrar);
+				btnCadastrar.setText("Cadastrar");
+				btnCadastrar.setBounds(253, 518, 89, 24);
+				btnCadastrar.addMouseListener(new Mouse());
+			}
+			{
+				btnEditar = new JButton();
+				this.add(btnEditar);
+				btnEditar.setText("Editar");
+				btnEditar.setEnabled(false);
+				btnEditar.setBounds(352, 518, 89, 24);
+				btnEditar.addMouseListener(new Mouse());
+			}
+			{
+				btnExcluir = new JButton();
+				this.add(btnExcluir);
+				btnExcluir.setText("Excluir");
+				btnExcluir.setEnabled(false);
+				btnExcluir.setBounds(451, 518, 88, 24);
+				btnExcluir.addMouseListener(new Mouse());
+			}
+			{
+				jspTabela = new JScrollPane();
+				this.add(jspTabela);
+				jspTabela.setBounds(12, 42, 525, 464);
+				{
+					Object[][] tbData = new Object[][] { { "Furlan", "35243395" }, { "Fernando", "35235337" } };
+					String[] tbTitulo = new String[] { "Nome", "Telefone" };
+					tbPrincipal = new JTable(tbData, tbTitulo);
+					jspTabela.setViewportView(tbPrincipal);
+				}
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, "Erro ao iniciar tela 'Clientes'.");
+		}
+	}
+	
+	class Mouse extends MouseAdapter {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if (e.getSource() == btnCadastrar) {
+				PanelClientePrincipal.this.pTela.removeAll();
+				PanelClientePrincipal.this.pTela.add(new PanelClienteCadastrar(pTela));
+				PanelClientePrincipal.this.pTela.repaint();
+			} else if (e.getSource() == btnEditar) {
+				
+			} else if (e.getSource() == btnExcluir) {
+			
+			}
 		}
 	}
 

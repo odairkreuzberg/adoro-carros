@@ -8,20 +8,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import br.iav.ac.telas.cliente.*;
 import br.iav.ac.telas.cor.PanelCorPrincipal;
 
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
 public class TelaPrincipal extends javax.swing.JFrame {
-	private JPanel panelOpções;
+	
+	private JPanel panelOpcoes;
 	private JPanel panelPrincipal;
 	private PanelClientePrincipal panelClientePrincipal;
 	private PanelCorPrincipal panelCorPrincipal;
@@ -63,14 +52,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			this.setTitle("Adoro Carros");
 			this.setSize(800, 600);
 			{
-				panelOpções = new JPanel();
-				getContentPane().add(panelOpções);
-				panelOpções.setBounds(10, 11, 215, 553);
-				panelOpções.setLayout(null);
-				panelOpções.setBackground(new java.awt.Color(0,64,128));
+				panelOpcoes = new JPanel();
+				getContentPane().add(panelOpcoes);
+				panelOpcoes.setBounds(10, 11, 215, 553);
+				panelOpcoes.setLayout(null);
+				panelOpcoes.setBackground(new java.awt.Color(0,64,128));
 				{
 					jspOpcoes = new JScrollPane();
-					panelOpções.add(jspOpcoes);
+					panelOpcoes.add(jspOpcoes);
 					jspOpcoes.setBounds(10, 11, 195, 184);
 					{
 						DefaultMutableTreeNode nodoPrincipal = new DefaultMutableTreeNode("Adoro Carros");
@@ -103,27 +92,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 		@Override
 		public void valueChanged(TreeSelectionEvent e) {
 			String path = e.getPath().toString().trim();
-			if (path.equals("[Adoro Carros]")) {
-				JOptionPane.showMessageDialog(TelaPrincipal.this, "Tela Principal");
-			} else if (path.equals("[Adoro Carros, Clientes]")) {
+			if (path.equals("[Adoro Carros, Clientes]")) {
 				panelPrincipal.removeAll();
-				if (panelClientePrincipal == null) {
-					panelClientePrincipal = new PanelClientePrincipal();
-				} else {
-					
-				}
-				panelPrincipal.add(panelClientePrincipal);
-				panelPrincipal.validate();
+				panelPrincipal.add(new PanelClientePrincipal(panelPrincipal));
 				panelPrincipal.repaint();
 			} else if (path.equals("[Adoro Carros, Cores]")) {
 				panelPrincipal.removeAll();
-				if (panelCorPrincipal == null) {
-					panelCorPrincipal = new PanelCorPrincipal();
-				} else {
-					
-				}
-				panelPrincipal.add(panelCorPrincipal);
-				panelPrincipal.validate();
+				panelPrincipal.add(new PanelCorPrincipal(panelPrincipal));
 				panelPrincipal.repaint();
 			} else if (path.equals("[Adoro Carros, Funcionários]")) {
 				JOptionPane.showMessageDialog(TelaPrincipal.this, "Tela de Funcionários");
