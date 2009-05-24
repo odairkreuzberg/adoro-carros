@@ -29,7 +29,7 @@ public class DaoCor implements DaoInterface {
 	
 	public void edit() {
 		if (db.connect()) {
-			db.update("update " + tableName + " set nome ='" + cor.getNome() + "' where cod_" + tableName + " = " + cor.getCodigo());
+			db.update("update " + tableName + " set nome = '" + cor.getNome() + "' where cod_" + tableName + " = " + cor.getCodigo());
 			db.disconnect();
 		}
 	}

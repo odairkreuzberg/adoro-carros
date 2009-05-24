@@ -1,8 +1,6 @@
 package br.iav.ac.negocio;
 
-import br.iav.ac.dao.DaoEndereco;
-
-public class Endereco extends Objeto implements ObjetoInterface {
+public class Endereco extends Objeto {
 
 	private String rua;
 	private int numero;
@@ -20,8 +18,7 @@ public class Endereco extends Objeto implements ObjetoInterface {
 		this.complemento = new String("");
 	}
 	
-	public Endereco(int codigo, String rua, int numero, String bairro, Cidade cidade, String cep, String complemento) {
-		this.setCodigo(codigo);
+	public Endereco(String rua, int numero, String bairro, Cidade cidade, String cep, String complemento) {
 		this.rua = new String(rua);
 		this.numero = numero;
 		this.bairro = new String(bairro);
@@ -92,29 +89,6 @@ public class Endereco extends Objeto implements ObjetoInterface {
 	
 	public String toString() {
 		return (this.getRua() + ", " + this.getNumero() + ", " + this.getBairro() + " - " + this.getCidade());
-	}
-
-	public void delete() {
-		DaoEndereco dao = new DaoEndereco();
-		dao.setEndereco(this);
-		dao.delete();
-	}
-	
-	public void edit() {
-		DaoEndereco dao = new DaoEndereco();
-		dao.setEndereco(this);
-		dao.edit();
-	}
-	
-	public void insert() {
-		DaoEndereco dao = new DaoEndereco();
-		dao.setEndereco(this);
-		dao.insert();
-	}
-	
-	public ListaObjeto load() {
-		DaoEndereco dao = new DaoEndereco();
-		return dao.load();
 	}
 	
 }
