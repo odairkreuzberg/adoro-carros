@@ -36,7 +36,7 @@ public class DaoCidade {
 	
 	public void insert() {
 		if (db.connect()) {
-			db.update("insert into " + tableName + " (nome) values ('" + cidade.getNome() + "', " + cidade.getDdd() + ")");
+			db.update("insert into " + tableName + " (nome, ddd) values ('" + cidade.getNome() + "', " + cidade.getDdd() + ")");
 			db.disconnect();
 		}
 	}
