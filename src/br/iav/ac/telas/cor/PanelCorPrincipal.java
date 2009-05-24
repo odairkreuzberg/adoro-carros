@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 /**
 * This code was edited or generated using CloudGarden's Jigloo
@@ -29,6 +30,7 @@ public class PanelCorPrincipal extends javax.swing.JPanel {
 	private JTable tbPrincipal;
 	private JScrollPane jspTabela;
 	private JButton btnExcluir;
+	private JTextField txtNome;
 	
 	//JPanel Tela Principal
 	private JPanel pTela;
@@ -49,6 +51,10 @@ public class PanelCorPrincipal extends javax.swing.JPanel {
 				lblTitulo.setText("Cores");
 				lblTitulo.setBounds(12, 12, 62, 17);
 				lblTitulo.setFont(new java.awt.Font("Tahoma",1,14));
+				txtNome = new JTextField();
+				this.add(txtNome);
+				txtNome.setBounds(100, 518, 89, 24);
+				
 			}
 			{
 				btnCadastrar = new JButton();
@@ -93,9 +99,13 @@ public class PanelCorPrincipal extends javax.swing.JPanel {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if (e.getSource() == btnCadastrar) {
-				PanelCorPrincipal.this.pTela.removeAll();
-				PanelCorPrincipal.this.pTela.add(new PanelCorCadastrar(pTela));
+				//PanelCorPrincipal.this.pTela.removeAll();
+				PanelCorPrincipal.this.pTela.add(new PanelCorCadastrar(PanelCorPrincipal.this));
+				PanelCorPrincipal.this.setVisible(false);
+				PanelCorPrincipal.this.pTela.setVisible(true);
 				PanelCorPrincipal.this.pTela.repaint();
+				//PanelCorPrincipal.this.
+			//	PanelCorPrincipal.this.pTela.//
 			} else if (e.getSource() == btnEditar) {
 				
 			} else if (e.getSource() == btnExcluir) {
