@@ -1,22 +1,36 @@
 package br.iav.ac.telas;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import br.iav.ac.telas.cliente.*;
+import br.iav.ac.telas.cliente.PanelClientePrincipal;
 import br.iav.ac.telas.cor.PanelCorPrincipal;
+import br.iav.ac.telas.core.PainelGrid;
+import br.iav.ac.telas.marca.MarcaGrid;
+import br.iav.ac.telas.modelo.ModeloGrid;
 
 public class TelaPrincipal extends javax.swing.JFrame {
 	
 	private JPanel panelOpcoes;
 	private JPanel panelPrincipal;
+	
 	private PanelClientePrincipal panelClientePrincipal;
 	private PanelCorPrincipal panelCorPrincipal;
 	private JTree jtOpcoes;
 	private JScrollPane jspOpcoes;
+	private MarcaGrid marcaGrid;
+	private ModeloGrid modeloGrid;
+	public static TelaPrincipal instancia;
 
+	
+	
 	{
 		//Set Look & Feel
 		try {
@@ -66,9 +80,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						DefaultMutableTreeNode nodoClientes = new DefaultMutableTreeNode("Clientes");
 						DefaultMutableTreeNode nodoFuncionarios = new DefaultMutableTreeNode("Funcionários");
 						DefaultMutableTreeNode nodoCores = new DefaultMutableTreeNode("Cores");
+						DefaultMutableTreeNode nodoMarcas = new DefaultMutableTreeNode("Marcas");
+						DefaultMutableTreeNode nodoModelos = new DefaultMutableTreeNode("Modelos");
 						nodoPrincipal.add(nodoClientes);
 						nodoPrincipal.add(nodoFuncionarios);
 						nodoPrincipal.add(nodoCores);
+						nodoPrincipal.add(nodoMarcas);
+						nodoPrincipal.add(nodoModelos);
 						jtOpcoes = new JTree(nodoPrincipal);
 						jtOpcoes.addTreeSelectionListener(new TreeSelectionHandler());
 						jspOpcoes.setViewportView(jtOpcoes);
@@ -89,6 +107,28 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	
 	class TreeSelectionHandler implements TreeSelectionListener {
 
+		private MarcaGrid getgGridMarca() {
+			if (marcaGrid == null){
+				marcaGrid = new MarcaGrid();
+			}
+			return marcaGrid;
+		}
+
+		private ModeloGrid getgGridModelo() {
+			if (modeloGrid == null){
+				modeloGrid = new ModeloGrid();
+			}
+			return modeloGrid;
+		}
+
+		private void showPainelGrid(PainelGrid painelGrid) {
+			panelPrincipal.removeAll();
+			panelPrincipal.repaint();
+			panelPrincipal.add(painelGrid);
+			panelPrincipal.validate();
+
+		}
+
 		@Override
 		public void valueChanged(TreeSelectionEvent e) {
 			String path = e.getPath().toString().trim();
@@ -97,10 +137,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
 				panelPrincipal.add(new PanelClientePrincipal(panelPrincipal));
 				panelPrincipal.repaint();
 			} else if (path.equals("[Adoro Carros, Cores]")) {
-				panelPrincipal.removeAll();
+				//panelPrincipal.removeAll();
 				panelPrincipal.add(new PanelCorPrincipal(panelPrincipal));
 				panelPrincipal.repaint();
-			} else if (path.equals("[Adoro Carros, Funcionários]")) {
+			} else if (path.equals("[Adoro Carros, Marcas]")) {
+				
+				showPainelGrid(getgGridMarca());
+				
+			} else if (path.equals("[Adoro Carros, Modelos]")) {
+				
+				showPainelGrid(getgGridModelo());
+				
+			}else if (path.equals("[Adoro Carros, Funcionários]")) {
 				JOptionPane.showMessageDialog(TelaPrincipal.this, "Tela de Funcionários");
 			} else {
 				JOptionPane.showMessageDialog(TelaPrincipal.this, path);

@@ -35,7 +35,7 @@ public class PanelCorCadastrar extends javax.swing.JPanel {
 	//JPanel Tela Principal
 	private JPanel pTela;
 	
-	public PanelCorCadastrar(JPanel p) {
+	public PanelCorCadastrar(PanelCorPrincipal p) {
 		super();
 		initGUI();
 		pTela = p;
@@ -98,9 +98,19 @@ public class PanelCorCadastrar extends javax.swing.JPanel {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if (e.getSource() == btnVoltar) {
-				PanelCorCadastrar.this.removeAll();
-				PanelCorCadastrar.this.add(new PanelCorPrincipal(pTela));
+				/*PanelCorCadastrar.this.pTela.setVisible(true);
+				PanelCorCadastrar.this.setVisible(false);
 				PanelCorCadastrar.this.repaint();
+				*/
+				PanelCorCadastrar.this.setVisible(false);
+				PanelCorCadastrar.this.pTela.setVisible(true);
+				PanelCorCadastrar.this.pTela.repaint();
+				//PanelCorCadastrar.this.pTela.setVisible(true);
+				//PanelCorCadastrar.this.pTela.repaint();
+				
+				//PanelCorCadastrar.this.pTela.removeAll();
+				//PanelCorCadastrar.this.add(new PanelCorPrincipal(pTela));
+				//PanelCorCadastrar.this.repaint();
 			}
 		}
 	}
