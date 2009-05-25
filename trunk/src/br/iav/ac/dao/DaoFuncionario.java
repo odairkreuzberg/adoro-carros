@@ -1,7 +1,5 @@
 package br.iav.ac.dao;
 
-import java.util.Date;
-
 import br.iav.ac.database.DB;
 import br.iav.ac.negocio.Cargo;
 import br.iav.ac.negocio.Cidade;
@@ -46,7 +44,7 @@ public class DaoFuncionario implements DaoInterface {
 													"rg = '" + funcionario.getRg() + "', " +
 													"data_nascimento = " + funcionario.getDataNascimento() + ", " +
 													"cod_cargo = " + funcionario.getCargo().getCodigo() + ", " +
-													"salario = " + funcionario.getSalario() +
+													"salario = " + funcionario.getSalario() + " " +
 													"where cod_" + tableName + " = " + funcionario.getCodigo());
 			db.disconnect();
 		}
@@ -75,12 +73,12 @@ public class DaoFuncionario implements DaoInterface {
 	public ListaObjeto load() {
 		ListaObjeto lista = new ListaObjeto();
 		if (db.connect()) {
-			db.select("select f.cod_" + tableName + ", f.nome, f.rua, f.numero, f.bairro, f.cod_cidade, c1.cod_cidade, c1.nome, c1.ddd, f.cep, f.complemento, f.telefone, f.cpf, f.rg, f.data_nascimento, f.cod_cargo, f.salario from " + tableName + " f, cidade c1, cargo c2 where f.cod_cidade = c1.cod_cidade and f.cod_cargo = c2.cod_cargo");
+			db.select("select f.cod_" + tableName + ", f.nome, f.rua, f.numero, f.bairro, f.cod_cidade, c1.cod_cidade, c1.nome, c1.ddd, f.cep, f.complemento, f.telefone, f.cpf, f.rg, f.data_nascimento, f.cod_cargo, c2.cod_cargo, c2.nome, c2.descricao, f.salario from " + tableName + " f, cidade c1, cargo c2 where f.cod_cidade = c1.cod_cidade and f.cod_cargo = c2.cod_cargo");
 			while (db.moveNext()) {
 				Cidade cidade = new Cidade(db.getInt("c1.cod_cidade"), db.getString("c1.nome"), db.getInt("c1.ddd"));
 				Endereco endereco = new Endereco(db.getString("f.rua"), db.getInt("f.numero"), db.getString("f.bairro"), cidade, db.getString("f.cep"), db.getString("f.complemento"));
 				Cargo cargo = new Cargo(db.getInt("c2.cod_cargo"), db.getString("c2.nome"), db.getString("c2.descricao"));
-				lista.insertWhitoutPersist(new Funcionario(db.getInt("f.cod_" + tableName), db.getString("f.nome"), endereco, db.getString("f.telefone"), db.getString("f.cpf"), db.getString("f.rg"), new Date(db.getString("f.data_nascimento")), cargo, db.getFloat("f.salario")));
+				lista.insertWhitoutPersist(new Funcionario(db.getInt("f.cod_" + tableName), db.getString("f.nome"), endereco, db.getString("f.telefone"), db.getString("f.cpf"), db.getString("f.rg"), db.getDate("f.data_nascimento"), cargo, db.getFloat("f.salario")));
 			}
 			db.disconnect();
 		}
