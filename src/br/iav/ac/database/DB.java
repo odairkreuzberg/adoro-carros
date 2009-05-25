@@ -67,6 +67,9 @@ public class DB {
 	}
 
 	public boolean update(String sql) {
+		
+		System.out.println("Executando update: " + sql);
+		
 		try {
 			stmt = con.createStatement();		
 			int i = stmt.executeUpdate(sql);

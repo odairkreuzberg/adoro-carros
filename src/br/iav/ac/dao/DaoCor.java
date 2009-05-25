@@ -7,7 +7,7 @@ import br.iav.ac.negocio.ListaObjeto;
 
 public class DaoCor implements DaoInterface {
 
-	private DB db = new DB("jdbc:" + PostgreSQL.DATABASE + "://" + PostgreSQL.LOCAL + ":" + PostgreSQL.PORT + "/" + PostgreSQL.SCHEMA, PostgreSQL.USER, PostgreSQL.PASS);
+	private DB db = PostgreSQL.novaInstancia();
 	private Cor cor;
 	
 	//Nome da tabela e nome do sufixo do código
@@ -30,14 +30,14 @@ public class DaoCor implements DaoInterface {
 	
 	public void edit() {
 		if (db.connect()) {
-			db.update("update " + tableName + " set nome = '" + cor.getNome() + "' where cod_" + tableName + " = " + cor.getCodigo());
+			db.update("update " + tableName + " set descricao = '" + cor.getNome() + "' where cod_" + tableName + " = " + cor.getCodigo());
 			db.disconnect();
 		}
 	}
 	
 	public void insert() {
 		if (db.connect()) {
-			db.update("insert into " + tableName + " (nome) values ('" + cor.getNome() + "')");
+			db.update("insert into " + tableName + " (descricao) values ('" + cor.getNome() + "')");
 			db.disconnect();
 		}
 	}
@@ -45,9 +45,9 @@ public class DaoCor implements DaoInterface {
 	public ListaObjeto load() {
 		ListaObjeto lista = new ListaObjeto();
 		if (db.connect()) {
-			db.select("select cod_" + tableName + ", nome from " + tableName);
+			db.select("select cod_" + tableName + ", descricao from " + tableName);
 			while (db.moveNext()) {
-				lista.insertWhitoutPersist(new Cor(db.getInt("cod_" + tableName), db.getString("nome")));
+				lista.insertWhitoutPersist(new Cor(db.getInt("cod_" + tableName), db.getString("descricao")));
 			}
 			db.disconnect();
 		}
