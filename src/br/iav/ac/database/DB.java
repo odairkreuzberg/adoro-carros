@@ -38,8 +38,13 @@ public class DB {
 	public void disconnect() {
 		try {
 			con.close();
-			stmt.close();
-			rs.close();
+			
+			if ( stmt != null )
+				stmt.close();
+			
+			if ( rs != null )
+				rs.close();
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}			
