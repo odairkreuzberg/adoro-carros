@@ -1,6 +1,7 @@
 package br.iav.ac.dao;
 
 import br.iav.ac.database.DB;
+import br.iav.ac.database.PostgreSQL;
 import br.iav.ac.negocio.Cargo;
 import br.iav.ac.negocio.Cidade;
 import br.iav.ac.negocio.Endereco;
@@ -9,7 +10,7 @@ import br.iav.ac.negocio.ListaObjeto;
 
 public class DaoFuncionario implements DaoInterface {
 
-	private DB db = new DB("jdbc:postgresql://localhost:5432/postgres","root","");
+	private DB db = new DB("jdbc:" + PostgreSQL.DATABASE + "://" + PostgreSQL.LOCAL + ":" + PostgreSQL.PORT + "/" + PostgreSQL.SCHEMA, PostgreSQL.USER, PostgreSQL.PASS);
 	private Funcionario funcionario;
 	
 	//Nome da tabela e nome do sufixo do código

@@ -1,12 +1,13 @@
 package br.iav.ac.dao;
 
 import br.iav.ac.database.DB;
+import br.iav.ac.database.PostgreSQL;
 import br.iav.ac.negocio.Status;
 import br.iav.ac.negocio.ListaObjeto;
 
 public class DaoStatus implements DaoInterface {
 
-	private DB db = new DB("jdbc:postgresql://localhost:5432/postgres","root","");
+	private DB db = new DB("jdbc:" + PostgreSQL.DATABASE + "://" + PostgreSQL.LOCAL + ":" + PostgreSQL.PORT + "/" + PostgreSQL.SCHEMA, PostgreSQL.USER, PostgreSQL.PASS);
 	private Status status;
 	
 	//Nome da tabela e nome do sufixo do código
