@@ -7,7 +7,8 @@ import br.iav.ac.negocio.ListaObjeto;
 
 public class DaoMarca implements DaoInterface {
 
-	private DB db = new DB("jdbc:" + PostgreSQL.DATABASE + "://" + PostgreSQL.LOCAL + ":" + PostgreSQL.PORT + "/" + PostgreSQL.SCHEMA, PostgreSQL.USER, PostgreSQL.PASS);
+
+	private DB db = PostgreSQL.novaInstancia();
 	private Marca marca;
 	
 	//Nome da tabela e nome do sufixo do código

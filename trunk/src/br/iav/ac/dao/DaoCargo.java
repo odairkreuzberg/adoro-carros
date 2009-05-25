@@ -7,7 +7,7 @@ import br.iav.ac.negocio.ListaObjeto;
 
 public class DaoCargo  implements DaoInterface {
 
-	private DB db = new DB("jdbc:" + PostgreSQL.DATABASE + "://" + PostgreSQL.LOCAL + ":" + PostgreSQL.PORT + "/" + PostgreSQL.SCHEMA, PostgreSQL.USER, PostgreSQL.PASS);
+	private DB db = PostgreSQL.novaInstancia();
 	private Cargo cargo;
 	
 	//Nome da tabela e nome do sufixo do código
