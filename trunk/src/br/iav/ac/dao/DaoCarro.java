@@ -1,6 +1,7 @@
 package br.iav.ac.dao;
 
 import br.iav.ac.database.DB;
+import br.iav.ac.database.PostgreSQL;
 import br.iav.ac.negocio.Carro;
 import br.iav.ac.negocio.Cidade;
 import br.iav.ac.negocio.Cliente;
@@ -12,7 +13,7 @@ import br.iav.ac.negocio.Modelo;
 
 public class DaoCarro implements DaoInterface {
 
-	private DB db = new DB("jdbc:postgresql://localhost:5432/postgres","root","");
+	private DB db = new DB("jdbc:" + PostgreSQL.DATABASE + "://" + PostgreSQL.LOCAL + ":" + PostgreSQL.PORT + "/" + PostgreSQL.SCHEMA, PostgreSQL.USER, PostgreSQL.PASS);
 	private Carro carro;
 	
 	//Nome da tabela e nome do sufixo do código

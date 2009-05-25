@@ -3,7 +3,7 @@ package br.iav.ac.database;
 import java.sql.*;
 
 public class DB { 
-
+	
 	Connection con;
 	Statement stmt;
 	ResultSet rs;
