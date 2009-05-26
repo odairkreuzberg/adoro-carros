@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import br.iav.ac.negocio.Cor;
+import br.iav.ac.negocio.ListaObjeto;
 
 /**
  * Formulário de Cadastro de Cor de um Veículo
@@ -134,6 +135,13 @@ public class CorForm extends JDialog {
 		private void limparCampos() {
 			textCor.setText("");
 		}
+		private boolean existeCor(){
+			ListaObjeto listaObjeto = cor.buscar("cor","Igual",textCor.getText());
+			if(listaObjeto.getSize()>0){
+				return false;
+			}			
+			return true;			
+		}
 
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == botaoCancelar) {
@@ -149,11 +157,21 @@ public class CorForm extends JDialog {
 				} else {
 
 					if (cor.getCodigo() == 0) {
-						cor.setNome(textCor.getText());
-						cor.insert();
+						if(existeCor()){
+							cor.setNome(textCor.getText());
+							cor.insert();							
+						}else{
+							JOptionPane.showMessageDialog(CorForm.this,
+							"Essa Cor já se encontra na Base de Dados!!");
+						}
 					} else {
-						cor.setNome(textCor.getText());
-						cor.edit();
+						if(existeCor()){
+							cor.setNome(textCor.getText());
+							cor.edit();							
+						}else{
+							JOptionPane.showMessageDialog(CorForm.this,
+							"Essa Cor já se encontra na Base de Dados!!");
+						}
 					}
 
 					limparCampos();

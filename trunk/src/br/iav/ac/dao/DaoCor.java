@@ -68,12 +68,6 @@ public class DaoCor implements DaoInterface {
 		return this.load(SELECT);
 	}
 
-	public ListaObjeto buscarPorDescricao(String descricao) {
-
-		return this.load(SELECT + " where descricao like('%" + descricao
-				+ "%')");
-	}
-
 	public ListaObjeto buscar(String campo, String operador, String valor) {
 
 		String campoSQL = campo;
