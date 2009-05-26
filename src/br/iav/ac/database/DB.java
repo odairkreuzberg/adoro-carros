@@ -61,6 +61,9 @@ public class DB {
 	}
 	
 	public boolean select(String sql) {
+		
+		System.out.println("Executando consulta: " + sql);
+		
 		try {
 			stmt = con.createStatement();		
 			rs = stmt.executeQuery(sql);
@@ -72,8 +75,6 @@ public class DB {
 	}
 
 	public boolean update(String sql) {
-		
-		System.out.println("Executando update: " + sql);
 		
 		try {
 			stmt = con.createStatement();		

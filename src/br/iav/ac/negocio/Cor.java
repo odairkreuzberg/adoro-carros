@@ -56,5 +56,9 @@ public class Cor extends Objeto implements ObjetoInterface {
 		DaoCor dao = new DaoCor();
 		return dao.load();
 	}
+	public ListaObjeto buscar(String campo, String operador, String valor){
+		DaoCor dao = new DaoCor();
+		return dao.buscar(campo, operador, valor);		
+	}
 	
 }
