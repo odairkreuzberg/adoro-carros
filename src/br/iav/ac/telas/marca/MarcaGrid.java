@@ -113,6 +113,24 @@ public class MarcaGrid extends PainelGrid {
 			e.printStackTrace();
 		}
 	}
+	/**
+	* This method should return an instance of this class which does 
+	* NOT initialize it's GUI elements. This method is ONLY required by
+	* Jigloo if the superclass of this class is abstract or non-public. It 
+	* is not needed in any other situation.
+	 */
+	public static Object getGUIBuilderInstance() {
+		return new MarcaGrid(Boolean.FALSE);
+	}
+	
+	/**
+	 * This constructor is used by the getGUIBuilderInstance method to
+	 * provide an instance of this class which has not had it's GUI elements
+	 * initialized (ie, initGUI is not called in this constructor).
+	 */
+	public MarcaGrid(Boolean initGUI) {
+		super();
+	}
 
 	/*----------------------------------------------------------
 	 * FIM DE INTERFACE

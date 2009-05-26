@@ -248,6 +248,11 @@ public class CorGrid extends PainelGrid {
 			DefaultTableModel model = new DefaultTableModel(gridArray, col);
 
 			gridCor.setModel(model);
+			gridCor.setShowVerticalLines(true);
+			TableColumn column = gridCor.getColumnModel().getColumn(0);
+			column.setPreferredWidth(100);
+			column = gridCor.getColumnModel().getColumn(1);
+			column.setPreferredWidth(500);
 		}
 
 		public void actionPerformed(ActionEvent e) {
