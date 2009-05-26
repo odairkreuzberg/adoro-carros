@@ -1,4 +1,5 @@
 package br.iav.ac.telas.cor;
+
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +18,7 @@ import br.iav.ac.negocio.Cor;
  * @author Odair Kreuzberg
  */
 public class CorForm extends JDialog {
-	
+
 	/*----------------------------------------------------------
 	 * ATTRIBUTOS
 	 *----------------------------------------------------------*/
@@ -27,6 +28,8 @@ public class CorForm extends JDialog {
 	private JButton botaoConfirmar;
 	private JButton botaoCancelar;
 	private JTextField textCor;
+	private JLabel labelId;
+	private JLabel labelCodigo;
 	private FormHandle formHandle;
 	private Cor cor;
 
@@ -34,16 +37,16 @@ public class CorForm extends JDialog {
 	 * FIM DE ATTRIBUTOS
 	 *----------------------------------------------------------*/
 
-	
 	/*----------------------------------------------------------
 	 * CONSTRUTOR
 	 *----------------------------------------------------------*/
 
-	public CorForm(Frame parent, String title, boolean modal) {
+	public CorForm(Frame parent, String title, boolean modal, Cor cor) {
 		super(parent, title, modal);
+		this.cor = cor;
 		initGUI();
 		inicializarHandlers();
-		this.setSize(324, 111);
+		this.setSize(317, 128);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
@@ -52,7 +55,7 @@ public class CorForm extends JDialog {
 	 * FIM DE CONSTRUTOR
 	 *----------------------------------------------------------*/
 
-	 /*----------------------------------------------------------
+	/*----------------------------------------------------------
 	 * INTERFACE
 	 *----------------------------------------------------------*/
 
@@ -68,34 +71,48 @@ public class CorForm extends JDialog {
 	private void initGUI() {
 		this.setLayout(null);
 		this.setDefaultCloseOperation(CorForm.DISPOSE_ON_CLOSE);
-		
+
 		this.setResizable(false);
 		try {
 			{
 				labelCor = new JLabel();
 				getContentPane().add(labelCor);
 				labelCor.setText("Cor:");
-				labelCor.setBounds(12, 15, 33, 14);
+				labelCor.setBounds(28, 38, 21, 14);
 			}
 			{
-				textCor = new JTextField();
+
+				textCor = new JTextField(this.cor.getNome());
 				getContentPane().add(textCor);
-				textCor.setBounds(57, 12, 246, 21);
+				textCor.setBounds(51, 35, 246, 21);
 			}
 			{
 				botaoCancelar = new JButton();
 				getContentPane().add(botaoCancelar);
 				botaoCancelar.setText("Cancelar");
-				botaoCancelar.setBounds(219, 52, 79, 21);
+				botaoCancelar.setBounds(218, 68, 79, 21);
 			}
 			{
 				botaoConfirmar = new JButton();
 				getContentPane().add(botaoConfirmar);
 				botaoConfirmar.setText("Confirmar");
-				botaoConfirmar.setBounds(111, 52, 97, 21);
+				botaoConfirmar.setBounds(116, 68, 97, 21);
+			}
+			{
+				labelCodigo = new JLabel();
+				getContentPane().add(labelCodigo);
+				labelCodigo.setText("Codigo:");
+				labelCodigo.setBounds(12, 12, 39, 14);
+			}
+			{
+				labelId = new JLabel();
+				getContentPane().add(labelId);
+				if (this.cor.getCodigo() != 0)
+					labelId.setText(this.cor.getCodigo() + "");
+				labelId.setBounds(51, 14, 51, 10);
 			}
 			pack();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -103,7 +120,6 @@ public class CorForm extends JDialog {
 	/*----------------------------------------------------------
 	 * FIM DE INTERFACE
 	 *----------------------------------------------------------*/
-
 
 	/*----------------------------------------------------------
 	 * CLASSE LIMITROFE
@@ -114,27 +130,36 @@ public class CorForm extends JDialog {
 		public FormHandle() {
 			super();
 		}
-		private void limparCampos(){
+
+		private void limparCampos() {
 			textCor.setText("");
 		}
 
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == botaoCancelar) {
 				dispose();
-				JOptionPane.showMessageDialog(CorForm.this, "Operção cancelada");
-				
+				JOptionPane
+						.showMessageDialog(CorForm.this, "Operção cancelada");
+
 			} else if (e.getSource() == botaoConfirmar) {
-				cor = new Cor();
-				if (textCor.getText().equals("")){
-					JOptionPane.showMessageDialog(CorForm.this, "O Campo Cor é Obrigatório");
-					
-				}else{
-					cor.setNome(textCor.getText());
-					cor.insert();
+				if (textCor.getText().equals("")) {
+					JOptionPane.showMessageDialog(CorForm.this,
+							"O Campo Cor é Obrigatório");
+
+				} else {
+
+					if (cor.getCodigo() == 0) {
+						cor.setNome(textCor.getText());
+						cor.insert();
+					} else {
+						cor.setNome(textCor.getText());
+						cor.edit();
+					}
+
 					limparCampos();
 					dispose();
 				}
-			} 
+			}
 		}
 	}
 
