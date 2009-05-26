@@ -11,22 +11,25 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import br.iav.ac.telas.cliente.PanelClientePrincipal;
-import br.iav.ac.telas.cor.PanelCorPrincipal;
+import br.iav.ac.telas.cor.CorGrid;
 import br.iav.ac.telas.core.PainelGrid;
 import br.iav.ac.telas.marca.MarcaGrid;
 import br.iav.ac.telas.modelo.ModeloGrid;
 
 public class TelaPrincipal extends javax.swing.JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel panelOpcoes;
 	private JPanel panelPrincipal;
 	
-	private PanelClientePrincipal panelClientePrincipal;
-	private PanelCorPrincipal panelCorPrincipal;
 	private JTree jtOpcoes;
 	private JScrollPane jspOpcoes;
 	private MarcaGrid marcaGrid;
 	private ModeloGrid modeloGrid;
+	private CorGrid corGrid;
 	public static TelaPrincipal instancia;
 
 	
@@ -121,6 +124,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			return modeloGrid;
 		}
 
+		private CorGrid getCorGrid() {
+			if (corGrid == null){
+				corGrid = new CorGrid();
+			}
+			return corGrid;
+		}
+
 		private void showPainelGrid(PainelGrid painelGrid) {
 			panelPrincipal.removeAll();
 			panelPrincipal.repaint();
@@ -137,9 +147,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
 				panelPrincipal.add(new PanelClientePrincipal(panelPrincipal));
 				panelPrincipal.repaint();
 			} else if (path.equals("[Adoro Carros, Cores]")) {
-				//panelPrincipal.removeAll();
-				panelPrincipal.add(new PanelCorPrincipal(panelPrincipal));
-				panelPrincipal.repaint();
+				
+				showPainelGrid(getCorGrid());
+				
 			} else if (path.equals("[Adoro Carros, Marcas]")) {
 				
 				showPainelGrid(getgGridMarca());
