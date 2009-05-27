@@ -8,7 +8,7 @@ import javax.swing.JFrame;
  * 
  * @author Odair Kreuzberg
  */
-public class GridDialog extends JDialog {
+public class DialogoPadrao extends JDialog {
 	
 	/*----------------------------------------------------------
 	 * ATTRIBUTOS
@@ -17,7 +17,7 @@ public class GridDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private JButton botaoConfirmar;
 	private JButton botaCancelar;
-	private PainelGrid painelGrid;
+	private PainelPadrao painelGrid;
 
 	/*----------------------------------------------------------
 	 * FIM DE ATTRIBUTOS
@@ -27,7 +27,7 @@ public class GridDialog extends JDialog {
 	 * CONSTRUTOR
 	 *----------------------------------------------------------*/
 
-	public GridDialog(JFrame frame, String titulo, boolean modal) {
+	public DialogoPadrao(JFrame frame, String titulo, boolean modal) {
 
 		super(frame, titulo, modal);
 		
@@ -42,13 +42,13 @@ public class GridDialog extends JDialog {
 	 * INTERFACE
 	 *----------------------------------------------------------*/
 
-	public PainelGrid getPainelGridl() {
+	public PainelPadrao getPainelGridl() {
 		return painelGrid;
 	}
 
-	public void setCrudPanel(PainelGrid painelGrid) {
+	public void setCrudPanel(PainelPadrao painelGrid) {
 
-		this.setDefaultCloseOperation(GridDialog.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(DialogoPadrao.DISPOSE_ON_CLOSE);
 		this.painelGrid = painelGrid;
 		initGUI();
 		this.setSize(549, 553);
