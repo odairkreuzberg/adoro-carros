@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import br.iav.ac.negocio.Cor;
 import br.iav.ac.negocio.ListaObjeto;
-import br.iav.ac.telas.core.DialogoPadrao;
+import br.iav.ac.telas.padrao.DialogoPadrao;
 
 /**
  * Formulário de Cadastro de Cor de um Veículo
