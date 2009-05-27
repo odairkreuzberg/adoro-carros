@@ -1,34 +1,28 @@
 package br.iav.ac.telas.cor;
 
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import br.iav.ac.negocio.Cor;
 import br.iav.ac.negocio.ListaObjeto;
+import br.iav.ac.telas.core.DialogoPadrao;
 
 /**
  * Formulário de Cadastro de Cor de um Veículo
  * 
  * @author Odair Kreuzberg
  */
-public class CorForm extends JDialog {
+public class DialogoCor extends DialogoPadrao {
 
 	/*----------------------------------------------------------
 	 * ATTRIBUTOS
 	 *----------------------------------------------------------*/
 
-	private static final long serialVersionUID = 1L;
 	private JLabel labelCor;
-	private JButton botaoConfirmar;
-	private JButton botaoCancelar;
 	private JTextField textCor;
-	private JLabel labelId;
-	private JLabel labelCodigo;
 	private FormHandle formHandle;
 	private Cor cor;
 
@@ -40,10 +34,29 @@ public class CorForm extends JDialog {
 	 * CONSTRUTOR
 	 *----------------------------------------------------------*/
 
-	public CorForm(Frame parent, String title, boolean modal, Cor cor) {
-		super(parent, title, modal);
+	public DialogoCor(JFrame frame, String titulo, boolean modal, Cor cor) {
+		super(frame, titulo, modal);
 		this.cor = cor;
-		initGUI();
+		try {
+            {
+            	labelCor = new JLabel();
+            	getPanelPrincipal().add(labelCor);
+            	labelCor.setText("Cor:");
+            	labelCor.setBounds(28, 38, 21, 14);
+	        }
+	        {
+	        	textCor = new JTextField(this.cor.getNome().trim());
+	        	getPanelPrincipal().add(textCor);
+	            textCor.setBounds(51, 35, 246, 21);
+	        }
+	        {
+				if (this.cor.getCodigo() != 0) {
+					getLabelCodigo().setText(getLabelCodigo().getText() + "  " + this.cor.getCodigo());
+				}
+	        }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		inicializarHandlers();
 		this.setSize(317, 128);
 		this.setLocationRelativeTo(null);
@@ -60,57 +73,10 @@ public class CorForm extends JDialog {
 
 	private void inicializarHandlers() {
 		this.formHandle = new FormHandle();
-		botaoCancelar.addActionListener(formHandle);
-		botaoConfirmar.addActionListener(formHandle);
+		getBotaoCancelar().addActionListener(formHandle);
+		getBotaoConfirmar().addActionListener(formHandle);
 	}
-
-	private void initGUI() {
-		this.setLayout(null);
-		this.setDefaultCloseOperation(CorForm.DISPOSE_ON_CLOSE);
-		this.setResizable(false);
-		try {
-			{
-				labelCor = new JLabel();
-				getContentPane().add(labelCor);
-				labelCor.setText("Cor:");
-				labelCor.setBounds(28, 38, 21, 14);
-			}
-			{
-				textCor = new JTextField(this.cor.getNome().trim());
-				getContentPane().add(textCor);
-				textCor.setBounds(51, 35, 246, 21);
-			}
-			{
-				botaoCancelar = new JButton();
-				getContentPane().add(botaoCancelar);
-				botaoCancelar.setText("Cancelar");
-				botaoCancelar.setBounds(218, 68, 79, 21);
-			}
-			{
-				botaoConfirmar = new JButton();
-				getContentPane().add(botaoConfirmar);
-				botaoConfirmar.setText("Confirmar");
-				botaoConfirmar.setBounds(116, 68, 97, 21);
-			}
-			{
-				labelCodigo = new JLabel();
-				getContentPane().add(labelCodigo);
-				labelCodigo.setText("Codigo:");
-				labelCodigo.setBounds(12, 12, 39, 14);
-			}
-			{
-				labelId = new JLabel();
-				getContentPane().add(labelId);
-				if (this.cor.getCodigo() != 0)
-					labelId.setText(this.cor.getCodigo() + "");
-				labelId.setBounds(51, 14, 51, 10);
-			}
-			pack();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
+	
 	/*----------------------------------------------------------
 	 * FIM DE INTERFACE
 	 *----------------------------------------------------------*/
@@ -130,7 +96,7 @@ public class CorForm extends JDialog {
 		}
 		
 		private boolean existeCor(){
-			ListaObjeto listaObjeto = cor.buscar("cor","Igual",textCor.getText());
+			ListaObjeto listaObjeto = cor.search("cor","Igual",textCor.getText().trim());
 			if (listaObjeto.getSize() > 0) {
 				return false;
 			}			
@@ -138,25 +104,25 @@ public class CorForm extends JDialog {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == botaoCancelar) {
+			if (e.getSource() == getBotaoCancelar()) {
 				dispose();
-			} else if (e.getSource() == botaoConfirmar) {
+			} else if (e.getSource() == getBotaoConfirmar()) {
 				if (textCor.getText().equals("")) {
-					JOptionPane.showMessageDialog(CorForm.this, "O Campo Cor é obrigatório!");
+					JOptionPane.showMessageDialog(DialogoCor.this, "O campo cor é obrigatório!");
 				} else {
 					if (cor.getCodigo() == 0) {
 						if (existeCor()) {
 							cor.setNome(textCor.getText().trim());
 							cor.insert();							
 						} else {
-							JOptionPane.showMessageDialog(CorForm.this, "Essa Cor já se encontra na Base de Dados!");
+							JOptionPane.showMessageDialog(DialogoCor.this, "Essa cor já se encontra na Base de Dados!");
 						}
 					} else {
 						if (existeCor()) {
 							cor.setNome(textCor.getText().trim());
 							cor.edit();	
 						} else{
-							JOptionPane.showMessageDialog(CorForm.this, "Essa Cor já se encontra na Base de Dados!");
+							JOptionPane.showMessageDialog(DialogoCor.this, "Essa cor já se encontra na Base de Dados!");
 						}
 					}
 					limparCampos();

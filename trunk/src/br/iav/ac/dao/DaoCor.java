@@ -7,13 +7,12 @@ import br.iav.ac.negocio.ListaObjeto;
 
 public class DaoCor implements DaoInterface {
 
-	private DB db = PostgreSQL.novaInstancia();
+	private DB db = PostgreSQL.create();
 
 	// Nome da tabela e nome do sufixo do código
 	private final static String tableName = "cor";
 
-	private final static String SELECT = "select cod_" + tableName
-			+ ", descricao from " + tableName;
+	private final static String SELECT = "select cod_" + tableName + ", nome from " + tableName;
 
 	private Cor cor;
 
@@ -27,25 +26,21 @@ public class DaoCor implements DaoInterface {
 
 	public void delete() {
 		if (db.connect()) {
-			db.update("delete from " + tableName + " where cod_" + tableName
-					+ " = " + cor.getCodigo());
+			db.update("delete from " + tableName + " where cod_" + tableName + " = " + cor.getCodigo());
 			db.disconnect();
 		}
 	}
 
 	public void edit() {
 		if (db.connect()) {
-			db.update("update " + tableName + " set descricao = '"
-					+ cor.getNome() + "' where cod_" + tableName + " = "
-					+ cor.getCodigo());
+			db.update("update " + tableName + " set nome = '" + cor.getNome() + "' where cod_" + tableName + " = " + cor.getCodigo());
 			db.disconnect();
 		}
 	}
 
 	public void insert() {
 		if (db.connect()) {
-			db.update("insert into " + tableName + " (descricao) values ('"
-					+ cor.getNome() + "')");
+			db.update("insert into " + tableName + " (nome) values ('" + cor.getNome() + "')");
 			db.disconnect();
 		}
 	}
@@ -55,9 +50,7 @@ public class DaoCor implements DaoInterface {
 		if (db.connect()) {
 			db.select(sql);
 			while (db.moveNext()) {
-				lista
-						.insertWhitoutPersist(new Cor(db.getInt("cod_"
-								+ tableName), db.getString("descricao")));
+				lista.insertWhitoutPersist(new Cor(db.getInt("cod_"	+ tableName), db.getString("nome")));
 			}
 			db.disconnect();
 		}
@@ -69,44 +62,30 @@ public class DaoCor implements DaoInterface {
 	}
 
 	public ListaObjeto buscar(String campo, String operador, String valor) {
-
 		String campoSQL = campo;
 		String operadorSQL = null;
 		String valorSQL = "'" + valor + "'";
-
 		if (campo.equals("Código")) {
-
 			campoSQL = "cod_" + tableName;
-		}else{
-			campoSQL = "descricao";
+		} else {
+			campoSQL = "nome";
 		}
-
 		if (operador.equals("Igual")) {
-
 			operadorSQL = "=";
-		}
-		else if ( operador.equals("Diferente")){
-			
+		} else if ( operador.equals("Diferente")) {
 			operadorSQL = "!=";
-		}
-		else if ( operador.equals("Maior")){
-			
+		} else if ( operador.equals("Maior")) {
 			operadorSQL = ">";
 		}
-		else if ( operador.equals("Menor")){
-			
+		else if ( operador.equals("Menor")) {
 			operadorSQL = "<";
 		}
-		else if ( operador.equals("Contem")){
-			
+		else if ( operador.equals("Contem")) {
 			operadorSQL = "like";
 			valorSQL = " '%" + valor + "%'";
 		}
-
 		String sql = SELECT;
-
 		sql += " where " + campoSQL + " " + operadorSQL + valorSQL;
-
 		return this.load(sql);
 	}
 

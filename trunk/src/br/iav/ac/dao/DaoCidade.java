@@ -7,7 +7,7 @@ import br.iav.ac.negocio.ListaObjeto;
 
 public class DaoCidade {
 
-	private DB db = PostgreSQL.novaInstancia();
+	private DB db = PostgreSQL.create();
 	private Cidade cidade;
 	
 	//Nome da tabela e nome do sufixo do código

@@ -11,29 +11,16 @@ import br.iav.ac.telas.TelaPrincipal;
 import br.iav.ac.telas.core.PainelPadrao;
 
 /**
- * This code was edited or generated using CloudGarden's Jigloo
- * SWT/Swing GUI Builder, which is free for non-commercial
- * use. If Jigloo is being used commercially (ie, by a corporation,
- * company or business for any purpose whatever) then you
- * should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details.
- * Use of Jigloo implies acceptance of these licensing terms.
- * A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
- * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
- * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
-/**
  * Area de Consulta, Inserção, Exclusão e alteração de Cor de um Veículo
  * 
  * @author Odair Kreuzberg
  */
-public class CorGrid extends PainelPadrao {
+public class PainelCor extends PainelPadrao {
 
 	/*----------------------------------------------------------
 	 * ATTRIBUTOS
 	 *----------------------------------------------------------*/
 
-	private static final long serialVersionUID = 1L;
 	private CadastroHandle cadastroHandle;
 	private Cor cor;
 	private static String[] CAMPOS = { "Código", "Cor" };
@@ -46,7 +33,7 @@ public class CorGrid extends PainelPadrao {
 	 * CONSTRUTOR
 	 *----------------------------------------------------------*/
 
-	public CorGrid() {
+	public PainelCor() {
 		super(CAMPOS);
 		inicializarHandlers();
 	}
@@ -110,38 +97,31 @@ public class CorGrid extends PainelPadrao {
 			if (e.getSource() == getBotaoNovo()) {
 				this.getCor().setCodigo(0);
 				this.getCor().setNome("");
-				new CorForm(TelaPrincipal.instancia, "Cadastro de Cor", true, this.getCor());
+				new DialogoCor(TelaPrincipal.instancia, "Cadastro de Cor", true, this.getCor());
 				carregarGrid(getCor().load());
 			} else if (e.getSource() == getBotaoEditar()) {
-				if (getGridTabela().getSelectedRow() > 0) {
+				if (getGridTabela().getSelectedRow() >= 0) {
 					this.getCor().setCodigo((Integer) getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 0));
 					this.getCor().setNome(getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1)+ "");
-					new CorForm(null, "Cadastro de Cor", true, this.getCor());
+					new DialogoCor(null, "Cadastro de Cor", true, this.getCor());
 					carregarGrid(getCor().load());	
 				} else {
-					JOptionPane.showMessageDialog(CorGrid.this,
-							"Para editar é preciso selecionar uma cor na tabela!");
+					JOptionPane.showMessageDialog(PainelCor.this, "Para editar é preciso selecionar uma cor na tabela!");
 				}
 			} else if (e.getSource() == getBotaoExcluir()) {
 				if (getGridTabela().getSelectedRow() > 0) {
-					if (JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a cor "
-							+ getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1) + " ?",
-							"Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+					if (JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a cor " + getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1) + " ?", "Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 						getCor().setCodigo((Integer) getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 0));
 						getCor().delete();
 						carregarGrid(getCor().load());
 					}
 				} else {
-					JOptionPane.showMessageDialog(CorGrid.this,
-									"Para remover é preciso selecionar uma cor na tabela!");
+					JOptionPane.showMessageDialog(PainelCor.this, "Para remover é preciso selecionar uma cor na tabela!");
 				}
 			} else if (e.getSource() == getBotaoAtualizar()) {
 				carregarGrid(getCor().load());
 			} else if (e.getSource() == getBotaoBuscar()) {		
-				carregarGrid(getCor().buscar(
-						(String) getComboAtributoBuscar().getSelectedItem(),
-						(String) getComboTipoBuscar().getSelectedItem(),
-						getTextBuscar().getText()));
+				carregarGrid(getCor().search((String) getComboAtributoBuscar().getSelectedItem(), (String) getComboTipoBuscar().getSelectedItem(), getTextBuscar().getText()));
 			}
 		}
 	}

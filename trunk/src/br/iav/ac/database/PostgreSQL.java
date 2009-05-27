@@ -9,10 +9,8 @@ public class PostgreSQL {
 	public static String USER = "postgres";
 	public static String PASS = "admin";
 
-	public static DB novaInstancia() {
-		
-		return new DB("jdbc:" + TIPO_DB + "://" + HOST + ":" + PORT + "/"
-				+ DB, USER, PASS);
+	public static DB create() {
+		return new DB("jdbc:" + TIPO_DB + "://" + HOST + ":" + PORT + "/" + DB, USER, PASS);
 	}
 
 }

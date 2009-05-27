@@ -9,7 +9,7 @@ import br.iav.ac.negocio.ListaObjeto;
 
 public class DaoFornecedor implements DaoInterface {
 
-	private DB db = PostgreSQL.novaInstancia();
+	private DB db = PostgreSQL.create();
 	private Fornecedor fornecedor;
 	
 	//Nome da tabela e nome do sufixo do código
