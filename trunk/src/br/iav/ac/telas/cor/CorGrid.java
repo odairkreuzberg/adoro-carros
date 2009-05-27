@@ -108,6 +108,8 @@ public class CorGrid extends PainelPadrao {
 
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == getBotaoNovo()) {
+				this.getCor().setCodigo(0);
+				this.getCor().setNome("");
 				new CorForm(TelaPrincipal.instancia, "Cadastro de Cor", true, this.getCor());
 				carregarGrid(getCor().load());
 			} else if (e.getSource() == getBotaoEditar()) {
@@ -118,11 +120,11 @@ public class CorGrid extends PainelPadrao {
 					carregarGrid(getCor().load());	
 				} else {
 					JOptionPane.showMessageDialog(CorGrid.this,
-							"Para Editar é preciso Selecionar uma cor na Grid");
+							"Para editar é preciso selecionar uma cor na tabela!");
 				}
 			} else if (e.getSource() == getBotaoExcluir()) {
 				if (getGridTabela().getSelectedRow() > 0) {
-					if (JOptionPane.showConfirmDialog(null,"Deseja mesmo Excluir a cor "
+					if (JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a cor "
 							+ getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1) + " ?",
 							"Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 						getCor().setCodigo((Integer) getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 0));
@@ -131,7 +133,7 @@ public class CorGrid extends PainelPadrao {
 					}
 				} else {
 					JOptionPane.showMessageDialog(CorGrid.this,
-									"Para Remover é preciso Selecionar uma cor na Grid");
+									"Para remover é preciso selecionar uma cor na tabela!");
 				}
 			} else if (e.getSource() == getBotaoAtualizar()) {
 				carregarGrid(getCor().load());
