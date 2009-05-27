@@ -1,4 +1,4 @@
-package br.iav.ac.telas.cor;
+package br.iav.ac.telas.modelo;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,16 +7,16 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import br.iav.ac.negocio.Cor;
 import br.iav.ac.negocio.ListaObjeto;
+import br.iav.ac.negocio.Modelo;
 import br.iav.ac.telas.padrao.PainelPadrao;
 
 /**
- * Area de Consulta, Inserção, Exclusão e alteração de Cor de um Veículo
+ * Area de Consulta, Inserção, Exclusão e alteração de Modelo de um Veículo
  * 
  * @author Odair Kreuzberg
  */
-public class PainelCor extends PainelPadrao {
+public class PainelModelo extends PainelPadrao {
 
 	/*----------------------------------------------------------
 	 * ATTRIBUTOS
@@ -27,8 +27,8 @@ public class PainelCor extends PainelPadrao {
 	 */
 	private static final long serialVersionUID = 1L;
 	private CadastroHandle cadastroHandle;
-	private Cor cor;
-	private static String[] CAMPOS = { "Código", "Cor" };
+	private Modelo modelo;
+	private static String[] CAMPOS = { "Código", "Modelo" };
 
 	/*----------------------------------------------------------
 	 * FIM DE ATTRIBUTOS
@@ -38,7 +38,7 @@ public class PainelCor extends PainelPadrao {
 	 * CONSTRUTOR
 	 *----------------------------------------------------------*/
 
-	public PainelCor() {
+	public PainelModelo() {
 		super(CAMPOS);
 		inicializarHandlers();
 	}
@@ -72,61 +72,65 @@ public class PainelCor extends PainelPadrao {
 
 		public CadastroHandle() {
 			super();
-			carregarGrid(getCor().load());
+			carregarGrid(getModelo().load());
 		}
 
-		private Cor getCor() {
-			if (cor == null) {
-				cor = new Cor();
+		private Modelo getModelo() {
+			if (modelo == null) {
+				modelo = new Modelo();
 			}
-			return cor;
+			return modelo;
 		}
 
 		private void carregarGrid(ListaObjeto listaObjeto) {
-			Object[][] gridArray = new Object[listaObjeto.getSize()][2];
+			String[] campos = {"Código","Modelo","Marca"};
+			Object[][] gridArray = new Object[listaObjeto.getSize()][3];
 			for (int i = 0; i < listaObjeto.getSize(); i++) {
-				Cor cor = (Cor) listaObjeto.getObjeto(i);
-				gridArray[i][0] = cor.getCodigo();
-				gridArray[i][1] = cor.getNome();
+				Modelo modelo = (Modelo) listaObjeto.getObjeto(i);
+				gridArray[i][0] = modelo.getCodigo();
+				gridArray[i][1] = modelo.getNome();
+				gridArray[i][2] = modelo.getMarca().getNome();
 			}
-			DefaultTableModel model = new DefaultTableModel(gridArray, CAMPOS);
+			DefaultTableModel model = new DefaultTableModel(gridArray, campos);
 			getGridTabela().setModel(model);
 			getGridTabela().setShowVerticalLines(true);
 			TableColumn column = getGridTabela().getColumnModel().getColumn(0);
 			column.setPreferredWidth(100);
 			column = getGridTabela().getColumnModel().getColumn(1);
-			column.setPreferredWidth(500);
+			column.setPreferredWidth(250);
+			column = getGridTabela().getColumnModel().getColumn(2);
+			column.setPreferredWidth(250);
 		}
 
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == getBotaoNovo()) {
-				this.getCor().setCodigo(0);
-				this.getCor().setNome("");
-				new DialogoCor(null, "Cadastro de Cor", true, this.getCor());
-				carregarGrid(getCor().load());
+				this.getModelo().setCodigo(0);
+				this.getModelo().setNome("");
+				new DialogoModelo(null, "Cadastro de Modelo", true, this.getModelo());
+				carregarGrid(getModelo().load());
 			} else if (e.getSource() == getBotaoEditar()) {
 				if (getGridTabela().getSelectedRow() >= 0) {
-					this.getCor().setCodigo((Integer) getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 0));
-					this.getCor().setNome(getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1)+ "");
-					new DialogoCor(null, "Cadastro de Cor", true, this.getCor());
-					carregarGrid(getCor().load());	
+					this.getModelo().setCodigo((Integer) getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 0));
+					this.getModelo().setNome(getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1)+ "");
+					new DialogoModelo(null, "Cadastro de Modelo", true, this.getModelo());
+					carregarGrid(getModelo().load());	
 				} else {
-					JOptionPane.showMessageDialog(PainelCor.this, "Para editar é preciso selecionar uma cor na tabela!");
+					JOptionPane.showMessageDialog(PainelModelo.this, "Para editar é preciso selecionar uma modelo na tabela!");
 				}
 			} else if (e.getSource() == getBotaoExcluir()) {
 				if (getGridTabela().getSelectedRow() > 0) {
-					if (JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a cor " + getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1) + " ?", "Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-						getCor().setCodigo((Integer) getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 0));
-						getCor().delete();
-						carregarGrid(getCor().load());
+					if (JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a modelo " + getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1) + " ?", "Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+						getModelo().setCodigo((Integer) getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 0));
+						getModelo().delete();
+						carregarGrid(getModelo().load());
 					}
 				} else {
-					JOptionPane.showMessageDialog(PainelCor.this, "Para remover é preciso selecionar uma cor na tabela!");
+					JOptionPane.showMessageDialog(PainelModelo.this, "Para remover é preciso selecionar uma modelo na tabela!");
 				}
 			} else if (e.getSource() == getBotaoAtualizar()) {
-				carregarGrid(getCor().load());
+				carregarGrid(getModelo().load());
 			} else if (e.getSource() == getBotaoBuscar()) {		
-				carregarGrid(getCor().search((String) getComboAtributoBuscar().getSelectedItem(), (String) getComboTipoBuscar().getSelectedItem(), getTextBuscar().getText()));
+				carregarGrid(getModelo().search((String) getComboAtributoBuscar().getSelectedItem(), (String) getComboTipoBuscar().getSelectedItem(), getTextBuscar().getText()));
 			}
 		}
 	}

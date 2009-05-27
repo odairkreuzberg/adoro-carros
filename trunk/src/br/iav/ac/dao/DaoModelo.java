@@ -13,7 +13,11 @@ public class DaoModelo implements DaoInterface {
 	private Modelo modelo;
 	
 	//Nome da tabela e nome do sufixo do código
-	String tableName = "modelo";
+	private final static String tableName = "modelo";
+
+	private final static String SELECT = "select * from " + tableName;
+	//"select mo.cod_" + tableName + ", mo.nome, mo.cod_marca, ma.cod_marca, ma.nome from " + tableName + " mo, marca ma where mo.cod_marca = ma.cod_marca";
+	
 	
 	public Modelo getModelo() {
 		return modelo;
@@ -44,17 +48,52 @@ public class DaoModelo implements DaoInterface {
 		}
 	}
 	
-	public ListaObjeto load() {
+	public ListaObjeto load(String sql) {
+		DaoMarca daoMarca = new DaoMarca();
 		ListaObjeto lista = new ListaObjeto();
 		if (db.connect()) {
-			db.select("select mo.cod_" + tableName + ", mo.nome, mo.cod_marca, ma.cod_marca, ma.nome from " + tableName + " mo, marca ma where mo.cod_marca = ma.cod_marca");
+			db.select(sql);
 			while (db.moveNext()) {
-				Marca marca = new Marca(db.getInt("ma.cod_marca"), db.getString("ma.nome"));
-				lista.insertWhitoutPersist(new Modelo(db.getInt("mo.cod_" + tableName), db.getString("mo.nome"), marca));
+			    Marca marca = daoMarca.buscaPorCodigo(db.getInt("cod_marca"));
+				lista.insertWhitoutPersist(new Modelo(db.getInt("cod_"	+ tableName), db.getString("nome"), marca));
+			    //Marca marca = new Marca(db.getInt("ma.cod_marca"), db.getString("ma.nome"));
+				//lista.insertWhitoutPersist(new Modelo(db.getInt("mo.cod_" + tableName), db.getString("mo.nome"), marca));
 			}
 			db.disconnect();
 		}
 		return lista;
+	}
+
+	public ListaObjeto load() {
+		return this.load(SELECT);
+	}
+
+	public ListaObjeto buscar(String campo, String operador, String valor) {
+		String campoSQL = campo;
+		String operadorSQL = null;
+		String valorSQL = "'" + valor + "'";
+		if (campo.equals("Código")) {
+			campoSQL = "cod_" + tableName;
+		} else {
+			campoSQL = "nome";
+		}
+		if (operador.equals("Igual")) {
+			operadorSQL = "=";
+		} else if ( operador.equals("Diferente")) {
+			operadorSQL = "!=";
+		} else if ( operador.equals("Maior")) {
+			operadorSQL = ">";
+		}
+		else if ( operador.equals("Menor")) {
+			operadorSQL = "<";
+		}
+		else if ( operador.equals("Contem")) {
+			operadorSQL = "like";
+			valorSQL = " '%" + valor + "%'";
+		}
+		String sql = SELECT;
+		sql += " where " + campoSQL + " " + operadorSQL + valorSQL;
+		return this.load(sql);
 	}
 
 }

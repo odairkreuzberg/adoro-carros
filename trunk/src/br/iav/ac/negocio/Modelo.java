@@ -69,4 +69,9 @@ public class Modelo extends Objeto implements ObjetoInterface {
 		return dao.load();
 	}
 	
+	public ListaObjeto search(String campo, String operador, String valor){
+		DaoModelo dao = new DaoModelo();
+		return dao.buscar(campo, operador, valor);		
+	}
+	
 }
