@@ -1,4 +1,4 @@
-package br.iav.ac.telas.cor;
+package br.iav.ac.telas.marca;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,26 +6,26 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import br.iav.ac.negocio.Cor;
+import br.iav.ac.negocio.Marca;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.telas.padrao.DialogoPadrao;
 
 /**
- * Formulário de Cadastro de Cor de um Veículo
+ * Formulário de Cadastro de Marca de um Veículo
  * 
  * @author Odair Kreuzberg
  */
-public class DialogoCor extends DialogoPadrao {
+public class DialogoMarca extends DialogoPadrao {
 
 	/*----------------------------------------------------------
 	 * ATTRIBUTOS
 	 *----------------------------------------------------------*/
 
 	private static final long serialVersionUID = 1L;
-	private JLabel labelCor;
-	private JTextField textCor;
+	private JLabel labelMarca;
+	private JTextField textMarca;
 	private FormHandle formHandle;
-	private Cor cor;
+	private Marca marca;
 
 	/*----------------------------------------------------------
 	 * FIM DE ATTRIBUTOS
@@ -35,24 +35,24 @@ public class DialogoCor extends DialogoPadrao {
 	 * CONSTRUTOR
 	 *----------------------------------------------------------*/
 
-	public DialogoCor(JFrame frame, String titulo, boolean modal, Cor cor) {
+	public DialogoMarca(JFrame frame, String titulo, boolean modal, Marca marca) {
 		super(frame, titulo, modal);
-		this.cor = cor;
+		this.marca = marca;
 		try {
             {
-            	labelCor = new JLabel();
-            	getPanelPrincipal().add(labelCor);
-            	labelCor.setText("Cor:");
-            	labelCor.setBounds(28, 38, 21, 14);
+            	labelMarca = new JLabel();
+            	getPanelPrincipal().add(labelMarca);
+            	labelMarca.setText("Marca:");
+            	labelMarca.setBounds(16, 38, 60, 20);
 	        }
 	        {
-	        	textCor = new JTextField(this.cor.getNome().trim());
-	        	getPanelPrincipal().add(textCor);
-	            textCor.setBounds(51, 35, 246, 21);
+	        	textMarca = new JTextField(this.marca.getNome().trim());
+	        	getPanelPrincipal().add(textMarca);
+	            textMarca.setBounds(51, 35, 246, 21);
 	        }
 	        {
-				if (this.cor.getCodigo() != 0) {
-					getLabelCodigo().setText(getLabelCodigo().getText() + "  " + this.cor.getCodigo());
+				if (this.marca.getCodigo() != 0) {
+					getLabelCodigo().setText(getLabelCodigo().getText() + "  " + this.marca.getCodigo());
 				}
 	        }
 		} catch (Exception e) {
@@ -93,11 +93,11 @@ public class DialogoCor extends DialogoPadrao {
 		}
 
 		private void limparCampos() {
-			textCor.setText("");
+			textMarca.setText("");
 		}
 		
-		private boolean existeCor(){
-			ListaObjeto listaObjeto = cor.search("cor","Igual",textCor.getText().trim());
+		private boolean existeMarca(){
+			ListaObjeto listaObjeto = marca.search("marca","Igual",textMarca.getText().trim());
 			if (listaObjeto.getSize() > 0) {
 				return false;
 			}			
@@ -108,22 +108,22 @@ public class DialogoCor extends DialogoPadrao {
 			if (e.getSource() == getBotaoCancelar()) {
 				dispose();
 			} else if (e.getSource() == getBotaoConfirmar()) {
-				if (textCor.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoCor.this, "O campo cor é obrigatório!");
+				if (textMarca.getText().equals("")) {
+					JOptionPane.showMessageDialog(DialogoMarca.this, "O campo marca é obrigatório!");
 				} else {
-					if (cor.getCodigo() == 0) {
-						if (existeCor()) {
-							cor.setNome(textCor.getText().trim());
-							cor.insert();							
+					if (marca.getCodigo() == 0) {
+						if (existeMarca()) {
+							marca.setNome(textMarca.getText().trim());							
+							marca.insert();							
 						} else {
-							JOptionPane.showMessageDialog(DialogoCor.this, "Essa cor já se encontra na Base de Dados!");
+							JOptionPane.showMessageDialog(DialogoMarca.this, "Essa marca já se encontra na Base de Dados!");
 						}
 					} else {
-						if (existeCor()) {
-							cor.setNome(textCor.getText().trim());
-							cor.edit();	
+						if (existeMarca()) {
+							marca.setNome(textMarca.getText().trim());
+							marca.edit();	
 						} else{
-							JOptionPane.showMessageDialog(DialogoCor.this, "Essa cor já se encontra na Base de Dados!");
+							JOptionPane.showMessageDialog(DialogoMarca.this, "Essa marca já se encontra na Base de Dados!");
 						}
 					}
 					limparCampos();

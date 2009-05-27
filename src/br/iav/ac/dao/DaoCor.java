@@ -59,6 +59,7 @@ public class DaoCor implements DaoInterface {
 
 	public ListaObjeto load() {
 		return this.load(SELECT);
+		
 	}
 
 	public ListaObjeto buscar(String campo, String operador, String valor) {
@@ -82,7 +83,7 @@ public class DaoCor implements DaoInterface {
 		}
 		else if ( operador.equals("Contem")) {
 			operadorSQL = "like";
-			valorSQL = " '%" + valor + "%'";
+			valorSQL = "('%" + valor + "%')";
 		}
 		String sql = SELECT;
 		sql += " where " + campoSQL + " " + operadorSQL + valorSQL;
