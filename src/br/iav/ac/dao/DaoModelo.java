@@ -9,7 +9,7 @@ import br.iav.ac.negocio.Modelo;
 public class DaoModelo implements DaoInterface {
 
 
-	private DB db = PostgreSQL.novaInstancia();
+	private DB db = PostgreSQL.create();
 	private Modelo modelo;
 	
 	//Nome da tabela e nome do sufixo do código

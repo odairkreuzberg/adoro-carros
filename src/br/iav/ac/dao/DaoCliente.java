@@ -10,7 +10,7 @@ import br.iav.ac.negocio.ListaObjeto;
 public class DaoCliente implements DaoInterface {
 
 
-	private DB db = PostgreSQL.novaInstancia();
+	private DB db = PostgreSQL.create();
 	private Cliente cliente;
 	
 	//Nome da tabela e nome do sufixo do código

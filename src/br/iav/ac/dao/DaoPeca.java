@@ -8,7 +8,7 @@ import br.iav.ac.negocio.ListaObjeto;
 public class DaoPeca implements DaoInterface {
 
 
-	private DB db = PostgreSQL.novaInstancia();
+	private DB db = PostgreSQL.create();
 	private Peca peca;
 	
 	//Nome da tabela e nome do sufixo do código

@@ -13,7 +13,7 @@ import br.iav.ac.negocio.Modelo;
 
 public class DaoCarro implements DaoInterface {
 
-	private DB db = PostgreSQL.novaInstancia();
+	private DB db = PostgreSQL.create();
 	private Carro carro;
 	
 	//Nome da tabela e nome do sufixo do código

@@ -9,7 +9,7 @@ import javax.swing.WindowConstants;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import br.iav.ac.telas.cor.CorGrid;
+import br.iav.ac.telas.cor.PainelCor;
 import br.iav.ac.telas.core.PainelPadrao;
 
 public class TelaPrincipal extends javax.swing.JFrame {
@@ -19,7 +19,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	private JPanel panelPrincipal;
 	private JTree jtOpcoes;
 	private JScrollPane jspOpcoes;
-	private CorGrid corGrid;
+	private PainelCor corGrid;
 	public static TelaPrincipal instancia;
 
 	{
@@ -98,9 +98,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	
 	class TreeSelectionHandler implements TreeSelectionListener {
 
-		private CorGrid getCorGrid() {
+		private PainelCor getCorGrid() {
 			if (corGrid == null){
-				corGrid = new CorGrid();
+				corGrid = new PainelCor();
 			}
 			return corGrid;
 		}
