@@ -8,7 +8,7 @@ import javax.swing.table.TableColumn;
 import br.iav.ac.negocio.Cor;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.telas.TelaPrincipal;
-import br.iav.ac.telas.core.PainelPadrao;
+import br.iav.ac.telas.padrao.PainelPadrao;
 
 /**
  * Area de Consulta, Inserção, Exclusão e alteração de Cor de um Veículo

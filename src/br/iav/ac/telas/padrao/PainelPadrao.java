@@ -1,4 +1,4 @@
-package br.iav.ac.telas.core;
+package br.iav.ac.telas.padrao;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;

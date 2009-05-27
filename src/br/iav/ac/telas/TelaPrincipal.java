@@ -10,7 +10,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import br.iav.ac.telas.cor.PainelCor;
-import br.iav.ac.telas.core.PainelPadrao;
+import br.iav.ac.telas.padrao.PainelPadrao;
 
 public class TelaPrincipal extends javax.swing.JFrame {
 	

@@ -1,4 +1,4 @@
-package br.iav.ac.telas.core;
+package br.iav.ac.telas.padrao;
 
 import java.awt.BorderLayout;
 import javax.swing.JButton;
