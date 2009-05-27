@@ -59,18 +59,14 @@ public class CorForm extends JDialog {
 	 *----------------------------------------------------------*/
 
 	private void inicializarHandlers() {
-
 		this.formHandle = new FormHandle();
-
 		botaoCancelar.addActionListener(formHandle);
-
 		botaoConfirmar.addActionListener(formHandle);
 	}
 
 	private void initGUI() {
 		this.setLayout(null);
 		this.setDefaultCloseOperation(CorForm.DISPOSE_ON_CLOSE);
-
 		this.setResizable(false);
 		try {
 			{
@@ -80,8 +76,7 @@ public class CorForm extends JDialog {
 				labelCor.setBounds(28, 38, 21, 14);
 			}
 			{
-
-				textCor = new JTextField(this.cor.getNome());
+				textCor = new JTextField(this.cor.getNome().trim());
 				getContentPane().add(textCor);
 				textCor.setBounds(51, 35, 246, 21);
 			}
@@ -133,9 +128,10 @@ public class CorForm extends JDialog {
 		private void limparCampos() {
 			textCor.setText("");
 		}
+		
 		private boolean existeCor(){
 			ListaObjeto listaObjeto = cor.buscar("cor","Igual",textCor.getText());
-			if(listaObjeto.getSize()>0){
+			if (listaObjeto.getSize() > 0) {
 				return false;
 			}			
 			return true;			
@@ -144,34 +140,25 @@ public class CorForm extends JDialog {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == botaoCancelar) {
 				dispose();
-				JOptionPane
-						.showMessageDialog(CorForm.this, "Operção cancelada");
-
 			} else if (e.getSource() == botaoConfirmar) {
 				if (textCor.getText().equals("")) {
-					JOptionPane.showMessageDialog(CorForm.this,
-							"O Campo Cor é Obrigatório");
-
+					JOptionPane.showMessageDialog(CorForm.this, "O Campo Cor é obrigatório!");
 				} else {
-
 					if (cor.getCodigo() == 0) {
-						if(existeCor()){
-							cor.setNome(textCor.getText());
+						if (existeCor()) {
+							cor.setNome(textCor.getText().trim());
 							cor.insert();							
-						}else{
-							JOptionPane.showMessageDialog(CorForm.this,
-							"Essa Cor já se encontra na Base de Dados!!");
+						} else {
+							JOptionPane.showMessageDialog(CorForm.this, "Essa Cor já se encontra na Base de Dados!");
 						}
 					} else {
-						if(existeCor()){
-							cor.setNome(textCor.getText());
-							cor.edit();							
-						}else{
-							JOptionPane.showMessageDialog(CorForm.this,
-							"Essa Cor já se encontra na Base de Dados!!");
+						if (existeCor()) {
+							cor.setNome(textCor.getText().trim());
+							cor.edit();	
+						} else{
+							JOptionPane.showMessageDialog(CorForm.this, "Essa Cor já se encontra na Base de Dados!");
 						}
 					}
-
 					limparCampos();
 					dispose();
 				}
