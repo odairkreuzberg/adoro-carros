@@ -9,31 +9,19 @@ import javax.swing.WindowConstants;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-
-import br.iav.ac.telas.cliente.PanelClientePrincipal;
 import br.iav.ac.telas.cor.CorGrid;
-import br.iav.ac.telas.core.PainelGrid;
-import br.iav.ac.telas.marca.MarcaGrid;
-import br.iav.ac.telas.modelo.ModeloGrid;
+import br.iav.ac.telas.core.PainelPadrao;
 
 public class TelaPrincipal extends javax.swing.JFrame {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel panelOpcoes;
 	private JPanel panelPrincipal;
-	
 	private JTree jtOpcoes;
 	private JScrollPane jspOpcoes;
-	private MarcaGrid marcaGrid;
-	private ModeloGrid modeloGrid;
 	private CorGrid corGrid;
 	public static TelaPrincipal instancia;
 
-	
-	
 	{
 		//Set Look & Feel
 		try {
@@ -110,20 +98,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	
 	class TreeSelectionHandler implements TreeSelectionListener {
 
-		private MarcaGrid getgGridMarca() {
-			if (marcaGrid == null){
-				marcaGrid = new MarcaGrid();
-			}
-			return marcaGrid;
-		}
-
-		private ModeloGrid getgGridModelo() {
-			if (modeloGrid == null){
-				modeloGrid = new ModeloGrid();
-			}
-			return modeloGrid;
-		}
-
 		private CorGrid getCorGrid() {
 			if (corGrid == null){
 				corGrid = new CorGrid();
@@ -131,7 +105,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			return corGrid;
 		}
 
-		private void showPainelGrid(PainelGrid painelGrid) {
+		private void showPainelGrid(PainelPadrao painelGrid) {
 			panelPrincipal.removeAll();
 			panelPrincipal.repaint();
 			panelPrincipal.add(painelGrid);
@@ -143,23 +117,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
 		public void valueChanged(TreeSelectionEvent e) {
 			String path = e.getPath().toString().trim();
 			if (path.equals("[Adoro Carros, Clientes]")) {
-				panelPrincipal.removeAll();
-				panelPrincipal.add(new PanelClientePrincipal(panelPrincipal));
-				panelPrincipal.repaint();
-			} else if (path.equals("[Adoro Carros, Cores]")) {
-				
+
+			} else if (path.equals("[Adoro Carros, Cores]")) {				
 				showPainelGrid(getCorGrid());
-				
 			} else if (path.equals("[Adoro Carros, Marcas]")) {
-				
-				showPainelGrid(getgGridMarca());
-				
+
 			} else if (path.equals("[Adoro Carros, Modelos]")) {
 				
-				showPainelGrid(getgGridModelo());
-				
-			}else if (path.equals("[Adoro Carros, Funcionários]")) {
-				JOptionPane.showMessageDialog(TelaPrincipal.this, "Tela de Funcionários");
+			} else if (path.equals("[Adoro Carros, Funcionários]")) {
+
 			} else {
 				JOptionPane.showMessageDialog(TelaPrincipal.this, path);
 			}
