@@ -59,7 +59,7 @@ public class DialogoCRUD extends JDialog {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		setSize(555, 579);
+		setSize(555, 610);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}

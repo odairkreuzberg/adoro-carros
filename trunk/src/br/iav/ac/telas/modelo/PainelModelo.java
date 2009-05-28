@@ -8,8 +8,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 import br.iav.ac.negocio.ListaObjeto;
+import br.iav.ac.negocio.Marca;
 import br.iav.ac.negocio.Modelo;
 import br.iav.ac.telas.TelaPrincipal;
+import br.iav.ac.telas.marca.DialogoMarca;
+import br.iav.ac.telas.marca.PainelMarca;
 import br.iav.ac.telas.padrao.PainelPadrao;
 
 /**
@@ -73,16 +76,28 @@ public class PainelModelo extends PainelPadrao {
 
 		public CadastroHandle() {
 			super();
-			carregarGrid(getModelo().load());
+			modelo = new Modelo();
+			carregarGrid(modelo.load());
 		}
+		
 
-		private Modelo getModelo() {
-			if (modelo == null) {
-				modelo = new Modelo();
-			}
-			return modelo;
+		/**
+		 * retorna um Modelo se existir caso contrario retorna null.
+		 * 
+		 * @return Modelo
+		 */
+		private Modelo buscarModelo(){
+			String nome = getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1)+ "";
+			ListaObjeto listaObjeto = modelo.search("Modelo","Igual",nome);
+			if (listaObjeto.getSize() > 0) {
+				return (Modelo) listaObjeto.getObjeto(0);				
+			}	
+			return null;			
 		}
-
+		
+		/**
+		 * Carrega a Grid com todas as Marcaes já Cadastradas.
+		 */
 		private void carregarGrid(ListaObjeto listaObjeto) {
 			Object[][] gridArray = new Object[listaObjeto.getSize()][3];
 			for (int i = 0; i < listaObjeto.getSize(); i++) {
@@ -103,34 +118,76 @@ public class PainelModelo extends PainelPadrao {
 		}
 
 		public void actionPerformed(ActionEvent e) {
+			/**
+			 * Chama o Forulário de Modelo para fazer a Inserção de uma nova marca.  
+			 **/
 			if (e.getSource() == getBotaoNovo()) {
-				this.getModelo().setCodigo(0);
-				this.getModelo().setNome("");
-				new DialogoModelo(TelaPrincipal.instancia, "Cadastro de Modelo", true, this.getModelo());
-				carregarGrid(getModelo().load());
-			} else if (e.getSource() == getBotaoEditar()) {
+				modelo.setCodigo(0);
+				modelo.setNome("");
+				new DialogoModelo(TelaPrincipal.instancia, "Cadastro de Modelo", true, modelo);
+				carregarGrid(modelo.load());
+			}  			
+			/**
+			 * Chama o Forulário de modelo para fazer a Edição de uma marca.
+			 */	
+			else if (e.getSource() == getBotaoEditar()) {
+				// verifica se existe uma uma linha selecionada na Grid.
 				if (getGridTabela().getSelectedRow() >= 0) {
-					this.getModelo().setCodigo((Integer) getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 0));
-					this.getModelo().setNome(getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1)+ "");
-					new DialogoModelo(null, "Cadastro de Modelo", true, this.getModelo());
-					carregarGrid(getModelo().load());	
+					modelo = buscarModelo();
+					//se retornar uma Marca existente, entao sera instanciado o formulario de Edição.
+					if(modelo != null){
+						new DialogoModelo(null, "Cadastro de Marca", true, modelo);	
+						carregarGrid(modelo.load());				
+					}
+					else{
+						JOptionPane.showMessageDialog(PainelModelo.this,
+								"Erro ao buscar esta Marca na base de dados!");
+						modelo = new Modelo();
+					}	
 				} else {
-					JOptionPane.showMessageDialog(PainelModelo.this, "Para editar é preciso selecionar uma modelo na tabela!");
+					JOptionPane.showMessageDialog(PainelModelo.this, 
+							"Para editar é preciso selecionar uma marca na tabela!");
 				}
-			} else if (e.getSource() == getBotaoExcluir()) {
+			} 			
+			/**
+			 * Faz a Remoção de uma marca.
+			 */
+			else if (e.getSource() == getBotaoExcluir()) {
+				// verifica se existe uma uma linha selecionada na Grid.
 				if (getGridTabela().getSelectedRow() > 0) {
-					if (JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a modelo " + getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1) + " ?", "Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-						getModelo().setCodigo((Integer) getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 0));
-						getModelo().delete();
-						carregarGrid(getModelo().load());
+					modelo = buscarModelo();
+					//se retornar uma Marca existente, essa marca sera Excluida.
+					if (modelo != null) {
+						int resp = JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a modelo "
+								+ modelo.getNome()+ " ?", "Exclusão",JOptionPane.YES_NO_OPTION);
+						if (resp == 0) {
+							modelo.delete();
+							carregarGrid(modelo.load());
+						}
+
+					} else {
+						JOptionPane.showMessageDialog(PainelModelo.this,
+								"Erro ao buscar esta Marca na base de dados!");
+						modelo = new Modelo();
 					}
 				} else {
-					JOptionPane.showMessageDialog(PainelModelo.this, "Para remover é preciso selecionar uma modelo na tabela!");
+					JOptionPane.showMessageDialog(PainelModelo.this, 
+							"Para remover é preciso selecionar uma modelo na tabela!");
 				}
-			} else if (e.getSource() == getBotaoAtualizar()) {
-				carregarGrid(getModelo().load());
-			} else if (e.getSource() == getBotaoBuscar()) {		
-				carregarGrid(getModelo().search((String) getComboAtributoBuscar().getSelectedItem(), (String) getComboTipoBuscar().getSelectedItem(), getTextBuscar().getText()));
+			} 
+			/**
+			 * Faz a atualização da Grid
+			 */
+			else if (e.getSource() == getBotaoAtualizar()) {
+				carregarGrid(modelo.load());
+			} 
+			/**
+			 * Faz uma busca com parametros passado pelo usuario
+			 */
+			else if (e.getSource() == getBotaoBuscar()) {
+				carregarGrid(modelo.search((String) getComboAtributoBuscar()
+						.getSelectedItem(), (String) getComboTipoBuscar()
+						.getSelectedItem(), getTextBuscar().getText()));
 			}
 		}
 	}

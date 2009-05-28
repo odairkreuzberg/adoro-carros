@@ -16,6 +16,8 @@ public class DaoModelo implements DaoInterface {
 	private final static String tableName = "modelo";
 
 	private final static String SELECT = "select * from " + tableName;
+	private final static String SELECT_COM_MARCA = "select modelo.* from modelo, marca";
+	
 	//"select mo.cod_" + tableName + ", mo.nome, mo.cod_marca, ma.cod_marca, ma.nome from " + tableName + " mo, marca ma where mo.cod_marca = ma.cod_marca";
 	
 	
@@ -69,14 +71,25 @@ public class DaoModelo implements DaoInterface {
 	}
 
 	public ListaObjeto search(String campo, String operador, String valor) {
+
+		String sql = SELECT;
+		
 		String campoSQL = campo;
 		String operadorSQL = null;
 		String valorSQL = "'" + valor + "'";
+		String outroSQL = "";
+		
 		if (campo.equals("Código")) {
 			campoSQL = "cod_" + tableName;
-		} else {
-			campoSQL = "nome";
+		} else 
+		if ( campo.equals("Marca")){			
+			sql = SELECT_COM_MARCA;			
+			outroSQL = " marca.cod_marca = modelo.cod_marca and marca.nome";
+			campoSQL = "marca.nome";
 		}
+		else{			
+			campoSQL = "nome";
+		}		
 		if (operador.equals("Igual")) {
 			operadorSQL = "=";
 		} else if (operador.equals("Diferente")) {
@@ -89,8 +102,8 @@ public class DaoModelo implements DaoInterface {
 			operadorSQL = "like";
 			valorSQL = " '%" + valor + "%'";
 		}
-		String sql = SELECT;
-		sql += " where " + campoSQL + " " + operadorSQL + valorSQL;
+		
+		sql += " where " + outroSQL + campoSQL + " " + operadorSQL + valorSQL;
 		return this.load(sql);
 	}
 
