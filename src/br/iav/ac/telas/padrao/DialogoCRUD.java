@@ -1,6 +1,9 @@
 package br.iav.ac.telas.padrao;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
+
+import br.iav.ac.telas.TelaPrincipal;
 
 
 /**
@@ -22,8 +25,8 @@ public class DialogoCRUD extends JDialog {
 	
 
 
-	public DialogoCRUD(JDialog dialog, String titulo, boolean modal) {
-		super(dialog,titulo,modal);
+	public DialogoCRUD(JFrame frame, String titulo, boolean modal) {
+		super(TelaPrincipal.instancia,titulo,modal);
 		
 	}
 	public void setPainel(PainelPadrao painelPadrao){
@@ -49,12 +52,10 @@ public class DialogoCRUD extends JDialog {
 					botaoCancelar.setBounds(440, 553, 97, 21);
 				}
 				{
-					//painelPadrao = new JPanel();
 					getContentPane().add(this.painelPadrao);
 					painelPadrao.setBounds(0, 0, 549, 553);
 				}
 			}
-			pack();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

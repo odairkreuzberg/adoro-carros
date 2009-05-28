@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import br.iav.ac.negocio.Cor;
 import br.iav.ac.negocio.ListaObjeto;
+import br.iav.ac.telas.TelaPrincipal;
 import br.iav.ac.telas.padrao.DialogoPadrao;
 
 /**
@@ -22,8 +23,8 @@ public class DialogoCor extends DialogoPadrao {
 	 *----------------------------------------------------------*/
 
 	private static final long serialVersionUID = 1L;
-	private JLabel labelNome;
-	private JTextField textNome;
+	private JLabel labelCor;
+	private JTextField textCor;
 	private FormHandle formHandle;
 	private Cor cor;
 
@@ -36,24 +37,19 @@ public class DialogoCor extends DialogoPadrao {
 	 *----------------------------------------------------------*/
 
 	public DialogoCor(JFrame frame, String titulo, boolean modal, Cor cor) {
-		super(frame, titulo, modal);
+		super(TelaPrincipal.instancia, titulo, modal);
 		this.cor = cor;
 		try {
             {
-            	labelNome = new JLabel();
-            	getPanelPrincipal().add(labelNome);
-            	labelNome.setText("Cor:");
-            	labelNome.setBounds(28, 38, 21, 14);
+            	labelCor = new JLabel();
+            	getPanelPrincipal().add(labelCor);
+            	labelCor.setText("Cor:");
+            	labelCor.setBounds(28, 38, 21, 14);
 	        }
 	        {
-	        	textNome = new JTextField(this.cor.getNome().trim());
-	        	getPanelPrincipal().add(textNome);
-	            textNome.setBounds(51, 35, 246, 21);
-	        }
-	        {
-				if (this.cor.getCodigo() != 0) {
-					getLabelCodigo().setText(getLabelCodigo().getText() + "  " + this.cor.getCodigo());
-				}
+	        	textCor = new JTextField();
+	        	getPanelPrincipal().add(textCor);
+	            textCor.setBounds(51, 35, 246, 21);
 	        }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -69,7 +65,7 @@ public class DialogoCor extends DialogoPadrao {
 	 *----------------------------------------------------------*/
 
 	/*----------------------------------------------------------
-	 * INTERFACE
+	 * METODOS DA CLASSE
 	 *----------------------------------------------------------*/
 
 	private void inicializarHandlers() {
@@ -79,7 +75,7 @@ public class DialogoCor extends DialogoPadrao {
 	}
 	
 	/*----------------------------------------------------------
-	 * FIM DE INTERFACE
+	 * FIM DE METODOS DA CLASSE
 	 *----------------------------------------------------------*/
 
 	/*----------------------------------------------------------
@@ -90,43 +86,67 @@ public class DialogoCor extends DialogoPadrao {
 
 		public FormHandle() {
 			super();
-		}
+			textCor.setText(cor.getNome().trim());
+			if (cor.getCodigo() != 0) {
+				getLabelCodigo().setText(
+						getLabelCodigo().getText() + "  " + cor.getCodigo());
+			}
 
-		private void limparCampos() {
-			textNome.setText("");
 		}
 		
-		private boolean existeCor(){
-			ListaObjeto listaObjeto = cor.search("cor","Igual",textNome.getText().trim());
+		/**
+		 * Retorna true se encontrar uma cor e false se nao encontrar.
+		 * 
+		 * @return boolean
+		 */
+		private boolean existeCor() {
+			ListaObjeto listaObjeto = cor.search("cor", "Igual", textCor
+					.getText().trim());
 			if (listaObjeto.getSize() > 0) {
 				return false;
+			}
+			return true;
+		}
+		
+		/**
+		 * Faz a Inserção de uma Cor.
+		 */		
+		private void inserir(){
+			if (existeCor()) {
+				cor.setNome(textCor.getText().trim());
+				cor.insert();							
+			} else {
+				JOptionPane.showMessageDialog(DialogoCor.this, 
+						"Essa cor já se encontra na Base de Dados!");
 			}			
-			return true;			
+		}
+		
+		/**
+		 * Faz a Edição de uma Cor.
+		 */
+		private void editar(){
+			if (existeCor()) {
+				cor.setNome(textCor.getText().trim());
+				cor.edit();	
+			} else{
+				JOptionPane.showMessageDialog(DialogoCor.this, 
+						"Essa cor já se encontra na Base de Dados!");
+			}
 		}
 
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == getBotaoCancelar()) {
 				dispose();
 			} else if (e.getSource() == getBotaoConfirmar()) {
-				if (textNome.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoCor.this, "O campo cor é obrigatório!");
+				if (textCor.getText().equals("")) {
+					JOptionPane.showMessageDialog(DialogoCor.this,
+							"O campo cor é obrigatório!");
 				} else {
 					if (cor.getCodigo() == 0) {
-						if (existeCor()) {
-							cor.setNome(textNome.getText().trim());
-							cor.insert();							
-						} else {
-							JOptionPane.showMessageDialog(DialogoCor.this, "Essa cor já se encontra na Base de Dados!");
-						}
+						inserir();
 					} else {
-						if (existeCor()) {
-							cor.setNome(textNome.getText().trim());
-							cor.edit();	
-						} else{
-							JOptionPane.showMessageDialog(DialogoCor.this, "Essa cor já se encontra na Base de Dados!");
-						}
+						editar();
 					}
-					limparCampos();
 					dispose();
 				}
 			}
