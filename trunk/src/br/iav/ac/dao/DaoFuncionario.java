@@ -15,7 +15,9 @@ public class DaoFuncionario implements DaoInterface {
 	private Funcionario funcionario;
 	
 	//Nome da tabela e nome do sufixo do código
-	String tableName = "funcionario";
+	private final static String tableName = "funcionario";
+	
+	private final static String SELECT = "select f.cod_" + tableName + ", f.nome, f.rua, f.numero, f.bairro, f.cod_cidade, c1.cod_cidade, c1.nome, c1.ddd, f.cep, f.complemento, f.telefone, f.cpf, f.rg, f.data_nascimento, f.cod_cargo, c2.cod_cargo, c2.nome, c2.descricao, f.salario from " + tableName + " f, cidade c1, cargo c2 where f.cod_cidade = c1.cod_cidade and f.cod_cargo = c2.cod_cargo";
 	
 	public Funcionario getFuncionario() {
 		return funcionario;
@@ -72,7 +74,7 @@ public class DaoFuncionario implements DaoInterface {
 		}
 	}
 	
-	public ListaObjeto load() {
+	public ListaObjeto load(String sql) {
 		ListaObjeto lista = new ListaObjeto();
 		if (db.connect()) {
 			db.select("select f.cod_" + tableName + ", f.nome, f.rua, f.numero, f.bairro, f.cod_cidade, c1.cod_cidade, c1.nome, c1.ddd, f.cep, f.complemento, f.telefone, f.cpf, f.rg, f.data_nascimento, f.cod_cargo, c2.cod_cargo, c2.nome, c2.descricao, f.salario from " + tableName + " f, cidade c1, cargo c2 where f.cod_cidade = c1.cod_cidade and f.cod_cargo = c2.cod_cargo");
@@ -86,5 +88,35 @@ public class DaoFuncionario implements DaoInterface {
 		}
 		return lista;
 	}
+
+	public ListaObjeto load() {
+		return this.load(SELECT);
+	}
+	
+	public ListaObjeto search(String campo, String operador, String valor) {
+		String campoSQL = campo;
+		String operadorSQL = null;
+		String valorSQL = "'" + valor + "'";
+		if (campo.equals("Código")) {
+			campoSQL = "cod_" + tableName;
+		} else {
+			campoSQL = "nome";
+		}
+		if (operador.equals("Igual")) {
+			operadorSQL = "=";
+		} else if (operador.equals("Diferente")) {
+			operadorSQL = "!=";
+		} else if (operador.equals("Maior")) {
+			operadorSQL = ">";
+		} else if (operador.equals("Menor")) {
+			operadorSQL = "<";
+		} else if (operador.equals("Contem")) {
+			operadorSQL = "like";
+			valorSQL = "('%" + valor + "%')";
+		}
+		String sql = SELECT;
+		sql += " where " + campoSQL + " " + operadorSQL + valorSQL;
+		return this.load(sql);
+	}	
 
 }
