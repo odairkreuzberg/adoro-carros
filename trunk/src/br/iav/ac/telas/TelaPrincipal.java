@@ -10,6 +10,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import br.iav.ac.telas.cargo.PainelCargo;
 import br.iav.ac.telas.cliente.PainelCliente;
 import br.iav.ac.telas.cor.PainelCor;
 import br.iav.ac.telas.marca.PainelMarca;
@@ -26,6 +27,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	private PainelMarca painelMarca;
 	private PainelModelo painelModelo;
 	private PainelCliente painelCliente;
+	private PainelCargo painelCargo;
 	public static TelaPrincipal instancia;
 	
 	{
@@ -77,11 +79,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						DefaultMutableTreeNode nodoCores = new DefaultMutableTreeNode("Cores");
 						DefaultMutableTreeNode nodoMarcas = new DefaultMutableTreeNode("Marcas");
 						DefaultMutableTreeNode nodoModelos = new DefaultMutableTreeNode("Modelos");
+						DefaultMutableTreeNode nodoCargo = new DefaultMutableTreeNode("Cargo");
 						nodoPrincipal.add(nodoClientes);
 						nodoPrincipal.add(nodoFuncionarios);
 						nodoPrincipal.add(nodoCores);
 						nodoPrincipal.add(nodoMarcas);
 						nodoPrincipal.add(nodoModelos);
+						nodoPrincipal.add(nodoCargo);
 						jtOpcoes = new JTree(nodoPrincipal);
 						jtOpcoes.addTreeSelectionListener(new TreeSelectionHandler());
 						jspOpcoes.setViewportView(jtOpcoes);
@@ -123,6 +127,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			return painelMarca;
 		}
 		
+		private PainelCargo getPainelCargo() {
+			if (painelCargo == null){
+				painelCargo = new PainelCargo();
+			}
+			return painelCargo;
+		}
+		
 		private PainelModelo getPainelModelo() {
 			if (painelModelo == null){
 				painelModelo = new PainelModelo();
@@ -148,6 +159,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 				showPainel(getPainelMarca());
 			} else if (path.equals("[Adoro Carros, Modelos]")) {		
 				showPainel(getPainelModelo());
+			} else if (path.equals("[Adoro Carros, Cargo]")) {		
+				showPainel(getPainelCargo());				
 			} else if (path.equals("[Adoro Carros, Funcionários]")) {
 
 			} else {
