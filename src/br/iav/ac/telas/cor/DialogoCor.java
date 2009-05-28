@@ -137,14 +137,17 @@ public class DialogoCor extends DialogoPadrao {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == getBotaoCancelar()) {
 				dispose();
-			} else if (e.getSource() == getBotaoConfirmar()) {
+			} 
+			else if (e.getSource() == getBotaoConfirmar()) {
 				if (textCor.getText().equals("")) {
 					JOptionPane.showMessageDialog(DialogoCor.this,
 							"O campo cor é obrigatório!");
-				} else {
+				} 
+				else {
 					if (cor.getCodigo() == 0) {
 						inserir();
-					} else {
+					} 
+					else {
 						editar();
 					}
 					dispose();
