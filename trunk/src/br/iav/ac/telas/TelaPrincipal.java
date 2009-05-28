@@ -9,6 +9,8 @@ import javax.swing.WindowConstants;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+
+import br.iav.ac.telas.cliente.PainelCliente;
 import br.iav.ac.telas.cor.PainelCor;
 import br.iav.ac.telas.marca.PainelMarca;
 import br.iav.ac.telas.modelo.PainelModelo;
@@ -16,7 +18,6 @@ import br.iav.ac.telas.padrao.PainelPadrao;
 
 public class TelaPrincipal extends javax.swing.JFrame {
 	
-	private static final long serialVersionUID = 1L;
 	private JPanel panelOpcoes;
 	private JPanel panelPrincipal;
 	private JTree jtOpcoes;
@@ -24,6 +25,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	private PainelCor painelCor;
 	private PainelMarca painelMarca;
 	private PainelModelo painelModelo;
+	private PainelCliente painelCliente;
+	
 	{
 		//Set Look & Feel
 		try {
@@ -33,9 +36,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
 		}
 	}
 
-	/**
-	* Auto-generated main method to display this JFrame
-	*/
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -100,6 +100,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	
 	class TreeSelectionHandler implements TreeSelectionListener {
 
+		private PainelCliente getPainelCliente() {
+			if (painelCliente == null){
+				painelCliente = new PainelCliente();
+			}
+			return painelCliente;
+		}
+		
 		private PainelCor getPainelCor() {
 			if (painelCor == null){
 				painelCor = new PainelCor();
@@ -126,22 +133,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			panelPrincipal.repaint();
 			panelPrincipal.add(painelPadrao);
 			panelPrincipal.validate();
-
 		}
 
 		@Override
 		public void valueChanged(TreeSelectionEvent e) {
 			String path = e.getPath().toString().trim();
 			if (path.equals("[Adoro Carros, Clientes]")) {
-
+				showPainel(getPainelCliente());
 			} else if (path.equals("[Adoro Carros, Cores]")) {				
 				showPainel(getPainelCor());
 			} else if (path.equals("[Adoro Carros, Marcas]")) {			
 				showPainel(getPainelMarca());
-
 			} else if (path.equals("[Adoro Carros, Modelos]")) {		
 				showPainel(getPainelModelo());
-				
 			} else if (path.equals("[Adoro Carros, Funcionários]")) {
 
 			} else {

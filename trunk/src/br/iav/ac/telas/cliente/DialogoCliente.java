@@ -1,4 +1,4 @@
-package br.iav.ac.telas.cor;
+package br.iav.ac.telas.cliente;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,16 +6,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import br.iav.ac.negocio.Cor;
+import br.iav.ac.negocio.Cliente;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.telas.padrao.DialogoPadrao;
 
-/**
- * Formulário de Cadastro de Cor de um Veículo
- * 
- * @author Odair Kreuzberg
- */
-public class DialogoCor extends DialogoPadrao {
+public class DialogoCliente extends DialogoPadrao {
 
 	/*----------------------------------------------------------
 	 * ATTRIBUTOS
@@ -25,7 +20,7 @@ public class DialogoCor extends DialogoPadrao {
 	private JLabel labelNome;
 	private JTextField textNome;
 	private FormHandle formHandle;
-	private Cor cor;
+	private Cliente cliente;
 
 	/*----------------------------------------------------------
 	 * FIM DE ATTRIBUTOS
@@ -35,31 +30,31 @@ public class DialogoCor extends DialogoPadrao {
 	 * CONSTRUTOR
 	 *----------------------------------------------------------*/
 
-	public DialogoCor(JFrame frame, String titulo, boolean modal, Cor cor) {
+	public DialogoCliente(JFrame frame, String titulo, boolean modal, Cliente cliente) {
 		super(frame, titulo, modal);
-		this.cor = cor;
+		this.cliente = cliente;
 		try {
             {
             	labelNome = new JLabel();
             	getPanelPrincipal().add(labelNome);
-            	labelNome.setText("Cor:");
+            	labelNome.setText("Nome:");
             	labelNome.setBounds(28, 38, 21, 14);
 	        }
 	        {
-	        	textNome = new JTextField(this.cor.getNome().trim());
+	        	textNome = new JTextField(this.cliente.getNome().trim());
 	        	getPanelPrincipal().add(textNome);
-	            textNome.setBounds(51, 35, 246, 21);
+	        	textNome.setBounds(51, 35, 246, 21);
 	        }
 	        {
-				if (this.cor.getCodigo() != 0) {
-					getLabelCodigo().setText(getLabelCodigo().getText() + "  " + this.cor.getCodigo());
+				if (this.cliente.getCodigo() != 0) {
+					getLabelCodigo().setText(getLabelCodigo().getText() + "  " + this.cliente.getCodigo());
 				}
 	        }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		inicializarHandlers();
-		this.setSize(317, 128);
+		this.setSize(400, 200);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
@@ -97,7 +92,7 @@ public class DialogoCor extends DialogoPadrao {
 		}
 		
 		private boolean existeCor(){
-			ListaObjeto listaObjeto = cor.search("cor","Igual",textNome.getText().trim());
+			ListaObjeto listaObjeto = cliente.search("cor","Igual",textNome.getText().trim());
 			if (listaObjeto.getSize() > 0) {
 				return false;
 			}			
@@ -109,21 +104,21 @@ public class DialogoCor extends DialogoPadrao {
 				dispose();
 			} else if (e.getSource() == getBotaoConfirmar()) {
 				if (textNome.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoCor.this, "O campo cor é obrigatório!");
+					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo nome é obrigatório!");
 				} else {
-					if (cor.getCodigo() == 0) {
+					if (cliente.getCodigo() == 0) {
 						if (existeCor()) {
-							cor.setNome(textNome.getText().trim());
-							cor.insert();							
+							cliente.setNome(textNome.getText().trim());
+							cliente.insert();							
 						} else {
-							JOptionPane.showMessageDialog(DialogoCor.this, "Essa cor já se encontra na Base de Dados!");
+							JOptionPane.showMessageDialog(DialogoCliente.this, "Esse cliente já se encontra na Base de Dados!");
 						}
 					} else {
 						if (existeCor()) {
-							cor.setNome(textNome.getText().trim());
-							cor.edit();	
+							cliente.setNome(textNome.getText().trim());
+							cliente.edit();	
 						} else{
-							JOptionPane.showMessageDialog(DialogoCor.this, "Essa cor já se encontra na Base de Dados!");
+							JOptionPane.showMessageDialog(DialogoCliente.this, "Esse cliente já se encontra na Base de Dados!");
 						}
 					}
 					limparCampos();

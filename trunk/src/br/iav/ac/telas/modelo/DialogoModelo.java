@@ -2,7 +2,6 @@ package br.iav.ac.telas.modelo;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -11,7 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.negocio.Marca;
 import br.iav.ac.negocio.Modelo;
@@ -32,16 +30,14 @@ public class DialogoModelo extends DialogoPadrao {
 	 * ATTRIBUTOS
 	 *----------------------------------------------------------*/
 
-	private static final long serialVersionUID = 1L;
 	private FormHandle formHandle;
 	private Modelo modelo;
+	private Marca marca;
 	private JButton botaoMarca;
 	private JTextField textModelo;
 	private JLabel labelModelo;
 	private JComboBox comboMarca;
 	private JLabel labelMarca;
-	private Marca marca;
-	
 
 	/*----------------------------------------------------------
 	 * FIM DE ATTRIBUTOS
