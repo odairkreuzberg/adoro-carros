@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.negocio.Marca;
 import br.iav.ac.negocio.Modelo;
+import br.iav.ac.telas.TelaPrincipal;
 import br.iav.ac.telas.marca.PainelMarca;
 import br.iav.ac.telas.padrao.DialogoCRUD;
 import br.iav.ac.telas.padrao.DialogoPadrao;
@@ -60,6 +61,7 @@ public class DialogoModelo extends DialogoPadrao {
 			{
 				comboMarca = new JComboBox();
 				getPanelPrincipal().add(comboMarca);
+				comboMarca.setSelectedItem(modelo.getMarca().getNome().trim());
 				comboMarca.setBounds(61, 37, 233, 21);
 			}
 			{
@@ -71,6 +73,7 @@ public class DialogoModelo extends DialogoPadrao {
 			{
 				textModelo = new JTextField();
 				getPanelPrincipal().add(textModelo);
+				textModelo.setText(modelo.getNome());
 				textModelo.setBounds(61, 67, 267, 21);
 			}
 			{
@@ -163,7 +166,7 @@ public class DialogoModelo extends DialogoPadrao {
 
 		private void showPainel(PainelPadrao painelPadrao, String titulo) {
 			
-			DialogoCRUD dialogoCRUD = new DialogoCRUD(null,titulo,true);
+			DialogoCRUD dialogoCRUD = new DialogoCRUD(TelaPrincipal.instancia,titulo,true);
 			dialogoCRUD.setPainel(painelPadrao);
 
 		}

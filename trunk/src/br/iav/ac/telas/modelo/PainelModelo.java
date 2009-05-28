@@ -9,6 +9,7 @@ import javax.swing.table.TableColumn;
 
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.negocio.Modelo;
+import br.iav.ac.telas.TelaPrincipal;
 import br.iav.ac.telas.padrao.PainelPadrao;
 
 /**
@@ -105,7 +106,7 @@ public class PainelModelo extends PainelPadrao {
 			if (e.getSource() == getBotaoNovo()) {
 				this.getModelo().setCodigo(0);
 				this.getModelo().setNome("");
-				new DialogoModelo(null, "Cadastro de Modelo", true, this.getModelo());
+				new DialogoModelo(TelaPrincipal.instancia, "Cadastro de Modelo", true, this.getModelo());
 				carregarGrid(getModelo().load());
 			} else if (e.getSource() == getBotaoEditar()) {
 				if (getGridTabela().getSelectedRow() >= 0) {

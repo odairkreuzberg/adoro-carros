@@ -21,13 +21,9 @@ public class PainelCor extends PainelPadrao {
 	/*----------------------------------------------------------
 	 * ATTRIBUTOS
 	 *----------------------------------------------------------*/
-
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private CadastroHandle cadastroHandle;
-	private Cor cor;
 	private static String[] CAMPOS = { "Código", "Cor" };
 
 	/*----------------------------------------------------------
@@ -48,7 +44,7 @@ public class PainelCor extends PainelPadrao {
 	 *----------------------------------------------------------*/
 
 	/*----------------------------------------------------------
-	 * INTERFACE
+	 * METODOS DA CLASSE
 	 *----------------------------------------------------------*/
 
 	private void inicializarHandlers() {
@@ -61,7 +57,7 @@ public class PainelCor extends PainelPadrao {
 	}
 		
 	/*----------------------------------------------------------
-	 * FIM DE INTERFACE
+	 * FIM DE METODOS DA CLASSE
 	 *----------------------------------------------------------*/
 
 	/*----------------------------------------------------------
@@ -69,19 +65,33 @@ public class PainelCor extends PainelPadrao {
 	 *----------------------------------------------------------*/
 
 	class CadastroHandle implements ActionListener {
-
+		private Cor cor;
+		
+		
 		public CadastroHandle() {
 			super();
-			carregarGrid(getCor().load());
+			cor = new Cor();
+			carregarGrid(cor.load());
 		}
+		
 
-		private Cor getCor() {
-			if (cor == null) {
-				cor = new Cor();
-			}
-			return cor;
+		/**
+		 * retorna uma Cor se existir caso contrario retorna null.
+		 * 
+		 * @return Cor
+		 */
+		private Cor buscarCor(){
+			String nome = getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1)+ "";
+			ListaObjeto listaObjeto = cor.search("Cor","Igual",nome);
+			if (listaObjeto.getSize() > 0) {
+				return (Cor) listaObjeto.getObjeto(0);				
+			}	
+			return null;			
 		}
-
+		
+		/**
+		 * Carrega a Grid com todas as Cores já Cadastradas.
+		 */
 		private void carregarGrid(ListaObjeto listaObjeto) {
 			Object[][] gridArray = new Object[listaObjeto.getSize()][2];
 			for (int i = 0; i < listaObjeto.getSize(); i++) {
@@ -99,34 +109,71 @@ public class PainelCor extends PainelPadrao {
 		}
 
 		public void actionPerformed(ActionEvent e) {
+			/**
+			 * Chama o Forulário de Cor para fazer a Inserção de uma nova cor.  
+			 **/
 			if (e.getSource() == getBotaoNovo()) {
-				this.getCor().setCodigo(0);
-				this.getCor().setNome("");
-				new DialogoCor(null, "Cadastro de Cor", true, this.getCor());
-				carregarGrid(getCor().load());
-			} else if (e.getSource() == getBotaoEditar()) {
+				cor.setCodigo(0);
+				cor.setNome("");
+				new DialogoCor(null, "Cadastro de Cor", true, cor);
+				carregarGrid(cor.load());
+			} 			
+			/**
+			 * Chama o Forulário de Cor para fazer a Edição de uma cor.
+			 */	
+			else if (e.getSource() == getBotaoEditar()) {
+				// verifica se existe uma uma linha selecionada na Grid.
 				if (getGridTabela().getSelectedRow() >= 0) {
-					this.getCor().setCodigo((Integer) getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 0));
-					this.getCor().setNome(getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1)+ "");
-					new DialogoCor(null, "Cadastro de Cor", true, this.getCor());
-					carregarGrid(getCor().load());	
-				} else {
-					JOptionPane.showMessageDialog(PainelCor.this, "Para editar é preciso selecionar uma cor na tabela!");
-				}
-			} else if (e.getSource() == getBotaoExcluir()) {
-				if (getGridTabela().getSelectedRow() > 0) {
-					if (JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a cor " + getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1) + " ?", "Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-						getCor().setCodigo((Integer) getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 0));
-						getCor().delete();
-						carregarGrid(getCor().load());
+					cor = buscarCor();
+					//se retornar uma Cor existente, entao sera instanciado o formulario de Edição.
+					if(cor != null){
+						new DialogoCor(null, "Cadastro de Cor", true, cor);	
+						carregarGrid(cor.load());				
 					}
+					else{
+						JOptionPane.showMessageDialog(PainelCor.this,
+								"Erro ao buscar esta Cor na base de dados!");
+						cor = new Cor();
+					}	
 				} else {
-					JOptionPane.showMessageDialog(PainelCor.this, "Para remover é preciso selecionar uma cor na tabela!");
+					JOptionPane.showMessageDialog(PainelCor.this, 
+							"Para editar é preciso selecionar uma cor na tabela!");
+				}
+				
+			}			
+			/**
+			 * Faz a Remoção de uma cor.
+			 */
+			else if (e.getSource() == getBotaoExcluir()) {
+				// verifica se existe uma uma linha selecionada na Grid.
+				if (getGridTabela().getSelectedRow() > 0) {
+					cor = buscarCor();
+					//se retornar uma Cor existente, essa cor sera Excluida.
+					if (cor != null) {
+						int resp = JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a modelo "
+								+ cor.getNome()+ " ?", "Exclusão",JOptionPane.YES_NO_OPTION);
+						if (resp == 0) {
+							cor.delete();
+							carregarGrid(cor.load());
+						}
+
+					} else {
+						JOptionPane.showMessageDialog(PainelCor.this,
+								"Erro ao buscar esta Cor na base de dados!");
+						cor = new Cor();
+					}
+
+				} else {
+					JOptionPane
+							.showMessageDialog(PainelCor.this,
+									"Para remover é preciso selecionar uma cor na tabela!");
 				}
 			} else if (e.getSource() == getBotaoAtualizar()) {
-				carregarGrid(getCor().load());
-			} else if (e.getSource() == getBotaoBuscar()) {		
-				carregarGrid(getCor().search((String) getComboAtributoBuscar().getSelectedItem(), (String) getComboTipoBuscar().getSelectedItem(), getTextBuscar().getText()));
+				carregarGrid(cor.load());
+			} else if (e.getSource() == getBotaoBuscar()) {
+				carregarGrid(cor.search((String) getComboAtributoBuscar()
+						.getSelectedItem(), (String) getComboTipoBuscar()
+						.getSelectedItem(), getTextBuscar().getText()));
 			}
 		}
 	}

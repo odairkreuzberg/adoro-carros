@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import br.iav.ac.negocio.Marca;
 import br.iav.ac.negocio.ListaObjeto;
+import br.iav.ac.telas.TelaPrincipal;
 import br.iav.ac.telas.padrao.DialogoPadrao;
 
 /**
@@ -36,24 +37,19 @@ public class DialogoMarca extends DialogoPadrao {
 	 *----------------------------------------------------------*/
 
 	public DialogoMarca(JFrame frame, String titulo, boolean modal, Marca marca) {
-		super(frame, titulo, modal);
+		super(TelaPrincipal.instancia, titulo, modal);
 		this.marca = marca;
 		try {
             {
             	labelMarca = new JLabel();
             	getPanelPrincipal().add(labelMarca);
             	labelMarca.setText("Marca:");
-            	labelMarca.setBounds(16, 38, 60, 20);
+            	labelMarca.setBounds(28, 38, 21, 14);
 	        }
 	        {
-	        	textMarca = new JTextField(this.marca.getNome().trim());
+	        	textMarca = new JTextField();
 	        	getPanelPrincipal().add(textMarca);
 	            textMarca.setBounds(51, 35, 246, 21);
-	        }
-	        {
-				if (this.marca.getCodigo() != 0) {
-					getLabelCodigo().setText(getLabelCodigo().getText() + "  " + this.marca.getCodigo());
-				}
 	        }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -69,7 +65,7 @@ public class DialogoMarca extends DialogoPadrao {
 	 *----------------------------------------------------------*/
 
 	/*----------------------------------------------------------
-	 * INTERFACE
+	 * METODOS DA CLASSE
 	 *----------------------------------------------------------*/
 
 	private void inicializarHandlers() {
@@ -79,7 +75,7 @@ public class DialogoMarca extends DialogoPadrao {
 	}
 	
 	/*----------------------------------------------------------
-	 * FIM DE INTERFACE
+	 * FIM DE METODOS DA CLASSE
 	 *----------------------------------------------------------*/
 
 	/*----------------------------------------------------------
@@ -90,18 +86,52 @@ public class DialogoMarca extends DialogoPadrao {
 
 		public FormHandle() {
 			super();
-		}
+			textMarca.setText(marca.getNome().trim());
+			if (marca.getCodigo() != 0) {
+				getLabelCodigo().setText(
+						getLabelCodigo().getText() + "  " + marca.getCodigo());
+			}
 
-		private void limparCampos() {
-			textMarca.setText("");
 		}
 		
-		private boolean existeMarca(){
-			ListaObjeto listaObjeto = marca.search("marca","Igual",textMarca.getText().trim());
+		/**
+		 * Retorna true se encontrar uma marca e false se nao encontrar.
+		 * 
+		 * @return boolean
+		 */
+		private boolean existeMarca() {
+			ListaObjeto listaObjeto = marca.search("marca", "Igual", textMarca
+					.getText().trim());
 			if (listaObjeto.getSize() > 0) {
 				return false;
+			}
+			return true;
+		}
+		
+		/**
+		 * Faz a Inserção de uma Marca.
+		 */		
+		private void inserir(){
+			if (existeMarca()) {
+				marca.setNome(textMarca.getText().trim());
+				marca.insert();							
+			} else {
+				JOptionPane.showMessageDialog(DialogoMarca.this, 
+						"Essa marca já se encontra na Base de Dados!");
 			}			
-			return true;			
+		}
+		
+		/**
+		 * Faz a Edição de uma Marca.
+		 */
+		private void editar(){
+			if (existeMarca()) {
+				marca.setNome(textMarca.getText().trim());
+				marca.edit();	
+			} else{
+				JOptionPane.showMessageDialog(DialogoMarca.this, 
+						"Essa marca já se encontra na Base de Dados!");
+			}
 		}
 
 		public void actionPerformed(ActionEvent e) {
@@ -109,24 +139,14 @@ public class DialogoMarca extends DialogoPadrao {
 				dispose();
 			} else if (e.getSource() == getBotaoConfirmar()) {
 				if (textMarca.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoMarca.this, "O campo marca é obrigatório!");
+					JOptionPane.showMessageDialog(DialogoMarca.this,
+							"O campo marca é obrigatório!");
 				} else {
 					if (marca.getCodigo() == 0) {
-						if (existeMarca()) {
-							marca.setNome(textMarca.getText().trim());							
-							marca.insert();							
-						} else {
-							JOptionPane.showMessageDialog(DialogoMarca.this, "Essa marca já se encontra na Base de Dados!");
-						}
+						inserir();
 					} else {
-						if (existeMarca()) {
-							marca.setNome(textMarca.getText().trim());
-							marca.edit();	
-						} else{
-							JOptionPane.showMessageDialog(DialogoMarca.this, "Essa marca já se encontra na Base de Dados!");
-						}
+						editar();
 					}
-					limparCampos();
 					dispose();
 				}
 			}

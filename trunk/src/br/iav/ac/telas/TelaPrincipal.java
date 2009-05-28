@@ -26,6 +26,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	private PainelMarca painelMarca;
 	private PainelModelo painelModelo;
 	private PainelCliente painelCliente;
+	public static TelaPrincipal instancia;
 	
 	{
 		//Set Look & Feel
@@ -48,6 +49,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	
 	public TelaPrincipal() {
 		super();
+		instancia = this;
 		initGUI();
 	}
 	
