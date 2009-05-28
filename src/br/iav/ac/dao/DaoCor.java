@@ -59,10 +59,9 @@ public class DaoCor implements DaoInterface {
 
 	public ListaObjeto load() {
 		return this.load(SELECT);
-		
 	}
 
-	public ListaObjeto buscar(String campo, String operador, String valor) {
+	public ListaObjeto search(String campo, String operador, String valor) {
 		String campoSQL = campo;
 		String operadorSQL = null;
 		String valorSQL = "'" + valor + "'";
@@ -73,15 +72,13 @@ public class DaoCor implements DaoInterface {
 		}
 		if (operador.equals("Igual")) {
 			operadorSQL = "=";
-		} else if ( operador.equals("Diferente")) {
+		} else if (operador.equals("Diferente")) {
 			operadorSQL = "!=";
-		} else if ( operador.equals("Maior")) {
+		} else if (operador.equals("Maior")) {
 			operadorSQL = ">";
-		}
-		else if ( operador.equals("Menor")) {
+		} else if (operador.equals("Menor")) {
 			operadorSQL = "<";
-		}
-		else if ( operador.equals("Contem")) {
+		} else if (operador.equals("Contem")) {
 			operadorSQL = "like";
 			valorSQL = "('%" + valor + "%')";
 		}

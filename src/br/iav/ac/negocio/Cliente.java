@@ -14,7 +14,7 @@ public class Cliente extends Pessoa implements ObjetoInterface {
 		this.rg = new String("");
 		this.dataNascimento = new Date();
 		this.profissao = new String("");
-		this.listaCarro = new ListaCarro();
+		this.listaCarro = null;
 	}
 	
 	public Cliente(int codigo, String nome, Endereco endereco, String telefone, String cpf, String rg, Date dataNascimento, String profissao, ListaCarro listaCarro) {
@@ -100,6 +100,11 @@ public class Cliente extends Pessoa implements ObjetoInterface {
 	public ListaObjeto load() {
 		DaoCliente dao = new DaoCliente();
 		return dao.load();
+	}
+	
+	public ListaObjeto search(String campo, String operador, String valor){
+		DaoCliente dao = new DaoCliente();
+		return dao.search(campo, operador, valor);		
 	}
 	
 }

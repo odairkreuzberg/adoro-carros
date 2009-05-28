@@ -28,7 +28,7 @@ public class PainelModelo extends PainelPadrao {
 	private static final long serialVersionUID = 1L;
 	private CadastroHandle cadastroHandle;
 	private Modelo modelo;
-	private static String[] CAMPOS = { "Código", "Modelo" };
+	private static String[] CAMPOS = { "Código", "Modelo", "Marca" };
 
 	/*----------------------------------------------------------
 	 * FIM DE ATTRIBUTOS
@@ -83,7 +83,6 @@ public class PainelModelo extends PainelPadrao {
 		}
 
 		private void carregarGrid(ListaObjeto listaObjeto) {
-			String[] campos = {"Código","Modelo","Marca"};
 			Object[][] gridArray = new Object[listaObjeto.getSize()][3];
 			for (int i = 0; i < listaObjeto.getSize(); i++) {
 				Modelo modelo = (Modelo) listaObjeto.getObjeto(i);
@@ -91,7 +90,7 @@ public class PainelModelo extends PainelPadrao {
 				gridArray[i][1] = modelo.getNome();
 				gridArray[i][2] = modelo.getMarca().getNome();
 			}
-			DefaultTableModel model = new DefaultTableModel(gridArray, campos);
+			DefaultTableModel model = new DefaultTableModel(gridArray, CAMPOS);
 			getGridTabela().setModel(model);
 			getGridTabela().setShowVerticalLines(true);
 			TableColumn column = getGridTabela().getColumnModel().getColumn(0);

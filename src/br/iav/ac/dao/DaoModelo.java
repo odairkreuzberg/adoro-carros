@@ -54,7 +54,7 @@ public class DaoModelo implements DaoInterface {
 		if (db.connect()) {
 			db.select(sql);
 			while (db.moveNext()) {
-			    Marca marca = daoMarca.buscaPorCodigo(db.getInt("cod_marca"));
+			    Marca marca = daoMarca.searchWithCodigo(db.getInt("cod_marca"));
 				lista.insertWhitoutPersist(new Modelo(db.getInt("cod_"	+ tableName), db.getString("nome"), marca));
 			    //Marca marca = new Marca(db.getInt("ma.cod_marca"), db.getString("ma.nome"));
 				//lista.insertWhitoutPersist(new Modelo(db.getInt("mo.cod_" + tableName), db.getString("mo.nome"), marca));
@@ -68,7 +68,7 @@ public class DaoModelo implements DaoInterface {
 		return this.load(SELECT);
 	}
 
-	public ListaObjeto buscar(String campo, String operador, String valor) {
+	public ListaObjeto search(String campo, String operador, String valor) {
 		String campoSQL = campo;
 		String operadorSQL = null;
 		String valorSQL = "'" + valor + "'";
@@ -79,15 +79,13 @@ public class DaoModelo implements DaoInterface {
 		}
 		if (operador.equals("Igual")) {
 			operadorSQL = "=";
-		} else if ( operador.equals("Diferente")) {
+		} else if (operador.equals("Diferente")) {
 			operadorSQL = "!=";
-		} else if ( operador.equals("Maior")) {
+		} else if (operador.equals("Maior")) {
 			operadorSQL = ">";
-		}
-		else if ( operador.equals("Menor")) {
+		} else if (operador.equals("Menor")) {
 			operadorSQL = "<";
-		}
-		else if ( operador.equals("Contem")) {
+		} else if (operador.equals("Contem")) {
 			operadorSQL = "like";
 			valorSQL = " '%" + valor + "%'";
 		}

@@ -61,19 +61,15 @@ public class DaoMarca implements DaoInterface {
 		return this.load(SELECT);
 	}
 	
-	public Marca buscaPorCodigo(int codigo){
-		
-		ListaObjeto listaObjeto = this.buscar("Código", "Igual", String.valueOf(codigo));
-		
-		if ( listaObjeto.getSize() == 1 ){
-			
-			return (Marca)listaObjeto.getObjeto(0);
+	public Marca searchWithCodigo(int codigo){
+		ListaObjeto listaObjeto = this.search("Código", "Igual", String.valueOf(codigo));
+		if (listaObjeto.getSize() == 1 ) {
+			return (Marca) listaObjeto.getObjeto(0);
 		}
-		
 		return null;
 	}
 
-	public ListaObjeto buscar(String campo, String operador, String valor) {
+	public ListaObjeto search(String campo, String operador, String valor) {
 		String campoSQL = campo;
 		String operadorSQL = null;
 		String valorSQL = "'" + valor + "'";
@@ -84,15 +80,13 @@ public class DaoMarca implements DaoInterface {
 		}
 		if (operador.equals("Igual")) {
 			operadorSQL = "=";
-		} else if ( operador.equals("Diferente")) {
+		} else if (operador.equals("Diferente")) {
 			operadorSQL = "!=";
-		} else if ( operador.equals("Maior")) {
+		} else if (operador.equals("Maior")) {
 			operadorSQL = ">";
-		}
-		else if ( operador.equals("Menor")) {
+		} else if (operador.equals("Menor")) {
 			operadorSQL = "<";
-		}
-		else if ( operador.equals("Contem")) {
+		} else if (operador.equals("Contem")) {
 			operadorSQL = "like";
 			valorSQL = " '%" + valor + "%'";
 		}
