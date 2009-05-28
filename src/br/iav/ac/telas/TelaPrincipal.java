@@ -13,6 +13,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import br.iav.ac.telas.cargo.PainelCargo;
 import br.iav.ac.telas.cliente.PainelCliente;
 import br.iav.ac.telas.cor.PainelCor;
+import br.iav.ac.telas.funcionario.PainelFuncionario;
 import br.iav.ac.telas.marca.PainelMarca;
 import br.iav.ac.telas.modelo.PainelModelo;
 import br.iav.ac.telas.padrao.PainelPadrao;
@@ -28,6 +29,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	private PainelModelo painelModelo;
 	private PainelCliente painelCliente;
 	private PainelCargo painelCargo;
+	private PainelFuncionario painelFuncionario; 
 	public static TelaPrincipal instancia;
 	
 	{
@@ -141,6 +143,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			return painelModelo;
 		}
 
+		private PainelFuncionario getPainelFuncionario() {
+			if (painelFuncionario == null){
+				painelFuncionario = new PainelFuncionario();
+			}
+			return painelFuncionario;
+		}
+		
 		private void showPainel(PainelPadrao painelPadrao) {
 			panelPrincipal.removeAll();
 			panelPrincipal.repaint();
@@ -162,7 +171,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			} else if (path.equals("[Adoro Carros, Cargo]")) {		
 				showPainel(getPainelCargo());				
 			} else if (path.equals("[Adoro Carros, Funcionários]")) {
-
+				showPainel(getPainelFuncionario());
 			} else {
 				JOptionPane.showMessageDialog(TelaPrincipal.this, path);
 			}

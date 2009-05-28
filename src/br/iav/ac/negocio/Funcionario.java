@@ -1,6 +1,8 @@
 package br.iav.ac.negocio;
 
 import java.util.Date;
+
+import br.iav.ac.dao.DaoCliente;
 import br.iav.ac.dao.DaoFuncionario;
 
 public class Funcionario extends Pessoa implements ObjetoInterface {
@@ -101,5 +103,10 @@ public class Funcionario extends Pessoa implements ObjetoInterface {
 		DaoFuncionario dao = new DaoFuncionario();
 		return dao.load();
 	}
+	
+	public ListaObjeto search(String campo, String operador, String valor){
+		DaoCliente dao = new DaoCliente();
+		return dao.search(campo, operador, valor);		
+	}	
 	
 }

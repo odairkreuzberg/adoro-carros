@@ -57,7 +57,7 @@ public class DialogoCargo extends DialogoPadrao {
 	        }	        
 	        {
 				if (this.cargo.getCodigo() != 0) {
-					getLabelCodigo().setText(getLabelCodigo().getText() + "  " + this.cargo.getCodigo());
+					getTextCodigo().setText(String.valueOf(this.cargo.getCodigo()));
 				}
 	        }
 		} catch (Exception e) {
@@ -88,7 +88,7 @@ public class DialogoCargo extends DialogoPadrao {
 			textNome.setText(cargo.getNome().trim());
 			textDescricao.setText(cargo.getDescricao().trim());
 			if (cargo.getCodigo() != 0) {
-				getLabelCodigo().setText(getLabelCodigo().getText() + "  " + cargo.getCodigo());
+				getTextCodigo().setText(String.valueOf(cargo.getCodigo()));
 			}
 
 		}
