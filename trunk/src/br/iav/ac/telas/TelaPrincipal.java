@@ -9,7 +9,6 @@ import javax.swing.WindowConstants;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-
 import br.iav.ac.telas.cargo.PainelCargo;
 import br.iav.ac.telas.cliente.PainelCliente;
 import br.iav.ac.telas.cor.PainelCor;
@@ -17,6 +16,7 @@ import br.iav.ac.telas.funcionario.PainelFuncionario;
 import br.iav.ac.telas.marca.PainelMarca;
 import br.iav.ac.telas.modelo.PainelModelo;
 import br.iav.ac.telas.padrao.PainelPadrao;
+import br.iav.ac.telas.status.PainelStatus;
 
 public class TelaPrincipal extends javax.swing.JFrame {
 	
@@ -29,7 +29,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	private PainelModelo painelModelo;
 	private PainelCliente painelCliente;
 	private PainelCargo painelCargo;
-	private PainelFuncionario painelFuncionario; 
+	private PainelFuncionario painelFuncionario;
+	private PainelStatus painelStatus;
 	public static TelaPrincipal instancia;
 	
 	{
@@ -82,12 +83,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						DefaultMutableTreeNode nodoMarcas = new DefaultMutableTreeNode("Marcas");
 						DefaultMutableTreeNode nodoModelos = new DefaultMutableTreeNode("Modelos");
 						DefaultMutableTreeNode nodoCargo = new DefaultMutableTreeNode("Cargo");
+						DefaultMutableTreeNode nodoStatus = new DefaultMutableTreeNode("Status");
 						nodoPrincipal.add(nodoClientes);
 						nodoPrincipal.add(nodoFuncionarios);
 						nodoPrincipal.add(nodoCores);
 						nodoPrincipal.add(nodoMarcas);
 						nodoPrincipal.add(nodoModelos);
 						nodoPrincipal.add(nodoCargo);
+						nodoPrincipal.add(nodoStatus);
 						jtOpcoes = new JTree(nodoPrincipal);
 						jtOpcoes.addTreeSelectionListener(new TreeSelectionHandler());
 						jspOpcoes.setViewportView(jtOpcoes);
@@ -150,6 +153,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			return painelFuncionario;
 		}
 		
+		private PainelStatus getPainelStatus() {
+			if (painelStatus == null){
+				painelStatus = new PainelStatus();
+			}
+			return painelStatus;
+		}
+		
 		private void showPainel(PainelPadrao painelPadrao) {
 			panelPrincipal.removeAll();
 			panelPrincipal.repaint();
@@ -172,6 +182,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 				showPainel(getPainelCargo());				
 			} else if (path.equals("[Adoro Carros, Funcionários]")) {
 				showPainel(getPainelFuncionario());
+			} else if (path.equals("[Adoro Carros, Status]")) {
+				showPainel(getPainelStatus());
 			} else {
 				JOptionPane.showMessageDialog(TelaPrincipal.this, path);
 			}
