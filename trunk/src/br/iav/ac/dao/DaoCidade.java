@@ -11,7 +11,9 @@ public class DaoCidade {
 	private Cidade cidade;
 	
 	//Nome da tabela e nome do sufixo do código
-	String tableName = "cidade";
+	private final static String tableName = "cidade";
+	
+	private final static String SELECT = "select cod_" + tableName + ", nome from " + tableName;
 	
 	public Cidade getCidade() {
 		return cidade;
@@ -42,16 +44,46 @@ public class DaoCidade {
 		}
 	}
 	
-	public ListaObjeto load() {
+	public ListaObjeto load(String sql) {
 		ListaObjeto lista = new ListaObjeto();
 		if (db.connect()) {
-			db.select("select cod_" + tableName + ", nome, ddd from " + tableName);
+			db.select(SELECT);
 			while (db.moveNext()) {
 				lista.insertWhitoutPersist(new Cidade(db.getInt("cod_" + tableName), db.getString("nome"), db.getInt("ddd")));
 			}
 			db.disconnect();
 		}
 		return lista;
+	}
+	
+	public ListaObjeto load() {
+		return this.load(SELECT);
+	}
+	
+	public ListaObjeto search(String campo, String operador, String valor) {
+		String campoSQL = campo;
+		String operadorSQL = null;
+		String valorSQL = "'" + valor + "'";
+		if (campo.equals("Código")) {
+			campoSQL = "cod_" + tableName;
+		} else {
+			campoSQL = "nome";
+		}
+		if (operador.equals("Igual")) {
+			operadorSQL = "=";
+		} else if (operador.equals("Diferente")) {
+			operadorSQL = "!=";
+		} else if (operador.equals("Maior")) {
+			operadorSQL = ">";
+		} else if (operador.equals("Menor")) {
+			operadorSQL = "<";
+		} else if (operador.equals("Contem")) {
+			operadorSQL = "like";
+			valorSQL = "('%" + valor + "%')";
+		}
+		String sql = SELECT;
+		sql += " where " + campoSQL + " " + operadorSQL + valorSQL;
+		return this.load(sql);
 	}
 
 }

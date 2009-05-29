@@ -1,19 +1,21 @@
-package br.iav.ac.telas.status;
+package br.iav.ac.telas.cidade;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
+import br.iav.ac.negocio.Cidade;
 import br.iav.ac.negocio.ListaObjeto;
-import br.iav.ac.negocio.Status;
 import br.iav.ac.telas.padrao.PainelPadrao;
 
-public class PainelStatus extends PainelPadrao {
+public class PainelCidade extends PainelPadrao {
 	
 	private CadastroHandle cadastroHandle;
-	private static String[] CAMPOS = { "Código", "Nome" };
+	private static String[] CAMPOS = { "Código", "Nome", "DDD" };
 
-	public PainelStatus() {
+	public PainelCidade() {
 		super(CAMPOS);
 		inicializarHandlers();
 	}
@@ -29,37 +31,37 @@ public class PainelStatus extends PainelPadrao {
 
 	class CadastroHandle implements ActionListener {
 		
-		private Status status;
+		private Cidade cidade;
 				
 		public CadastroHandle() {
 			super();
-			status = new Status();
-			carregarGrid(status.load());
+			cidade = new Cidade();
+			carregarGrid(cidade.load());
 		}		
 
 		/**
-		 * Retorna um status se existir, caso contrario retorna null.
+		 * Retorna um cidade se existir, caso contrario retorna null.
 		 * 
 		 * @return Cor
 		 */
-		private Status buscarStatus(){
+		private Cidade buscarCidade(){
 			String nome = getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1)+ "";
-			ListaObjeto listaObjeto = status.search("Nome", "Igual", nome);
+			ListaObjeto listaObjeto = cidade.search("Nome", "Igual", nome);
 			if (listaObjeto.getSize() > 0) {
-				return (Status) listaObjeto.getObjeto(0);				
+				return (Cidade) listaObjeto.getObjeto(0);				
 			}	
 			return null;			
 		}
 		
 		/**
-		 * Carrega a grid com todos os status já cadastrados.
+		 * Carrega a grid com todos os cidade já cadastrados.
 		 */
 		private void carregarGrid(ListaObjeto listaObjeto) {
 			Object[][] gridArray = new Object[listaObjeto.getSize()][2];
 			for (int i = 0; i < listaObjeto.getSize(); i++) {
-				Status status = (Status) listaObjeto.getObjeto(i);
-				gridArray[i][0] = status.getCodigo();
-				gridArray[i][1] = status.getNome();
+				Cidade cidade = (Cidade) listaObjeto.getObjeto(i);
+				gridArray[i][0] = cidade.getCodigo();
+				gridArray[i][1] = cidade.getNome();
 			}
 			DefaultTableModel model = new DefaultTableModel(gridArray, CAMPOS);
 			getGridTabela().setModel(model);
@@ -70,59 +72,59 @@ public class PainelStatus extends PainelPadrao {
 
 		public void actionPerformed(ActionEvent e) {
 			/**
-			 * Chama o formulário de status para fazer a inserção de um novo status.  
+			 * Chama o formulário de cidade para fazer a inserção de uma nova cidade.  
 			 **/
 			if (e.getSource() == getBotaoNovo()) {
-				status.setCodigo(0);
-				status.setNome("");
-				new DialogoStatus(null, "Cadastro de Status", true, status);
-				carregarGrid(status.load());
+				cidade.setCodigo(0);
+				cidade.setNome("");
+				new DialogoCidade(null, "Cadastro de Cidade", true, cidade);
+				carregarGrid(cidade.load());
 			} 			
 			/**
-			 * Chama o formulário de status para fazer a edição de um status.
+			 * Chama o formulário de cidade para fazer a edição de uma cidade.
 			 */	
 			else if (e.getSource() == getBotaoEditar()) {
 				// verifica se existe uma uma linha selecionada na Grid.
 				if (getGridTabela().getSelectedRow() >= 0) {
-					status = buscarStatus();
+					cidade = buscarCidade();
 					//se retornar uma Cor existente, entao sera instanciado o formulario de Edição.
-					if(status != null){
-						new DialogoStatus(null, "Cadastro de Status", true, status);	
-						carregarGrid(status.load());				
+					if(cidade != null){
+						new DialogoCidade(null, "Cadastro de Cidade", true, cidade);	
+						carregarGrid(cidade.load());				
 					}
 					else{
-						JOptionPane.showMessageDialog(PainelStatus.this, "Erro ao buscar este status na base de dados!");
-						status = new Status();
+						JOptionPane.showMessageDialog(PainelCidade.this, "Erro ao buscar esta cidade na base de dados!");
+						cidade = new Cidade();
 					}	
 				} else {
-					JOptionPane.showMessageDialog(PainelStatus.this, "Para editar é preciso selecionar um status na tabela!");
+					JOptionPane.showMessageDialog(PainelCidade.this, "Para editar é preciso selecionar uma cidade na tabela!");
 				}
 			}			
 			/**
-			 * Faz a remoção de um status.
+			 * Faz a remoção de uma cidade.
 			 */
 			else if (e.getSource() == getBotaoExcluir()) {
 				// verifica se existe uma uma linha selecionada na Grid.
 				if (getGridTabela().getSelectedRow() >= 0) {
-					status = buscarStatus();
+					cidade = buscarCidade();
 					//se retornar uma Cor existente, essa cor sera Excluida.
-					if (status != null) {
-						int resp = JOptionPane.showConfirmDialog(null, "Deseja mesmo excluir o status " + status.getNome() + " ?", "Exclusão", JOptionPane.YES_NO_OPTION);
+					if (cidade != null) {
+						int resp = JOptionPane.showConfirmDialog(null, "Deseja mesmo excluir a cidade " + cidade.getNome() + " ?", "Exclusão", JOptionPane.YES_NO_OPTION);
 						if (resp == 0) {
-							status.delete();
-							carregarGrid(status.load());
+							cidade.delete();
+							carregarGrid(cidade.load());
 						}
 					} else {
-						JOptionPane.showMessageDialog(PainelStatus.this, "Erro ao buscar este status na base de dados!");
-						status = new Status();
+						JOptionPane.showMessageDialog(PainelCidade.this, "Erro ao buscar esta cidade na base de dados!");
+						cidade = new Cidade();
 					}
 				} else {
-					JOptionPane.showMessageDialog(PainelStatus.this, "Para remover é preciso selecionar um status na tabela!");
+					JOptionPane.showMessageDialog(PainelCidade.this, "Para remover é preciso selecionar uma cidade na tabela!");
 				}
 			} else if (e.getSource() == getBotaoAtualizar()) {
-				carregarGrid(status.load());
+				carregarGrid(cidade.load());
 			} else if (e.getSource() == getBotaoBuscar()) {
-				carregarGrid(status.search((String) getComboAtributoBuscar().getSelectedItem(), (String) getComboTipoBuscar().getSelectedItem(), getTextBuscar().getText()));
+				carregarGrid(cidade.search((String) getComboAtributoBuscar().getSelectedItem(), (String) getComboTipoBuscar().getSelectedItem(), getTextBuscar().getText()));
 			}
 		}
 		
