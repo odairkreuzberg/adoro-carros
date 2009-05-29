@@ -1,6 +1,8 @@
 package br.iav.ac.negocio;
 
 import java.util.Date;
+
+import br.iav.ac.dao.DaoCargo;
 import br.iav.ac.dao.DaoCarro;
 
 public class Carro extends Objeto implements ObjetoInterface {
@@ -105,5 +107,10 @@ public class Carro extends Objeto implements ObjetoInterface {
 		DaoCarro dao = new DaoCarro();
 		return dao.load();
 	}
+
+	public ListaObjeto search(String campo, String operador, String valor){
+		DaoCargo dao = new DaoCargo();
+		return dao.search(campo, operador, valor);		
+	}	
 	
 }

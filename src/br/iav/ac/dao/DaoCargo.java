@@ -67,7 +67,7 @@ public class DaoCargo  implements DaoInterface {
 		String operadorSQL = null;
 		String valorSQL = "'" + valor + "'";
 		if (campo.equals("Código")) {
-			campoSQL = "cod_" + tableName;
+			campoSQL = "CAST(cod_"+tableName+" as VARCHAR)";
 		} else if (campo.equals("Nome")) {
 			campoSQL = "nome";
 		} else {
