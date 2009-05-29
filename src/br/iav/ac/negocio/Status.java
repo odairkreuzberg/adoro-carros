@@ -57,4 +57,9 @@ public class Status extends Objeto implements ObjetoInterface {
 		return dao.load();
 	}
 	
+	public ListaObjeto search(String campo, String operador, String valor){
+		DaoStatus dao = new DaoStatus();
+		return dao.search(campo, operador, valor);		
+	}
+	
 }
