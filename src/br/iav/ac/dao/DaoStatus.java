@@ -7,7 +7,6 @@ import br.iav.ac.negocio.ListaObjeto;
 
 public class DaoStatus implements DaoInterface {
 
-
 	private DB db = PostgreSQL.create();
 	private Status status;
 	
