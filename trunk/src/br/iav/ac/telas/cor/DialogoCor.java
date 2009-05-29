@@ -88,8 +88,7 @@ public class DialogoCor extends DialogoPadrao {
 			super();
 			textCor.setText(cor.getNome().trim());
 			if (cor.getCodigo() != 0) {
-				getLabelCodigo().setText(
-						getLabelCodigo().getText() + "  " + cor.getCodigo());
+				getTextCodigo().setText(String.valueOf(cor.getCodigo()));
 			}
 
 		}

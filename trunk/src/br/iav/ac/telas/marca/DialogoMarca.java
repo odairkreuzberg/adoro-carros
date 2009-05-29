@@ -88,8 +88,7 @@ public class DialogoMarca extends DialogoPadrao {
 			super();
 			textMarca.setText(marca.getNome().trim());
 			if (marca.getCodigo() != 0) {
-				getLabelCodigo().setText(
-						getLabelCodigo().getText() + "  " + marca.getCodigo());
+				getTextCodigo().setText(String.valueOf(marca.getCodigo()));
 			}
 
 		}

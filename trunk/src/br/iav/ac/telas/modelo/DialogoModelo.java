@@ -2,7 +2,6 @@ package br.iav.ac.telas.modelo;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -11,7 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.negocio.Marca;
 import br.iav.ac.negocio.Modelo;
@@ -122,10 +120,8 @@ public class DialogoModelo extends DialogoPadrao {
 			marca = new Marca();
 			this.carregarComboMarca(marca.load());
 			comboMarca.setSelectedItem((Object) modelo.getMarca().getNome());
-
 			if (modelo.getCodigo() != 0) {
-				getLabelCodigo().setText(
-						getLabelCodigo().getText() + "  " + modelo.getCodigo());
+				getTextCodigo().setText(String.valueOf(modelo.getCodigo()));
 			}
 	        
 		}
@@ -168,9 +164,8 @@ public class DialogoModelo extends DialogoPadrao {
 				modelo.setMarca(buscarMarca());
 				JOptionPane.showMessageDialog(DialogoModelo.this, 
 						buscarMarca().getNome());
-				
 				modelo.edit();	
-			} else{
+			} else {
 				JOptionPane.showMessageDialog(DialogoModelo.this, 
 						"Essa cor já se encontra na Base de Dados!");
 			}
@@ -218,7 +213,6 @@ public class DialogoModelo extends DialogoPadrao {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			
 			if (e.getSource() == botaoMarca) {				
 				showPainel(new PainelMarca(),"Cadastros de Marcas");	
 				this.carregarComboMarca(marca.load());

@@ -2,10 +2,8 @@ package br.iav.ac.telas.cidade;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
 import br.iav.ac.negocio.Cidade;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.telas.padrao.PainelPadrao;
@@ -40,7 +38,7 @@ public class PainelCidade extends PainelPadrao {
 		}		
 
 		/**
-		 * Retorna um cidade se existir, caso contrario retorna null.
+		 * Retorna uma cidade se existir, caso contrario retorna null.
 		 * 
 		 * @return Cor
 		 */
@@ -54,20 +52,24 @@ public class PainelCidade extends PainelPadrao {
 		}
 		
 		/**
-		 * Carrega a grid com todos os cidade já cadastrados.
+		 * Carrega a grid com todas as cidades já cadastradas.
 		 */
 		private void carregarGrid(ListaObjeto listaObjeto) {
-			Object[][] gridArray = new Object[listaObjeto.getSize()][2];
+			Object[][] gridArray = new Object[listaObjeto.getSize()][3];
 			for (int i = 0; i < listaObjeto.getSize(); i++) {
 				Cidade cidade = (Cidade) listaObjeto.getObjeto(i);
 				gridArray[i][0] = cidade.getCodigo();
 				gridArray[i][1] = cidade.getNome();
+				gridArray[i][2] = cidade.getDdd();
 			}
 			DefaultTableModel model = new DefaultTableModel(gridArray, CAMPOS);
 			getGridTabela().setModel(model);
 			getGridTabela().setShowVerticalLines(true);
-			getGridTabela().getColumnModel().getColumn(0).setPreferredWidth(100);
-			getGridTabela().getColumnModel().getColumn(1).setPreferredWidth(500);
+			//Definição do tamanho das colunas da grid
+			//TAMANHO DA GRID: 521
+			getGridTabela().getColumnModel().getColumn(0).setPreferredWidth(50);
+			getGridTabela().getColumnModel().getColumn(1).setPreferredWidth(371);
+			getGridTabela().getColumnModel().getColumn(2).setPreferredWidth(100);
 		}
 
 		public void actionPerformed(ActionEvent e) {
@@ -77,6 +79,7 @@ public class PainelCidade extends PainelPadrao {
 			if (e.getSource() == getBotaoNovo()) {
 				cidade.setCodigo(0);
 				cidade.setNome("");
+				cidade.setDdd(0);
 				new DialogoCidade(null, "Cadastro de Cidade", true, cidade);
 				carregarGrid(cidade.load());
 			} 			
@@ -84,10 +87,10 @@ public class PainelCidade extends PainelPadrao {
 			 * Chama o formulário de cidade para fazer a edição de uma cidade.
 			 */	
 			else if (e.getSource() == getBotaoEditar()) {
-				// verifica se existe uma uma linha selecionada na Grid.
+				//verifica se existe uma uma linha selecionada na grid.
 				if (getGridTabela().getSelectedRow() >= 0) {
 					cidade = buscarCidade();
-					//se retornar uma Cor existente, entao sera instanciado o formulario de Edição.
+					//se retornar uma cidade existente, então será instanciado o formulario de edição.
 					if(cidade != null){
 						new DialogoCidade(null, "Cadastro de Cidade", true, cidade);	
 						carregarGrid(cidade.load());				
@@ -104,10 +107,10 @@ public class PainelCidade extends PainelPadrao {
 			 * Faz a remoção de uma cidade.
 			 */
 			else if (e.getSource() == getBotaoExcluir()) {
-				// verifica se existe uma uma linha selecionada na Grid.
+				//verifica se existe uma uma linha selecionada na grid.
 				if (getGridTabela().getSelectedRow() >= 0) {
 					cidade = buscarCidade();
-					//se retornar uma Cor existente, essa cor sera Excluida.
+					//se retornar uma cidade existente, essa cidade sera excluída.
 					if (cidade != null) {
 						int resp = JOptionPane.showConfirmDialog(null, "Deseja mesmo excluir a cidade " + cidade.getNome() + " ?", "Exclusão", JOptionPane.YES_NO_OPTION);
 						if (resp == 0) {

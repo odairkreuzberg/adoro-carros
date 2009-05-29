@@ -47,12 +47,11 @@ public class DialogoCidade extends DialogoPadrao {
 				getPanelPrincipal().add(textDdd);
 				textDdd.setBounds(55, 60, 246, 21);
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		inicializarHandlers();
-		this.setSize(317, 128);
+		this.setSize(317, 150);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
@@ -72,7 +71,6 @@ public class DialogoCidade extends DialogoPadrao {
 			if (cidade.getCodigo() != 0) {
 				getTextCodigo().setText(String.valueOf(cidade.getCodigo()));
 			}
-
 		}
 
 		/**

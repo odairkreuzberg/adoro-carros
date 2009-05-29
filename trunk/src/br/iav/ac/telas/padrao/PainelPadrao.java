@@ -6,11 +6,11 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 
 public class PainelPadrao extends JPanel {
 
@@ -91,12 +91,10 @@ public class PainelPadrao extends JPanel {
 				DefaultTableModel model = new DefaultTableModel(new Object[0][0], camposClasse);
 				gridTabela = new JTable(model);
 				gridTabela.setShowVerticalLines(true);
-				TableColumn column = gridTabela.getColumnModel().getColumn(0);
-				column.setPreferredWidth(100);
-				column = gridTabela.getColumnModel().getColumn(1);
-				column.setPreferredWidth(500);
 				scrollTabela = new JScrollPane();
+				scrollTabela.setHorizontalScrollBar(new JScrollBar(0));
 				scrollTabela.setViewportView(gridTabela);
+				gridTabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 				this.add(scrollTabela);
 				scrollTabela.setBounds(12, 87, 525, 454);
 			}
