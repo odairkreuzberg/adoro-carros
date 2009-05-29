@@ -64,8 +64,10 @@ public class PainelStatus extends PainelPadrao {
 			DefaultTableModel model = new DefaultTableModel(gridArray, CAMPOS);
 			getGridTabela().setModel(model);
 			getGridTabela().setShowVerticalLines(true);
-			getGridTabela().getColumnModel().getColumn(0).setPreferredWidth(100);
-			getGridTabela().getColumnModel().getColumn(1).setPreferredWidth(500);
+			//Definição do tamanho das colunas da grid
+			//TAMANHO DA GRID: 521
+			getGridTabela().getColumnModel().getColumn(0).setPreferredWidth(50);
+			getGridTabela().getColumnModel().getColumn(1).setPreferredWidth(471);
 		}
 
 		public void actionPerformed(ActionEvent e) {

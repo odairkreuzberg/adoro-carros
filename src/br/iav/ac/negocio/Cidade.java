@@ -1,7 +1,6 @@
 package br.iav.ac.negocio;
 
 import br.iav.ac.dao.DaoCidade;
-import br.iav.ac.dao.DaoStatus;
 
 public class Cidade extends Objeto implements ObjetoInterface {
 
@@ -71,7 +70,7 @@ public class Cidade extends Objeto implements ObjetoInterface {
 	}
 	
 	public ListaObjeto search(String campo, String operador, String valor){
-		DaoStatus dao = new DaoStatus();
+		DaoCidade dao = new DaoCidade();
 		return dao.search(campo, operador, valor);		
 	}
 
