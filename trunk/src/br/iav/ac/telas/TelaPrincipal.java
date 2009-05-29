@@ -10,6 +10,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import br.iav.ac.telas.cargo.PainelCargo;
+import br.iav.ac.telas.carro.PainelCarro;
 import br.iav.ac.telas.cidade.PainelCidade;
 import br.iav.ac.telas.cliente.PainelCliente;
 import br.iav.ac.telas.cor.PainelCor;
@@ -33,6 +34,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	private PainelCargo painelCargo;
 	private PainelFuncionario painelFuncionario;
 	private PainelStatus painelStatus;
+	private PainelCarro painelCarro;
 	public static TelaPrincipal instancia;
 	
 	{
@@ -87,6 +89,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						DefaultMutableTreeNode nodoMarca = new DefaultMutableTreeNode("Marca");
 						DefaultMutableTreeNode nodoModelo = new DefaultMutableTreeNode("Modelo");
 						DefaultMutableTreeNode nodoStatus = new DefaultMutableTreeNode("Status");
+						DefaultMutableTreeNode nodoCarro = new DefaultMutableTreeNode("Carros");
 						nodoPrincipal.add(nodoCargo);
 						nodoPrincipal.add(nodoCidade);
 						nodoPrincipal.add(nodoCliente);
@@ -95,6 +98,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						nodoPrincipal.add(nodoMarca);
 						nodoPrincipal.add(nodoModelo);
 						nodoPrincipal.add(nodoStatus);
+						nodoPrincipal.add(nodoCarro);
 						jtOpcoes = new JTree(nodoPrincipal);
 						jtOpcoes.addTreeSelectionListener(new TreeSelectionHandler());
 						jspOpcoes.setViewportView(jtOpcoes);
@@ -171,6 +175,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			return painelStatus;
 		}
 		
+		private PainelCarro getPainelCarro() {
+			if (painelCarro == null){
+				painelCarro = new PainelCarro();
+			}
+			return painelCarro;
+		}
+		
 		private void showPainel(PainelPadrao painelPadrao) {
 			panelPrincipal.removeAll();
 			panelPrincipal.repaint();
@@ -197,6 +208,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 				showPainel(getPainelModelo());
 			} else if (path.equals("[Adoro Carros, Status]")) {
 				showPainel(getPainelStatus());
+			} else if (path.equals("[Adoro Carros, Carros]")) {
+				showPainel(getPainelCarro());
 			}
 		}
 	}

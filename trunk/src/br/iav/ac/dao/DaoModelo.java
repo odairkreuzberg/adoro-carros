@@ -1,5 +1,7 @@
 package br.iav.ac.dao;
 
+import javax.swing.text.TabExpander;
+
 import br.iav.ac.database.DB;
 import br.iav.ac.database.PostgreSQL;
 import br.iav.ac.negocio.ListaObjeto;
@@ -16,7 +18,7 @@ public class DaoModelo implements DaoInterface {
 	private final static String tableName = "modelo";
 
 	private final static String SELECT = "select * from " + tableName;
-	private final static String SELECT_COM_MARCA = "select modelo.* from modelo, marca";
+	private final static String SELECT_COM_MARCA = "select modelo.* from "+tableName+", marca";
 	
 	//"select mo.cod_" + tableName + ", mo.nome, mo.cod_marca, ma.cod_marca, ma.nome from " + tableName + " mo, marca ma where mo.cod_marca = ma.cod_marca";
 	
@@ -50,6 +52,14 @@ public class DaoModelo implements DaoInterface {
 		}
 	}
 	
+	public Modelo searchWithCodigo(int codigo){
+		ListaObjeto listaObjeto = this.search("Código", "Igual", String.valueOf(codigo));
+		if (listaObjeto.getSize() == 1 ) {
+			return (Modelo) listaObjeto.getObjeto(0);
+		}
+		return null;
+	}
+	
 	public ListaObjeto load(String sql) {
 		DaoMarca daoMarca = new DaoMarca();
 		ListaObjeto lista = new ListaObjeto();
@@ -80,12 +90,12 @@ public class DaoModelo implements DaoInterface {
 		String outroSQL = "";
 		
 		if (campo.equals("Código")) {
-			campoSQL = "cod_" + tableName;
+			campoSQL = "CAST(cod_"+tableName+" as VARCHAR)";
 		} else 
 		if ( campo.equals("Marca")){			
 			sql = SELECT_COM_MARCA;			
-			outroSQL = " marca.cod_marca = modelo.cod_marca and marca.nome";
-			campoSQL = "marca.nome";
+			campoSQL = " marca.cod_marca = modelo.cod_marca and marca.nome";
+			//campoSQL = "marca.nome";
 		}
 		else{			
 			campoSQL = "nome";
@@ -105,6 +115,6 @@ public class DaoModelo implements DaoInterface {
 		
 		sql += " where " + outroSQL + campoSQL + " " + operadorSQL + valorSQL;
 		return this.load(sql);
-	}
+	}//where CAST(cont_codi as STRING) like '%1%' where cod_modelo like '%1%'
 
 }

@@ -1,4 +1,4 @@
-package br.iav.ac.telas.modelo;
+package br.iav.ac.telas.carro;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,18 +9,18 @@ import javax.swing.table.TableColumn;
 
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.negocio.Marca;
-import br.iav.ac.negocio.Modelo;
+import br.iav.ac.negocio.Carro;
 import br.iav.ac.telas.TelaPrincipal;
 import br.iav.ac.telas.marca.DialogoMarca;
 import br.iav.ac.telas.marca.PainelMarca;
 import br.iav.ac.telas.padrao.PainelPadrao;
 
 /**
- * Area de Consulta, Inserção, Exclusão e alteração de Modelo de um Veículo
+ * Area de Consulta, Inserção, Exclusão e alteração de Carro de um Veículo
  * 
  * @author Odair Kreuzberg
  */
-public class PainelModelo extends PainelPadrao {
+public class PainelCarro extends PainelPadrao {
 
 	/*----------------------------------------------------------
 	 * ATTRIBUTOS
@@ -31,8 +31,8 @@ public class PainelModelo extends PainelPadrao {
 	 */
 	private static final long serialVersionUID = 1L;
 	private CadastroHandle cadastroHandle;
-	private Modelo modelo;
-	private static String[] CAMPOS = { "Código", "Modelo", "Marca" };
+	private Carro carro;
+	private static String[] CAMPOS = { "Código", "Marca", "Modelo","Ano","Placa" };
 
 	/*----------------------------------------------------------
 	 * FIM DE ATTRIBUTOS
@@ -42,7 +42,7 @@ public class PainelModelo extends PainelPadrao {
 	 * CONSTRUTOR
 	 *----------------------------------------------------------*/
 
-	public PainelModelo() {
+	public PainelCarro() {
 		super(CAMPOS);
 		inicializarHandlers();
 	}
@@ -76,21 +76,21 @@ public class PainelModelo extends PainelPadrao {
 
 		public CadastroHandle() {
 			super();
-			modelo = new Modelo();
-			carregarGrid(modelo.load());
+			carro = new Carro();
+			carregarGrid(carro.load());
 		}
 		
 
 		/**
-		 * retorna um Modelo se existir caso contrario retorna null.
+		 * retorna um Carro se existir caso contrario retorna null.
 		 * 
-		 * @return Modelo
+		 * @return Carro
 		 */
-		private Modelo buscarModelo(){
-			String nome = getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1)+ "";
-			ListaObjeto listaObjeto = modelo.search("Modelo","Igual",nome);
+		private Carro buscarCarro(){
+			String placa = getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1)+ "";
+			ListaObjeto listaObjeto = carro.search("Carro","Igual",placa);
 			if (listaObjeto.getSize() > 0) {
-				return (Modelo) listaObjeto.getObjeto(0);				
+				return (Carro) listaObjeto.getObjeto(0);				
 			}	
 			return null;			
 		}
@@ -99,12 +99,14 @@ public class PainelModelo extends PainelPadrao {
 		 * Carrega a Grid com todas as Marcaes já Cadastradas.
 		 */
 		private void carregarGrid(ListaObjeto listaObjeto) {
-			Object[][] gridArray = new Object[listaObjeto.getSize()][3];
+			Object[][] gridArray = new Object[listaObjeto.getSize()][5];
 			for (int i = 0; i < listaObjeto.getSize(); i++) {
-				Modelo modelo = (Modelo) listaObjeto.getObjeto(i);
-				gridArray[i][0] = modelo.getCodigo();
-				gridArray[i][1] = modelo.getNome();
-				gridArray[i][2] = modelo.getMarca().getNome();
+				Carro carro = (Carro) listaObjeto.getObjeto(i);
+				gridArray[i][0] = carro.getCodigo();
+				gridArray[i][1] = carro.getModelo().getMarca().getNome();
+				gridArray[i][2] = carro.getModelo().getNome();
+				gridArray[i][3] = carro.getAnoFabricacao();
+				gridArray[i][4] = carro.getPlaca();
 			}
 			DefaultTableModel model = new DefaultTableModel(gridArray, CAMPOS);
 			getGridTabela().setModel(model);
@@ -112,39 +114,43 @@ public class PainelModelo extends PainelPadrao {
 			//Definição do tamanho das colunas da grid
 			//TAMANHO DA GRID: 521
 			getGridTabela().getColumnModel().getColumn(0).setPreferredWidth(50);
-			getGridTabela().getColumnModel().getColumn(1).setPreferredWidth(236);
-			getGridTabela().getColumnModel().getColumn(2).setPreferredWidth(235);
+			getGridTabela().getColumnModel().getColumn(1).setPreferredWidth(155);
+			getGridTabela().getColumnModel().getColumn(2).setPreferredWidth(156);
+			getGridTabela().getColumnModel().getColumn(3).setPreferredWidth(80);
+			getGridTabela().getColumnModel().getColumn(4).setPreferredWidth(80);
+		
 		}
 
 		public void actionPerformed(ActionEvent e) {
 			/**
-			 * Chama o Forulário de Modelo para fazer a Inserção de uma nova marca.  
+			 * Chama o Forulário de Carro para fazer a Inserção de uma nova marca.  
 			 **/
 			if (e.getSource() == getBotaoNovo()) {
-				modelo.setCodigo(0);
-				modelo.setNome("");
-				new DialogoModelo(TelaPrincipal.instancia, "Cadastro de Modelo", true, modelo);
-				carregarGrid(modelo.load());
+				carro.setCodigo(0);
+				carro.setPlaca("");
+				carro.setAnoFabricacao(null);
+				new DialogoCarro(TelaPrincipal.instancia, "Cadastro de Carro", true, carro);
+				carregarGrid(carro.load());
 			}  			
 			/**
-			 * Chama o Forulário de modelo para fazer a Edição de uma marca.
+			 * Chama o Forulário de carro para fazer a Edição de uma marca.
 			 */	
 			else if (e.getSource() == getBotaoEditar()) {
 				// verifica se existe uma uma linha selecionada na Grid.
 				if (getGridTabela().getSelectedRow() >= 0) {
-					modelo = buscarModelo();
+					carro = buscarCarro();
 					//se retornar uma Marca existente, entao sera instanciado o formulario de Edição.
-					if(modelo != null){
-						new DialogoModelo(null, "Cadastro de Marca", true, modelo);	
-						carregarGrid(modelo.load());				
+					if(carro != null){
+						new DialogoCarro(null, "Cadastro de Marca", true, carro);	
+						carregarGrid(carro.load());				
 					}
 					else{
-						JOptionPane.showMessageDialog(PainelModelo.this,
+						JOptionPane.showMessageDialog(PainelCarro.this,
 								"Erro ao buscar esta Marca na base de dados!");
-						modelo = new Modelo();
+						carro = new Carro();
 					}	
 				} else {
-					JOptionPane.showMessageDialog(PainelModelo.this, 
+					JOptionPane.showMessageDialog(PainelCarro.this, 
 							"Para editar é preciso selecionar uma marca na tabela!");
 				}
 			} 			
@@ -154,40 +160,40 @@ public class PainelModelo extends PainelPadrao {
 			else if (e.getSource() == getBotaoExcluir()) {
 				// verifica se existe uma uma linha selecionada na Grid.
 				if (getGridTabela().getSelectedRow() > 0) {
-					modelo = buscarModelo();
+					carro = buscarCarro();
 					//se retornar uma Marca existente, essa marca sera Excluida.
-					if (modelo != null) {
-						int resp = JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a modelo "
-								+ modelo.getNome()+ " ?", "Exclusão",JOptionPane.YES_NO_OPTION);
-						if (resp == 0) {
-							modelo.delete();
-							carregarGrid(modelo.load());
+					if (carro != null) {
+						int resp=1;
+						//= JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a carro "
+					//			+ carro.getNome()+ " ?", "Exclusão",JOptionPane.YES_NO_OPTION);
+						if ( resp == 0) {
+							carro.delete();
+							carregarGrid(carro.load());
 						}
 
 					} else {
-						JOptionPane.showMessageDialog(PainelModelo.this,
+						JOptionPane.showMessageDialog(PainelCarro.this,
 								"Erro ao buscar esta Marca na base de dados!");
-						modelo = new Modelo();
+						carro = new Carro();
 					}
 				} else {
-					JOptionPane.showMessageDialog(PainelModelo.this, 
-							"Para remover é preciso selecionar uma modelo na tabela!");
+					JOptionPane.showMessageDialog(PainelCarro.this, 
+							"Para remover é preciso selecionar uma carro na tabela!");
 				}
 			} 
 			/**
 			 * Faz a atualização da Grid
 			 */
 			else if (e.getSource() == getBotaoAtualizar()) {
-				carregarGrid(modelo.load());
+				carregarGrid(carro.load());
 			} 
 			/**
 			 * Faz uma busca com parametros passado pelo usuario
 			 */
 			else if (e.getSource() == getBotaoBuscar()) {
-				carregarGrid(modelo.search((String) getComboAtributoBuscar()
+				carregarGrid(carro.search((String) getComboAtributoBuscar()
 						.getSelectedItem(), (String) getComboTipoBuscar()
 						.getSelectedItem(), getTextBuscar().getText()));
-
 			}
 		}
 	}

@@ -17,7 +17,10 @@ public class DaoCarro implements DaoInterface {
 	private Carro carro;
 	
 	//Nome da tabela e nome do sufixo do código
-	String tableName = "carro";
+	private final static String tableName = "carro";
+
+	private final static String SELECT = "select * from " + tableName;
+	private final static String SELECT_COM_MODELO = "select carro.* from carro, modelo";
 	
 	public Carro getCarro() {
 		return carro;
@@ -58,7 +61,66 @@ public class DaoCarro implements DaoInterface {
 		}
 	}
 	
+	public ListaObjeto load(String sql) {
+		DaoModelo daoModelo = new DaoModelo();
+		ListaObjeto lista = new ListaObjeto();
+		if (db.connect()) {
+			db.select(sql);
+			while (db.moveNext()) {
+			    Modelo modelo = daoModelo.searchWithCodigo(db.getInt("cod_modelo"));
+			    Cliente cliente = null;//daoCliente.searchWithCodigo(db.getInt("cod_cliente"));
+			    Cor cor = null;//daoCor.searchWithCodigo(db.getInt("cod_cor"));
+				lista.insertWhitoutPersist(new Carro(db.getInt("cod_"	+ tableName), db.getString("placa"),cliente, modelo,cor,db.getDate(null)));
+			    //Marca marca = new Marca(db.getInt("ma.cod_marca"), db.getString("ma.nome"));
+				//lista.insertWhitoutPersist(new Modelo(db.getInt("mo.cod_" + tableName), db.getString("mo.nome"), marca));
+			}
+			db.disconnect();
+		}
+		return lista;
+	}
+
 	public ListaObjeto load() {
+		return this.load(SELECT);
+	}
+
+	public ListaObjeto search(String campo, String operador, String valor) {
+
+		String sql = SELECT;
+		
+		String campoSQL = campo;
+		String operadorSQL = null;
+		String valorSQL = "'" + valor + "'";
+		String outroSQL = "";
+		
+		if (campo.equals("Código")) {
+			campoSQL = "CAST(cod_"+tableName+" as VARCHAR)";
+		} else 
+		if ( campo.equals("Marca")){			
+			sql = SELECT_COM_MODELO;			
+			outroSQL = " marca.cod_marca = modelo.cod_marca and marca.nome";
+			campoSQL = "marca.nome";
+		}
+		else{			
+			campoSQL = "nome";
+		}		
+		if (operador.equals("Igual")) {
+			operadorSQL = "=";
+		} else if (operador.equals("Diferente")) {
+			operadorSQL = "!=";
+		} else if (operador.equals("Maior")) {
+			operadorSQL = ">";
+		} else if (operador.equals("Menor")) {
+			operadorSQL = "<";
+		} else if (operador.equals("Contem")) {
+			operadorSQL = "like";
+			valorSQL = " '%" + valor + "%'";
+		}
+		
+		sql += " where " + outroSQL + campoSQL + " " + operadorSQL + valorSQL;
+		return this.load(sql);
+	}
+	
+	/*public ListaObjeto load() {
 		ListaObjeto lista = new ListaObjeto();
 		if (db.connect()) {
 			//c = carro, c1 = cliente, c1c = cidade do cliente, m = modelo, mm = marca do modelo, c2 = cor
@@ -80,6 +142,6 @@ public class DaoCarro implements DaoInterface {
 			db.disconnect();
 		}
 		return lista;
-	}
+	}*/
 
 }
