@@ -2,6 +2,9 @@ package br.iav.ac.telas.carro;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -10,11 +13,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import br.iav.ac.negocio.Cliente;
+import br.iav.ac.negocio.Cor;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.negocio.Marca;
 import br.iav.ac.negocio.Modelo;
 import br.iav.ac.negocio.Carro;
 import br.iav.ac.telas.TelaPrincipal;
+import br.iav.ac.telas.cliente.PainelCliente;
+import br.iav.ac.telas.cor.PainelCor;
+import br.iav.ac.telas.marca.PainelMarca;
 import br.iav.ac.telas.modelo.PainelModelo;
 import br.iav.ac.telas.padrao.DialogoCRUD;
 import br.iav.ac.telas.padrao.DialogoPadrao;
@@ -37,8 +46,11 @@ public class DialogoCarro extends DialogoPadrao {
 	private Marca marca;
 	private JTextField textCodigo;
 	private JButton botaoModelo;
+	private JButton botaoCor;
 	private JComboBox comboModelo;
 	private JComboBox comboCliente;
+	private JLabel labelCor;
+	private JComboBox comboCor;
 	private JLabel labelCliente;
 	private JLabel labelModelo;
 	private JComboBox comboMarca;
@@ -49,6 +61,8 @@ public class DialogoCarro extends DialogoPadrao {
 	private JTextField textAno;
 	private JTextField textPlaca;
 	private JLabel labelPlaca;
+	private Cor cor;
+	private Cliente cliente;
 
 	/*----------------------------------------------------------
 	 * FIM DE ATTRIBUTOS
@@ -89,6 +103,24 @@ public class DialogoCarro extends DialogoPadrao {
 				getPanelPrincipal().add(botaoCliente);
 				botaoCliente.setText("+");
 				botaoCliente.setBounds(306, espacoEntreLinhas, 22, 20);
+			}
+			{
+				espacoEntreLinhas = espacoEntreLinhas + 25;
+				labelCor = new JLabel();
+				getPanelPrincipal().add(labelCor);
+				labelCor.setText("Cor:");
+				labelCor.setBounds(10, espacoEntreLinhas, 80, 20);
+			}
+			{
+				comboCor = new JComboBox();
+				getPanelPrincipal().add(comboCor);
+				comboCor.setBounds(espacoDoTextField, espacoEntreLinhas, 233, 20);
+			}
+			{
+				botaoCor = new JButton();
+				getPanelPrincipal().add(botaoCor);
+				botaoCor.setText("+");
+				botaoCor.setBounds(306, espacoEntreLinhas, 22, 20);
 			}
 			{
 				espacoEntreLinhas = espacoEntreLinhas + 25;
@@ -172,7 +204,11 @@ public class DialogoCarro extends DialogoPadrao {
 		this.formHandle = new FormHandle();
 		getBotaoCancelar().addActionListener(formHandle);
 		getBotaoConfirmar().addActionListener(formHandle);
+		botaoCliente.addActionListener(formHandle);
+		botaoCor.addActionListener(formHandle);
+		botaoMarca.addActionListener(formHandle);
 		botaoModelo.addActionListener(formHandle);
+		comboMarca.addItemListener(formHandle);
 	}
 
 	/*----------------------------------------------------------
@@ -183,18 +219,97 @@ public class DialogoCarro extends DialogoPadrao {
 	 * CLASSE LIMITROFE
 	 *----------------------------------------------------------*/
 
-	class FormHandle implements ActionListener {
+	class FormHandle implements ActionListener, ItemListener {
 
 		public FormHandle() {
 			super();
 			marca = new Marca();
-			this.carregarComboModelo(marca.load());
-			// comboMarca.setSelectedItem((Object) carro.getModelo().getNome());
+			modelo = new Modelo();
+			cliente = new Cliente();
+			cor = new Cor();
+			this.carregarComboMarca(marca.load());
+			this.carregarComboModelo(modelo.search("Marca", "Igual",
+					(String) comboMarca.getSelectedItem()));
+			this.carregarComboCor(cor.load());
+			this.carregarComboCliente(cliente.load());
 			if (carro.getCodigo() != 0) {
 				textCodigo.setText(String.valueOf(carro.getCodigo()));
 			}
 
 		}
+		
+		/*----------------------------------------------------------
+		 * METODOS QUE CARREGAM OS COMBOBOX
+		 *----------------------------------------------------------*/
+
+		/**
+		 * Carrega o Combobox com os nomes de todas as modelos cadastradas.
+		 * 
+		 * @param listaObjeto
+		 */
+		private void carregarComboMarca(ListaObjeto listaObjeto) {
+			String[] comboArray = new String[listaObjeto.getSize()];
+			for (int i = 0; i < listaObjeto.getSize(); i++) {
+				Marca marca = (Marca) listaObjeto.getObjeto(i);
+				comboArray[i] = marca.getNome();
+			}
+			ComboBoxModel comboModeloModel = new DefaultComboBoxModel(
+					comboArray);
+			comboMarca.setModel(comboModeloModel);
+		}
+
+		/**
+		 * Carrega o Combobox com os nomes dos modelos que pertencem a uma Marca.
+		 * 
+		 * @param listaObjeto
+		 */
+		private void carregarComboModelo(ListaObjeto listaObjeto) {
+			String[] comboArray = new String[listaObjeto.getSize()];
+			for (int i = 0; i < listaObjeto.getSize(); i++) {
+				Modelo modelo = (Modelo) listaObjeto.getObjeto(i);
+				comboArray[i] = modelo.getNome();
+			}
+			ComboBoxModel comboModeloModel = new DefaultComboBoxModel(
+					comboArray);
+			comboModelo.setModel(comboModeloModel);
+		}
+
+		/**
+		 * Carrega o Combobox com os nomes dos modelos que pertencem a uma Marca.
+		 * 
+		 * @param listaObjeto
+		 */
+		private void carregarComboCliente(ListaObjeto listaObjeto) {
+			String[] comboArray = new String[listaObjeto.getSize()];
+			for (int i = 0; i < listaObjeto.getSize(); i++) {
+				Cliente cliente = (Cliente) listaObjeto.getObjeto(i);
+				comboArray[i] = cliente.getNome();
+			}
+			ComboBoxModel comboModeloModel = new DefaultComboBoxModel(
+					comboArray);
+			comboCliente.setModel(comboModeloModel);
+		}
+
+		/**
+		 * Carrega o Combobox com os nomes dos modelos que pertencem a uma Marca.
+		 * 
+		 * @param listaObjeto
+		 */
+		private void carregarComboCor(ListaObjeto listaObjeto) {
+			String[] comboArray = new String[listaObjeto.getSize()];
+			for (int i = 0; i < listaObjeto.getSize(); i++) {
+				Cor cor = (Cor) listaObjeto.getObjeto(i);
+				comboArray[i] = cor.getNome();
+			}
+			ComboBoxModel comboModeloModel = new DefaultComboBoxModel(
+					comboArray);
+			comboCor.setModel(comboModeloModel);
+		}
+
+		/*----------------------------------------------------------
+		 * FIM DE METODOS QUE CARREGAM OS COMBOBOX
+		 *----------------------------------------------------------*/
+
 
 		/**
 		 * Retorna true se encontrar um carro e false se nao encontrar.
@@ -215,10 +330,12 @@ public class DialogoCarro extends DialogoPadrao {
 		 */
 		private void inserir() {
 			if (existeCarro()) {
-				// carro.setNome(textCarro.getText());
+				carro.setAnoFabricacao(null);
+				carro.setCliente(null);
+				carro.setCor(null);
 				carro.setModelo(buscarModelo());
 				carro.insert();
-				carregarComboModelo(modelo.load());
+				carregarComboMarca(modelo.load());
 			} else {
 				JOptionPane.showMessageDialog(DialogoCarro.this,
 						"Essa cor já se encontra na Base de Dados!");
@@ -240,22 +357,6 @@ public class DialogoCarro extends DialogoPadrao {
 				JOptionPane.showMessageDialog(DialogoCarro.this,
 						"Essa cor já se encontra na Base de Dados!");
 			}
-		}
-
-		/**
-		 * Carrega o Combobox com os nomes de todas as modelos cadastradas.
-		 * 
-		 * @param listaObjeto
-		 */
-		private void carregarComboModelo(ListaObjeto listaObjeto) {
-			String[] comboArray = new String[listaObjeto.getSize()];
-			for (int i = 0; i < listaObjeto.getSize(); i++) {
-				Marca marca = (Marca) listaObjeto.getObjeto(i);
-				comboArray[i] = marca.getNome();
-			}
-			ComboBoxModel comboModeloModel = new DefaultComboBoxModel(
-					comboArray);
-			comboMarca.setModel(comboModeloModel);
 		}
 
 		/**
@@ -287,9 +388,22 @@ public class DialogoCarro extends DialogoPadrao {
 
 		public void actionPerformed(ActionEvent e) {
 
-			if (e.getSource() == botaoMarca) {
-				showPainel(new PainelModelo(), "Cadastros de Marca");
-				this.carregarComboModelo(marca.load());
+			if (e.getSource() == botaoCliente) {
+				showPainel(new PainelCliente(), "Cadastros de Cliente");
+				this.carregarComboCliente(cliente.load());
+
+			}else if (e.getSource() == botaoCor) {
+				showPainel(new PainelCor(), "Cadastros de Cor");
+				this.carregarComboCor(cor.load());
+
+			}else if (e.getSource() == botaoMarca) {
+				showPainel(new PainelMarca(), "Cadastros de Marca");
+				this.carregarComboMarca(marca.load());
+
+			}else if (e.getSource() == botaoModelo) {
+				showPainel(new PainelModelo(), "Cadastros de Modelo");
+				this.carregarComboModelo(modelo.search("Marca", "Igual",
+						(String) comboMarca.getSelectedItem()));
 
 			} else if (e.getSource() == getBotaoCancelar()) {
 				dispose();
@@ -306,6 +420,14 @@ public class DialogoCarro extends DialogoPadrao {
 					dispose();
 				}
 			}
+		}
+
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			carregarComboModelo(modelo.search("Marca", "Igual",
+					(String) comboMarca.getSelectedItem()));			
+			
+			
 		}
 	}
 
