@@ -13,7 +13,7 @@ import br.iav.ac.telas.padrao.DialogoPadrao;
 
 public class DialogoCidade extends DialogoPadrao {
 
-	private static final long serialVersionUID = 1L;
+	private JTextField textCodigo;
 	private JLabel labelNome;
 	private JTextField textNome;
 	private JLabel labelDdd;
@@ -24,28 +24,40 @@ public class DialogoCidade extends DialogoPadrao {
 	public DialogoCidade(JFrame frame, String titulo, boolean modal, Cidade cidade) {
 		super(TelaPrincipal.instancia, titulo, modal);
 		this.cidade = cidade;
+		//25 de espaçamento entre cada atributo (JTextField e JLabel)
+		int espacoEntreLinhas = 10;
+		//Espaçamento dos JTextField
+		int espacoDoTextField = 55;
 		try {
 			{
+				textCodigo = new JTextField();
+				getPanelPrincipal().add(textCodigo);
+				textCodigo.setBounds(espacoDoTextField, espacoEntreLinhas, 35, 20);
+				textCodigo.setEditable(false);
+			}
+			{
+				espacoEntreLinhas = espacoEntreLinhas + 25;
 				labelNome = new JLabel();
 				getPanelPrincipal().add(labelNome);
 				labelNome.setText("Nome:");
-				labelNome.setBounds(12, 38, 60, 14);
+				labelNome.setBounds(10, espacoEntreLinhas, 80, 20);
 			}
 			{
 				textNome = new JTextField();
 				getPanelPrincipal().add(textNome);
-				textNome.setBounds(55, 35, 246, 21);
+				textNome.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 			}
 			{
+				espacoEntreLinhas = espacoEntreLinhas +25;
 				labelDdd = new JLabel();
 				getPanelPrincipal().add(labelDdd);
 				labelDdd.setText("DDD:");
-				labelDdd.setBounds(12, 63, 60, 14);
+				labelDdd.setBounds(10, espacoEntreLinhas, 80, 20);
 			}
 			{
 				textDdd = new JTextField();
 				getPanelPrincipal().add(textDdd);
-				textDdd.setBounds(55, 60, 246, 21);
+				textDdd.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -69,7 +81,7 @@ public class DialogoCidade extends DialogoPadrao {
 			textNome.setText(cidade.getNome().trim());
 			textDdd.setText(String.valueOf(cidade.getDdd()));
 			if (cidade.getCodigo() != 0) {
-				getTextCodigo().setText(String.valueOf(cidade.getCodigo()));
+				textCodigo.setText(String.valueOf(cidade.getCodigo()));
 			}
 		}
 

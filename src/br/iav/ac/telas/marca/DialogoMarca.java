@@ -22,7 +22,7 @@ public class DialogoMarca extends DialogoPadrao {
 	 * ATTRIBUTOS
 	 *----------------------------------------------------------*/
 
-	private static final long serialVersionUID = 1L;
+	private JTextField textCodigo;
 	private JLabel labelMarca;
 	private JTextField textMarca;
 	private FormHandle formHandle;
@@ -39,17 +39,28 @@ public class DialogoMarca extends DialogoPadrao {
 	public DialogoMarca(JFrame frame, String titulo, boolean modal, Marca marca) {
 		super(TelaPrincipal.instancia, titulo, modal);
 		this.marca = marca;
+		//25 de espaçamento entre cada atributo (JTextField e JLabel)
+		int espacoEntreLinhas = 10;
+		//Espaçamento dos JTextField
+		int espacoDoTextField = 50;
 		try {
+			{
+				textCodigo = new JTextField();
+				getPanelPrincipal().add(textCodigo);
+				textCodigo.setBounds(espacoDoTextField, espacoEntreLinhas, 35, 20);
+				textCodigo.setEditable(false);
+			}
             {
+            	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelMarca = new JLabel();
             	getPanelPrincipal().add(labelMarca);
             	labelMarca.setText("Marca:");
-            	labelMarca.setBounds(28, 38, 21, 14);
+            	labelMarca.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
 	        	textMarca = new JTextField();
 	        	getPanelPrincipal().add(textMarca);
-	            textMarca.setBounds(51, 35, 246, 21);
+	            textMarca.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -88,7 +99,7 @@ public class DialogoMarca extends DialogoPadrao {
 			super();
 			textMarca.setText(marca.getNome().trim());
 			if (marca.getCodigo() != 0) {
-				getTextCodigo().setText(String.valueOf(marca.getCodigo()));
+				textCodigo.setText(String.valueOf(marca.getCodigo()));
 			}
 
 		}

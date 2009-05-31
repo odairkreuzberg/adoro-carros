@@ -11,7 +11,7 @@ import br.iav.ac.telas.padrao.PainelPadrao;
 public class PainelCliente extends PainelPadrao {
 
 	private CadastroHandle cadastroHandle;
-	private static String[] CAMPOS = { "Código", "Nome", "Telefone", "CPF", "RG", "Profissão", "Rua", "Número", "Bairro", "CEP", "Complemento", "Cidade" };
+	private static String[] CAMPOS = { "Código", "Nome", "Telefone", "CPF", "RG", "Profissão", "Data de Nascimento", "Rua", "Número", "Bairro", "CEP", "Complemento", "Cidade" };
 
 	public PainelCliente() {
 		super(CAMPOS);

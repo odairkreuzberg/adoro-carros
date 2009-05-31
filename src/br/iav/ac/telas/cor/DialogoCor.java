@@ -22,7 +22,7 @@ public class DialogoCor extends DialogoPadrao {
 	 * ATTRIBUTOS
 	 *----------------------------------------------------------*/
 
-	private static final long serialVersionUID = 1L;
+	private JTextField textCodigo;
 	private JLabel labelCor;
 	private JTextField textCor;
 	private FormHandle formHandle;
@@ -39,17 +39,28 @@ public class DialogoCor extends DialogoPadrao {
 	public DialogoCor(JFrame frame, String titulo, boolean modal, Cor cor) {
 		super(TelaPrincipal.instancia, titulo, modal);
 		this.cor = cor;
+		//25 de espaçamento entre cada atributo (JTextField e JLabel)
+		int espacoEntreLinhas = 10;
+		//Espaçamento dos JTextField
+		int espacoDoTextField = 50;
 		try {
 			{
+				textCodigo = new JTextField();
+				getPanelPrincipal().add(textCodigo);
+				textCodigo.setBounds(espacoDoTextField, espacoEntreLinhas, 35, 20);
+				textCodigo.setEditable(false);
+			}
+			{
+				espacoEntreLinhas = espacoEntreLinhas + 25;
 				labelCor = new JLabel();
 				getPanelPrincipal().add(labelCor);
 				labelCor.setText("Cor:");
-				labelCor.setBounds(28, 38, 21, 14);
+				labelCor.setBounds(10, espacoEntreLinhas, 80, 20);
 			}
 			{
 				textCor = new JTextField();
 				getPanelPrincipal().add(textCor);
-				textCor.setBounds(51, 35, 246, 21);
+				textCor.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -88,7 +99,7 @@ public class DialogoCor extends DialogoPadrao {
 			super();
 			textCor.setText(cor.getNome().trim());
 			if (cor.getCodigo() != 0) {
-				getTextCodigo().setText(String.valueOf(cor.getCodigo()));
+				textCodigo.setText(String.valueOf(cor.getCodigo()));
 			}
 
 		}
