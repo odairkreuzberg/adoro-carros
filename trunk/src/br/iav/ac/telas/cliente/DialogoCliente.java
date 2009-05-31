@@ -2,27 +2,28 @@ package br.iav.ac.telas.cliente;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-
 import br.iav.ac.negocio.Cliente;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.telas.padrao.DialogoPadrao;
 
 public class DialogoCliente extends DialogoPadrao {
 
+	private JTextField textCodigo;
 	private JLabel labelNome;
+	private JTextField textNome;
 	private JLabel labelTelefone;
 	private JTextField textTelefone;
-	private JTextField textNome;
 	private JLabel labelCpf;
 	private JTextField textCpf;
 	private JLabel labelRg;
 	private JTextField textRg;
+	private JLabel labelDataNascimento;
+	private JTextField textDataNascimento;
 	private JLabel labelProfissao;
 	private JTextField textProfissao;
 	private JLabel labelRua;
@@ -43,140 +44,166 @@ public class DialogoCliente extends DialogoPadrao {
 	public DialogoCliente(JFrame frame, String titulo, boolean modal, Cliente cliente) {
 		super(frame, titulo, modal);
 		this.cliente = cliente;
-		//25 de espaçamento
+		//25 de espaçamento entre cada atributo (JTextField e JLabel)
+		int espacoEntreLinhas = 10;
+		//Espaçamento dos JTextField
+		int espacoDoTextField = 90;
 		try {
+			{
+				textCodigo = new JTextField();
+				getPanelPrincipal().add(textCodigo);
+				textCodigo.setBounds(espacoDoTextField, espacoEntreLinhas, 35, 20);
+				textCodigo.setEditable(false);
+			}
             {
+            	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelNome = new JLabel();
             	getPanelPrincipal().add(labelNome);
             	labelNome.setText("Nome:");
-            	labelNome.setBounds(12, 37, 80, 20);
+            	labelNome.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textNome = new JTextField(this.cliente.getNome().trim());
+	        	textNome = new JTextField();
 	        	getPanelPrincipal().add(textNome);
-	        	textNome.setBounds(90, 35, 246, 21);
+	        	textNome.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
             {
+            	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelTelefone = new JLabel();
             	getPanelPrincipal().add(labelTelefone);
             	labelTelefone.setText("Telefone:");
-            	labelTelefone.setBounds(12, 62, 80, 20);
+            	labelTelefone.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textTelefone = new JTextField(this.cliente.getTelefone().trim());
+	        	textTelefone = new JTextField();
 	        	getPanelPrincipal().add(textTelefone);
-	        	textTelefone.setBounds(90, 60, 246, 21);
+	        	textTelefone.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
             {
+            	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelCpf = new JLabel();
             	getPanelPrincipal().add(labelCpf);
             	labelCpf.setText("CPF:");
-            	labelCpf.setBounds(12, 87, 80, 20);
+            	labelCpf.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textCpf = new JTextField(this.cliente.getCpf().trim());
+	        	textCpf = new JTextField();
 	        	getPanelPrincipal().add(textCpf);
-	        	textCpf.setBounds(90, 85, 246, 21);
+	        	textCpf.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
             {
+            	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelRg = new JLabel();
             	getPanelPrincipal().add(labelRg);
             	labelRg.setText("RG:");
-            	labelRg.setBounds(12, 112, 80, 20);
+            	labelRg.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textRg = new JTextField(this.cliente.getRg().trim());
+	        	textRg = new JTextField();
 	        	getPanelPrincipal().add(textRg);
-	        	textRg.setBounds(90, 110, 246, 21);
+	        	textRg.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
             {
+            	espacoEntreLinhas = espacoEntreLinhas + 25;
+            	labelDataNascimento = new JLabel();
+            	getPanelPrincipal().add(labelDataNascimento);
+            	labelDataNascimento.setText("Dt. Nascimento:");
+            	labelDataNascimento.setBounds(10, espacoEntreLinhas, 80, 20);
+	        }
+	        {
+	        	textDataNascimento = new JTextField();
+	        	getPanelPrincipal().add(textDataNascimento);
+	        	textDataNascimento.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
+	        }
+            {
+            	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelProfissao = new JLabel();
             	getPanelPrincipal().add(labelProfissao);
             	labelProfissao.setText("Profissão:");
-            	labelProfissao.setBounds(12, 137, 80, 20);
+            	labelProfissao.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textProfissao = new JTextField(this.cliente.getProfissao().trim());
+	        	textProfissao = new JTextField();
 	        	getPanelPrincipal().add(textProfissao);
-	        	textProfissao.setBounds(90, 135, 246, 21);
+	        	textProfissao.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
             {
+            	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelRua = new JLabel();
             	getPanelPrincipal().add(labelRua);
             	labelRua.setText("Rua:");
-            	labelRua.setBounds(12, 162, 80, 20);
+            	labelRua.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textRua = new JTextField(this.cliente.getEndereco().getRua().trim());
+	        	textRua = new JTextField();
 	        	getPanelPrincipal().add(textRua);
-	        	textRua.setBounds(90, 160, 246, 21);
+	        	textRua.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
             {
+            	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelNumero = new JLabel();
             	getPanelPrincipal().add(labelNumero);
             	labelNumero.setText("Número:");
-            	labelNumero.setBounds(12, 187, 80, 20);
+            	labelNumero.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textNumero = new JTextField(String.valueOf(this.cliente.getEndereco().getNumero()));
+	        	textNumero = new JTextField();
 	        	getPanelPrincipal().add(textNumero);
-	        	textNumero.setBounds(90, 185, 246, 21);
+	        	textNumero.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
             {
+            	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelBairro = new JLabel();
             	getPanelPrincipal().add(labelBairro);
             	labelBairro.setText("Bairro:");
-            	labelBairro.setBounds(12, 212, 80, 20);
+            	labelBairro.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textBairro = new JTextField(this.cliente.getEndereco().getBairro().trim());
+	        	textBairro = new JTextField();
 	        	getPanelPrincipal().add(textBairro);
-	        	textBairro.setBounds(90, 210, 246, 21);
+	        	textBairro.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
             {
+            	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelCep = new JLabel();
             	getPanelPrincipal().add(labelCep);
             	labelCep.setText("CEP:");
-            	labelCep.setBounds(12, 237, 80, 20);
+            	labelCep.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textCep = new JTextField(this.cliente.getEndereco().getCep().trim());
+	        	textCep = new JTextField();
 	        	getPanelPrincipal().add(textCep);
-	        	textCep.setBounds(90, 235, 246, 21);
+	        	textCep.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
             {
+            	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelComplemento = new JLabel();
             	getPanelPrincipal().add(labelComplemento);
             	labelComplemento.setText("Complemento:");
-            	labelComplemento.setBounds(12, 262, 80, 20);
+            	labelComplemento.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textComplemento = new JTextField(this.cliente.getEndereco().getComplemento().trim());
+	        	textComplemento = new JTextField();
 	        	getPanelPrincipal().add(textComplemento);
-	        	textComplemento.setBounds(90, 260, 246, 21);
+	        	textComplemento.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
             {
+            	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelCidade = new JLabel();
             	getPanelPrincipal().add(labelCidade);
             	labelCidade.setText("Cidade:");
-            	labelCidade.setBounds(12, 287, 80, 20);
+            	labelCidade.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
 	        	comboCidade = new JComboBox();
 	        	getPanelPrincipal().add(comboCidade);
-	        	comboCidade.setSelectedItem(cliente.getEndereco().getCidade().getNome().trim());
-	        	comboCidade.setBounds(90, 285, 246, 21);
-	        }
-	        {
-				if (this.cliente.getCodigo() != 0) {
-					getTextCodigo().setText(String.valueOf(this.cliente.getCodigo()));
-				}
+	        	comboCidade.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		inicializarHandlers();
-		this.setSize(350, 380);
+		this.setSize(350, 390);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}

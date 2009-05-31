@@ -34,6 +34,7 @@ public class DialogoModelo extends DialogoPadrao {
 	private FormHandle formHandle;
 	private Modelo modelo;
 	private Marca marca;
+	private JTextField textCodigo;
 	private JButton botaoMarca;
 	private JTextField textModelo;
 	private JLabel labelModelo;
@@ -51,35 +52,47 @@ public class DialogoModelo extends DialogoPadrao {
 	public DialogoModelo(JFrame frame, String titulo, boolean modal, Modelo modelo) {
 		super(frame, titulo, modal);
 		this.modelo = modelo;
+		//25 de espaçamento entre cada atributo (JTextField e JLabel)
+		int espacoEntreLinhas = 10;
+		//Espaçamento dos JTextField
+		int espacoDoTextField = 60;
 		try {
 			{
+				textCodigo = new JTextField();
+				getPanelPrincipal().add(textCodigo);
+				textCodigo.setBounds(espacoDoTextField, espacoEntreLinhas, 35, 20);
+				textCodigo.setEditable(false);
+			}
+			{
+				espacoEntreLinhas = espacoEntreLinhas + 25;
 				labelMarca = new JLabel();
 				getPanelPrincipal().add(labelMarca);
 				labelMarca.setText("Marca:");
-				labelMarca.setBounds(17, 40, 33, 14);
+				labelMarca.setBounds(10, espacoEntreLinhas, 80, 20);
 			}
 			{
 				comboMarca = new JComboBox();
 				getPanelPrincipal().add(comboMarca);
-				comboMarca.setBounds(61, 37, 233, 21);
-			}
-			{
-				labelModelo = new JLabel();
-				getPanelPrincipal().add(labelModelo);
-				labelModelo.setText("Modelo:");
-				labelModelo.setBounds(11, 72, 38, 14);
-			}
-			{
-				textModelo = new JTextField();
-				getPanelPrincipal().add(textModelo);
-				textModelo.setText(modelo.getNome());
-				textModelo.setBounds(61, 67, 267, 21);
+				comboMarca.setBounds(espacoDoTextField, espacoEntreLinhas, 233, 20);
 			}
 			{
 				botaoMarca = new JButton();
 				getPanelPrincipal().add(botaoMarca);
 				botaoMarca.setText("+");
-				botaoMarca.setBounds(306, 37, 22, 21);
+				botaoMarca.setBounds(306, espacoEntreLinhas, 22, 20);
+			}
+			{
+				espacoEntreLinhas = espacoEntreLinhas + 25;
+				labelModelo = new JLabel();
+				getPanelPrincipal().add(labelModelo);
+				labelModelo.setText("Modelo:");
+				labelModelo.setBounds(10, espacoEntreLinhas, 80, 20);
+			}
+			{
+				textModelo = new JTextField();
+				getPanelPrincipal().add(textModelo);
+				textModelo.setText(modelo.getNome());
+				textModelo.setBounds(espacoDoTextField, espacoEntreLinhas, 267, 20);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -121,7 +134,7 @@ public class DialogoModelo extends DialogoPadrao {
 			this.carregarComboMarca(marca.load());
 			comboMarca.setSelectedItem((Object) modelo.getMarca().getNome());
 			if (modelo.getCodigo() != 0) {
-				getTextCodigo().setText(String.valueOf(modelo.getCodigo()));
+				textCodigo.setText(String.valueOf(modelo.getCodigo()));
 			}
 	        
 		}

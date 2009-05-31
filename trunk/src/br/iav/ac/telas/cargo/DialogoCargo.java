@@ -20,7 +20,7 @@ import br.iav.ac.telas.padrao.DialogoPadrao;
  */
 public class DialogoCargo extends DialogoPadrao {
 
-	private static final long serialVersionUID = 1L;
+	private JTextField textCodigo;
 	private JLabel labelNome;
 	private JTextField textNome;
 	private JLabel labelDescricao;
@@ -31,35 +31,42 @@ public class DialogoCargo extends DialogoPadrao {
 	public DialogoCargo(JFrame frame, String titulo, boolean modal, Cargo cargo) {
 		super(frame, titulo, modal);
 		this.cargo = cargo;
+		//25 de espaçamento entre cada atributo (JTextField e JLabel)
+		int espacoEntreLinhas = 10;
+		//Espaçamento dos JTextField
+		int espacoDoTextField = 75;
 		try {
+			{
+				textCodigo = new JTextField();
+				getPanelPrincipal().add(textCodigo);
+				textCodigo.setBounds(espacoDoTextField, espacoEntreLinhas, 35, 20);
+				textCodigo.setEditable(false);
+			}
             {
+            	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelNome = new JLabel();
             	getPanelPrincipal().add(labelNome);
             	labelNome.setText("Nome:");
-            	labelNome.setBounds(12, 38, 60, 20);
+            	labelNome.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textNome = new JTextField(this.cargo.getNome().trim());
+	        	textNome = new JTextField();
 	        	getPanelPrincipal().add(textNome);
-	            textNome.setBounds(75, 35, 246, 21);
+	            textNome.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
 	        {
+	        	espacoEntreLinhas = espacoEntreLinhas + 25;
 	        	labelDescricao = new JLabel();
 	        	getPanelPrincipal().add(labelDescricao);
 	        	labelDescricao.setText("Descrição:");
-	        	labelDescricao.setBounds(12, 64, 100, 20);
+	        	labelDescricao.setBounds(10, espacoEntreLinhas, 80, 20);
         	}	        
 	        {
-	        	textDescricao = new JTextArea(this.cargo.getDescricao().trim());
+	        	textDescricao = new JTextArea();
 	        	JScrollPane barra = new JScrollPane(textDescricao);
-	        	barra.setBounds(75, 61, 290, 200);
+	        	barra.setBounds(espacoDoTextField, espacoEntreLinhas, 290, 200);
 	        	getPanelPrincipal().add(barra);
 	        }	        
-	        {
-				if (this.cargo.getCodigo() != 0) {
-					getTextCodigo().setText(String.valueOf(this.cargo.getCodigo()));
-				}
-	        }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -88,7 +95,7 @@ public class DialogoCargo extends DialogoPadrao {
 			textNome.setText(cargo.getNome().trim());
 			textDescricao.setText(cargo.getDescricao().trim());
 			if (cargo.getCodigo() != 0) {
-				getTextCodigo().setText(String.valueOf(cargo.getCodigo()));
+				textCodigo.setText(String.valueOf(cargo.getCodigo()));
 			}
 
 		}

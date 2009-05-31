@@ -27,7 +27,6 @@ public class DialogoPadrao extends JDialog {
 	private PainelPadrao painelGrid;
 	private JPanel panelPrincipal;
 	private JPanel panelBotoes;
-	private JTextField textCodigo;
 
 	/*----------------------------------------------------------
 	 * FIM DE ATTRIBUTOS
@@ -62,13 +61,7 @@ public class DialogoPadrao extends JDialog {
 				labelCodigo = new JLabel();
 				panelPrincipal.add(labelCodigo);
 				labelCodigo.setText("Código:");
-				labelCodigo.setBounds(12, 12, 60, 20);
-			}
-			{
-				textCodigo = new JTextField();
-				panelPrincipal.add(textCodigo);
-				textCodigo.setBounds(55, 12, 35, 20);
-				textCodigo.setEditable(false);
+				labelCodigo.setBounds(10, 10, 60, 20);
 			}
 			this.add(panelPrincipal, BorderLayout.CENTER);
 			this.add(panelBotoes, BorderLayout.SOUTH);
@@ -91,10 +84,6 @@ public class DialogoPadrao extends JDialog {
 
 	public JPanel getPanelPrincipal() {
 		return panelPrincipal;
-	}
-
-	public JTextField getTextCodigo() {
-		return textCodigo;
 	}
 
 	public JButton getBotaoConfirmar() {

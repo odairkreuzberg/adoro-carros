@@ -13,7 +13,7 @@ import br.iav.ac.telas.padrao.DialogoPadrao;
 
 public class DialogoStatus extends DialogoPadrao {
 
-	private static final long serialVersionUID = 1L;
+	private JTextField textCodigo;
 	private JLabel labelNome;
 	private JTextField textNome;
 	private FormHandle formHandle;
@@ -22,17 +22,28 @@ public class DialogoStatus extends DialogoPadrao {
 	public DialogoStatus(JFrame frame, String titulo, boolean modal, Status status) {
 		super(TelaPrincipal.instancia, titulo, modal);
 		this.status = status;
+		//25 de espaçamento entre cada atributo (JTextField e JLabel)
+		int espacoEntreLinhas = 10;
+		//Espaçamento dos JTextField
+		int espacoDoTextField = 55;
 		try {
 			{
+				textCodigo = new JTextField();
+				getPanelPrincipal().add(textCodigo);
+				textCodigo.setBounds(espacoDoTextField, espacoEntreLinhas, 35, 20);
+				textCodigo.setEditable(false);
+			}
+			{
+				espacoEntreLinhas = espacoEntreLinhas + 25;
 				labelNome = new JLabel();
 				getPanelPrincipal().add(labelNome);
 				labelNome.setText("Nome:");
-				labelNome.setBounds(12, 38, 60, 14);
+				labelNome.setBounds(10, espacoEntreLinhas, 60, 20);
 			}
 			{
 				textNome = new JTextField();
 				getPanelPrincipal().add(textNome);
-				textNome.setBounds(55, 35, 246, 21);
+				textNome.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -55,7 +66,7 @@ public class DialogoStatus extends DialogoPadrao {
 			super();
 			textNome.setText(status.getNome().trim());
 			if (status.getCodigo() != 0) {
-				getTextCodigo().setText(String.valueOf(status.getCodigo()));
+				textCodigo.setText(String.valueOf(status.getCodigo()));
 			}
 
 		}
