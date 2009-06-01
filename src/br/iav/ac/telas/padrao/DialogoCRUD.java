@@ -1,4 +1,7 @@
 package br.iav.ac.telas.padrao;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -22,6 +25,7 @@ public class DialogoCRUD extends JDialog {
 	private JButton botaoConfirmar;
 	private PainelPadrao painelPadrao;
 	private JButton botaoCancelar;
+	private DialogoHandler dialogoHandler;
 	
 
 
@@ -29,10 +33,23 @@ public class DialogoCRUD extends JDialog {
 		super(TelaPrincipal.instancia,titulo,modal);
 		
 	}
-	public void setPainel(PainelPadrao painelPadrao){
+
+	public void setPainel(PainelPadrao painelPadrao) {
 		this.setDefaultCloseOperation(DialogoCRUD.DISPOSE_ON_CLOSE);
 		this.painelPadrao = painelPadrao;
+		dialogoHandler = new DialogoHandler();
+
 		initGUI();
+
+		botaoCancelar.addActionListener(dialogoHandler);
+	}
+	
+	public JButton getBotaoConfirmar() {
+		return botaoConfirmar;
+	}
+	
+	public JButton getBotaoCancelar() {
+		return botaoCancelar;
 	}
 
 	private void initGUI() {
@@ -61,7 +78,15 @@ public class DialogoCRUD extends JDialog {
 		}
 		setSize(555, 610);
 		setLocationRelativeTo(null);
-		setVisible(true);
+	}
+	class DialogoHandler implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			dispose();
+			
+		}
+		
 	}
 
 }
