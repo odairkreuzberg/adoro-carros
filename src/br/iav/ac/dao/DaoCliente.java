@@ -125,7 +125,7 @@ public class DaoCliente implements DaoInterface {
 			campoSQL = "complemento";
 		} else if (campo.equals("Cidade")) {
 			sql = SELECT_COM_CIDADE;
-			campoSQL = "cidade.cod_cidade = cliente.cod_cidade";
+			campoSQL = "cidade.cod_cidade = cliente.cod_cidade and cidade.nome ";
 		}
 		if (operador.equals("Igual")) {
 			operadorSQL = "=";
