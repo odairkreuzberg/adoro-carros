@@ -382,7 +382,9 @@ public class DialogoCarro extends DialogoPadrao {
 
 			DialogoCRUD dialogoCRUD = new DialogoCRUD(TelaPrincipal.instancia,
 					titulo, true);
+			//dialogoCRUD.getBotaoCancelar().addActionListener(formHandle);
 			dialogoCRUD.setPainel(painelPadrao);
+			dialogoCRUD.setVisible(true);
 
 		}
 
