@@ -60,15 +60,23 @@ public class DaoCidade {
 		return this.load(SELECT);
 	}
 	
+	public Cidade searchWithCodigo(int codigo){
+		ListaObjeto listaObjeto = this.search("Código", "Igual", String.valueOf(codigo));
+		if (listaObjeto.getSize() == 1 ) {
+			return (Cidade) listaObjeto.getObjeto(0);
+		}
+		return null;
+	}
+	
 	public ListaObjeto search(String campo, String operador, String valor) {
 		String campoSQL = campo;
 		String operadorSQL = null;
 		String valorSQL = "'" + valor + "'";
 		if (campo.equals("Código")) {
-			campoSQL = "CAST(cod_"+tableName+" as VARCHAR)";
+			campoSQL = "cast (cod_"+tableName+" as varchar)";
 		} else if (campo.equals("Nome")) {
 			campoSQL = "nome";
-		} else {
+		} else if (campo.equals("DDD")) {
 			campoSQL = "ddd";
 		}
 		if (operador.equals("Igual")) {
