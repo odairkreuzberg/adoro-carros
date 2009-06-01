@@ -91,11 +91,13 @@ public class DaoModelo implements DaoInterface {
 		
 		if (campo.equals("Código")) {
 			campoSQL = "CAST(cod_"+tableName+" as VARCHAR)";
-		} else 
-		if ( campo.equals("Marca") ){			
-			sql = SELECT_COM_MARCA;			
+		} else if (campo.equals("Marca")) {
+			sql = SELECT_COM_MARCA;
 			campoSQL = " marca.cod_marca = modelo.cod_marca and marca.nome";
-			//campoSQL = "marca.nome";
+
+		} else if (campo.equals("Modelo")) {
+			campoSQL = " nome";
+
 		}
 		
 		if (operador.equals("Igual")) {

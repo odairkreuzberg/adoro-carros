@@ -89,7 +89,7 @@ public class Fornecedor extends Pessoa implements ObjetoInterface {
 	}
 	
 	public ListaObjeto search(String campo, String operador, String valor){
-		DaoCliente dao = new DaoCliente();
+		DaoFornecedor dao = new DaoFornecedor();
 		return dao.search(campo, operador, valor);		
 	}
 	

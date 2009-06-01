@@ -11,7 +11,7 @@ import br.iav.ac.telas.padrao.PainelPadrao;
 public class PainelFornecedor extends PainelPadrao {
 
 	private CadastroHandle cadastroHandle;
-	private static String[] CAMPOS = { "Código", "Nome Fantazia", "Razão Social", "CNPJ", "Telefone", "Fax", "Rua", "Número", "Bairro", "CEP", "Complemento", "Cidade" };
+	private static String[] CAMPOS = { "Código", "Nome Fantasia", "Razão Social", "CNPJ", "Telefone", "Fax", "Rua", "Número", "Bairro", "CEP", "Complemento", "Cidade" };
 
 	public PainelFornecedor() {
 		super(CAMPOS);
@@ -37,10 +37,8 @@ public class PainelFornecedor extends PainelPadrao {
 		}
 
 		private Fornecedor buscarFornecedor(){
-			JOptionPane.showMessageDialog(PainelFornecedor.this, (String)getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 0));
-		
-			String nome = (String)getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1)+ "";
-			ListaObjeto listaObjeto = fornecedor.search("Código", "Igual", nome);
+			Integer id = (Integer)getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 0);
+			ListaObjeto listaObjeto = fornecedor.search("Código", "Igual", id+"");
 			if (listaObjeto.getSize() > 0) {
 				return (Fornecedor) listaObjeto.getObjeto(0);				
 			}	
@@ -70,24 +68,33 @@ public class PainelFornecedor extends PainelPadrao {
 			//Definição do tamanho das colunas da grid
 			//TAMANHO DA GRID: 521
 			getGridTabela().getColumnModel().getColumn(0).setPreferredWidth(40);
-			getGridTabela().getColumnModel().getColumn(1).setPreferredWidth(300);
+			getGridTabela().getColumnModel().getColumn(1).setPreferredWidth(150);
+			getGridTabela().getColumnModel().getColumn(2).setPreferredWidth(150);
+			getGridTabela().getColumnModel().getColumn(3).setPreferredWidth(105);
+			getGridTabela().getColumnModel().getColumn(4).setPreferredWidth(75);
+			getGridTabela().getColumnModel().getColumn(5).setPreferredWidth(75);
+			getGridTabela().getColumnModel().getColumn(6).setPreferredWidth(150);
+			getGridTabela().getColumnModel().getColumn(7).setPreferredWidth(50);
+			getGridTabela().getColumnModel().getColumn(8).setPreferredWidth(150);
+			getGridTabela().getColumnModel().getColumn(9).setPreferredWidth(60);
+			getGridTabela().getColumnModel().getColumn(10).setPreferredWidth(150);
+			getGridTabela().getColumnModel().getColumn(11).setPreferredWidth(100);
 		}
 
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == getBotaoNovo()) {
-				this.fornecedor.setCodigo(0);
-				this.fornecedor.setNome("");
-				new DialogoFornecedor(null, "Cadastro de Fornecedor", true, this.fornecedor);
+				Fornecedor fornecedor = new Fornecedor();
+				new DialogoFornecedor(null, "Cadastro de Fornecedor", true, fornecedor);
 				carregarGrid(fornecedor.load());
 			} else if (e.getSource() == getBotaoEditar()) {
 				if (getGridTabela().getSelectedRow() >= 0) {
-					fornecedor = buscarFornecedor();
+					Fornecedor fornecedor = buscarFornecedor();
 					if (fornecedor != null) {
-						new DialogoFornecedor(null, "Cadastro de Fornecedor", true, this.fornecedor);
+						new DialogoFornecedor(null, "Cadastro de Fornecedor", true, fornecedor);
 						carregarGrid(fornecedor.load());	
 					} else {
 						JOptionPane.showMessageDialog(PainelFornecedor.this, "Erro ao buscar este fornecedor na base de dados!");
-						fornecedor = new Fornecedor();
+						
 					}
 				} else {
 					JOptionPane.showMessageDialog(PainelFornecedor.this, "Para editar é preciso selecionar um fornecedor na tabela!");

@@ -113,8 +113,7 @@ public class PainelCor extends PainelPadrao {
 			 * Chama o Forulário de Cor para fazer a Inserção de uma nova cor.  
 			 **/
 			if (e.getSource() == getBotaoNovo()) {
-				cor.setCodigo(0);
-				cor.setNome("");
+				Cor cor = new Cor();
 				new DialogoCor(null, "Cadastro de Cor", true, cor);
 				carregarGrid(cor.load());
 			} 			
@@ -124,7 +123,7 @@ public class PainelCor extends PainelPadrao {
 			else if (e.getSource() == getBotaoEditar()) {
 				// verifica se existe uma uma linha selecionada na Grid.
 				if (getGridTabela().getSelectedRow() >= 0) {
-					cor = buscarCor();
+					Cor cor = buscarCor();
 					//se retornar uma Cor existente, entao sera instanciado o formulario de Edição.
 					if(cor != null){
 						new DialogoCor(null, "Cadastro de Cor", true, cor);	
@@ -160,7 +159,7 @@ public class PainelCor extends PainelPadrao {
 					} else {
 						JOptionPane.showMessageDialog(PainelCor.this,
 								"Erro ao buscar esta Cor na base de dados!");
-						cor = new Cor();
+						//cor = new Cor();
 					}
 
 				} else {
