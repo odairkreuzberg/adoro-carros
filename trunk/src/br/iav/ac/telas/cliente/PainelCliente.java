@@ -37,8 +37,8 @@ public class PainelCliente extends PainelPadrao {
 		}
 
 		private Cliente buscarCliente(){
-			String nome = getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1)+ "";
-			ListaObjeto listaObjeto = cliente.search("Código", "Igual", nome);
+			String nome = (String) getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1);
+			ListaObjeto listaObjeto = cliente.search("Nome", "Igual", nome);
 			if (listaObjeto.getSize() > 0) {
 				return (Cliente) listaObjeto.getObjeto(0);				
 			}	
@@ -55,7 +55,7 @@ public class PainelCliente extends PainelPadrao {
 				gridArray[i][3] = cliente.getCpf();
 				gridArray[i][4] = cliente.getRg();
 				gridArray[i][5] = cliente.getProfissao();
-				gridArray[i][6] = cliente.getDataNascimento();
+				gridArray[i][6] = cliente.dataNascimentoToString();
 				gridArray[i][7] = cliente.getEndereco().getRua();
 				gridArray[i][8] = cliente.getEndereco().getNumero();
 				gridArray[i][9] = cliente.getEndereco().getBairro();
