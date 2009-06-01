@@ -17,7 +17,7 @@ public class DaoFornecedor implements DaoInterface {
 	private final static String tableName = "fornecedor";
 	
 	private final static String SELECT = "select * from " + tableName;
-	private final static String SELECT_COM_CIDADE = "select cliente.* from " + tableName + ", cidade";
+	private final static String SELECT_COM_CIDADE = "select fornecedor.* from " + tableName + ", cidade";
 	
 	public Fornecedor getFornecedor() {
 		return fornecedor;
@@ -125,7 +125,7 @@ public class DaoFornecedor implements DaoInterface {
 			campoSQL = "complemento";
 		} else if (campo.equals("Cidade")) {
 			sql = SELECT_COM_CIDADE;
-			campoSQL = "cidade.cod_cidade = fornecedor.cod_cidade";
+			campoSQL = "cidade.cod_cidade = fornecedor.cod_cidade and cidade.nome";
 		}
 		if (operador.equals("Igual")) {
 			operadorSQL = "=";

@@ -18,6 +18,9 @@ import br.iav.ac.negocio.Cidade;
 import br.iav.ac.negocio.Endereco;
 import br.iav.ac.negocio.Fornecedor;
 import br.iav.ac.negocio.ListaObjeto;
+import br.iav.ac.telas.TelaPrincipal;
+import br.iav.ac.telas.cidade.PainelCidade;
+import br.iav.ac.telas.padrao.DialogoCRUD;
 import br.iav.ac.telas.padrao.DialogoPadrao;
 
 public class DialogoFornecedor extends DialogoPadrao {
@@ -229,33 +232,33 @@ public class DialogoFornecedor extends DialogoPadrao {
 		this.formHandle = new FormHandle();
 		getBotaoCancelar().addActionListener(formHandle);
 		getBotaoConfirmar().addActionListener(formHandle);
+		botaoCidade.addActionListener(formHandle);
 	}
 
 	class FormHandle implements ActionListener { 
 		
 		public FormHandle() {
 			super();
-			cidade = new Cidade();
+			cidade = new Cidade();			
+			textCnpj.setText(fornecedor.getCnpj().trim());
+			textTelefone.setText(fornecedor.getTelefone().trim());
+			textFax.setText(fornecedor.getFax().trim());
+			textNomeFantazia.setText(fornecedor.getNome().trim());
+			textRazaoSocial.setText(fornecedor.getRazaoSocial().trim());
+			textRua.setText(fornecedor.getEndereco().getRua().trim());
+			textBairro.setText(fornecedor.getEndereco().getBairro().trim());
+			textCep.setText(fornecedor.getEndereco().getCep().trim());
+			textComplemento.setText(fornecedor.getEndereco().getComplemento().trim());
 			this.carregarComboCidade(cidade.load());
 			comboCidade.setSelectedItem((Object) fornecedor.getEndereco().getCidade().getNome());
 			if (fornecedor.getCodigo() != 0) {
 				textCodigo.setText(String.valueOf(fornecedor.getCodigo()));
+				textNumero.setText(String.valueOf(fornecedor.getEndereco().getNumero()));
 			}
-		}
-
-		private void limparCampos() {
-			textNomeFantazia.setText("");
-			textRazaoSocial.setText("");
-			textCnpj.setText("");
-			textRua.setText("");
-			textNumero.setText("");
-			textBairro.setText("");
-			textComplemento.setText("");
-			comboCidade.setSelectedIndex(0);
 		}
 		
 		private boolean existeFornecedor(){
-			ListaObjeto listaObjeto = fornecedor.search("Código", "Igual", textCodigo.getText().trim());
+			ListaObjeto listaObjeto = fornecedor.search("Razão Social", "Igual", textRazaoSocial.getText().trim());
 			if (listaObjeto.getSize() > 0) {
 				return false;
 			}			
@@ -339,6 +342,12 @@ public class DialogoFornecedor extends DialogoPadrao {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == getBotaoCancelar()) {
 				dispose();
+			}else if (e.getSource() == botaoCidade) {
+				DialogoCRUD dialogoCRUD = new DialogoCRUD(TelaPrincipal.instancia,
+					"Cadastro de Cidade", true);
+				dialogoCRUD.setPainel(new PainelCidade());
+				carregarComboCidade(cidade.load());
+				
 			} else if (e.getSource() == getBotaoConfirmar()) {
 				if (textNomeFantazia.getText().equals("")) {
 					JOptionPane.showMessageDialog(DialogoFornecedor.this, "O campo nome é obrigatório!");
@@ -347,8 +356,8 @@ public class DialogoFornecedor extends DialogoPadrao {
 					JOptionPane.showMessageDialog(DialogoFornecedor.this, "O campo telefone é obrigatório!");
 					textTelefone.requestFocus();
 				} else if (textCnpj.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoFornecedor.this, "O campo CPF é obrigatório!");
-					//textCpf.requestFocus();
+					JOptionPane.showMessageDialog(DialogoFornecedor.this, "O campo CNPJ é obrigatório!");
+					textCnpj.requestFocus();
 				}else if (textRua.getText().equals("")) {
 					JOptionPane.showMessageDialog(DialogoFornecedor.this, "O campo rua é obrigatório!");
 					textRua.requestFocus();
@@ -367,7 +376,6 @@ public class DialogoFornecedor extends DialogoPadrao {
 					} else {
 						editar();
 					}
-					limparCampos();
 					dispose();
 				}
 			}
