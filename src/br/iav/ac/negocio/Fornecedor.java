@@ -1,22 +1,28 @@
 package br.iav.ac.negocio;
 
+import br.iav.ac.dao.DaoCliente;
 import br.iav.ac.dao.DaoFornecedor;
 
 public class Fornecedor extends Pessoa implements ObjetoInterface {
 
 	private String cnpj;
+	private String razaoSocial;
+	private String fax;
 	
 	public Fornecedor() {
 		this.cnpj = new String("");
+		this.razaoSocial = new String("");
+		this.fax = new String("");
 	}
 	
-	public Fornecedor(int codigo, String nome, Endereco endereco, String telefone, String cpf, String cnpj) {
+	public Fornecedor(int codigo, String nomeFantazia, String razaoSocial, String cnpj, String telefone,   String fax,Endereco endereco) {
 		this.setCodigo(codigo);
-		this.setNome(nome);
+		this.setNome(nomeFantazia);
 		this.setEndereco(endereco);
 		this.setTelefone(telefone);
-		this.setCpf(cpf);
 		this.cnpj = new String(cnpj);
+		this.razaoSocial = new String(razaoSocial);
+		this.fax = new String(fax);
 	}
 	
 	public String getCnpj() {
@@ -25,6 +31,22 @@ public class Fornecedor extends Pessoa implements ObjetoInterface {
 
 	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
+	}
+	
+	public String getRazaoSocial() {
+		return razaoSocial;
+	}
+
+	public void setRazaoSocial(String razaoSocial) {
+		this.razaoSocial = razaoSocial;
+	}
+	
+	public String getFax() {
+		return fax;
+	}
+
+	public void setFax(String fax) {
+		this.fax = fax;
 	}
 
 	public Fornecedor clone() {
@@ -35,6 +57,7 @@ public class Fornecedor extends Pessoa implements ObjetoInterface {
 		fornecedor.setTelefone(this.getTelefone());
 		fornecedor.setCpf(this.getCpf());
 		fornecedor.setCnpj(this.getCnpj());
+		fornecedor.setRazaoSocial(this.getRazaoSocial());
 		return fornecedor;
 	}
 	
@@ -63,6 +86,11 @@ public class Fornecedor extends Pessoa implements ObjetoInterface {
 	public ListaObjeto load() {
 		DaoFornecedor dao = new DaoFornecedor();
 		return dao.load();
+	}
+	
+	public ListaObjeto search(String campo, String operador, String valor){
+		DaoCliente dao = new DaoCliente();
+		return dao.search(campo, operador, valor);		
 	}
 	
 }

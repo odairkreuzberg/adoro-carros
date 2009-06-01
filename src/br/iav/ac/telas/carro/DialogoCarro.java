@@ -150,7 +150,6 @@ public class DialogoCarro extends DialogoPadrao {
 			{
 				comboModelo = new JComboBox();
 				getPanelPrincipal().add(comboModelo);
-				;
 				comboModelo.setBounds(espacoDoTextField, espacoEntreLinhas, 233, 20);
 			}
 			{
