@@ -38,7 +38,7 @@ public class PainelCliente extends PainelPadrao {
 
 		private Cliente buscarCliente(){
 			String nome = getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1)+ "";
-			ListaObjeto listaObjeto = cliente.search("Nome", "Igual", nome);
+			ListaObjeto listaObjeto = cliente.search("Código", "Igual", nome);
 			if (listaObjeto.getSize() > 0) {
 				return (Cliente) listaObjeto.getObjeto(0);				
 			}	
@@ -46,11 +46,22 @@ public class PainelCliente extends PainelPadrao {
 		}
 		
 		private void carregarGrid(ListaObjeto listaObjeto) {
-			Object[][] gridArray = new Object[listaObjeto.getSize()][2];
+			Object[][] gridArray = new Object[listaObjeto.getSize()][13];
 			for (int i = 0; i < listaObjeto.getSize(); i++) {
 				Cliente cliente = (Cliente) listaObjeto.getObjeto(i);
 				gridArray[i][0] = cliente.getCodigo();
 				gridArray[i][1] = cliente.getNome();
+				gridArray[i][2] = cliente.getTelefone();
+				gridArray[i][3] = cliente.getCpf();
+				gridArray[i][4] = cliente.getRg();
+				gridArray[i][5] = cliente.getProfissao();
+				gridArray[i][6] = cliente.getDataNascimento();
+				gridArray[i][7] = cliente.getEndereco().getRua();
+				gridArray[i][8] = cliente.getEndereco().getNumero();
+				gridArray[i][9] = cliente.getEndereco().getBairro();
+				gridArray[i][10] = cliente.getEndereco().getCep();
+				gridArray[i][11] = cliente.getEndereco().getComplemento();
+				gridArray[i][12] = cliente.getEndereco().getCidade().getNome();
 			}
 			DefaultTableModel model = new DefaultTableModel(gridArray, CAMPOS);
 			getGridTabela().setModel(model);

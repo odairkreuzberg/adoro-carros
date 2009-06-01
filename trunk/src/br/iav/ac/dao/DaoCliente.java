@@ -16,7 +16,8 @@ public class DaoCliente implements DaoInterface {
 	//Nome da tabela e nome do sufixo do código
 	private final static String tableName = "cliente";
 	
-	private final static String SELECT = "select c.cod_" + tableName + ", c.nome, c.rua, c.numero, c.bairro, c.cod_cidade, c1.cod_cidade, c1.nome, c1.ddd, c.cep, c.complemento, c.telefone, c.cpf, c.rg, c.data_nascimento, c.profissao from " + tableName + " c, cidade c1 where c.cod_cidade = c1.cod_cidade";
+	private final static String SELECT = "select * from " + tableName;
+	private final static String SELECT_COM_CIDADE = "select cliente.* from " + tableName + ", cidade";
 	
 	public Cliente getCliente() {
 		return cliente;
@@ -65,20 +66,24 @@ public class DaoCliente implements DaoInterface {
 													"'" + cliente.getTelefone() + "', " +
 													"'" + cliente.getCpf() + "', " +
 													"'" + cliente.getRg() + "', " +
-													cliente.getDataNascimento() + ", " +
+													"(to_date('" + cliente.getDataNascimento() + "', 'dd/mm/yyyy'), " +
 													"'" + cliente.getProfissao() + "')");
 			db.disconnect();
 		}
 	}
 	
 	public ListaObjeto load(String sql) {
+		DaoCidade daoCidade = new DaoCidade();
 		ListaObjeto lista = new ListaObjeto();
 		if (db.connect()) {
 			db.select(sql);
 			while (db.moveNext()) {
-				Cidade cidade = new Cidade(db.getInt("c1.cod_cidade"), db.getString("c1.nome"), db.getInt("c1.ddd"));
-				Endereco endereco = new Endereco(db.getString("c.rua"), db.getInt("c.numero"), db.getString("c.bairro"), cidade, db.getString("c.cep"), db.getString("c.complemento"));
-				lista.insertWhitoutPersist(new Cliente(db.getInt("c.cod_" + tableName), db.getString("c.nome"), endereco, db.getString("c.telefone"), db.getString("c.cpf"), db.getString("c.rg"), db.getDate("c.data_nascimento"), db.getString("c.profissao"), null));
+				Cidade cidade = daoCidade.searchWithCodigo(db.getInt("cod_cidade"));
+				Endereco endereco = new Endereco(db.getString("rua"), db.getInt("numero"), db.getString("bairro"), cidade, db.getString("cep"), db.getString("complemento"));
+				lista.insertWhitoutPersist(new Cliente(db.getInt("cod_" + tableName), db.getString("nome"), endereco, db.getString("telefone"), db.getString("cpf"), db.getString("rg"), db.getDate("data_nascimento"), db.getString("profissao"), null));
+				//Cidade cidade = new Cidade(db.getInt("c1.cod_cidade"), db.getString("c1.nome"), db.getInt("c1.ddd"));
+				//Endereco endereco = new Endereco(db.getString("c.rua"), db.getInt("c.numero"), db.getString("c.bairro"), cidade, db.getString("c.cep"), db.getString("c.complemento"));
+				//lista.insertWhitoutPersist(new Cliente(db.getInt("c.cod_" + tableName), db.getString("c.nome"), endereco, db.getString("c.telefone"), db.getString("c.cpf"), db.getString("c.rg"), db.getString("c.data_nascimento"), db.getString("c.profissao"), null));
 			}
 			db.disconnect();
 		}
@@ -93,10 +98,34 @@ public class DaoCliente implements DaoInterface {
 		String campoSQL = campo;
 		String operadorSQL = null;
 		String valorSQL = "'" + valor + "'";
+		String sql = SELECT;
 		if (campo.equals("Código")) {
-			campoSQL = "CAST(cod_"+tableName+" as VARCHAR)";
-		} else {
+			campoSQL = "cast (cod_"+tableName+" as varchar)";
+		} else if (campo.equals("Nome")) {
 			campoSQL = "nome";
+		} else if (campo.equals("Telefone")) {
+			campoSQL = "telefone";
+		} else if (campo.equals("CPF")) {
+			campoSQL = "cpf";
+		} else if (campo.equals("RG")) {
+			campoSQL = "rg";
+		} else if (campo.equals("Profissão")) {
+			campoSQL = "profissao";
+		} else if (campo.equals("Data de Nascimento")) {
+			campoSQL = "data_nascimento";
+		} else if (campo.equals("Rua")) {
+			campoSQL = "rua";
+		} else if (campo.equals("Número")) {
+			campoSQL = "cast (numero as varchar)";
+		} else if (campo.equals("Bairro")) {
+			campoSQL = "bairro";
+		} else if (campo.equals("CEP")) {
+			campoSQL = "cep";
+		} else if (campo.equals("Complemento")) {
+			campoSQL = "complemento";
+		} else if (campo.equals("Cidade")) {
+			sql = SELECT_COM_CIDADE;
+			campoSQL = "cidade.cod_cidade = cliente.cod_cidade";
 		}
 		if (operador.equals("Igual")) {
 			operadorSQL = "=";
@@ -110,7 +139,6 @@ public class DaoCliente implements DaoInterface {
 			operadorSQL = "like";
 			valorSQL = "('%" + valor + "%')";
 		}
-		String sql = SELECT;
 		sql += " where " + campoSQL + " " + operadorSQL + valorSQL;
 		return this.load(sql);
 	}

@@ -65,8 +65,8 @@ public class DaoStatus implements DaoInterface {
 		String operadorSQL = null;
 		String valorSQL = "'" + valor + "'";
 		if (campo.equals("Código")) {
-			campoSQL = "CAST(cod_"+tableName+" as VARCHAR)";
-		} else {
+			campoSQL = "CAST(cod_" + tableName + " as VARCHAR)";
+		} else if (campo.equals("Nome")) {
 			campoSQL = "nome";
 		}
 		if (operador.equals("Igual")) {
