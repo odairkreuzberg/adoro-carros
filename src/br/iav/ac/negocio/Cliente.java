@@ -1,5 +1,6 @@
 package br.iav.ac.negocio;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import br.iav.ac.dao.DaoCliente;
 
@@ -43,6 +44,12 @@ public class Cliente extends Pessoa implements ObjetoInterface {
 
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
+	}
+	
+	public String dataNascimentoToString() {
+		SimpleDateFormat converterDate = new SimpleDateFormat("dd/MM/yyyy");
+		String data = converterDate.format(dataNascimento);
+		return data; 
 	}
 
 	public String getProfissao() {

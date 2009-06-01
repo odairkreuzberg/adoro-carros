@@ -227,6 +227,17 @@ public class DialogoCliente extends DialogoPadrao {
 		
 		public FormHandle() {
 			super();
+			textNome.setText(cliente.getNome().trim());
+			textTelefone.setText(cliente.getTelefone().trim());
+			textCpf.setText(cliente.getCpf().trim());
+			textRg.setText(cliente.getRg().trim());
+			textDataNascimento.setText(cliente.dataNascimentoToString().trim());
+			textProfissao.setText(cliente.getProfissao().trim());
+			textRua.setText(cliente.getEndereco().getRua().trim());
+			textNumero.setText(String.valueOf(cliente.getEndereco().getNumero()));
+			textBairro.setText(cliente.getEndereco().getBairro().trim());
+			textCep.setText(cliente.getEndereco().getCep().trim());
+			textComplemento.setText(cliente.getEndereco().getComplemento().trim());
 			cidade = new Cidade();
 			this.carregarComboCidade(cidade.load());
 			comboCidade.setSelectedItem((Object) cliente.getEndereco().getCidade().getNome());
@@ -267,7 +278,7 @@ public class DialogoCliente extends DialogoPadrao {
 				cliente.setTelefone(textTelefone.getText().trim());
 				cliente.setCpf(textCpf.getText().trim());
 				cliente.setRg(textRg.getText().trim());
-				SimpleDateFormat converterDate = new SimpleDateFormat("dd/mm/yyyy");
+				SimpleDateFormat converterDate = new SimpleDateFormat("dd/MM/yyyy");
 				try {
 					cliente.setDataNascimento(converterDate.parse(textDataNascimento.getText().trim()));
 				} catch (ParseException e) {
@@ -376,7 +387,7 @@ public class DialogoCliente extends DialogoPadrao {
 				} else if (textComplemento.getText().equals("")) {
 					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo complemento é obrigatório!");
 					textComplemento.requestFocus();
-				} else if (comboCidade.getSelectedItem().toString().equals("")) {
+				} else if (comboCidade.getSelectedIndex() == -1) {
 					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo cidade é obrigatório!");
 					comboCidade.requestFocus();
 				} else {

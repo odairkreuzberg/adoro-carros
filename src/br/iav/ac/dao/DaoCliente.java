@@ -46,7 +46,7 @@ public class DaoCliente implements DaoInterface {
 													"telefone = '" + cliente.getTelefone() + "', " +
 													"cpf = '" + cliente.getCpf() + "', " +
 													"rg = '" + cliente.getRg() + "', " +
-													"data_nascimento = " + cliente.getDataNascimento() + ", " +
+													"data_nascimento = '" + cliente.dataNascimentoToString() + "', " +
 													"profissao = '" + cliente.getProfissao() + "' " +
 													"where cod_" + tableName + " = " + cliente.getCodigo());
 			db.disconnect();
@@ -66,7 +66,7 @@ public class DaoCliente implements DaoInterface {
 													"'" + cliente.getTelefone() + "', " +
 													"'" + cliente.getCpf() + "', " +
 													"'" + cliente.getRg() + "', " +
-													"(to_date('" + cliente.getDataNascimento() + "', 'dd/mm/yyyy'), " +
+													"'" + cliente.dataNascimentoToString() + "', " +
 													"'" + cliente.getProfissao() + "')");
 			db.disconnect();
 		}
