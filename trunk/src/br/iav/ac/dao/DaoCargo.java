@@ -3,6 +3,7 @@ package br.iav.ac.dao;
 import br.iav.ac.database.DB;
 import br.iav.ac.database.PostgreSQL;
 import br.iav.ac.negocio.Cargo;
+import br.iav.ac.negocio.Cidade;
 import br.iav.ac.negocio.Cor;
 import br.iav.ac.negocio.ListaObjeto;
 
@@ -61,6 +62,14 @@ public class DaoCargo  implements DaoInterface {
 	public ListaObjeto load() {
 		return this.load(SELECT);
 	}	
+	
+	public Cargo searchWithCodigo(int codigo){
+		ListaObjeto listaObjeto = this.search("Código", "Igual", String.valueOf(codigo));
+		if (listaObjeto.getSize() == 1 ) {
+			return (Cargo) listaObjeto.getObjeto(0);
+		}
+		return null;
+	}
 	
 	public ListaObjeto search(String campo, String operador, String valor) {
 		String campoSQL = campo;

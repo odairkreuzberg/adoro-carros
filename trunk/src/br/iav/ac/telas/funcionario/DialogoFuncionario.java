@@ -2,16 +2,23 @@ package br.iav.ac.telas.funcionario;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
 import br.iav.ac.negocio.Cargo;
+import br.iav.ac.negocio.Cidade;
+import br.iav.ac.negocio.Endereco;
 import br.iav.ac.negocio.Funcionario;
 import br.iav.ac.negocio.ListaObjeto;
+import br.iav.ac.negocio.Objeto;
 import br.iav.ac.telas.padrao.DialogoPadrao;
 
 /**
@@ -21,6 +28,7 @@ import br.iav.ac.telas.padrao.DialogoPadrao;
  */
 public class DialogoFuncionario extends DialogoPadrao {
 
+	private static final long serialVersionUID = 1L;
 	private JTextField textCodigo;
 	private JLabel labelNome;
 	private JTextField textNome;
@@ -50,6 +58,8 @@ public class DialogoFuncionario extends DialogoPadrao {
 	private JComboBox comboCidade;
 	private FormHandle formHandle;
 	private Funcionario funcionario;
+	private Cidade cidade;
+	private Cargo cargo;
 
 	public DialogoFuncionario(JFrame frame, String titulo, boolean modal, Funcionario funcionario) {
 		super(frame, titulo, modal);
@@ -73,7 +83,7 @@ public class DialogoFuncionario extends DialogoPadrao {
             	labelNome.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textNome = new JTextField(this.funcionario.getNome().trim());
+	        	textNome = new JTextField();
 	        	getPanelPrincipal().add(textNome);
 	        	textNome.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
@@ -85,7 +95,7 @@ public class DialogoFuncionario extends DialogoPadrao {
             	labelTelefone.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textTelefone = new JTextField(this.funcionario.getTelefone().trim());
+	        	textTelefone = new JTextField();
 	        	getPanelPrincipal().add(textTelefone);
 	        	textTelefone.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
@@ -97,7 +107,7 @@ public class DialogoFuncionario extends DialogoPadrao {
             	labelCpf.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textCpf = new JTextField(this.funcionario.getCpf().trim());
+	        	textCpf = new JTextField();
 	        	getPanelPrincipal().add(textCpf);
 	        	textCpf.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
@@ -109,7 +119,7 @@ public class DialogoFuncionario extends DialogoPadrao {
             	labelRg.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textRg = new JTextField(this.funcionario.getRg().trim());
+	        	textRg = new JTextField();
 	        	getPanelPrincipal().add(textRg);
 	        	textRg.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
@@ -121,7 +131,7 @@ public class DialogoFuncionario extends DialogoPadrao {
             	labelDtNascimento.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textDtNascimento = new JTextField(this.funcionario.getDataNascimento().toString());
+	        	textDtNascimento = new JTextField();
 	        	getPanelPrincipal().add(textDtNascimento);
 	        	textDtNascimento.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
@@ -133,7 +143,7 @@ public class DialogoFuncionario extends DialogoPadrao {
             	labelRua.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textRua = new JTextField(this.funcionario.getEndereco().getRua().trim());
+	        	textRua = new JTextField();
 	        	getPanelPrincipal().add(textRua);
 	        	textRua.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
@@ -145,7 +155,7 @@ public class DialogoFuncionario extends DialogoPadrao {
             	labelNumero.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textNumero = new JTextField(String.valueOf(this.funcionario.getEndereco().getNumero()));
+	        	textNumero = new JTextField();
 	        	getPanelPrincipal().add(textNumero);
 	        	textNumero.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
@@ -157,7 +167,7 @@ public class DialogoFuncionario extends DialogoPadrao {
             	labelBairro.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textBairro = new JTextField(this.funcionario.getEndereco().getBairro().trim());
+	        	textBairro = new JTextField();
 	        	getPanelPrincipal().add(textBairro);
 	        	textBairro.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
@@ -169,7 +179,7 @@ public class DialogoFuncionario extends DialogoPadrao {
             	labelCep.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textCep = new JTextField(this.funcionario.getEndereco().getCep().trim());
+	        	textCep = new JTextField();
 	        	getPanelPrincipal().add(textCep);
 	        	textCep.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
@@ -181,7 +191,7 @@ public class DialogoFuncionario extends DialogoPadrao {
             	labelComplemento.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textComplemento = new JTextField(this.funcionario.getEndereco().getComplemento().trim());
+	        	textComplemento = new JTextField();
 	        	getPanelPrincipal().add(textComplemento);
 	        	textComplemento.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
@@ -193,7 +203,7 @@ public class DialogoFuncionario extends DialogoPadrao {
             	labelSalario.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textSalario = new JTextField(String.valueOf(this.funcionario.getSalario()));
+	        	textSalario = new JTextField();
 	        	getPanelPrincipal().add(textSalario);
 	        	textSalario.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }	        
@@ -207,7 +217,6 @@ public class DialogoFuncionario extends DialogoPadrao {
 	        {
 	        	comboCidade = new JComboBox();
 	        	getPanelPrincipal().add(comboCidade);
-	        	comboCidade.setSelectedItem(funcionario.getEndereco().getCidade().getNome().trim());
 	        	comboCidade.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
             {
@@ -220,7 +229,6 @@ public class DialogoFuncionario extends DialogoPadrao {
 	        {
 	        	comboCargo = new JComboBox();
 	        	getPanelPrincipal().add(comboCargo);
-	        	comboCargo.setSelectedItem(funcionario.getCargo().getNome().trim());
 	        	comboCargo.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }	        
 		} catch (Exception e) {
@@ -248,17 +256,92 @@ public class DialogoFuncionario extends DialogoPadrao {
 
 		public FormHandle() {
 			super();
-			textNome.setText(funcionario.getNome().trim());
-			if (funcionario.getCodigo() != 0) {
-				textCodigo.setText(String.valueOf(funcionario.getCodigo()));
+			cargo = new Cargo();
+			cidade = new Cidade();
+			carregarComboCargo(cargo.load());
+			carregarComboCidade(cidade.load());	
+			if( (funcionario != null) && (funcionario.getCodigo() > 0)){
+				this.carregarDados();
+			}else{
+				funcionario = new Funcionario();
 			}
-
 		}
 		
+		private void carregarDados(){
+			if(funcionario.getEndereco() == null){
+				funcionario.setEndereco(new Endereco());
+			}
+			if(funcionario.getEndereco().getCidade() == null){
+				funcionario.getEndereco().setCidade(new Cidade());
+			}
+			if(funcionario.getCargo() == null){
+				funcionario.setCargo(new Cargo());
+			}
+			textCodigo.setText(String.valueOf(funcionario.getCodigo()));
+			textNome.setText(funcionario.getNome());
+			textBairro.setText(funcionario.getEndereco().getBairro());
+			textCep.setText(funcionario.getEndereco().getCep());
+			textComplemento.setText(funcionario.getEndereco().getComplemento());
+			textCpf.setText(funcionario.getCpf());
+			textDtNascimento.setText(funcionario.dataNascimentoToString());
+			textNumero.setText(String.valueOf(funcionario.getEndereco().getNumero()));
+			textRg.setText(funcionario.getRg());
+			textRua.setText(funcionario.getEndereco().getRua());
+			textSalario.setText(String.valueOf(funcionario.getSalario()));
+			textTelefone.setText(funcionario.getTelefone());
+			comboCidade.setEditable(true);
+			comboCargo.setEditable(true);
+			comboCidade.setSelectedItem(((Object)funcionario.getEndereco().getCidade()));
+			comboCargo.setSelectedItem((Object)funcionario.getCargo());
+			comboCidade.setEditable(false);
+			comboCargo.setEditable(false);
+		}
+		
+		
+		private void limparCampos(){
+			textNome.setText("");
+			textTelefone.setText("");
+			textCpf.setText("");
+			textRg.setText("");
+			textDtNascimento.setText("");
+			textRua.setText("");
+			textNumero.setText("");
+			textBairro.setText("");
+			textCep.setText("");
+			textComplemento.setText("");
+			textSalario.setText("");
+			comboCidade.setSelectedIndex(0);
+			comboCargo.setSelectedIndex(0);
+		}
+		
+		private void setarCampos(){
+	
+		}
 
-		//Retorna true se encontrar um cargo e false se nao encontrar.
-		private boolean existeCargo() {
-			ListaObjeto listaObjeto = funcionario.search("nome", "Igual", textNome.getText().trim());
+		
+		private void carregarComboCidade(ListaObjeto listaObjeto) {
+			Objeto[] comboArray = new Objeto[listaObjeto.getSize()];
+			for (int i = 0; i < listaObjeto.getSize(); i++) {
+				Cidade cidade = (Cidade) listaObjeto.getObjeto(i);
+				comboArray[i] = cidade;
+			}
+			ComboBoxModel comboMarcaModel = new DefaultComboBoxModel(comboArray);
+			comboCidade.setModel(comboMarcaModel);
+		}
+
+		private void carregarComboCargo(ListaObjeto listaObjeto) {
+			Objeto[] comboArray = new Objeto[listaObjeto.getSize()];
+			for (int i = 0; i < listaObjeto.getSize(); i++) {
+				Cargo cargo = (Cargo) listaObjeto.getObjeto(i);
+				comboArray[i] = cargo;
+			}
+			ComboBoxModel comboMarcaModel = new DefaultComboBoxModel(comboArray);
+			comboCargo.setModel(comboMarcaModel);
+		}
+				
+		
+		private boolean existeFuncionario() {
+			ListaObjeto listaObjeto = funcionario.search("Código", "Igual", textCodigo.getText());
 			if (listaObjeto.getSize() > 0) {
 				return false;
 			}
@@ -266,24 +349,70 @@ public class DialogoFuncionario extends DialogoPadrao {
 		}
 		
 		
-		//Faz a Inserção de um cargo.
 		private void inserir(){
-			if (existeCargo()) {
-				funcionario.setNome(textNome.getText().trim());
-				funcionario.insert();							
+			if (existeFuncionario()) {
+				try {
+					SimpleDateFormat converterDate = new SimpleDateFormat("dd/MM/yyyy");
+					funcionario.setCpf(textCpf.getText());
+					funcionario.setDataNascimento(converterDate.parse(textDtNascimento.getText().trim()));
+					Endereco end = new Endereco();
+					end.setBairro(textBairro.getText());
+					end.setCep(textCep.getText());
+					end.setComplemento(textComplemento.getText());
+					end.setNumero(Integer.valueOf(textNumero.getText()));
+					end.setRua(textRua.getText());
+					end.setCidade((Cidade)comboCidade.getSelectedItem());
+					Cargo cargo = new Cargo();
+					cargo = ((Cargo)comboCargo.getSelectedItem());
+					funcionario.setCargo(cargo);
+					funcionario.setEndereco(end);
+					funcionario.setNome(textNome.getText());
+					funcionario.setRg(textRg.getText());
+					funcionario.setSalario(Float.valueOf(textSalario.getText()));
+					funcionario.setTelefone(textTelefone.getText());
+					funcionario.insert();
+					this.limparCampos();
+				} catch (ParseException e) {
+						JOptionPane.showMessageDialog(DialogoFuncionario.this, "O formato padrão de data utilizado é: \n\ndd/mm/aaaa");
+				}catch (NumberFormatException e) {
+					JOptionPane.showMessageDialog(DialogoFuncionario.this, "O salário deve ser um número");
+				}							
 			} else {
 				JOptionPane.showMessageDialog(DialogoFuncionario.this, "Esse Funcionario já se encontra na Base de Dados!");
 			}			
 		}
 		
 
-		//Faz a Edição de um cargo.
 		private void editar(){
-			if (existeCargo()) {
-				funcionario.setNome(textNome.getText().trim());
-				funcionario.edit();	
-			} else{
-				JOptionPane.showMessageDialog(DialogoFuncionario.this, "Esse Funcionario já se encontra na Base de Dados!");
+			if (!existeFuncionario()) {
+				try {
+					SimpleDateFormat converterDate = new SimpleDateFormat("dd/MM/yyyy");
+					funcionario.setCpf(textCpf.getText());
+					funcionario.setDataNascimento(converterDate.parse(textDtNascimento.getText().trim()));
+					Endereco end = new Endereco();
+					end.setBairro(textBairro.getText());
+					end.setCep(textCep.getText());
+					end.setComplemento(textComplemento.getText());
+					end.setNumero(Integer.valueOf(textNumero.getText()));
+					end.setRua(textRua.getText());
+					end.setCidade((Cidade)comboCidade.getSelectedItem());
+					Cargo cargo = new Cargo();
+					cargo = ((Cargo)comboCargo.getSelectedItem());
+					funcionario.setCargo(cargo);
+					funcionario.setEndereco(end);
+					funcionario.setNome(textNome.getText());
+					funcionario.setRg(textRg.getText());
+					funcionario.setSalario(Float.valueOf(textSalario.getText()));
+					funcionario.setTelefone(textTelefone.getText());
+					funcionario.edit();
+					this.limparCampos();
+				} catch (ParseException e) {
+						JOptionPane.showMessageDialog(DialogoFuncionario.this, "O formato padrão de data utilizado é: \n\ndd/mm/aaaa");
+				}catch (NumberFormatException e) {
+						JOptionPane.showMessageDialog(DialogoFuncionario.this, "O salário deve ser um número");
+				}					
+			} else {
+				JOptionPane.showMessageDialog(DialogoFuncionario.this, "Esse Funcionario não se encontra na Base de Dados!");
 			}
 		}
 
@@ -293,6 +422,12 @@ public class DialogoFuncionario extends DialogoPadrao {
 			} else if (e.getSource() == getBotaoConfirmar()) {
 				if (textNome.getText().equals("")) {
 					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo nome é obrigatório!");
+				}else if (textTelefone.getText().equals("")) {
+					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo telefone é obrigatório!");
+				}else if (textRg.getText().equals("")) {
+					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo RG é obrigatório!");
+				}else if (textCpf.getText().equals("")) {
+					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo salario é obrigatório!");
 				} else {
 					if (funcionario.getCodigo() == 0) {
 						inserir();

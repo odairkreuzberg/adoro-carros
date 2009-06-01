@@ -274,16 +274,13 @@ public class DialogoCliente extends DialogoPadrao {
 		 */		
 		private void inserir(){
 			if (existeCliente()) {
+				try {
 				cliente.setNome(textNome.getText().trim());
 				cliente.setTelefone(textTelefone.getText().trim());
 				cliente.setCpf(textCpf.getText().trim());
 				cliente.setRg(textRg.getText().trim());
 				SimpleDateFormat converterDate = new SimpleDateFormat("dd/MM/yyyy");
-				try {
-					cliente.setDataNascimento(converterDate.parse(textDataNascimento.getText().trim()));
-				} catch (ParseException e) {
-					JOptionPane.showMessageDialog(DialogoCliente.this, "O formato padrão de data utilizado é: \n\ndd/mm/aaaa");
-				}
+				cliente.setDataNascimento(converterDate.parse(textDataNascimento.getText().trim()));
 				cliente.setProfissao(textProfissao.getText().trim());
 				Endereco endereco = new Endereco(textRua.getText().trim(),
 												 Integer.valueOf(textNumero.getText().trim()),
@@ -292,7 +289,10 @@ public class DialogoCliente extends DialogoPadrao {
 												 textCep.getText().trim(),
 												 textComplemento.getText().trim());
 				cliente.setEndereco(endereco);
-				cliente.insert();	
+				cliente.insert();
+				} catch (ParseException e) {
+					JOptionPane.showMessageDialog(DialogoCliente.this, "O formato padrão de data utilizado é: \n\ndd/mm/aaaa/n");
+				}				
 				carregarComboCidade(cidade.load());					
 			} else {
 				JOptionPane.showMessageDialog(DialogoCliente.this, "Esse cliente já se encontra na Base de Dados!");

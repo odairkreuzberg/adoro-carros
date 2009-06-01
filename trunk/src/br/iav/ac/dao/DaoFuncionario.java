@@ -17,8 +17,10 @@ public class DaoFuncionario implements DaoInterface {
 	//Nome da tabela e nome do sufixo do código
 	private final static String tableName = "funcionario";
 	
-	private final static String SELECT = "select f.cod_" + tableName + ", f.nome, f.rua, f.numero, f.bairro, f.cod_cidade, c1.cod_cidade, c1.nome, c1.ddd, f.cep, f.complemento, f.telefone, f.cpf, f.rg, f.data_nascimento, f.cod_cargo, c2.cod_cargo, c2.nome, c2.descricao, f.salario from " + tableName + " f, cidade c1, cargo c2 where f.cod_cidade = c1.cod_cidade and f.cod_cargo = c2.cod_cargo";
-	
+	private final static String SELECT = "select * from " + tableName;
+	private final static String SELECT_COM_CIDADE = "select funcionario.* from " + tableName + ", cidade";
+	private final static String SELECT_COM_CARGO = "select funcionario.* from " + tableName + ", cargo";
+
 	public Funcionario getFuncionario() {
 		return funcionario;
 	}
@@ -46,7 +48,7 @@ public class DaoFuncionario implements DaoInterface {
 													"telefone = '" + funcionario.getTelefone() + "', " +
 													"cpf = '" + funcionario.getCpf() + "', " +
 													"rg = '" + funcionario.getRg() + "', " +
-													"data_nascimento = " + funcionario.getDataNascimento() + ", " +
+													"data_nascimento = '" + funcionario.getDataNascimento() + "', " +
 													"cod_cargo = " + funcionario.getCargo().getCodigo() + ", " +
 													"salario = " + funcionario.getSalario() + " " +
 													"where cod_" + tableName + " = " + funcionario.getCodigo());
@@ -66,8 +68,8 @@ public class DaoFuncionario implements DaoInterface {
 													"'" + funcionario.getEndereco().getComplemento() + "', " +
 													"'" + funcionario.getTelefone() + "', " +
 													"'" + funcionario.getCpf() + "', " +
-													"'" + funcionario.getRg() + "', " +
-													funcionario.getDataNascimento() + ", " +
+													"'" + funcionario.getRg() + "', '" +
+													funcionario.dataNascimentoToString() + "', " +
 													funcionario.getCargo().getCodigo() + ", " +
 													funcionario.getSalario() + ")");
 			db.disconnect();
@@ -76,13 +78,15 @@ public class DaoFuncionario implements DaoInterface {
 	
 	public ListaObjeto load(String sql) {
 		ListaObjeto lista = new ListaObjeto();
+		DaoCidade daoCidade = new DaoCidade();
+		DaoCargo daoCargo = new DaoCargo();
 		if (db.connect()) {
-			db.select("select f.cod_" + tableName + ", f.nome, f.rua, f.numero, f.bairro, f.cod_cidade, c1.cod_cidade, c1.nome, c1.ddd, f.cep, f.complemento, f.telefone, f.cpf, f.rg, f.data_nascimento, f.cod_cargo, c2.cod_cargo, c2.nome, c2.descricao, f.salario from " + tableName + " f, cidade c1, cargo c2 where f.cod_cidade = c1.cod_cidade and f.cod_cargo = c2.cod_cargo");
+			db.select(sql);
 			while (db.moveNext()) {
-				Cidade cidade = new Cidade(db.getInt("c1.cod_cidade"), db.getString("c1.nome"), db.getInt("c1.ddd"));
-				Endereco endereco = new Endereco(db.getString("f.rua"), db.getInt("f.numero"), db.getString("f.bairro"), cidade, db.getString("f.cep"), db.getString("f.complemento"));
-				Cargo cargo = new Cargo(db.getInt("c2.cod_cargo"), db.getString("c2.nome"), db.getString("c2.descricao"));
-				lista.insertWhitoutPersist(new Funcionario(db.getInt("f.cod_" + tableName), db.getString("f.nome"), endereco, db.getString("f.telefone"), db.getString("f.cpf"), db.getString("f.rg"), db.getDate("f.data_nascimento"), cargo, db.getFloat("f.salario")));
+				Cidade cidade = daoCidade.searchWithCodigo(db.getInt("cod_cidade"));
+				Endereco endereco = new Endereco(db.getString("rua"), db.getInt("numero"), db.getString("bairro"), cidade, db.getString("cep"), db.getString("complemento"));
+				Cargo cargo = daoCargo.searchWithCodigo(db.getInt("cod_cargo"));
+				lista.insertWhitoutPersist(new Funcionario(db.getInt("cod_" + tableName), db.getString("nome"), endereco, db.getString("telefone"), db.getString("cpf"), db.getString("rg"), db.getDate("data_nascimento"), cargo, db.getFloat("salario")));
 			}
 			db.disconnect();
 		}
@@ -96,11 +100,26 @@ public class DaoFuncionario implements DaoInterface {
 	public ListaObjeto search(String campo, String operador, String valor) {
 		String campoSQL = campo;
 		String operadorSQL = null;
+		String sql = SELECT;
 		String valorSQL = "'" + valor + "'";
 		if (campo.equals("Código")) {
 			campoSQL = "CAST(cod_"+tableName+" as VARCHAR)";
-		} else {
+		} else if (campo.equals("Nome")) {
 			campoSQL = "nome";
+		} else if (campo.equals("Telefone")) {
+			campoSQL = "telefone";
+		} else if (campo.equals("CPF")) {
+			campoSQL = "CPF";
+		} else if (campo.equals("RG")) {
+			campoSQL = "RG";
+		} else if (campo.equals("Data de Nascimento")) {
+			campoSQL = "data_nascimento";
+		} else if (campo.equals("Cidade")) {
+			sql  = SELECT_COM_CIDADE;
+			campoSQL = "cidade.cod_cidade = funcionario.cod_cidade and cidade.nome ";
+		} else if (campo.equals("Cargo")) {
+			sql  = SELECT_COM_CARGO;
+			campoSQL = "cargo.cod_cargo = funcionario.cod_cargo and cargo.nome ";
 		}
 		if (operador.equals("Igual")) {
 			operadorSQL = "=";
@@ -114,7 +133,7 @@ public class DaoFuncionario implements DaoInterface {
 			operadorSQL = "like";
 			valorSQL = "('%" + valor + "%')";
 		}
-		String sql = SELECT;
+
 		sql += " where " + campoSQL + " " + operadorSQL + valorSQL;
 		return this.load(sql);
 	}	
