@@ -25,22 +25,35 @@ public class DaoMarca implements DaoInterface {
 	}
 
 	public void delete() {
+
+		DaoModelo daoModelo = new DaoModelo();
+
+		if (daoModelo.temMarca(marca.getCodigo())) {
+
+			throw new RuntimeException("Este modelo "
+					+ "esta vinculado com uma marca e nao pode ser "
+					+ "excluido!");
+		}
+
 		if (db.connect()) {
-			db.update("delete from " + tableName + " where cod_" + tableName + " = " + marca.getCodigo());
+			db.update("delete from " + tableName + " where cod_" + tableName
+					+ " = " + marca.getCodigo());
 			db.disconnect();
 		}
 	}
 
 	public void edit() {
 		if (db.connect()) {
-			db.update("update " + tableName + " set nome = '" + marca.getNome() + "' where cod_" + tableName + " = " + marca.getCodigo());
+			db.update("update " + tableName + " set nome = '" + marca.getNome()
+					+ "' where cod_" + tableName + " = " + marca.getCodigo());
 			db.disconnect();
 		}
 	}
 
 	public void insert() {
 		if (db.connect()) {
-			db.update("insert into " + tableName + " (nome) values ('" + marca.getNome() + "')");
+			db.update("insert into " + tableName + " (nome) values ('"
+					+ marca.getNome() + "')");
 			db.disconnect();
 		}
 	}
@@ -50,7 +63,8 @@ public class DaoMarca implements DaoInterface {
 		if (db.connect()) {
 			db.select(sql);
 			while (db.moveNext()) {
-				lista.insertWhitoutPersist(new Marca(db.getInt("cod_"	+ tableName), db.getString("nome")));
+				lista.insertWhitoutPersist(new Marca(db.getInt("cod_"
+						+ tableName), db.getString("nome")));
 			}
 			db.disconnect();
 		}
@@ -60,10 +74,11 @@ public class DaoMarca implements DaoInterface {
 	public ListaObjeto load() {
 		return this.load(SELECT);
 	}
-	
-	public Marca searchWithCodigo(int codigo){
-		ListaObjeto listaObjeto = this.search("Código", "Igual", String.valueOf(codigo));
-		if (listaObjeto.getSize() == 1 ) {
+
+	public Marca searchWithCodigo(int codigo) {
+		ListaObjeto listaObjeto = this.search("Código", "Igual", String
+				.valueOf(codigo));
+		if (listaObjeto.getSize() == 1) {
 			return (Marca) listaObjeto.getObjeto(0);
 		}
 		return null;
@@ -74,7 +89,7 @@ public class DaoMarca implements DaoInterface {
 		String operadorSQL = null;
 		String valorSQL = "'" + valor + "'";
 		if (campo.equals("Código")) {
-			campoSQL = "CAST(cod_"+tableName+" as VARCHAR)";
+			campoSQL = "CAST(cod_" + tableName + " as VARCHAR)";
 		} else {
 			campoSQL = "nome";
 		}
