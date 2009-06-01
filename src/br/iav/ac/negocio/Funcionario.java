@@ -1,8 +1,8 @@
 package br.iav.ac.negocio;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import br.iav.ac.dao.DaoCliente;
 import br.iav.ac.dao.DaoFuncionario;
 
 public class Funcionario extends Pessoa implements ObjetoInterface {
@@ -46,6 +46,12 @@ public class Funcionario extends Pessoa implements ObjetoInterface {
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
+	
+	public String dataNascimentoToString() {
+		SimpleDateFormat converterDate = new SimpleDateFormat("dd/MM/yyyy");
+		String data = converterDate.format(dataNascimento);
+		return data; 
+	}	
 
 	public Cargo getCargo() {
 		return cargo.clone();
@@ -105,7 +111,7 @@ public class Funcionario extends Pessoa implements ObjetoInterface {
 	}
 	
 	public ListaObjeto search(String campo, String operador, String valor){
-		DaoCliente dao = new DaoCliente();
+		DaoFuncionario dao = new DaoFuncionario();
 		return dao.search(campo, operador, valor);		
 	}	
 	

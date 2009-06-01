@@ -103,7 +103,7 @@ public class DialogoCargo extends DialogoPadrao {
 
 		//Retorna true se encontrar um cargo e false se nao encontrar.
 		private boolean existeCargo() {
-			ListaObjeto listaObjeto = cargo.search("nome", "Igual", textNome.getText().trim());
+			ListaObjeto listaObjeto = cargo.search("Código", "Igual", textCodigo.getText().trim());
 			if (listaObjeto.getSize() > 0) {
 				return false;
 			}
@@ -125,7 +125,7 @@ public class DialogoCargo extends DialogoPadrao {
 
 		//Faz a Edição de um cargo.
 		private void editar(){
-			if (existeCargo()) {
+			if (!existeCargo()) {
 				cargo.setNome(textNome.getText().trim());
 				cargo.setDescricao(textDescricao.getText().trim());
 				cargo.edit();	
