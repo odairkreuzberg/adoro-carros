@@ -4,20 +4,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-
 import br.iav.ac.negocio.Cidade;
 import br.iav.ac.negocio.Cliente;
 import br.iav.ac.negocio.Endereco;
 import br.iav.ac.negocio.ListaObjeto;
+import br.iav.ac.negocio.Objeto;
+import br.iav.ac.telas.TelaPrincipal;
+import br.iav.ac.telas.cidade.PainelCidade;
+import br.iav.ac.telas.padrao.DialogoCRUD;
 import br.iav.ac.telas.padrao.DialogoPadrao;
+import br.iav.ac.telas.padrao.PainelPadrao;
 
 public class DialogoCliente extends DialogoPadrao {
 
@@ -46,6 +50,7 @@ public class DialogoCliente extends DialogoPadrao {
 	private JTextField textComplemento;
 	private JLabel labelCidade;
 	private JComboBox comboCidade;
+	private JButton botaoCidade;
 	private FormHandle formHandle;
 	private Cliente cliente;
 	private Cidade cidade;
@@ -206,8 +211,14 @@ public class DialogoCliente extends DialogoPadrao {
 	        {
 	        	comboCidade = new JComboBox();
 	        	getPanelPrincipal().add(comboCidade);
-	        	comboCidade.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
+	        	comboCidade.setBounds(espacoDoTextField, espacoEntreLinhas, 220, 20);
 	        }
+			{
+				botaoCidade = new JButton();
+				getPanelPrincipal().add(botaoCidade);
+				botaoCidade.setText("+");
+				botaoCidade.setBounds(313, espacoEntreLinhas, 22, 20);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -221,6 +232,7 @@ public class DialogoCliente extends DialogoPadrao {
 		this.formHandle = new FormHandle();
 		getBotaoCancelar().addActionListener(formHandle);
 		getBotaoConfirmar().addActionListener(formHandle);
+		botaoCidade.addActionListener(formHandle);
 	}
 
 	class FormHandle implements ActionListener { 
@@ -274,25 +286,26 @@ public class DialogoCliente extends DialogoPadrao {
 		 */		
 		private void inserir(){
 			if (existeCliente()) {
-				try {
 				cliente.setNome(textNome.getText().trim());
 				cliente.setTelefone(textTelefone.getText().trim());
 				cliente.setCpf(textCpf.getText().trim());
 				cliente.setRg(textRg.getText().trim());
 				SimpleDateFormat converterDate = new SimpleDateFormat("dd/MM/yyyy");
-				cliente.setDataNascimento(converterDate.parse(textDataNascimento.getText().trim()));
+				try {
+					cliente.setDataNascimento(converterDate.parse(textDataNascimento.getText().trim()));
+				} catch (ParseException e) {
+					JOptionPane.showMessageDialog(DialogoCliente.this, "O formato padrão de data utilizado é: \n\ndd/mm/aaaa\n");
+				}
 				cliente.setProfissao(textProfissao.getText().trim());
+				cidade = ((Cidade)comboCidade.getSelectedItem()).clone();
 				Endereco endereco = new Endereco(textRua.getText().trim(),
 												 Integer.valueOf(textNumero.getText().trim()),
 												 textBairro.getText().trim(),
-												 buscarCidade(),
+												 cidade,
 												 textCep.getText().trim(),
 												 textComplemento.getText().trim());
 				cliente.setEndereco(endereco);
-				cliente.insert();
-				} catch (ParseException e) {
-					JOptionPane.showMessageDialog(DialogoCliente.this, "O formato padrão de data utilizado é: \n\ndd/mm/aaaa/n");
-				}				
+				cliente.insert();	
 				carregarComboCidade(cidade.load());					
 			} else {
 				JOptionPane.showMessageDialog(DialogoCliente.this, "Esse cliente já se encontra na Base de Dados!");
@@ -303,17 +316,23 @@ public class DialogoCliente extends DialogoPadrao {
 		 * Faz a edição de um cliente.
 		 */
 		private void editar(){
-			if (existeCliente()) {
+			if (!existeCliente()) {
 				cliente.setNome(textNome.getText().trim());
 				cliente.setTelefone(textTelefone.getText().trim());
 				cliente.setCpf(textCpf.getText().trim());
 				cliente.setRg(textRg.getText().trim());
-				//cliente.setDataNascimento(textDataNascimento.getText().trim());
+				SimpleDateFormat converterDate = new SimpleDateFormat("dd/MM/yyyy");
+				try {
+					cliente.setDataNascimento(converterDate.parse(textDataNascimento.getText().trim()));
+				} catch (ParseException e) {
+					JOptionPane.showMessageDialog(DialogoCliente.this, "O formato padrão de data utilizado é: \n\ndd/mm/aaaa\n");
+				}
 				cliente.setProfissao(textProfissao.getText().trim());
+				cidade = ((Cidade)comboCidade.getSelectedItem()).clone();
 				Endereco endereco = new Endereco(textRua.getText().trim(),
 												 Integer.valueOf(textNumero.getText().trim()),
 												 textBairro.getText().trim(),
-												 buscarCidade(),
+												 cidade,
 												 textCep.getText().trim(),
 												 textComplemento.getText().trim());
 				cliente.setEndereco(endereco);
@@ -330,11 +349,10 @@ public class DialogoCliente extends DialogoPadrao {
 		 * @param listaObjeto
 		 */
 		private void carregarComboCidade(ListaObjeto listaObjeto) {
-			String[] comboArray = new String[listaObjeto.getSize()];
+			Objeto[] comboArray = new Objeto[listaObjeto.getSize()];
 			for (int i = 0; i < listaObjeto.getSize(); i++) {
 				Cidade cidade = (Cidade) listaObjeto.getObjeto(i);
-				comboArray[i] = cidade.getNome();
-				System.out.println(cliente.getEndereco().getCidade().getNome()+"bla");
+				comboArray[i] = cidade;
 			}
 			ComboBoxModel comboMarcaModel = new DefaultComboBoxModel(comboArray);
 			comboCidade.setModel(comboMarcaModel);
@@ -345,13 +363,27 @@ public class DialogoCliente extends DialogoPadrao {
 		 * @return Cidade
 		 */
 		private Cidade buscarCidade() {
-			ListaObjeto listaObjeto = cidade.search("Nome", "Igual", (String)comboCidade.getSelectedItem());
+			cidade = ((Cidade)comboCidade.getSelectedItem()).clone();
+			ListaObjeto listaObjeto = cidade.search("Código", "Igual", String.valueOf(cidade.getCodigo()));
 			cidade = (Cidade)listaObjeto.getObjeto(0);
 			return cidade;
 		}
+		
+		/**
+		 * Instancia o Caso de Uso Cidade.
+		 * @param painelPadrao
+		 * @param titulo
+		 */
+		private void showPainel(PainelPadrao painelPadrao, String titulo) {
+			DialogoCRUD dialogoCRUD = new DialogoCRUD(TelaPrincipal.instancia, titulo, true);
+			dialogoCRUD.setPainel(painelPadrao);
+		}
 
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == getBotaoCancelar()) {
+			if (e.getSource() == botaoCidade) {				
+				showPainel(new PainelCidade(), "Cadastros de Cidades");	
+				this.carregarComboCidade(cidade.load());
+			} else if (e.getSource() == getBotaoCancelar()) {
 				dispose();
 			} else if (e.getSource() == getBotaoConfirmar()) {
 				if (textNome.getText().equals("")) {
