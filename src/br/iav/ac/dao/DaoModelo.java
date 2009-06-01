@@ -92,14 +92,12 @@ public class DaoModelo implements DaoInterface {
 		if (campo.equals("Código")) {
 			campoSQL = "CAST(cod_"+tableName+" as VARCHAR)";
 		} else 
-		if ( campo.equals("Marca")){			
+		if ( campo.equals("Marca") ){			
 			sql = SELECT_COM_MARCA;			
 			campoSQL = " marca.cod_marca = modelo.cod_marca and marca.nome";
 			//campoSQL = "marca.nome";
 		}
-		else{			
-			campoSQL = "nome";
-		}		
+		
 		if (operador.equals("Igual")) {
 			operadorSQL = "=";
 		} else if (operador.equals("Diferente")) {
@@ -116,5 +114,11 @@ public class DaoModelo implements DaoInterface {
 		sql += " where " + outroSQL + campoSQL + " " + operadorSQL + valorSQL;
 		return this.load(sql);
 	}//where CAST(cont_codi as STRING) like '%1%' where cod_modelo like '%1%'
+
+	public boolean temMarca(int codigo) {
+
+		return this.search("cod_marca", "Igual", String.valueOf(codigo))
+				.getSize() > 0;
+	}
 
 }
