@@ -146,12 +146,11 @@ public class PainelMarca extends PainelPadrao {
 			 */
 			else if (e.getSource() == getBotaoExcluir()) {
 				// verifica se existe uma uma linha selecionada na Grid.
-				if (getGridTabela().getSelectedRow() > 0) {
+				if (getGridTabela().getSelectedRow() >= 0) {
 					marca = buscarMarca();
 					//se retornar uma Marca existente, essa marca sera Excluida.
 					if (marca != null) {
-						int resp = JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a modelo "
-								+ marca.getNome()+ " ?", "Exclusão",JOptionPane.YES_NO_OPTION);
+						int resp = JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a modelo "+ marca.getNome()+ " ?", "Exclusão",JOptionPane.YES_NO_OPTION);
 						if (resp == 0) {
 							
 							try {
@@ -160,9 +159,7 @@ public class PainelMarca extends PainelPadrao {
 								
 							} catch (RuntimeException e2) {
 
-								JOptionPane.showMessageDialog(null, e2
-										.getMessage(), "Erro ao excluir",
-										JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null, e2.getMessage(), "Erro ao excluir",JOptionPane.ERROR_MESSAGE);
 
 								return;
 							}
