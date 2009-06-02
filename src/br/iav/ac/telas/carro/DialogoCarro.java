@@ -239,6 +239,20 @@ public class DialogoCarro extends DialogoPadrao {
 			this.carregarComboCliente(cliente.load());
 			if (carro.getCodigo() != 0) {
 				textCodigo.setText(String.valueOf(carro.getCodigo()));
+				textAno.setText(carro.getAnoFabricacao());
+				textPlaca.setText(carro.getPlaca());
+				comboCliente.setEditable(true);
+				comboCliente.setSelectedItem((Object) carro.getCliente());
+				comboCliente.setEditable(false);
+				comboMarca.setEditable(true);
+				comboMarca.setSelectedItem((Object) carro.getModelo().getMarca());
+				comboMarca.setEditable(false);
+				comboModelo.setEditable(true);
+				comboModelo.setSelectedItem((Object) carro.getModelo());
+				comboModelo.setEditable(false);
+				comboCor.setEditable(true);
+				comboCor.setSelectedItem((Object) carro.getCor());
+				comboCor.setEditable(false);
 			}
 
 		}

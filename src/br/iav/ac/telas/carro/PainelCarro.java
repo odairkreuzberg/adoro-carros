@@ -34,7 +34,7 @@ public class PainelCarro extends PainelPadrao {
 	private static final long serialVersionUID = 1L;
 	private CadastroHandle cadastroHandle;
 	private Carro carro;
-	private static String[] CAMPOS = { "Código", "Marca", "Modelo","Ano","Placa" };
+	private static String[] CAMPOS = { "Código", "Cliente","Marca", "Modelo","Cor","Ano","Placa" };
 
 	/*----------------------------------------------------------
 	 * FIM DE ATTRIBUTOS
@@ -104,25 +104,29 @@ public class PainelCarro extends PainelPadrao {
 		 * Carrega a Grid com todas as Marcaes já Cadastradas.
 		 */
 		private void carregarGrid(ListaObjeto listaObjeto) {
-			Object[][] gridArray = new Object[listaObjeto.getSize()][5];
+			Object[][] gridArray = new Object[listaObjeto.getSize()][7];
 			for (int i = 0; i < listaObjeto.getSize(); i++) {
 				Carro carro = (Carro) listaObjeto.getObjeto(i);
 				gridArray[i][0] = carro.getCodigo();
-				gridArray[i][1] = carro.getModelo().getMarca().getNome();
-				gridArray[i][2] = carro.getModelo().getNome();
-				gridArray[i][3] = carro.getAnoFabricacao();
-				gridArray[i][4] = carro.getPlaca();
+				gridArray[i][1] = carro.getCliente().getNome();
+				gridArray[i][2] = carro.getModelo().getMarca().getNome();
+				gridArray[i][3] = carro.getModelo().getNome();
+				gridArray[i][4] = carro.getCor().getNome();
+				gridArray[i][5] = carro.getAnoFabricacao();
+				gridArray[i][6] = carro.getPlaca();
 			}
 			DefaultTableModel model = new DefaultTableModel(gridArray, CAMPOS);
 			getGridTabela().setModel(model);
 			getGridTabela().setShowVerticalLines(true);
 			//Definição do tamanho das colunas da grid
 			//TAMANHO DA GRID: 521
-			getGridTabela().getColumnModel().getColumn(0).setPreferredWidth(50);
-			getGridTabela().getColumnModel().getColumn(1).setPreferredWidth(155);
-			getGridTabela().getColumnModel().getColumn(2).setPreferredWidth(156);
-			getGridTabela().getColumnModel().getColumn(3).setPreferredWidth(80);
-			getGridTabela().getColumnModel().getColumn(4).setPreferredWidth(80);
+			getGridTabela().getColumnModel().getColumn(0).setPreferredWidth(40);
+			getGridTabela().getColumnModel().getColumn(1).setPreferredWidth(116);
+			getGridTabela().getColumnModel().getColumn(2).setPreferredWidth(100);
+			getGridTabela().getColumnModel().getColumn(3).setPreferredWidth(100);
+			getGridTabela().getColumnModel().getColumn(4).setPreferredWidth(55);
+			getGridTabela().getColumnModel().getColumn(5).setPreferredWidth(55);
+			getGridTabela().getColumnModel().getColumn(6).setPreferredWidth(55);
 		
 		}
 
@@ -163,35 +167,33 @@ public class PainelCarro extends PainelPadrao {
 			 * Faz a Remoção de uma marca.
 			 */
 			else if (e.getSource() == getBotaoExcluir()) {
-				// verifica se existe uma uma linha selecionada na Grid.
 				if (getGridTabela().getSelectedRow() > 0) {
 					carro = buscarCarro();
-					//se retornar uma Marca existente, essa marca sera Excluida.
 					if (carro != null) {
-						int resp=1;
-						//= JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a carro "
-					//			+ carro.getNome()+ " ?", "Exclusão",JOptionPane.YES_NO_OPTION);
-						if ( resp == 0) {
+						int resp = JOptionPane.showConfirmDialog(null,
+								"Deseja mesmo excluir " + carro.getModelo()
+								+ " ?", "Exclusão",
+								JOptionPane.YES_NO_OPTION);
+						if (resp == 0) {
 							carro.delete();
 							carregarGrid(carro.load());
 						}
-
 					} else {
 						JOptionPane.showMessageDialog(PainelCarro.this,
 								"Erro ao buscar esta Marca na base de dados!");
 						carro = new Carro();
 					}
 				} else {
-					JOptionPane.showMessageDialog(PainelCarro.this, 
-							"Para remover é preciso selecionar uma carro na tabela!");
+					JOptionPane.showMessageDialog(PainelCarro.this,
+						"Para remover é preciso selecionar uma carro na tabela!");
 				}
-			} 
+			}
 			/**
 			 * Faz a atualização da Grid
 			 */
 			else if (e.getSource() == getBotaoAtualizar()) {
 				carregarGrid(carro.load());
-			} 
+			}
 			/**
 			 * Faz uma busca com parametros passado pelo usuario
 			 */

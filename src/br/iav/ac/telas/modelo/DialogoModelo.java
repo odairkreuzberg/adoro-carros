@@ -162,8 +162,8 @@ public class DialogoModelo extends DialogoPadrao {
 			if (existeModelo()) {
 				modelo.setNome(textModelo.getText());
 				modelo.setMarca(buscarMarca());
-				modelo.insert();	
-				carregarComboMarca(marca.load());					
+				modelo.insert();		
+				carregarComboMarca(marca.load());							
 			} else {
 				JOptionPane.showMessageDialog(DialogoModelo.this, 
 						"Esse modelo já se encontra na Base de Dados!");
