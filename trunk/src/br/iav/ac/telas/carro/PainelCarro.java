@@ -7,6 +7,8 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+import br.iav.ac.negocio.Cliente;
+import br.iav.ac.negocio.Funcionario;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.negocio.Marca;
 import br.iav.ac.negocio.Carro;
@@ -86,13 +88,16 @@ public class PainelCarro extends PainelPadrao {
 		 * 
 		 * @return Carro
 		 */
-		private Carro buscarCarro(){
-			String placa = getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1)+ "";
-			ListaObjeto listaObjeto = carro.search("Carro","Igual",placa);
+		private Carro buscarCarro() {
+			String codigo = String.valueOf(getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 0));
+			ListaObjeto listaObjeto = carro.search("Código", "Igual", codigo);
 			if (listaObjeto.getSize() > 0) {
+				//JOptionPane.showMessageDialog(PainelCarro.this, (Carro)listaObjeto.getObjeto(0));
+			
 				return (Carro) listaObjeto.getObjeto(0);				
 			}	
-			return null;			
+			return null;
+
 		}
 		
 		/**

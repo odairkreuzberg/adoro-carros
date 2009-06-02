@@ -11,17 +11,17 @@ public class Carro extends Objeto implements ObjetoInterface {
 	private Cliente cliente;
 	private Modelo modelo;
 	private Cor cor;
-	private Date anoFabricacao;
+	private String anoFabricacao;
 	
 	public Carro() {
 		this.placa = new String("");
 		this.cliente = new Cliente();
 		this.modelo = new Modelo();
 		this.cor = new Cor();
-		this.anoFabricacao = new Date();
+		this.anoFabricacao = new String("");
 	}
 	
-	public Carro(int codigo, String placa, Cliente cliente, Modelo modelo, Cor cor, Date anoFabricacao) {
+	public Carro(int codigo, String placa, Cliente cliente, Modelo modelo, Cor cor, String anoFabricacao) {
 		this.setCodigo(codigo);
 		this.placa = new String(placa);
 		this.cliente = cliente.clone();
@@ -62,11 +62,11 @@ public class Carro extends Objeto implements ObjetoInterface {
 		this.cor = cor.clone();
 	}
 
-	public Date getAnoFabricacao() {
+	public String getAnoFabricacao() {
 		return anoFabricacao;
 	}
 
-	public void setAnoFabricacao(Date anoFabricacao) {
+	public void setAnoFabricacao(String anoFabricacao) {
 		this.anoFabricacao = anoFabricacao;
 	}
 
@@ -109,7 +109,7 @@ public class Carro extends Objeto implements ObjetoInterface {
 	}
 
 	public ListaObjeto search(String campo, String operador, String valor){
-		DaoCargo dao = new DaoCargo();
+		DaoCarro dao = new DaoCarro();
 		return dao.search(campo, operador, valor);		
 	}	
 	

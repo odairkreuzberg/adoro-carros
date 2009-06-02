@@ -75,7 +75,7 @@ public class DaoCarro implements DaoInterface {
 			    Modelo modelo = daoModelo.searchWithCodigo(db.getInt("cod_modelo"));
 			    Cliente cliente = daoCliente.searchWithCodigo(db.getInt("cod_cliente"));
 			    Cor cor = daoCor.searchWithCodigo(db.getInt("cod_cor"));
-				lista.insertWhitoutPersist(new Carro(db.getInt("cod_"	+ tableName), db.getString("placa"),cliente, modelo,cor,db.getDate(null)));
+				lista.insertWhitoutPersist(new Carro(db.getInt("cod_"	+ tableName), db.getString("placa"),cliente, modelo,cor,db.getString("ano_fabricacao")));
 			    }
 			db.disconnect();
 		}
