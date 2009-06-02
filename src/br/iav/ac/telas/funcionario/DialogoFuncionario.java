@@ -8,10 +8,12 @@ import java.text.SimpleDateFormat;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
 
 import br.iav.ac.negocio.Cargo;
 import br.iav.ac.negocio.Cidade;
@@ -33,13 +35,16 @@ public class DialogoFuncionario extends DialogoPadrao {
 	private JLabel labelNome;
 	private JTextField textNome;
 	private JLabel labelTelefone;
-	private JTextField textTelefone;
+	private JFormattedTextField textTelefone;
+	private MaskFormatter mascaraTelefone;	
 	private JLabel labelCpf;
-	private JTextField textCpf;
+	private JFormattedTextField textCpf;
+	private MaskFormatter mascaraCpf;	
 	private JLabel labelRg;
 	private JTextField textRg;
 	private JLabel labelDtNascimento;
-	private JTextField textDtNascimento;
+	private JFormattedTextField textDtNascimento;
+	private MaskFormatter mascaraDtNascimento;
 	private JLabel labelCargo;
 	private JComboBox comboCargo;
 	private JLabel labelRua;
@@ -95,7 +100,9 @@ public class DialogoFuncionario extends DialogoPadrao {
             	labelTelefone.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textTelefone = new JTextField();
+	            mascaraTelefone = new MaskFormatter("####-####");	            
+	            mascaraTelefone.setPlaceholderCharacter('_');  
+	        	textTelefone = new JFormattedTextField(mascaraTelefone);
 	        	getPanelPrincipal().add(textTelefone);
 	        	textTelefone.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
@@ -107,7 +114,9 @@ public class DialogoFuncionario extends DialogoPadrao {
             	labelCpf.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textCpf = new JTextField();
+	            mascaraCpf = new MaskFormatter("###.###.###-##");	            
+	            mascaraCpf.setPlaceholderCharacter('_');  
+	        	textCpf = new JFormattedTextField(mascaraCpf);
 	        	getPanelPrincipal().add(textCpf);
 	        	textCpf.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
@@ -131,7 +140,9 @@ public class DialogoFuncionario extends DialogoPadrao {
             	labelDtNascimento.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textDtNascimento = new JTextField();
+	            mascaraDtNascimento = new MaskFormatter("##/##/####");	            
+	            mascaraDtNascimento.setPlaceholderCharacter('_');  
+	        	textDtNascimento = new JFormattedTextField(mascaraDtNascimento);
 	        	getPanelPrincipal().add(textDtNascimento);
 	        	textDtNascimento.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
@@ -258,13 +269,13 @@ public class DialogoFuncionario extends DialogoPadrao {
 			super();
 			cargo = new Cargo();
 			cidade = new Cidade();
+			this.carregarComboCargo(cargo.load());
+			this.carregarComboCidade(cidade.load());		
 			if( (funcionario != null) && (funcionario.getCodigo() > 0)){
 				this.carregarDados();
 			}else{
 				funcionario = new Funcionario();
 			}
-			this.carregarComboCargo(cargo.load());
-			this.carregarComboCidade(cidade.load());			
 		}
 		
 		private void carregarDados(){
@@ -354,7 +365,9 @@ public class DialogoFuncionario extends DialogoPadrao {
 					end.setBairro(textBairro.getText());
 					end.setCep(textCep.getText());
 					end.setComplemento(textComplemento.getText());
-					end.setNumero(Integer.valueOf(textNumero.getText()));
+					if(!(textNumero.getText().equals(""))){
+						end.setNumero(Integer.valueOf(textNumero.getText()));
+					}
 					end.setRua(textRua.getText());
 					end.setCidade((Cidade)comboCidade.getSelectedItem());
 					Cargo cargo = new Cargo();
@@ -369,9 +382,7 @@ public class DialogoFuncionario extends DialogoPadrao {
 					this.limparCampos();
 				} catch (ParseException e) {
 						JOptionPane.showMessageDialog(DialogoFuncionario.this, "O formato padrão de data utilizado é: \n\ndd/mm/aaaa");
-				}catch (NumberFormatException e) {
-					JOptionPane.showMessageDialog(DialogoFuncionario.this, "O salário deve ser um número");
-				}							
+				}
 			} else {
 				JOptionPane.showMessageDialog(DialogoFuncionario.this, "Esse Funcionario já se encontra na Base de Dados!");
 			}			
@@ -388,7 +399,9 @@ public class DialogoFuncionario extends DialogoPadrao {
 					end.setBairro(textBairro.getText());
 					end.setCep(textCep.getText());
 					end.setComplemento(textComplemento.getText());
-					end.setNumero(Integer.valueOf(textNumero.getText()));
+					if(!(textNumero.getText().equals(""))){
+						end.setNumero(Integer.valueOf(textNumero.getText()));
+					}
 					end.setRua(textRua.getText());
 					end.setCidade((Cidade)comboCidade.getSelectedItem());
 					Cargo cargo = new Cargo();
@@ -403,9 +416,7 @@ public class DialogoFuncionario extends DialogoPadrao {
 					this.limparCampos();
 				} catch (ParseException e) {
 						JOptionPane.showMessageDialog(DialogoFuncionario.this, "O formato padrão de data utilizado é: \n\ndd/mm/aaaa");
-				}catch (NumberFormatException e) {
-						JOptionPane.showMessageDialog(DialogoFuncionario.this, "O salário deve ser um número");
-				}					
+				}
 			} else {
 				JOptionPane.showMessageDialog(DialogoFuncionario.this, "Esse Funcionario não se encontra na Base de Dados!");
 			}
@@ -419,13 +430,17 @@ public class DialogoFuncionario extends DialogoPadrao {
 					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo nome é obrigatório!");
 				}else if (textTelefone.getText().equals("")) {
 					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo telefone é obrigatório!");
-				}else if (textRg.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo RG é obrigatório!");
-				}else if (textCpf.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo salario é obrigatório!");
-				}else if (comboCargo.getSelectedIndex() == -1) {
+				}else if (textCpf.getText().equals("___.___.___-__")) {
+					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo cpf é obrigatório!");
+				}else if ( ((funcionario.getCodigo() == 0) && ( comboCargo.getSelectedIndex() == -1)) ||
+						   ((funcionario.getCodigo() != 0) && ( comboCargo.getSelectedItem() == null)) ){
 					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo Cargo é obrigatório!");
-				}else if (comboCidade.getSelectedIndex() == -1) {
+				}else if (textDtNascimento.getText().equals("__/__/____")) {
+					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo Data de Nascimento é obrigatório!");
+				}else if (textSalario.getText().equals("")) {
+					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo Salário é obrigatório!");
+				}else if ( ((funcionario.getCodigo() == 0) && ( comboCidade.getSelectedIndex() == -1)) ||
+						   ((funcionario.getCodigo() != 0) && ( comboCidade.getSelectedItem() == null)) ){
 					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo Cidade é obrigatório!");					
 				} else {
 					if (funcionario.getCodigo() == 0) {

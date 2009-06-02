@@ -132,12 +132,13 @@ public class DialogoModelo extends DialogoPadrao {
 		public FormHandle() {
 			super();
 			marca = new Marca();
-			comboMarca.setSelectedItem((Object) modelo.getMarca().getNome());
+			this.carregarComboMarca(marca.load());
+			comboMarca.setEditable(true);
+			comboMarca.setSelectedItem((Object) modelo.getMarca());
+			comboMarca.setEditable(false);
 			if (modelo.getCodigo() != 0) {
 				textCodigo.setText(String.valueOf(modelo.getCodigo()));
 			}
-			this.carregarComboMarca(marca.load());			
-	        
 		}
 		
 		/**
@@ -165,7 +166,7 @@ public class DialogoModelo extends DialogoPadrao {
 				carregarComboMarca(marca.load());					
 			} else {
 				JOptionPane.showMessageDialog(DialogoModelo.this, 
-						"Essa cor já se encontra na Base de Dados!");
+						"Esse modelo já se encontra na Base de Dados!");
 			}			
 		}
 		
@@ -173,15 +174,14 @@ public class DialogoModelo extends DialogoPadrao {
 		 * Faz a Edição de um Modelo.
 		 */
 		private void editar(){
-			if (existeModelo()) {
+			if (!existeModelo()) {
 				modelo.setNome(textModelo.getText().trim());
 				modelo.setMarca(buscarMarca());
-				JOptionPane.showMessageDialog(DialogoModelo.this, 
-						buscarMarca().getNome());
+				JOptionPane.showMessageDialog(DialogoModelo.this,buscarMarca().getNome());
 				modelo.edit();	
 			} else {
 				JOptionPane.showMessageDialog(DialogoModelo.this, 
-						"Essa cor já se encontra na Base de Dados!");
+						"Esse modelo já se encontra na Base de Dados!");
 			}
 		}
 
@@ -196,8 +196,7 @@ public class DialogoModelo extends DialogoPadrao {
 				Marca marca = (Marca) listaObjeto.getObjeto(i);
 				comboArray[i] = marca;
 			}
-			ComboBoxModel comboMarcaModel = 
-				new DefaultComboBoxModel(comboArray);
+			ComboBoxModel comboMarcaModel = new DefaultComboBoxModel(comboArray);
 			comboMarca.setModel(comboMarcaModel);
 		}
 		
@@ -233,10 +232,16 @@ public class DialogoModelo extends DialogoPadrao {
 				dispose();
 			} 
 			else if (e.getSource() == getBotaoConfirmar()) {
+//				for (int i = 0; i<comboMarca.getItemCount(); i++) {
+//					if (modelo.getMarca() == comboMarca.getItemAt(i)) {
+//						comboMarca.setSelectedIndex(i);
+//					}
+//				}
 				if (textModelo.getText().equals("")) {
 					JOptionPane.showMessageDialog(DialogoModelo.this,"O campo Modelo é obrigatório!");
 				} 
-				else if (comboMarca.getSelectedIndex() == -1) {
+				else if ( (( modelo.getCodigo() == 0 ) && (comboMarca.getSelectedIndex() == -1)) || 
+						   ((modelo.getCodigo() != 0 ) && (comboMarca.getSelectedItem() == null)) ) {
 					JOptionPane.showMessageDialog(DialogoModelo.this,"O campo Marca é obrigatório!");
 				} 				
 				else {

@@ -153,7 +153,7 @@ public class PainelModelo extends PainelPadrao {
 			 */
 			else if (e.getSource() == getBotaoExcluir()) {
 				// verifica se existe uma uma linha selecionada na Grid.
-				if (getGridTabela().getSelectedRow() > 0) {
+				if (getGridTabela().getSelectedRow() >= 0) {
 					modelo = buscarModelo();
 					//se retornar uma Marca existente, essa marca sera Excluida.
 					if (modelo != null) {
