@@ -94,6 +94,14 @@ public class DaoCliente implements DaoInterface {
 		return this.load(SELECT);
 	}
 	
+	public Cliente searchWithCodigo(int codigo) {
+		ListaObjeto listaObjeto = this.search("Código", "Igual", String.valueOf(codigo));
+		if (listaObjeto.getSize() == 1) {
+			return (Cliente) listaObjeto.getObjeto(0);
+		}
+		return null;
+	}
+	
 	public ListaObjeto search(String campo, String operador, String valor) {
 		String campoSQL = campo;
 		String operadorSQL = null;
