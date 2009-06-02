@@ -8,10 +8,13 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
+
 import br.iav.ac.negocio.Cidade;
 import br.iav.ac.negocio.Cliente;
 import br.iav.ac.negocio.Endereco;
@@ -19,6 +22,7 @@ import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.negocio.Objeto;
 import br.iav.ac.telas.TelaPrincipal;
 import br.iav.ac.telas.cidade.PainelCidade;
+import br.iav.ac.telas.funcionario.DialogoFuncionario;
 import br.iav.ac.telas.padrao.DialogoCRUD;
 import br.iav.ac.telas.padrao.DialogoPadrao;
 import br.iav.ac.telas.padrao.PainelPadrao;
@@ -31,11 +35,13 @@ public class DialogoCliente extends DialogoPadrao {
 	private JLabel labelTelefone;
 	private JTextField textTelefone;
 	private JLabel labelCpf;
-	private JTextField textCpf;
+	private JFormattedTextField textCpf;
+	private MaskFormatter mascaraCpf;	
 	private JLabel labelRg;
 	private JTextField textRg;
 	private JLabel labelDataNascimento;
-	private JTextField textDataNascimento;
+	private JFormattedTextField textDataNascimento;
+	private MaskFormatter mascaraDtNascimento;
 	private JLabel labelProfissao;
 	private JTextField textProfissao;
 	private JLabel labelRua;
@@ -101,7 +107,9 @@ public class DialogoCliente extends DialogoPadrao {
             	labelCpf.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textCpf = new JTextField();
+	            mascaraCpf = new MaskFormatter("###.###.###-##");	            
+	            mascaraCpf.setPlaceholderCharacter('_');  
+	        	textCpf = new JFormattedTextField(mascaraCpf);
 	        	getPanelPrincipal().add(textCpf);
 	        	textCpf.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
@@ -125,7 +133,9 @@ public class DialogoCliente extends DialogoPadrao {
             	labelDataNascimento.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	        	textDataNascimento = new JTextField();
+	            mascaraDtNascimento = new MaskFormatter("##/##/####");	            
+	            mascaraDtNascimento.setPlaceholderCharacter('_');  
+	        	textDataNascimento = new JFormattedTextField(mascaraDtNascimento);
 	        	getPanelPrincipal().add(textDataNascimento);
 	        	textDataNascimento.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 	        }
@@ -239,6 +249,20 @@ public class DialogoCliente extends DialogoPadrao {
 		
 		public FormHandle() {
 			super();
+			cidade = new Cidade();
+			this.carregarComboCidade(cidade.load());
+			comboCidade.setEditable(true);
+			comboCidade.setSelectedItem((Object) cliente.getEndereco().getCidade());
+			comboCidade.setEditable(false);
+			if (cliente.getCodigo() != 0) {
+				this.carregarDados();
+			}else{
+				cliente = new Cliente();
+			}
+		}
+		
+		private void carregarDados(){
+			textCodigo.setText(String.valueOf(cliente.getCodigo()));
 			textNome.setText(cliente.getNome().trim());
 			textTelefone.setText(cliente.getTelefone().trim());
 			textCpf.setText(cliente.getCpf().trim());
@@ -250,14 +274,6 @@ public class DialogoCliente extends DialogoPadrao {
 			textBairro.setText(cliente.getEndereco().getBairro().trim());
 			textCep.setText(cliente.getEndereco().getCep().trim());
 			textComplemento.setText(cliente.getEndereco().getComplemento().trim());
-			cidade = new Cidade();
-			comboCidade.setEditable(true);
-			comboCidade.setSelectedItem((Object) cliente.getEndereco().getCidade());
-			comboCidade.setEditable(false);
-			this.carregarComboCidade(cidade.load());			
-			if (cliente.getCodigo() != 0) {
-				textCodigo.setText(String.valueOf(cliente.getCodigo()));
-			}
 		}
 
 		private void limparCampos() {
@@ -288,27 +304,30 @@ public class DialogoCliente extends DialogoPadrao {
 		 */		
 		private void inserir(){
 			if (existeCliente()) {
-				cliente.setNome(textNome.getText().trim());
-				cliente.setTelefone(textTelefone.getText().trim());
-				cliente.setCpf(textCpf.getText().trim());
-				cliente.setRg(textRg.getText().trim());
-				SimpleDateFormat converterDate = new SimpleDateFormat("dd/MM/yyyy");
 				try {
+					cliente.setNome(textNome.getText().trim());
+					cliente.setTelefone(textTelefone.getText().trim());
+					cliente.setCpf(textCpf.getText().trim());
+					cliente.setRg(textRg.getText().trim());
+					SimpleDateFormat converterDate = new SimpleDateFormat("dd/MM/yyyy");
 					cliente.setDataNascimento(converterDate.parse(textDataNascimento.getText().trim()));
+					cliente.setProfissao(textProfissao.getText().trim());
+					cidade = ((Cidade)comboCidade.getSelectedItem()).clone();
+					int numero = 0;
+					if(!textNumero.getText().equals("")){
+						numero = Integer.valueOf(textNumero.getText().trim());
+					}
+					Endereco endereco = new Endereco(textRua.getText().trim(),
+													 numero,
+													 textBairro.getText().trim(),
+													 cidade,
+													 textCep.getText().trim(),
+													 textComplemento.getText().trim());
+					cliente.setEndereco(endereco);
+					cliente.insert();	
 				} catch (ParseException e) {
 					JOptionPane.showMessageDialog(DialogoCliente.this, "O formato padrão de data utilizado é: \n\ndd/mm/aaaa\n");
 				}
-				cliente.setProfissao(textProfissao.getText().trim());
-				cidade = ((Cidade)comboCidade.getSelectedItem()).clone();
-				Endereco endereco = new Endereco(textRua.getText().trim(),
-												 Integer.valueOf(textNumero.getText().trim()),
-												 textBairro.getText().trim(),
-												 cidade,
-												 textCep.getText().trim(),
-												 textComplemento.getText().trim());
-				cliente.setEndereco(endereco);
-				cliente.insert();	
-				carregarComboCidade(cidade.load());					
 			} else {
 				JOptionPane.showMessageDialog(DialogoCliente.this, "Esse cliente já se encontra na Base de Dados!");
 			}			
@@ -319,27 +338,31 @@ public class DialogoCliente extends DialogoPadrao {
 		 */
 		private void editar(){
 			if (!existeCliente()) {
-				cliente.setNome(textNome.getText().trim());
-				cliente.setTelefone(textTelefone.getText().trim());
-				cliente.setCpf(textCpf.getText().trim());
-				cliente.setRg(textRg.getText().trim());
-				SimpleDateFormat converterDate = new SimpleDateFormat("dd/MM/yyyy");
 				try {
+					cliente.setNome(textNome.getText().trim());
+					cliente.setTelefone(textTelefone.getText().trim());
+					cliente.setCpf(textCpf.getText().trim());
+					cliente.setRg(textRg.getText().trim());
+					SimpleDateFormat converterDate = new SimpleDateFormat("dd/MM/yyyy");
 					cliente.setDataNascimento(converterDate.parse(textDataNascimento.getText().trim()));
+					cliente.setProfissao(textProfissao.getText().trim());
+					cidade = ((Cidade)comboCidade.getSelectedItem()).clone();
+					int numero = 0;
+					if(!textNumero.getText().equals("")){
+						numero = Integer.valueOf(textNumero.getText().trim());
+					}
+					Endereco endereco = new Endereco(textRua.getText().trim(),
+													 numero,
+													 textBairro.getText().trim(),
+													 cidade,
+													 textCep.getText().trim(),
+													 textComplemento.getText().trim());
+					cliente.setEndereco(endereco);
+					JOptionPane.showMessageDialog(DialogoCliente.this, buscarCidade().getNome());
+					cliente.edit();
 				} catch (ParseException e) {
 					JOptionPane.showMessageDialog(DialogoCliente.this, "O formato padrão de data utilizado é: \n\ndd/mm/aaaa\n");
 				}
-				cliente.setProfissao(textProfissao.getText().trim());
-				cidade = ((Cidade)comboCidade.getSelectedItem()).clone();
-				Endereco endereco = new Endereco(textRua.getText().trim(),
-												 Integer.valueOf(textNumero.getText().trim()),
-												 textBairro.getText().trim(),
-												 cidade,
-												 textCep.getText().trim(),
-												 textComplemento.getText().trim());
-				cliente.setEndereco(endereco);
-				JOptionPane.showMessageDialog(DialogoCliente.this, buscarCidade().getNome());
-				cliente.edit();
 			} else {
 				JOptionPane.showMessageDialog(DialogoCliente.this, "Esse cliente já se encontra na Base de Dados!");
 			}
@@ -372,7 +395,6 @@ public class DialogoCliente extends DialogoPadrao {
 		}
 		
 		/**
-		 * Instancia o Caso de Uso Cidade.
 		 * @param painelPadrao
 		 * @param titulo
 		 */
@@ -394,36 +416,33 @@ public class DialogoCliente extends DialogoPadrao {
 				} else if (textTelefone.getText().equals("")) {
 					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo telefone é obrigatório!");
 					textTelefone.requestFocus();
-				} else if (textCpf.getText().equals("")) {
+				} else if (textCpf.getText().equals("___.___.___-__")) {
 					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo CPF é obrigatório!");
 					textCpf.requestFocus();
-				} else if (textRg.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo RG é obrigatório!");
-					textRg.requestFocus();
-				} else if (textDataNascimento.getText().equals("")) {
+				} else if (textDataNascimento.getText().equals("__/__/____")) {
 					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo data de nascimento é obrigatório!");
 					textDataNascimento.requestFocus();
-				} else if (textProfissao.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo profissão é obrigatório!");
-					textProfissao.requestFocus();
-				} else if (textRua.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo rua é obrigatório!");
-					textRua.requestFocus();
-				} else if (textNumero.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo número é obrigatório!");
-					textNumero.requestFocus();
-				} else if (textBairro.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo bairro é obrigatório!");
-					textBairro.requestFocus();
-				} else if (textCep.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo CEP é obrigatório!");
-					textCep.requestFocus();
-				} else if (textComplemento.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo complemento é obrigatório!");
-					textComplemento.requestFocus();
-				} else if (comboCidade.getSelectedIndex() == -1) {
-					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo cidade é obrigatório!");
-					comboCidade.requestFocus();
+//				} else if (textProfissao.getText().equals("")) {
+//					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo profissão é obrigatório!");
+//					textProfissao.requestFocus();
+//				} else if (textRua.getText().equals("")) {
+//					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo rua é obrigatório!");
+//					textRua.requestFocus();
+//				} else if (textNumero.getText().equals("")) {
+//					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo número é obrigatório!");
+//					textNumero.requestFocus();
+//				} else if (textBairro.getText().equals("")) {
+//					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo bairro é obrigatório!");
+//					textBairro.requestFocus();
+//				} else if (textCep.getText().equals("")) {
+//					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo CEP é obrigatório!");
+//					textCep.requestFocus();
+//				} else if (textComplemento.getText().equals("")) {
+//					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo complemento é obrigatório!");
+//					textComplemento.requestFocus();
+				}else if ( ((cliente.getCodigo() == 0) && ( comboCidade.getSelectedIndex() == -1)) ||
+						   ((cliente.getCodigo() != 0) && ( comboCidade.getSelectedItem() == null)) ){
+					JOptionPane.showMessageDialog(DialogoCliente.this,"O campo Cidade é obrigatório!");		
 				} else {
 					if (cliente.getCodigo() == 0) {
 						inserir();

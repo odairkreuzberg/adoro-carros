@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
@@ -21,7 +22,12 @@ import br.iav.ac.negocio.Endereco;
 import br.iav.ac.negocio.Funcionario;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.negocio.Objeto;
+import br.iav.ac.telas.TelaPrincipal;
+import br.iav.ac.telas.cargo.PainelCargo;
+import br.iav.ac.telas.cidade.PainelCidade;
+import br.iav.ac.telas.padrao.DialogoCRUD;
 import br.iav.ac.telas.padrao.DialogoPadrao;
+import br.iav.ac.telas.padrao.PainelPadrao;
 
 /**
  * Formulário de Cadastro de Cargo de um Funcionario
@@ -65,6 +71,8 @@ public class DialogoFuncionario extends DialogoPadrao {
 	private Funcionario funcionario;
 	private Cidade cidade;
 	private Cargo cargo;
+	private JButton botaoCidade;
+	private JButton botaoCargo;
 
 	public DialogoFuncionario(JFrame frame, String titulo, boolean modal, Funcionario funcionario) {
 		super(frame, titulo, modal);
@@ -228,7 +236,13 @@ public class DialogoFuncionario extends DialogoPadrao {
 	        {
 	        	comboCidade = new JComboBox();
 	        	getPanelPrincipal().add(comboCidade);
-	        	comboCidade.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
+	        	comboCidade.setBounds(espacoDoTextField, espacoEntreLinhas, 220, 20);
+	        }
+	        {
+				botaoCidade = new JButton();
+				getPanelPrincipal().add(botaoCidade);
+				botaoCidade.setText("+");
+				botaoCidade.setBounds(313, espacoEntreLinhas, 22, 20);
 	        }
             {
             	espacoEntreLinhas = espacoEntreLinhas + 25;
@@ -240,8 +254,14 @@ public class DialogoFuncionario extends DialogoPadrao {
 	        {
 	        	comboCargo = new JComboBox();
 	        	getPanelPrincipal().add(comboCargo);
-	        	comboCargo.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
-	        }	        
+	        	comboCargo.setBounds(espacoDoTextField, espacoEntreLinhas, 220, 20);
+	        }
+	        {
+				botaoCargo = new JButton();
+				getPanelPrincipal().add(botaoCargo);
+				botaoCargo.setText("+");
+				botaoCargo.setBounds(313, espacoEntreLinhas, 22, 20);
+        	}	        
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -256,6 +276,8 @@ public class DialogoFuncionario extends DialogoPadrao {
 		this.formHandle = new FormHandle();
 		getBotaoCancelar().addActionListener(formHandle);
 		getBotaoConfirmar().addActionListener(formHandle);
+		botaoCargo.addActionListener(formHandle);
+		botaoCidade.addActionListener(formHandle);
 	}
 	
 	
@@ -422,8 +444,19 @@ public class DialogoFuncionario extends DialogoPadrao {
 			}
 		}
 
+		private void showPainel(PainelPadrao painelPadrao, String titulo) {
+			DialogoCRUD dialogoCRUD = new DialogoCRUD(TelaPrincipal.instancia, titulo, true);
+			dialogoCRUD.setPainel(painelPadrao);
+		}
+
 		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == getBotaoCancelar()) {
+			if (e.getSource() == botaoCidade) {				
+				showPainel(new PainelCidade(), "Cadastros de Cidades");	
+				this.carregarComboCidade(cidade.load());
+			} else if (e.getSource() == botaoCargo) {
+				showPainel(new PainelCargo(), "Cadastros de Cargos");	
+				this.carregarComboCargo(cargo.load());				
+			} else if (e.getSource() == getBotaoCancelar()) {
 				dispose();
 			} else if (e.getSource() == getBotaoConfirmar()) {
 				if (textNome.getText().equals("")) {
