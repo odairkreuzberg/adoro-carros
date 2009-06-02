@@ -18,6 +18,7 @@ import br.iav.ac.negocio.Cidade;
 import br.iav.ac.negocio.Endereco;
 import br.iav.ac.negocio.Fornecedor;
 import br.iav.ac.negocio.ListaObjeto;
+import br.iav.ac.negocio.Objeto;
 import br.iav.ac.telas.TelaPrincipal;
 import br.iav.ac.telas.cidade.PainelCidade;
 import br.iav.ac.telas.padrao.DialogoCRUD;
@@ -248,7 +249,9 @@ public class DialogoFornecedor extends DialogoPadrao {
 			textCep.setText(fornecedor.getEndereco().getCep().trim());
 			textComplemento.setText(fornecedor.getEndereco().getComplemento().trim());
 			this.carregarComboCidade(cidade.load());
-			comboCidade.setSelectedItem((Object) fornecedor.getEndereco().getCidade().getNome());
+			comboCidade.setEditable(true);
+			comboCidade.setSelectedItem((Object) fornecedor.getEndereco().getCidade());
+			comboCidade.setEditable(false);
 			if (fornecedor.getCodigo() != 0) {
 				textCodigo.setText(String.valueOf(fornecedor.getCodigo()));
 				textNumero.setText(String.valueOf(fornecedor.getEndereco().getNumero()));
@@ -317,11 +320,10 @@ public class DialogoFornecedor extends DialogoPadrao {
 		 * @param listaObjeto
 		 */
 		private void carregarComboCidade(ListaObjeto listaObjeto) {
-			String[] comboArray = new String[listaObjeto.getSize()];
+			Objeto[] comboArray = new Objeto[listaObjeto.getSize()];
 			for (int i = 0; i < listaObjeto.getSize(); i++) {
 				Cidade cidade = (Cidade) listaObjeto.getObjeto(i);
-				comboArray[i] = cidade.getNome();
-				System.out.println(fornecedor.getEndereco().getCidade().getNome()+"bla");
+				comboArray[i] = cidade;
 			}
 			ComboBoxModel comboMarcaModel = new DefaultComboBoxModel(comboArray);
 			comboCidade.setModel(comboMarcaModel);
@@ -332,7 +334,12 @@ public class DialogoFornecedor extends DialogoPadrao {
 		 * @return Cidade
 		 */
 		private Cidade buscarCidade() {
-			ListaObjeto listaObjeto = cidade.search("Nome", "Igual", (String)comboCidade.getSelectedItem());
+			ListaObjeto listaObjeto;
+			if(comboCidade.getSelectedIndex() != -1){
+				listaObjeto = cidade.search("Nome", "Igual", ((Cidade)comboCidade.getSelectedItem()).getNome());
+			}else{
+				listaObjeto = cidade.search("Nome", "Igual", "");
+			}
 			cidade = (Cidade)listaObjeto.getObjeto(0);
 			return cidade;
 		}
@@ -368,6 +375,9 @@ public class DialogoFornecedor extends DialogoPadrao {
 				} else if (textCep.getText().equals("")) {
 					JOptionPane.showMessageDialog(DialogoFornecedor.this, "O campo CEP é obrigatório!");
 					textCep.requestFocus();
+				} else if (comboCidade.getSelectedIndex() == -1) {
+					JOptionPane.showMessageDialog(DialogoFornecedor.this, "O campo Cidade é obrigatório!");
+					comboCidade.requestFocus();					
 				}else {
 					if (fornecedor.getCodigo() == 0) {
 						inserir();
