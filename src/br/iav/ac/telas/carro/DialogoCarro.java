@@ -228,11 +228,13 @@ public class DialogoCarro extends DialogoPadrao {
 			cliente = new Cliente();
 			cor = new Cor();
 			this.carregarComboMarca(marca.load());
+			this.carregarComboModelo(modelo.search("Marca", "Igual", ((Marca)comboMarca.getSelectedItem()).getNome()) );/*
+			
 			if (comboMarca.getSelectedIndex() != -1){
 				this.carregarComboModelo(modelo.search("Marca", "Igual", ((Marca)comboMarca.getSelectedItem()).getNome()) );
 			}else{
 				this.carregarComboModelo(modelo.search("Marca", "Igual", ""));
-			}
+			}*/
 			this.carregarComboCor(cor.load());
 			this.carregarComboCliente(cliente.load());
 			if (carro.getCodigo() != 0) {
@@ -256,8 +258,9 @@ public class DialogoCarro extends DialogoPadrao {
 				Marca marca = (Marca) listaObjeto.getObjeto(i);
 				comboArray[i] = marca;
 			}
-			ComboBoxModel comboModeloModel = new DefaultComboBoxModel(comboArray);
-			comboMarca.setModel(comboModeloModel);
+			ComboBoxModel comboMarcaModel = 
+				new DefaultComboBoxModel(comboArray);
+			comboMarca.setModel(comboMarcaModel);
 		}
 
 		/**
@@ -328,32 +331,24 @@ public class DialogoCarro extends DialogoPadrao {
 		 * Faz a Inserção de um Carro.
 		 */
 		private void inserir() {
-			if (existeCarro()) {
-				carro.setAnoFabricacao(null);
-				carro.setCliente(null);
-				carro.setCor(null);
-				carro.setModelo(buscarModelo());
-				carro.insert();
-				carregarComboMarca(modelo.load());
-			} else {
-				JOptionPane.showMessageDialog(DialogoCarro.this,"Esse carro já se encontra na Base de Dados!");
-			}
+			carro.setAnoFabricacao(textAno.getText().trim());
+			carro.setPlaca(textPlaca.getText().trim());
+			carro.setCliente(buscarCliente());
+			carro.setCor(buscarCor());
+			carro.setModelo(buscarModelo());
+			carro.insert();
 		}
 
 		/**
 		 * Faz a Edição de um Carro.
 		 */
 		private void editar() {
-			if (existeCarro()) {
-				// carro.setNome(textCarro.getText().trim());
-				carro.setModelo(buscarModelo());
-				JOptionPane.showMessageDialog(DialogoCarro.this, buscarModelo().getNome());
-
-				carro.edit();
-			} else {
-				JOptionPane.showMessageDialog(DialogoCarro.this,
-						"Essa cor já se encontra na Base de Dados!");
-			}
+			carro.setAnoFabricacao(textAno.getText().trim());
+			carro.setPlaca(textPlaca.getText().trim());
+			carro.setCliente(buscarCliente());
+			carro.setCor(buscarCor());
+			carro.setModelo(buscarModelo());
+			carro.edit();
 		}
 
 		/**
@@ -362,9 +357,36 @@ public class DialogoCarro extends DialogoPadrao {
 		 * @return Modelo
 		 */
 		private Modelo buscarModelo() {
-			ListaObjeto listaObjeto = modelo.search("modelo", "Igual", ((Modelo) comboModelo.getSelectedItem()).getNome());
+			String codigo = String.valueOf(((Modelo) comboModelo.getSelectedItem()).getCodigo());
+			ListaObjeto listaObjeto = modelo.search("Código", "Igual", codigo);
 			modelo = (Modelo) listaObjeto.getObjeto(0);
 			return modelo;
+
+		}
+
+		/**
+		 * Busca no banco uma Cor
+		 * 
+		 * @return Modelo
+		 */
+		private Cor buscarCor() {
+			String codigo = String.valueOf(((Cor) comboCor.getSelectedItem()).getCodigo());
+			ListaObjeto listaObjeto = cor.search("Código", "Igual", codigo);
+			cor = (Cor) listaObjeto.getObjeto(0);
+			return cor;
+
+		}
+
+		/**
+		 * Busca no banco uma Cor
+		 * 
+		 * @return Modelo
+		 */
+		private Cliente buscarCliente() {
+			String codigo = String.valueOf(((Cliente) comboCliente.getSelectedItem()).getCodigo());
+			ListaObjeto listaObjeto = cliente.search("Código", "Igual", codigo);
+			cliente = (Cliente) listaObjeto.getObjeto(0);
+			return cliente;
 
 		}
 
