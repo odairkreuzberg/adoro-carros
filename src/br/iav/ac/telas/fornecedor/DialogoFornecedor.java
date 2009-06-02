@@ -42,8 +42,6 @@ public class DialogoFornecedor extends DialogoPadrao {
 	private JLabel labelCep;
 	private JFormattedTextField textCep;
 	private MaskFormatter mascaraCep;	
-	private JTextField textRg;
-	private JTextField textProfissao;
 	private JLabel labelRua;
 	private JTextField textRua;
 	private JLabel labelNumero;

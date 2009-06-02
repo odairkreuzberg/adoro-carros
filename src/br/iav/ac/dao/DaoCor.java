@@ -4,6 +4,7 @@ import br.iav.ac.database.DB;
 import br.iav.ac.database.PostgreSQL;
 import br.iav.ac.negocio.Cor;
 import br.iav.ac.negocio.ListaObjeto;
+import br.iav.ac.negocio.Modelo;
 
 public class DaoCor implements DaoInterface {
 
@@ -43,6 +44,14 @@ public class DaoCor implements DaoInterface {
 			db.update("insert into " + tableName + " (nome) values ('" + cor.getNome() + "')");
 			db.disconnect();
 		}
+	}
+	
+	public Cor searchWithCodigo(int codigo){
+		ListaObjeto listaObjeto = this.search("Código", "Igual", String.valueOf(codigo));
+		if (listaObjeto.getSize() == 1 ) {
+			return (Cor) listaObjeto.getObjeto(0);
+		}
+		return null;
 	}
 
 	private ListaObjeto load(String sql) {
