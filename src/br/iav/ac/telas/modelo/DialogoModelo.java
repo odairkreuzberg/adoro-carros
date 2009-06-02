@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.negocio.Marca;
 import br.iav.ac.negocio.Modelo;
+import br.iav.ac.negocio.Objeto;
 import br.iav.ac.telas.TelaPrincipal;
 import br.iav.ac.telas.marca.PainelMarca;
 import br.iav.ac.telas.padrao.DialogoCRUD;
@@ -190,11 +191,10 @@ public class DialogoModelo extends DialogoPadrao {
 		 * @param listaObjeto
 		 */
 		private void carregarComboMarca(ListaObjeto listaObjeto) {
-			String[] comboArray = new String[listaObjeto.getSize()];
+			Objeto[] comboArray = new Objeto[listaObjeto.getSize()];
 			for (int i = 0; i < listaObjeto.getSize(); i++) {
 				Marca marca = (Marca) listaObjeto.getObjeto(i);
-				comboArray[i] = marca.getNome();
-				System.out.println(modelo.getMarca().getNome()+"bla");
+				comboArray[i] = marca;
 			}
 			ComboBoxModel comboMarcaModel = 
 				new DefaultComboBoxModel(comboArray);
@@ -206,11 +206,9 @@ public class DialogoModelo extends DialogoPadrao {
 		 * @return Marca
 		 */
 		private Marca buscarMarca(){
-			ListaObjeto listaObjeto = marca.search("marca","Igual",(String)comboMarca.getSelectedItem());
+			ListaObjeto listaObjeto = marca.search("marca","Igual",((Marca)comboMarca.getSelectedItem()).getNome());
 			marca = (Marca)listaObjeto.getObjeto(0);
 			return marca;
-			
-						
 		}
 		
 		/**
@@ -236,9 +234,11 @@ public class DialogoModelo extends DialogoPadrao {
 			} 
 			else if (e.getSource() == getBotaoConfirmar()) {
 				if (textModelo.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoModelo.this,
-							"O campo Modelo é obrigatório!");
+					JOptionPane.showMessageDialog(DialogoModelo.this,"O campo Modelo é obrigatório!");
 				} 
+				else if (comboMarca.getSelectedIndex() == -1) {
+					JOptionPane.showMessageDialog(DialogoModelo.this,"O campo Marca é obrigatório!");
+				} 				
 				else {
 					if (modelo.getCodigo() == 0) {
 						inserir();

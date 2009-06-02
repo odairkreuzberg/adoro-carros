@@ -258,8 +258,8 @@ public class DialogoFuncionario extends DialogoPadrao {
 			super();
 			cargo = new Cargo();
 			cidade = new Cidade();
-			carregarComboCargo(cargo.load());
-			carregarComboCidade(cidade.load());	
+			this.carregarComboCargo(cargo.load());
+			this.carregarComboCidade(cidade.load());
 			if( (funcionario != null) && (funcionario.getCodigo() > 0)){
 				this.carregarDados();
 			}else{
@@ -313,11 +313,6 @@ public class DialogoFuncionario extends DialogoPadrao {
 			comboCidade.setSelectedIndex(0);
 			comboCargo.setSelectedIndex(0);
 		}
-		
-		private void setarCampos(){
-	
-		}
-
 		
 		private void carregarComboCidade(ListaObjeto listaObjeto) {
 			Objeto[] comboArray = new Objeto[listaObjeto.getSize()];
@@ -428,12 +423,17 @@ public class DialogoFuncionario extends DialogoPadrao {
 					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo RG é obrigatório!");
 				}else if (textCpf.getText().equals("")) {
 					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo salario é obrigatório!");
+				}else if (comboCargo.getSelectedIndex() == -1) {
+					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo Cargo é obrigatório!");
+				}else if (comboCidade.getSelectedIndex() == -1) {
+					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo Cidade é obrigatório!");					
 				} else {
 					if (funcionario.getCodigo() == 0) {
 						inserir();
 					} else {
 						editar();
 					}
+					limparCampos();
 					dispose();
 				}
 			}
