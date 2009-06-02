@@ -258,13 +258,13 @@ public class DialogoFuncionario extends DialogoPadrao {
 			super();
 			cargo = new Cargo();
 			cidade = new Cidade();
-			this.carregarComboCargo(cargo.load());
-			this.carregarComboCidade(cidade.load());
 			if( (funcionario != null) && (funcionario.getCodigo() > 0)){
 				this.carregarDados();
 			}else{
 				funcionario = new Funcionario();
 			}
+			this.carregarComboCargo(cargo.load());
+			this.carregarComboCidade(cidade.load());			
 		}
 		
 		private void carregarDados(){
