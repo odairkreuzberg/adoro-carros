@@ -132,11 +132,11 @@ public class DialogoModelo extends DialogoPadrao {
 		public FormHandle() {
 			super();
 			marca = new Marca();
-			this.carregarComboMarca(marca.load());
 			comboMarca.setSelectedItem((Object) modelo.getMarca().getNome());
 			if (modelo.getCodigo() != 0) {
 				textCodigo.setText(String.valueOf(modelo.getCodigo()));
 			}
+			this.carregarComboMarca(marca.load());			
 	        
 		}
 		
