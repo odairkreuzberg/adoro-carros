@@ -70,6 +70,9 @@ public class PainelCliente extends PainelPadrao {
 			//TAMANHO DA GRID: 521
 			getGridTabela().getColumnModel().getColumn(0).setPreferredWidth(50);
 			getGridTabela().getColumnModel().getColumn(1).setPreferredWidth(200);
+			getGridTabela().getColumnModel().getColumn(2).setPreferredWidth(100);
+			getGridTabela().getColumnModel().getColumn(3).setPreferredWidth(120);
+			getGridTabela().getColumnModel().getColumn(4).setPreferredWidth(120);
 		}
 
 		public void actionPerformed(ActionEvent e) {

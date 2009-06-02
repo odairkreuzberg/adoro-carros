@@ -79,8 +79,8 @@ public class PainelFuncionario extends PainelPadrao {
 			getGridTabela().getColumnModel().getColumn(0).setPreferredWidth(50);
 			getGridTabela().getColumnModel().getColumn(1).setPreferredWidth(200);
 			getGridTabela().getColumnModel().getColumn(2).setPreferredWidth(80);
-			getGridTabela().getColumnModel().getColumn(3).setPreferredWidth(80);
-			getGridTabela().getColumnModel().getColumn(4).setPreferredWidth(80);
+			getGridTabela().getColumnModel().getColumn(3).setPreferredWidth(120);
+			getGridTabela().getColumnModel().getColumn(4).setPreferredWidth(120);
 			getGridTabela().getColumnModel().getColumn(5).setPreferredWidth(150);
 			getGridTabela().getColumnModel().getColumn(6).setPreferredWidth(150);
 			getGridTabela().getColumnModel().getColumn(7).setPreferredWidth(150);
