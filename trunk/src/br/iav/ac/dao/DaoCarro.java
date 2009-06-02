@@ -73,12 +73,10 @@ public class DaoCarro implements DaoInterface {
 			db.select(sql);
 			while (db.moveNext()) {
 			    Modelo modelo = daoModelo.searchWithCodigo(db.getInt("cod_modelo"));
-			    Cliente cliente = null;//daoCliente.searchWithCodigo(db.getInt("cod_cliente"));
+			    Cliente cliente = daoCliente.searchWithCodigo(db.getInt("cod_cliente"));
 			    Cor cor = daoCor.searchWithCodigo(db.getInt("cod_cor"));
 				lista.insertWhitoutPersist(new Carro(db.getInt("cod_"	+ tableName), db.getString("placa"),cliente, modelo,cor,db.getDate(null)));
-			    //Marca marca = new Marca(db.getInt("ma.cod_marca"), db.getString("ma.nome"));
-				//lista.insertWhitoutPersist(new Modelo(db.getInt("mo.cod_" + tableName), db.getString("mo.nome"), marca));
-			}
+			    }
 			db.disconnect();
 		}
 		return lista;
