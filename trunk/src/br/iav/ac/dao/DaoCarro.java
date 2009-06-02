@@ -20,7 +20,10 @@ public class DaoCarro implements DaoInterface {
 	private final static String tableName = "carro";
 
 	private final static String SELECT = "select * from " + tableName;
+	private final static String SELECT_COM_COR = "select carro.* from carro, cor";
+	private final static String SELECT_COM_MARCA = "select carro.* from carro, marca";
 	private final static String SELECT_COM_MODELO = "select carro.* from carro, modelo";
+	private final static String SELECT_COM_CLIENTE = "select carro.* from carro, cliente";
 	
 	public Carro getCarro() {
 		return carro;
@@ -63,13 +66,15 @@ public class DaoCarro implements DaoInterface {
 	
 	public ListaObjeto load(String sql) {
 		DaoModelo daoModelo = new DaoModelo();
+		DaoCliente daoCliente = new DaoCliente();
+		DaoCor daoCor = new DaoCor();
 		ListaObjeto lista = new ListaObjeto();
 		if (db.connect()) {
 			db.select(sql);
 			while (db.moveNext()) {
 			    Modelo modelo = daoModelo.searchWithCodigo(db.getInt("cod_modelo"));
 			    Cliente cliente = null;//daoCliente.searchWithCodigo(db.getInt("cod_cliente"));
-			    Cor cor = null;//daoCor.searchWithCodigo(db.getInt("cod_cor"));
+			    Cor cor = daoCor.searchWithCodigo(db.getInt("cod_cor"));
 				lista.insertWhitoutPersist(new Carro(db.getInt("cod_"	+ tableName), db.getString("placa"),cliente, modelo,cor,db.getDate(null)));
 			    //Marca marca = new Marca(db.getInt("ma.cod_marca"), db.getString("ma.nome"));
 				//lista.insertWhitoutPersist(new Modelo(db.getInt("mo.cod_" + tableName), db.getString("mo.nome"), marca));
@@ -90,17 +95,22 @@ public class DaoCarro implements DaoInterface {
 		String campoSQL = campo;
 		String operadorSQL = null;
 		String valorSQL = "'" + valor + "'";
-		String outroSQL = "";
 		
 		if (campo.equals("Código")) {
-			campoSQL = "CAST(cod_"+tableName+" as VARCHAR)";
-		} else 
-		if ( campo.equals("Marca")){			
-			sql = SELECT_COM_MODELO;			
-			outroSQL = " marca.cod_marca = modelo.cod_marca and marca.nome";
-			campoSQL = "marca.nome";
-		}
-		else{			
+			campoSQL = "CAST(cod_" + tableName + " as VARCHAR)";
+		} else if (campo.equals("Marca")) {
+			sql = SELECT_COM_MARCA;
+			campoSQL = "marca.cod_marca = carro.cod_marca and marca.nome";
+		} else if (campo.equals("Modelo")) {
+			sql = SELECT_COM_MODELO;
+			campoSQL = " modelo.cod_modelo = carro.cod_modelo and modelo.nome";
+		} else if (campo.equals("Cor")) {
+			sql = SELECT_COM_COR;
+			campoSQL = "cor.cod_cor = carro.cod_cor and cor.nome";
+		} else if (campo.equals("Marca")) {
+			sql = SELECT_COM_CLIENTE;
+			campoSQL = "cliente.cod_cliente = carro.cod_cliente and cliente.nome";
+		} else {
 			campoSQL = "nome";
 		}		
 		if (operador.equals("Igual")) {
@@ -116,7 +126,7 @@ public class DaoCarro implements DaoInterface {
 			valorSQL = " '%" + valor + "%'";
 		}
 		
-		sql += " where " + outroSQL + campoSQL + " " + operadorSQL + valorSQL;
+		sql += " where " + campoSQL + " " + operadorSQL + valorSQL;
 		return this.load(sql);
 	}
 	
