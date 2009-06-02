@@ -248,10 +248,10 @@ public class DialogoFornecedor extends DialogoPadrao {
 			textBairro.setText(fornecedor.getEndereco().getBairro().trim());
 			textCep.setText(fornecedor.getEndereco().getCep().trim());
 			textComplemento.setText(fornecedor.getEndereco().getComplemento().trim());
-			this.carregarComboCidade(cidade.load());
 			comboCidade.setEditable(true);
 			comboCidade.setSelectedItem((Object) fornecedor.getEndereco().getCidade());
 			comboCidade.setEditable(false);
+			this.carregarComboCidade(cidade.load());			
 			if (fornecedor.getCodigo() != 0) {
 				textCodigo.setText(String.valueOf(fornecedor.getCodigo()));
 				textNumero.setText(String.valueOf(fornecedor.getEndereco().getNumero()));

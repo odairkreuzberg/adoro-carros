@@ -251,10 +251,10 @@ public class DialogoCliente extends DialogoPadrao {
 			textCep.setText(cliente.getEndereco().getCep().trim());
 			textComplemento.setText(cliente.getEndereco().getComplemento().trim());
 			cidade = new Cidade();
-			this.carregarComboCidade(cidade.load());
 			comboCidade.setEditable(true);
 			comboCidade.setSelectedItem((Object) cliente.getEndereco().getCidade());
 			comboCidade.setEditable(false);
+			this.carregarComboCidade(cidade.load());			
 			if (cliente.getCodigo() != 0) {
 				textCodigo.setText(String.valueOf(cliente.getCodigo()));
 			}
