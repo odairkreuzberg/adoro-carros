@@ -107,24 +107,6 @@ public class DialogoCarro extends DialogoPadrao {
 			}
 			{
 				espacoEntreLinhas = espacoEntreLinhas + 25;
-				labelCor = new JLabel();
-				getPanelPrincipal().add(labelCor);
-				labelCor.setText("Cor:");
-				labelCor.setBounds(10, espacoEntreLinhas, 80, 20);
-			}
-			{
-				comboCor = new JComboBox();
-				getPanelPrincipal().add(comboCor);
-				comboCor.setBounds(espacoDoTextField, espacoEntreLinhas, 233, 20);
-			}
-			{
-				botaoCor = new JButton();
-				getPanelPrincipal().add(botaoCor);
-				botaoCor.setText("+");
-				botaoCor.setBounds(306, espacoEntreLinhas, 22, 20);
-			}
-			{
-				espacoEntreLinhas = espacoEntreLinhas + 25;
 				labelMarca = new JLabel();
 				getPanelPrincipal().add(labelMarca);
 				labelMarca.setText("Marca:");
@@ -158,6 +140,24 @@ public class DialogoCarro extends DialogoPadrao {
 				getPanelPrincipal().add(botaoModelo);
 				botaoModelo.setText("+");
 				botaoModelo.setBounds(306, espacoEntreLinhas, 22, 20);
+			}
+			{
+				espacoEntreLinhas = espacoEntreLinhas + 25;
+				labelCor = new JLabel();
+				getPanelPrincipal().add(labelCor);
+				labelCor.setText("Cor:");
+				labelCor.setBounds(10, espacoEntreLinhas, 80, 20);
+			}
+			{
+				comboCor = new JComboBox();
+				getPanelPrincipal().add(comboCor);
+				comboCor.setBounds(espacoDoTextField, espacoEntreLinhas, 233, 20);
+			}
+			{
+				botaoCor = new JButton();
+				getPanelPrincipal().add(botaoCor);
+				botaoCor.setText("+");
+				botaoCor.setBounds(306, espacoEntreLinhas, 22, 20);
 			}
 			{
 				espacoEntreLinhas = espacoEntreLinhas + 25;
@@ -228,13 +228,11 @@ public class DialogoCarro extends DialogoPadrao {
 			cliente = new Cliente();
 			cor = new Cor();
 			this.carregarComboMarca(marca.load());
-			this.carregarComboModelo(modelo.search("Marca", "Igual", ((Marca)comboMarca.getSelectedItem()).getNome()) );/*
-			
 			if (comboMarca.getSelectedIndex() != -1){
 				this.carregarComboModelo(modelo.search("Marca", "Igual", ((Marca)comboMarca.getSelectedItem()).getNome()) );
 			}else{
 				this.carregarComboModelo(modelo.search("Marca", "Igual", ""));
-			}*/
+			}
 			this.carregarComboCor(cor.load());
 			this.carregarComboCliente(cliente.load());
 			if (carro.getCodigo() != 0) {
@@ -272,8 +270,7 @@ public class DialogoCarro extends DialogoPadrao {
 				Marca marca = (Marca) listaObjeto.getObjeto(i);
 				comboArray[i] = marca;
 			}
-			ComboBoxModel comboMarcaModel = 
-				new DefaultComboBoxModel(comboArray);
+			ComboBoxModel comboMarcaModel = new DefaultComboBoxModel(comboArray);
 			comboMarca.setModel(comboMarcaModel);
 		}
 
@@ -439,9 +436,24 @@ public class DialogoCarro extends DialogoPadrao {
 			} else if (e.getSource() == getBotaoCancelar()) {
 				dispose();
 			} else if (e.getSource() == getBotaoConfirmar()) {
-				if (textPlaca.getText().equals("")) {
+				if (comboCliente.getSelectedItem() == null) {
 					JOptionPane.showMessageDialog(DialogoCarro.this,
-							"O campo Carro é obrigatório!");
+						"O campo Cliente é obrigatório!");
+				} else if (comboMarca.getSelectedItem() == null) {
+					JOptionPane.showMessageDialog(DialogoCarro.this,
+						"O campo Marca é obrigatório!");
+				} else if (comboModelo.getSelectedItem() == null) {
+					JOptionPane.showMessageDialog(DialogoCarro.this,
+					"O campo Modelo é obrigatório!");
+				}  else if (comboCor.getSelectedItem() == null) {
+					JOptionPane.showMessageDialog(DialogoCarro.this,
+						"O campo Cor é obrigatório!");
+				} else if (textPlaca.getText().equals("")) {
+					JOptionPane.showMessageDialog(DialogoCarro.this,
+						"O campo Placa é obrigatório!");
+				} else if (textAno.getText().equals("")) {
+					JOptionPane.showMessageDialog(DialogoCarro.this,
+						"O campo Ano é obrigatório!");
 				} else {
 					if (carro.getCodigo() == 0) {
 						inserir();

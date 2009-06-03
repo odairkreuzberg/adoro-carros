@@ -121,8 +121,8 @@ public class PainelModelo extends PainelPadrao {
 			 * Chama o Forulário de Modelo para fazer a Inserção de uma nova marca.  
 			 **/
 			if (e.getSource() == getBotaoNovo()) {
-				modelo.setCodigo(0);
-				modelo.setNome("");
+				//modelo.setCodigo(0);
+				//modelo.setNome("");
 				new DialogoModelo(TelaPrincipal.instancia, "Cadastro de Modelo", true, modelo);
 				carregarGrid(modelo.load());
 			}  			

@@ -167,7 +167,7 @@ public class PainelCarro extends PainelPadrao {
 			 * Faz a Remoção de uma marca.
 			 */
 			else if (e.getSource() == getBotaoExcluir()) {
-				if (getGridTabela().getSelectedRow() > 0) {
+				if (getGridTabela().getSelectedRow() >= 0) {
 					carro = buscarCarro();
 					if (carro != null) {
 						int resp = JOptionPane.showConfirmDialog(null,

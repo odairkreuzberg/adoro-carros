@@ -139,7 +139,9 @@ public class DialogoModelo extends DialogoPadrao {
 			if (modelo.getCodigo() != 0) {
 				textCodigo.setText(String.valueOf(modelo.getCodigo()));
 			}
+			
 		}
+		private DialogoCRUD dialogoCRUD;
 		
 		/**
 		 * Retorna true se encontrar um modelo e false se nao encontrar.
@@ -217,7 +219,7 @@ public class DialogoModelo extends DialogoPadrao {
 		 */
 		private void showPainel(PainelPadrao painelPadrao, String titulo) {
 			
-			DialogoCRUD dialogoCRUD = new DialogoCRUD(TelaPrincipal.instancia,titulo,true);
+			dialogoCRUD = new DialogoCRUD(TelaPrincipal.instancia,titulo,true);
 			dialogoCRUD.setPainel(painelPadrao);
 
 		}
@@ -229,7 +231,6 @@ public class DialogoModelo extends DialogoPadrao {
 				
 			}
 			else if (e.getSource() == getBotaoCancelar()) {
-				dispose();
 			} 
 			else if (e.getSource() == getBotaoConfirmar()) {
 //				for (int i = 0; i<comboMarca.getItemCount(); i++) {
