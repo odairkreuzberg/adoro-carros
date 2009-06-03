@@ -1,6 +1,5 @@
 package br.iav.ac.telas;
 
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -9,6 +8,7 @@ import javax.swing.WindowConstants;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+
 import br.iav.ac.telas.cargo.PainelCargo;
 import br.iav.ac.telas.carro.PainelCarro;
 import br.iav.ac.telas.cidade.PainelCidade;
@@ -19,6 +19,7 @@ import br.iav.ac.telas.funcionario.PainelFuncionario;
 import br.iav.ac.telas.marca.PainelMarca;
 import br.iav.ac.telas.modelo.PainelModelo;
 import br.iav.ac.telas.padrao.PainelPadrao;
+import br.iav.ac.telas.peca.PainelPeca;
 import br.iav.ac.telas.status.PainelStatus;
 
 public class TelaPrincipal extends javax.swing.JFrame {
@@ -37,6 +38,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	private PainelStatus painelStatus;
 	private PainelCarro painelCarro;
 	private PainelFornecedor painelFornecedor;
+	private PainelPeca painelPeca;
 	public static TelaPrincipal instancia;
 	
 	{
@@ -82,27 +84,33 @@ public class TelaPrincipal extends javax.swing.JFrame {
 					panelOpcoes.add(jspOpcoes);
 					jspOpcoes.setBounds(10, 11, 195, 184);
 					{
-						DefaultMutableTreeNode nodoPrincipal = new DefaultMutableTreeNode("Adoro Carros");
+						DefaultMutableTreeNode nodoPrincipal = new DefaultMutableTreeNode("SMA");
+						DefaultMutableTreeNode nodoGeral = new DefaultMutableTreeNode("Geral");
+						DefaultMutableTreeNode nodoServiços = new DefaultMutableTreeNode("Serviços");
 						DefaultMutableTreeNode nodoCargo = new DefaultMutableTreeNode("Cargo");
+						DefaultMutableTreeNode nodoCarro = new DefaultMutableTreeNode("Carro");
 						DefaultMutableTreeNode nodoCidade = new DefaultMutableTreeNode("Cidade");
 						DefaultMutableTreeNode nodoCliente = new DefaultMutableTreeNode("Cliente");
 						DefaultMutableTreeNode nodoCor = new DefaultMutableTreeNode("Cor");
+						DefaultMutableTreeNode nodoFornecedor = new DefaultMutableTreeNode("Fornecedor");
 						DefaultMutableTreeNode nodoFuncionario = new DefaultMutableTreeNode("Funcionário");
+						DefaultMutableTreeNode nodoPeca = new DefaultMutableTreeNode("Peça");
 						DefaultMutableTreeNode nodoMarca = new DefaultMutableTreeNode("Marca");
 						DefaultMutableTreeNode nodoModelo = new DefaultMutableTreeNode("Modelo");
 						DefaultMutableTreeNode nodoStatus = new DefaultMutableTreeNode("Status");
-						DefaultMutableTreeNode nodoCarro = new DefaultMutableTreeNode("Carros");
-						DefaultMutableTreeNode nodoFornecedor = new DefaultMutableTreeNode("Fornecedores");
-						nodoPrincipal.add(nodoCargo);
-						nodoPrincipal.add(nodoCidade);
-						nodoPrincipal.add(nodoCliente);
-						nodoPrincipal.add(nodoCor);
-						nodoPrincipal.add(nodoFuncionario);
-						nodoPrincipal.add(nodoMarca);
-						nodoPrincipal.add(nodoModelo);
-						nodoPrincipal.add(nodoStatus);
-						nodoPrincipal.add(nodoFornecedor);
-						nodoPrincipal.add(nodoCarro);
+						nodoPrincipal.add(nodoGeral);
+						nodoPrincipal.add(nodoServiços);
+						nodoGeral.add(nodoCargo);
+						nodoGeral.add(nodoCarro);
+						nodoGeral.add(nodoCidade);
+						nodoGeral.add(nodoCliente);
+						nodoGeral.add(nodoCor);
+						nodoGeral.add(nodoFornecedor);
+						nodoGeral.add(nodoFuncionario);
+						nodoGeral.add(nodoPeca);
+						nodoGeral.add(nodoMarca);
+						nodoGeral.add(nodoModelo);
+						nodoGeral.add(nodoStatus);
 						jtOpcoes = new JTree(nodoPrincipal);
 						jtOpcoes.addTreeSelectionListener(new TreeSelectionHandler());
 						jspOpcoes.setViewportView(jtOpcoes);
@@ -193,6 +201,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			return painelFornecedor;
 		}
 		
+		private PainelPeca getPainelPeca() {
+			if (painelPeca == null){
+				painelPeca = new PainelPeca();
+			}
+			return painelPeca;
+		}
+		
 		private void showPainel(PainelPadrao painelPadrao) {
 			panelPrincipal.removeAll();
 			panelPrincipal.repaint();
@@ -203,26 +218,28 @@ public class TelaPrincipal extends javax.swing.JFrame {
 		@Override
 		public void valueChanged(TreeSelectionEvent e) {
 			String path = e.getPath().toString().trim();
-			if (path.equals("[Adoro Carros, Cargo]")) {		
+			if (path.equals("[SMA, Geral, Cargo]")) {		
 				showPainel(getPainelCargo());
-			} else if (path.equals("[Adoro Carros, Cidade]")) {
+			} else if (path.equals("[SMA, Geral, Cidade]")) {
 				showPainel(getPainelCidade());
-			} else if (path.equals("[Adoro Carros, Cliente]")) {
+			} else if (path.equals("[SMA, Geral, Cliente]")) {
 				showPainel(getPainelCliente());
-			} else if (path.equals("[Adoro Carros, Cor]")) {				
+			} else if (path.equals("[SMA, Geral, Cor]")) {				
 				showPainel(getPainelCor());
-			} else if (path.equals("[Adoro Carros, Funcionário]")) {
+			} else if (path.equals("[SMA, Geral, Funcionário]")) {
 				showPainel(getPainelFuncionario());
-			} else if (path.equals("[Adoro Carros, Marca]")) {			
+			} else if (path.equals("[SMA, Geral, Marca]")) {			
 				showPainel(getPainelMarca());
-			} else if (path.equals("[Adoro Carros, Modelo]")) {		
+			} else if (path.equals("[SMA, Geral, Modelo]")) {		
 				showPainel(getPainelModelo());
-			} else if (path.equals("[Adoro Carros, Status]")) {
+			} else if (path.equals("[SMA, Geral, Status]")) {
 				showPainel(getPainelStatus());
-			} else if (path.equals("[Adoro Carros, Carros]")) {
+			} else if (path.equals("[SMA, Geral, Carro]")) {
 				showPainel(getPainelCarro());
-			}else if (path.equals("[Adoro Carros, Fornecedores]")) {
+			} else if (path.equals("[SMA, Geral, Fornecedor]")) {
 				showPainel(getPainelFornecedor());
+			} else if (path.equals("[SMA, Geral, Peça]")) {
+				showPainel(getPainelPeca());
 			}
 		}
 	}
