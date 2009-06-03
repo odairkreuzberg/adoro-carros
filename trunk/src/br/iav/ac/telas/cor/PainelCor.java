@@ -145,7 +145,7 @@ public class PainelCor extends PainelPadrao {
 			 */
 			else if (e.getSource() == getBotaoExcluir()) {
 				// verifica se existe uma uma linha selecionada na Grid.
-				if (getGridTabela().getSelectedRow() > 0) {
+				if (getGridTabela().getSelectedRow() >= 0) {
 					cor = buscarCor();
 					//se retornar uma Cor existente, essa cor sera Excluida.
 					if (cor != null) {

@@ -26,11 +26,7 @@ public class DialogoCRUD extends JDialog {
 	public void setPainel(PainelPadrao painelPadrao) {
 		this.setDefaultCloseOperation(DialogoCRUD.DISPOSE_ON_CLOSE);
 		this.painelPadrao = painelPadrao;
-		dialogoHandler = new DialogoHandler();
-
 		initGUI();
-
-		botaoCancelar.addActionListener(dialogoHandler);
 	}
 	
 	public JButton getBotaoConfirmar() {
@@ -38,6 +34,9 @@ public class DialogoCRUD extends JDialog {
 	}
 	
 	public JButton getBotaoCancelar() {
+		if (botaoCancelar == null){
+			botaoCancelar = new JButton();
+		}
 		return botaoCancelar;
 	}
 
@@ -52,8 +51,7 @@ public class DialogoCRUD extends JDialog {
 					botaoConfirmar.setBounds(330, 553, 97, 21);
 				}
 				{
-					botaoCancelar = new JButton();
-					getContentPane().add(botaoCancelar);
+					getContentPane().add(getBotaoCancelar());
 					botaoCancelar.setText("Cancelar");
 					botaoCancelar.setBounds(440, 553, 97, 21);
 				}
@@ -65,6 +63,8 @@ public class DialogoCRUD extends JDialog {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		dialogoHandler = new DialogoHandler();
+		botaoCancelar.addActionListener(dialogoHandler);
 		setSize(555, 610);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -73,7 +73,7 @@ public class DialogoCRUD extends JDialog {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			dispose();
+			//dispose();
 			
 		}
 		
