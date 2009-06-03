@@ -57,4 +57,9 @@ public class Peca extends Objeto implements ObjetoInterface {
 		return dao.load();
 	}
 	
+	public ListaObjeto search(String campo, String operador, String valor){
+		DaoPeca dao = new DaoPeca();
+		return dao.search(campo, operador, valor);		
+	}
+	
 }
