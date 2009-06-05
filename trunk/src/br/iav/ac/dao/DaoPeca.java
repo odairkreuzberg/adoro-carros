@@ -60,6 +60,15 @@ public class DaoPeca implements DaoInterface {
 	public ListaObjeto load() {
 		return this.load(SELECT);
 	}
+
+	public Peca searchWithCodigo(int codigo) {
+		ListaObjeto listaObjeto = this.search("Código", "Igual", String
+				.valueOf(codigo));
+		if (listaObjeto.getSize() == 1) {
+			return (Peca) listaObjeto.getObjeto(0);
+		}
+		return null;
+	}
 	
 	public ListaObjeto search(String campo, String operador, String valor) {
 		String sql = SELECT;

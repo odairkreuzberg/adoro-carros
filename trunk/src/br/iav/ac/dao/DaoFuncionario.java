@@ -83,10 +83,11 @@ public class DaoFuncionario implements DaoInterface {
 		if (db.connect()) {
 			db.select(sql);
 			while (db.moveNext()) {
-				Cidade cidade = daoCidade.searchWithCodigo(db.getInt("cod_cidade"));
+				/*Cidade cidade = daoCidade.searchWithCodigo(db.getInt("cod_cidade"));
 				Endereco endereco = new Endereco(db.getString("rua"), db.getInt("numero"), db.getString("bairro"), cidade, db.getString("cep"), db.getString("complemento"));
 				Cargo cargo = daoCargo.searchWithCodigo(db.getInt("cod_cargo"));
-				lista.insertWhitoutPersist(new Funcionario(db.getInt("cod_" + tableName), db.getString("nome"), endereco, db.getString("telefone"), db.getString("cpf"), db.getString("rg"), db.getDate("data_nascimento"), cargo, db.getFloat("salario")));
+				*/
+				//lista.insertWhitoutPersist(new Funcionario(db.getInt("cod_" + tableName), db.getString("nome"), new Endereco(), new Cidade(), db.getString("cep"), db.getString("complemento"), db.getString("telefone"), db.getString("cpf"), db.getString("rg"), db.getDate("data_nascimento"), cargo, db.getFloat("salario")));
 			}
 			db.disconnect();
 		}

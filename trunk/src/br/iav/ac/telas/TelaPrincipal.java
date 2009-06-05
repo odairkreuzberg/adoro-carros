@@ -14,6 +14,7 @@ import br.iav.ac.telas.carro.PainelCarro;
 import br.iav.ac.telas.cidade.PainelCidade;
 import br.iav.ac.telas.cliente.PainelCliente;
 import br.iav.ac.telas.cor.PainelCor;
+import br.iav.ac.telas.estoque.PainelEstoque;
 import br.iav.ac.telas.fornecedor.PainelFornecedor;
 import br.iav.ac.telas.funcionario.PainelFuncionario;
 import br.iav.ac.telas.marca.PainelMarca;
@@ -39,6 +40,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	private PainelCarro painelCarro;
 	private PainelFornecedor painelFornecedor;
 	private PainelPeca painelPeca;
+	private PainelEstoque painelEstoque;
 	public static TelaPrincipal instancia;
 	
 	{
@@ -98,6 +100,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						DefaultMutableTreeNode nodoMarca = new DefaultMutableTreeNode("Marca");
 						DefaultMutableTreeNode nodoModelo = new DefaultMutableTreeNode("Modelo");
 						DefaultMutableTreeNode nodoStatus = new DefaultMutableTreeNode("Status");
+						DefaultMutableTreeNode nodoEstoque = new DefaultMutableTreeNode("Estoque");
 						nodoPrincipal.add(nodoGeral);
 						nodoPrincipal.add(nodoServiços);
 						nodoGeral.add(nodoCargo);
@@ -111,6 +114,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						nodoGeral.add(nodoMarca);
 						nodoGeral.add(nodoModelo);
 						nodoGeral.add(nodoStatus);
+						nodoGeral.add(nodoEstoque);
 						jtOpcoes = new JTree(nodoPrincipal);
 						jtOpcoes.addTreeSelectionListener(new TreeSelectionHandler());
 						jspOpcoes.setViewportView(jtOpcoes);
@@ -208,6 +212,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			return painelPeca;
 		}
 		
+		private PainelEstoque getPainelEstoque() {
+			if (painelEstoque == null){
+				painelEstoque = new PainelEstoque();
+			}
+			return painelEstoque;
+		}
+		
 		private void showPainel(PainelPadrao painelPadrao) {
 			panelPrincipal.removeAll();
 			panelPrincipal.repaint();
@@ -238,6 +249,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 				showPainel(getPainelCarro());
 			} else if (path.equals("[SMA, Geral, Fornecedor]")) {
 				showPainel(getPainelFornecedor());
+			} else if (path.equals("[SMA, Geral, Estoque]")) {
+				panelPrincipal.removeAll();
+				panelPrincipal.repaint();
+				panelPrincipal.add(getPainelEstoque());
+				panelPrincipal.validate();
 			} else if (path.equals("[SMA, Geral, Peça]")) {
 				showPainel(getPainelPeca());
 			}

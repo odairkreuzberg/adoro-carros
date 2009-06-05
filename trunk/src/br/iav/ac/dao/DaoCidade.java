@@ -73,7 +73,8 @@ public class DaoCidade {
 		String operadorSQL = null;
 		String valorSQL = "'" + valor + "'";
 		if (campo.equals("Código")) {
-			campoSQL = "cast (cod_"+tableName+" as varchar)";
+			operador = "Igual";
+			valorSQL = "-1";
 		} else if (campo.equals("Nome")) {
 			campoSQL = "nome";
 		} else if (campo.equals("DDD")) {

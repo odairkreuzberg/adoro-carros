@@ -389,9 +389,9 @@ public class DialogoCarro extends DialogoPadrao {
 		}
 
 		/**
-		 * Busca no banco uma Cor
+		 * Busca no banco um Cliente
 		 * 
-		 * @return Modelo
+		 * @return Cliente
 		 */
 		private Cliente buscarCliente() {
 			String codigo = String.valueOf(((Cliente) comboCliente.getSelectedItem()).getCodigo());
@@ -402,7 +402,7 @@ public class DialogoCarro extends DialogoPadrao {
 		}
 
 		/**
-		 * Instancia o Caso de Uso Modelo.
+		 * Instancia o Caso de Uso.
 		 * 
 		 * @param painelPadrao
 		 * @param titulo

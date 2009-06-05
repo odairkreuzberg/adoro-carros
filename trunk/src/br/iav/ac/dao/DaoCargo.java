@@ -7,17 +7,18 @@ import br.iav.ac.negocio.Cidade;
 import br.iav.ac.negocio.Cor;
 import br.iav.ac.negocio.ListaObjeto;
 
-public class DaoCargo  implements DaoInterface {
+public class DaoCargo implements DaoInterface {
 
 	private DB db = PostgreSQL.create();
-	
+
 	// Nome da tabela e nome do sufixo do código
 	private final static String tableName = "cargo";
-	
-	private final static String SELECT = "select cod_" + tableName + ", nome, descricao from " + tableName;
+
+	private final static String SELECT = "select cod_" + tableName
+			+ ", nome, descricao from " + tableName;
 
 	private Cargo cargo;
-	
+
 	public Cargo getCargo() {
 		return cargo;
 	}
@@ -28,55 +29,65 @@ public class DaoCargo  implements DaoInterface {
 
 	public void delete() {
 		if (db.connect()) {
-			db.update("delete from " + tableName + " where cod_" + tableName + " = " + cargo.getCodigo());
+			db.update("delete from " + tableName + " where cod_" + tableName
+					+ " = " + cargo.getCodigo());
 			db.disconnect();
 		}
 	}
-	
+
 	public void edit() {
 		if (db.connect()) {
-			db.update("update " + tableName + " set nome = '" + cargo.getNome() + "', descricao = '" + cargo.getDescricao() + "' where cod_" + tableName + " = " + cargo.getCodigo());
+			db.update("update " + tableName + " set nome = '" + cargo.getNome()
+					+ "', descricao = '" + cargo.getDescricao()
+					+ "' where cod_" + tableName + " = " + cargo.getCodigo());
 			db.disconnect();
 		}
 	}
-	
+
 	public void insert() {
 		if (db.connect()) {
-			db.update("insert into " + tableName + " (nome, descricao) values ('" + cargo.getNome() + "', '" + cargo.getDescricao() + "')");
+			db.update("insert into " + tableName
+					+ " (nome, descricao) values ('" + cargo.getNome() + "', '"
+					+ cargo.getDescricao() + "')");
 			db.disconnect();
 		}
 	}
-	
+
 	public ListaObjeto load(String sql) {
 		ListaObjeto lista = new ListaObjeto();
 		if (db.connect()) {
 			db.select(sql);
 			while (db.moveNext()) {
-				lista.insertWhitoutPersist(new Cargo(db.getInt("cod_" + tableName), db.getString("nome"), db.getString("descricao")));
+				lista.insertWhitoutPersist(new Cargo(db.getInt("cod_"
+						+ tableName), db.getString("nome"), db
+						.getString("descricao")));
 			}
 			db.disconnect();
 		}
 		return lista;
 	}
-	
+
 	public ListaObjeto load() {
 		return this.load(SELECT);
-	}	
-	
-	public Cargo searchWithCodigo(int codigo){
-		ListaObjeto listaObjeto = this.search("Código", "Igual", String.valueOf(codigo));
-		if (listaObjeto.getSize() == 1 ) {
+	}
+
+	public Cargo searchWithCodigo(int codigo) {
+		ListaObjeto listaObjeto = this.search("Código", "Igual", String
+				.valueOf(codigo));
+		if (listaObjeto.getSize() == 1) {
 			return (Cargo) listaObjeto.getObjeto(0);
 		}
 		return null;
 	}
-	
+
 	public ListaObjeto search(String campo, String operador, String valor) {
 		String campoSQL = campo;
 		String operadorSQL = null;
 		String valorSQL = "'" + valor + "'";
 		if (campo.equals("Código")) {
-			campoSQL = "CAST(cod_"+tableName+" as VARCHAR)";
+			if (operador.equals("Contem")) {
+				operador = "Igual";
+			}
 		} else if (campo.equals("Nome")) {
 			campoSQL = "nome";
 		} else {
@@ -97,6 +108,6 @@ public class DaoCargo  implements DaoInterface {
 		String sql = SELECT;
 		sql += " where " + campoSQL + " " + operadorSQL + valorSQL;
 		return this.load(sql);
-	}	
+	}
 
 }
