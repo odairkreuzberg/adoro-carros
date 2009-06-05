@@ -7,6 +7,7 @@ import br.iav.ac.negocio.Cliente;
 import br.iav.ac.negocio.Endereco;
 import br.iav.ac.negocio.Fornecedor;
 import br.iav.ac.negocio.ListaObjeto;
+import br.iav.ac.negocio.Marca;
 
 public class DaoFornecedor implements DaoInterface {
 
@@ -94,6 +95,15 @@ public class DaoFornecedor implements DaoInterface {
 	
 	public ListaObjeto load() {
 		return this.load(SELECT);
+	}
+
+	public Fornecedor searchWithCodigo(int codigo) {
+		ListaObjeto listaObjeto = this.search("Código", "Igual", String
+				.valueOf(codigo));
+		if (listaObjeto.getSize() == 1) {
+			return (Fornecedor) listaObjeto.getObjeto(0);
+		}
+		return null;
 	}
 	
 	public ListaObjeto search(String campo, String operador, String valor) {

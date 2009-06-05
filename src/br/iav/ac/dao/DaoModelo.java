@@ -1,7 +1,5 @@
 package br.iav.ac.dao;
 
-import javax.swing.text.TabExpander;
-
 import br.iav.ac.database.DB;
 import br.iav.ac.database.PostgreSQL;
 import br.iav.ac.negocio.ListaObjeto;
@@ -10,19 +8,15 @@ import br.iav.ac.negocio.Modelo;
 
 public class DaoModelo implements DaoInterface {
 
-
 	private DB db = PostgreSQL.create();
 	private Modelo modelo;
-	
-	//Nome da tabela e nome do sufixo do código
+
+	// Nome da tabela e nome do sufixo do código
 	private final static String tableName = "modelo";
 
-	private final static String SELECT = "select * from " + tableName;
-	private final static String SELECT_COM_MARCA = "select modelo.* from "+tableName+", marca";
-	
-	//"select mo.cod_" + tableName + ", mo.nome, mo.cod_marca, ma.cod_marca, ma.nome from " + tableName + " mo, marca ma where mo.cod_marca = ma.cod_marca";
-	
-	
+	private final static String SELECT = "select modelo.*, marca.nome as ma_nome"
+			+ " from marca inner join modelo on (modelo.cod_marca = marca.cod_marca) ";
+
 	public Modelo getModelo() {
 		return modelo;
 	}
@@ -33,43 +27,53 @@ public class DaoModelo implements DaoInterface {
 
 	public void delete() {
 		if (db.connect()) {
-			db.update("delete from " + tableName + " where cod_" + tableName + " = " + modelo.getCodigo());
+			db.update("delete from " + tableName + " where cod_" + tableName
+					+ " = " + modelo.getCodigo());
 			db.disconnect();
 		}
 	}
-	
+
 	public void edit() {
 		if (db.connect()) {
-			db.update("update " + tableName + " set nome = '" + modelo.getNome() + "', cod_marca = " + modelo.getMarca().getCodigo() + " where cod_" + tableName + " = " + modelo.getCodigo());
+			db.update("update " + tableName + " set nome = '"
+					+ modelo.getNome() + "', cod_marca = "
+					+ modelo.getMarca().getCodigo() + " where cod_" + tableName
+					+ " = " + modelo.getCodigo());
 			db.disconnect();
 		}
 	}
-	
+
 	public void insert() {
 		if (db.connect()) {
-			db.update("insert into " + tableName + " (nome, cod_marca) values ('" + modelo.getNome() + "', " + modelo.getMarca().getCodigo() + ")");
+			db.update("insert into " + tableName
+					+ " (nome, cod_marca) values ('" + modelo.getNome() + "', "
+					+ modelo.getMarca().getCodigo() + ")");
 			db.disconnect();
 		}
 	}
-	
-	public Modelo searchWithCodigo(int codigo){
-		ListaObjeto listaObjeto = this.search("Código", "Igual", String.valueOf(codigo));
-		if (listaObjeto.getSize() == 1 ) {
+
+	public Modelo searchWithCodigo(int codigo) {
+		ListaObjeto listaObjeto = this.search("Código", "Igual", String
+				.valueOf(codigo));
+		if (listaObjeto.getSize() == 1) {
 			return (Modelo) listaObjeto.getObjeto(0);
 		}
 		return null;
 	}
-	
+
 	public ListaObjeto load(String sql) {
-		DaoMarca daoMarca = new DaoMarca();
 		ListaObjeto lista = new ListaObjeto();
 		if (db.connect()) {
 			db.select(sql);
 			while (db.moveNext()) {
-			    Marca marca = daoMarca.searchWithCodigo(db.getInt("cod_marca"));
-				lista.insertWhitoutPersist(new Modelo(db.getInt("cod_"	+ tableName), db.getString("nome"), marca));
-			    //Marca marca = new Marca(db.getInt("ma.cod_marca"), db.getString("ma.nome"));
-				//lista.insertWhitoutPersist(new Modelo(db.getInt("mo.cod_" + tableName), db.getString("mo.nome"), marca));
+				Modelo modelo = new Modelo();
+				Marca marca = new Marca();
+				modelo.setCodigo(db.getInt("cod_modelo"));
+				modelo.setNome(db.getString("nome"));
+				marca.setCodigo(db.getInt("cod_marca"));
+				marca.setNome(db.getString("ma_nome"));
+				modelo.setMarca(marca);
+				lista.insertWhitoutPersist(modelo);
 			}
 			db.disconnect();
 		}
@@ -83,23 +87,23 @@ public class DaoModelo implements DaoInterface {
 	public ListaObjeto search(String campo, String operador, String valor) {
 
 		String sql = SELECT;
-		
-		String campoSQL = campo;
+
+		String campoSQL = null;
 		String operadorSQL = null;
 		String valorSQL = "'" + valor + "'";
-		String outroSQL = "";
-		
+
 		if (campo.equals("Código")) {
-			campoSQL = "CAST(cod_"+tableName+" as VARCHAR)";
+			campoSQL = "where cod_modelo ";
+			if (operador.equals("Contem")) {
+				operador = "Igual";
+				valorSQL = "-1";
+			}
 		} else if (campo.equals("Marca")) {
-			sql = SELECT_COM_MARCA;
-			campoSQL = " marca.cod_marca = modelo.cod_marca and marca.nome";
-
+			campoSQL = "where marca.nome ";
 		} else if (campo.equals("Modelo")) {
-			campoSQL = " nome";
-
+			campoSQL = "where modelo.nome ";
 		}
-		
+
 		if (operador.equals("Igual")) {
 			operadorSQL = "=";
 		} else if (operador.equals("Diferente")) {
@@ -112,10 +116,10 @@ public class DaoModelo implements DaoInterface {
 			operadorSQL = "like";
 			valorSQL = " '%" + valor + "%'";
 		}
-		
-		sql += " where " + outroSQL + campoSQL + " " + operadorSQL + valorSQL;
+
+		sql += campoSQL + " " + operadorSQL + valorSQL;
 		return this.load(sql);
-	}//where CAST(cont_codi as STRING) like '%1%' where cod_modelo like '%1%'
+	}
 
 	public boolean temMarca(int codigo) {
 
