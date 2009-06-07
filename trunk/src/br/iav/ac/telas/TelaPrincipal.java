@@ -1,5 +1,10 @@
 package br.iav.ac.telas;
 
+import java.awt.Color;
+import java.awt.Font;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -19,7 +24,6 @@ import br.iav.ac.telas.fornecedor.PainelFornecedor;
 import br.iav.ac.telas.funcionario.PainelFuncionario;
 import br.iav.ac.telas.marca.PainelMarca;
 import br.iav.ac.telas.modelo.PainelModelo;
-import br.iav.ac.telas.padrao.PainelPadrao;
 import br.iav.ac.telas.peca.PainelPeca;
 import br.iav.ac.telas.status.PainelStatus;
 
@@ -29,6 +33,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	private JPanel panelPrincipal;
 	private JTree jtOpcoes;
 	private JScrollPane jspOpcoes;
+	private PainelApresentacao painelApresentacao;
 	private PainelCor painelCor;
 	private PainelMarca painelMarca;
 	private PainelModelo painelModelo;
@@ -127,6 +132,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 				panelPrincipal.setBounds(235, 11, 549, 553);
 				panelPrincipal.setLayout(null);
 				panelPrincipal.setSize(549, 553);
+				painelApresentacao = new PainelApresentacao();
+				panelPrincipal.add(painelApresentacao);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -135,6 +142,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	
 	class TreeSelectionHandler implements TreeSelectionListener {
 
+		private PainelApresentacao getPainelApresentacao() {
+			if (painelApresentacao == null){
+				painelApresentacao = new PainelApresentacao();
+			}
+			return painelApresentacao;
+		}
+		
 		private PainelCidade getPainelCidade() {
 			if (painelCidade == null){
 				painelCidade = new PainelCidade();
@@ -219,7 +233,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			return painelEstoque;
 		}
 		
-		private void showPainel(PainelPadrao painelPadrao) {
+		private void showPainel(JPanel painelPadrao) {
 			panelPrincipal.removeAll();
 			panelPrincipal.repaint();
 			panelPrincipal.add(painelPadrao);
@@ -250,12 +264,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			} else if (path.equals("[SMA, Geral, Fornecedor]")) {
 				showPainel(getPainelFornecedor());
 			} else if (path.equals("[SMA, Geral, Estoque]")) {
-				panelPrincipal.removeAll();
-				panelPrincipal.repaint();
-				panelPrincipal.add(getPainelEstoque());
-				panelPrincipal.validate();
+				showPainel(getPainelEstoque());
 			} else if (path.equals("[SMA, Geral, Peça]")) {
 				showPainel(getPainelPeca());
+			} else {
+				showPainel(getPainelApresentacao());
 			}
 		}
 	}
