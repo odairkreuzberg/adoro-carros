@@ -3,11 +3,9 @@ package br.iav.ac.dao;
 import br.iav.ac.database.DB;
 import br.iav.ac.database.PostgreSQL;
 import br.iav.ac.negocio.Cidade;
-import br.iav.ac.negocio.Cliente;
 import br.iav.ac.negocio.Endereco;
 import br.iav.ac.negocio.Fornecedor;
 import br.iav.ac.negocio.ListaObjeto;
-import br.iav.ac.negocio.Marca;
 
 public class DaoFornecedor implements DaoInterface {
 
@@ -16,9 +14,7 @@ public class DaoFornecedor implements DaoInterface {
 	
 	//Nome da tabela e nome do sufixo do código
 	private final static String tableName = "fornecedor";
-	
-	private final static String SELECT = "select * from " + tableName;
-	private final static String SELECT_COM_CIDADE = "select fornecedor.* from " + tableName + ", cidade";
+	private final static String SELECT = "select fornecedor.*, cidade.nome as ci_nome, cidade.ddd as ci_ddd from cidade inner join fornecedor on (fornecedor.cod_cidade = cidade.cod_cidade) ";	
 	
 	public Fornecedor getFornecedor() {
 		return fornecedor;
@@ -77,16 +73,28 @@ public class DaoFornecedor implements DaoInterface {
 	}
 	
 	public ListaObjeto load(String sql) {
-		DaoCidade daoCidade = new DaoCidade();
 		ListaObjeto lista = new ListaObjeto();
 		if (db.connect()) {
 			db.select(sql);
 			while (db.moveNext()) {
-				Cidade cidade = daoCidade.searchWithCodigo(db.getInt("cod_cidade"));
-				Endereco endereco = new Endereco(db.getString("rua"), db.getInt("numero"), db.getString("bairro"), cidade, db.getString("cep"), db.getString("complemento"));
-				lista.insertWhitoutPersist(new Fornecedor(db.getInt("cod_" + tableName), db.getString("nome_fantasia"), db.getString("razao_social"), db.getString("cnpj"), db.getString("telefone"), db.getString("fax"),endereco));
-				
-			
+				lista.insertWhitoutPersist(new Fornecedor(db.getInt("cod_" + tableName),
+														  db.getString("nome_fantasia"),
+														  db.getString("razao_social"),
+														  db.getString("cnpj"),
+														  db.getString("telefone"),
+														  db.getString("fax"),
+														  new Endereco(db.getString("rua"),
+																  	   db.getInt("numero"),
+																  	   db.getString("bairro"),
+																  	   new Cidade(db.getInt("cod_cidade"),
+																  			   	  db.getString("ci_nome"),
+																  			   	  db.getInt("ci_ddd")
+																  	   ),
+																  	   db.getString("cep"),
+																  	   db.getString("complemento")
+														  )
+											)
+				);
 			}
 			db.disconnect();
 		}
@@ -98,8 +106,7 @@ public class DaoFornecedor implements DaoInterface {
 	}
 
 	public Fornecedor searchWithCodigo(int codigo) {
-		ListaObjeto listaObjeto = this.search("Código", "Igual", String
-				.valueOf(codigo));
+		ListaObjeto listaObjeto = this.search("Código", "Igual", String.valueOf(codigo));
 		if (listaObjeto.getSize() == 1) {
 			return (Fornecedor) listaObjeto.getObjeto(0);
 		}
@@ -107,35 +114,42 @@ public class DaoFornecedor implements DaoInterface {
 	}
 	
 	public ListaObjeto search(String campo, String operador, String valor) {
-		String campoSQL = campo;
+		String sql = SELECT;
+		String campoSQL = null;
 		String operadorSQL = null;
 		String valorSQL = "'" + valor + "'";
-		String sql = SELECT;
 		if (campo.equals("Código")) {
-			campoSQL = "cast (cod_"+tableName+" as varchar)";
+			campoSQL = "where cod_fornecedor";
+			if (operador.equals("Contem")) {
+				operador = "Igual";
+				valorSQL = "-1";
+			}
 		} else if (campo.equals("Nome Fantasia")) {
-			campoSQL = "nome_fantasia";
+			campoSQL = "where fornecedor.nome_fantasia ";
 		} else if (campo.equals("Razão Social")) {
-			campoSQL = "razao_social";
+			campoSQL = "where fornecedor.razao_social ";
 		} else if (campo.equals("CNPJ")) {
-			campoSQL = "cnpj";
+			campoSQL = "where fornecedor.cnpj ";
 		} else if (campo.equals("Telefone")) {
-			campoSQL = "telefone";
+			campoSQL = "where fornecedor.telefone ";
 		} else if (campo.equals("Fax")) {
-			campoSQL = "fax";
+			campoSQL = "where fornecedor.fax ";
 		} else if (campo.equals("Rua")) {
-			campoSQL = "rua";
+			campoSQL = "where fornecedor.rua ";
 		} else if (campo.equals("Número")) {
-			campoSQL = "cast (numero as varchar)";
+			campoSQL = "where fornecedor.numero";
+			if (operador.equals("Contem")) {
+				operador = "Igual";
+				valorSQL = "-1";
+			}
 		} else if (campo.equals("Bairro")) {
-			campoSQL = "bairro";
+			campoSQL = "where fornecedor.bairro ";
 		} else if (campo.equals("CEP")) {
-			campoSQL = "cep";
+			campoSQL = "where fornecedor.cep ";
 		} else if (campo.equals("Complemento")) {
-			campoSQL = "complemento";
+			campoSQL = "where fornecedor.complemento ";
 		} else if (campo.equals("Cidade")) {
-			sql = SELECT_COM_CIDADE;
-			campoSQL = "cidade.cod_cidade = fornecedor.cod_cidade and cidade.nome";
+			campoSQL = "where cidade.nome ";
 		}
 		if (operador.equals("Igual")) {
 			operadorSQL = "=";
@@ -149,7 +163,7 @@ public class DaoFornecedor implements DaoInterface {
 			operadorSQL = "like";
 			valorSQL = "('%" + valor + "%')";
 		}
-		sql += " where " + campoSQL + " " + operadorSQL + valorSQL;
+		sql += campoSQL + " " + operadorSQL + valorSQL;
 		return this.load(sql);
 	}
 
