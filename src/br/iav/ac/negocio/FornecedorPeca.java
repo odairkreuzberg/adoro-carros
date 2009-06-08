@@ -135,9 +135,9 @@ public class FornecedorPeca extends Objeto implements ObjetoInterface {
 		
 	}
 	
-	public ListaObjeto search(String campo, String operador, String preco){
+	public ListaObjeto getListaPecaFornecedor(String cod){
 		DaoFornecedorPeca dao = new DaoFornecedorPeca();
-		return dao.search(campo, operador, preco);		
+		return dao.getListaPecaFornecedor(cod);		
 	}
 
 	public FornecedorPeca temFornecedorMarca(FornecedorPeca fornecedorPeca) {

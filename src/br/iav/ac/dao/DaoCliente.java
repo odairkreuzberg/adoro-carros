@@ -73,7 +73,6 @@ public class DaoCliente implements DaoInterface {
 	}
 	
 	public ListaObjeto load(String sql) {
-		DaoCidade daoCidade = new DaoCidade();
 		ListaObjeto lista = new ListaObjeto();
 		if (db.connect()) {
 			db.select(sql);
