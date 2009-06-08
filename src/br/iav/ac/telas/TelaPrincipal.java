@@ -1,10 +1,5 @@
 package br.iav.ac.telas;
 
-import java.awt.Color;
-import java.awt.Font;
-
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -24,6 +19,7 @@ import br.iav.ac.telas.fornecedor.PainelFornecedor;
 import br.iav.ac.telas.funcionario.PainelFuncionario;
 import br.iav.ac.telas.marca.PainelMarca;
 import br.iav.ac.telas.modelo.PainelModelo;
+import br.iav.ac.telas.padrao.RelPadrao;
 import br.iav.ac.telas.peca.PainelPeca;
 import br.iav.ac.telas.status.PainelStatus;
 
@@ -46,6 +42,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	private PainelFornecedor painelFornecedor;
 	private PainelPeca painelPeca;
 	private PainelEstoque painelEstoque;
+	private RelPadrao painelRelCarro;
 	public static TelaPrincipal instancia;
 	
 	{
@@ -93,7 +90,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 					{
 						DefaultMutableTreeNode nodoPrincipal = new DefaultMutableTreeNode("SMA");
 						DefaultMutableTreeNode nodoGeral = new DefaultMutableTreeNode("Geral");
-						DefaultMutableTreeNode nodoServiços = new DefaultMutableTreeNode("Serviços");
+						DefaultMutableTreeNode nodoServicos = new DefaultMutableTreeNode("Serviços");
+						DefaultMutableTreeNode nodoRelatorios = new DefaultMutableTreeNode("Relatórios");
 						DefaultMutableTreeNode nodoCargo = new DefaultMutableTreeNode("Cargo");
 						DefaultMutableTreeNode nodoCarro = new DefaultMutableTreeNode("Carro");
 						DefaultMutableTreeNode nodoCidade = new DefaultMutableTreeNode("Cidade");
@@ -106,8 +104,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						DefaultMutableTreeNode nodoModelo = new DefaultMutableTreeNode("Modelo");
 						DefaultMutableTreeNode nodoStatus = new DefaultMutableTreeNode("Status");
 						DefaultMutableTreeNode nodoEstoque = new DefaultMutableTreeNode("Estoque");
+						DefaultMutableTreeNode nodoRelCarro = new DefaultMutableTreeNode("Carro");
 						nodoPrincipal.add(nodoGeral);
-						nodoPrincipal.add(nodoServiços);
+						nodoPrincipal.add(nodoServicos);
+						nodoPrincipal.add(nodoRelatorios);
 						nodoGeral.add(nodoCargo);
 						nodoGeral.add(nodoCarro);
 						nodoGeral.add(nodoCidade);
@@ -119,7 +119,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						nodoGeral.add(nodoMarca);
 						nodoGeral.add(nodoModelo);
 						nodoGeral.add(nodoStatus);
-						nodoGeral.add(nodoEstoque);
+						nodoRelatorios.add(nodoRelCarro);
 						jtOpcoes = new JTree(nodoPrincipal);
 						jtOpcoes.addTreeSelectionListener(new TreeSelectionHandler());
 						jspOpcoes.setViewportView(jtOpcoes);
@@ -147,6 +147,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 				painelApresentacao = new PainelApresentacao();
 			}
 			return painelApresentacao;
+		}
+		
+		private RelPadrao getPainelRelCarro() {
+			if (painelRelCarro == null){
+				painelRelCarro = new RelPadrao("Carros");
+			}
+			return painelRelCarro;
 		}
 		
 		private PainelCidade getPainelCidade() {
@@ -267,6 +274,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 				showPainel(getPainelEstoque());
 			} else if (path.equals("[SMA, Geral, Peça]")) {
 				showPainel(getPainelPeca());
+			} else if (path.equals("[SMA, Relatórios, Carro]")) {
+				showPainel(getPainelRelCarro());
 			} else {
 				showPainel(getPainelApresentacao());
 			}
