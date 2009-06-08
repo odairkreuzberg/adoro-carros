@@ -2,15 +2,23 @@ package br.iav.ac.telas.estoque;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
+import javax.swing.text.NumberFormatter;
 
 import br.iav.ac.negocio.Fornecedor;
 import br.iav.ac.negocio.FornecedorPeca;
@@ -49,16 +57,18 @@ public class DialogoFornecedorPeca extends JDialog {
 	private FormHandle formHandle;
 	private JButton botaoPeca;
 	private JButton botaoFornecedor;
-	private JTextField textQtd;
+	private  JFormattedTextField textQtd;
 	private JComboBox comboFornecedor;
 	private JButton botaoCancelar;
 	private JButton botaoComprar;
 	private JLabel labelQtd;
 	private JLabel labelValor;
-	private JTextField textValor;
+	private JFormattedTextField textValor;
 	private JLabel labelPeca;
 	private JComboBox comboPeca;
 	private JLabel labelFornecedor;
+	private JLabel labelAviso;
+	MaskFormatter mascQtd ;
 
 	/*----------------------------------------------------------
 	 * FIM DE ATTRIBUTOS
@@ -117,10 +127,16 @@ public class DialogoFornecedorPeca extends JDialog {
 			labelValor.setText("Valor:");
 			labelValor.setBounds(10, espacoEntreLinhas, 80, 20);
 		}
-		{
-			textValor = new JTextField();
+		{  
+			DecimalFormat  decimal = new DecimalFormat("#,###.00");  
+		    NumberFormatter numFormatter = new NumberFormatter(decimal);  
+		    numFormatter.setFormat(decimal);  
+		    numFormatter.setAllowsInvalid(false);  
+		    textValor = new JFormattedTextField();  
+		    textValor .setFormatterFactory( new DefaultFormatterFactory(numFormatter)); 
 			getContentPane().add(textValor);
 			textValor.setBounds(espacoDoTextField, espacoEntreLinhas, 270, 20);
+			
 		}
 		{
 			espacoEntreLinhas = espacoEntreLinhas + 25;
@@ -130,12 +146,17 @@ public class DialogoFornecedorPeca extends JDialog {
 			labelQtd.setBounds(10, espacoEntreLinhas, 80, 20);
 		}
 		{
-			textQtd = new JTextField();
+			textQtd = new JFormattedTextField(mascQtd);
 			getContentPane().add(textQtd);
 			textQtd.setBounds(espacoDoTextField, espacoEntreLinhas, 270, 20);
 		}
 		{
-			espacoEntreLinhas = espacoEntreLinhas + 35;
+			labelAviso = new JLabel();
+			getContentPane().add(labelAviso);
+			labelAviso.setBounds(espacoDoTextField, espacoEntreLinhas+20, 270, 20);
+		}
+		{
+			espacoEntreLinhas = espacoEntreLinhas + 45;
 			botaoComprar = new JButton();
 			getContentPane().add(botaoComprar);
 			botaoComprar.setText("Coprar");
@@ -298,8 +319,19 @@ public class DialogoFornecedorPeca extends JDialog {
 				showPainel(new PainelPeca(), "Cadastro de Peças");
 				this.carregarComboPeca(this.peca.load());
 			} else if (e.getSource() == botaoComprar) {
-				this.inserir();
-				dispose();
+				if (textValor.getText().equals("")) {
+					labelAviso.setText("O Campo Valor é Obrigatotrio!");
+				} else if (textQtd.getText().equals("")) {
+					labelAviso.setText("O Campo Quantidade é Obrigatotrio!");
+				}else{
+					try {
+						int qtd = Integer.parseInt(textQtd.getText());
+						this.inserir();
+						dispose();
+					} catch (Exception e2) {
+						labelAviso.setText(textQtd.getText()+ " não é um Número Válido");
+					}
+				}
 			} else if (e.getSource() == botaoCancelar) {
 				dispose();
 			}

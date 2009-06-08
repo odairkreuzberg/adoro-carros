@@ -1,5 +1,5 @@
 package br.iav.ac.negocio;
-public class PecaFornecedor extends Objeto{
+public class PecaEstoque extends Objeto{
 
 	private String nome;
 
@@ -7,10 +7,10 @@ public class PecaFornecedor extends Objeto{
 
 	private float preco;
 
-	public PecaFornecedor() {
+	public PecaEstoque() {
 	}
 
-	public PecaFornecedor(int codigo, String nome, int quantidade ,float preco) {
+	public PecaEstoque(int codigo, String nome, int quantidade ,float preco) {
 
 		super(codigo);
 		this.nome = nome;
