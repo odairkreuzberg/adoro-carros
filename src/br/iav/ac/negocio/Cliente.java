@@ -9,7 +9,7 @@ public class Cliente extends Pessoa implements ObjetoInterface {
 	private String rg;
 	private Date dataNascimento;
 	private String profissao;
-	private ListaCarro listaCarro;
+	private ListaObjeto listaCarro;
 	
 	public Cliente() {
 		this.rg = new String("");
@@ -18,7 +18,7 @@ public class Cliente extends Pessoa implements ObjetoInterface {
 		this.listaCarro = null;
 	}
 	
-	public Cliente(int codigo, String nome, Endereco endereco, String telefone, String cpf, String rg, Date dataNascimento, String profissao, ListaCarro listaCarro) {
+	public Cliente(int codigo, String nome, Endereco endereco, String telefone, String cpf, String rg, Date dataNascimento, String profissao, ListaObjeto listaCarro) {
 		this.setCodigo(codigo);
 		this.setNome(nome);
 		this.setEndereco(endereco);
@@ -60,11 +60,11 @@ public class Cliente extends Pessoa implements ObjetoInterface {
 		this.profissao = profissao;
 	}
 
-	public ListaCarro getListaCarro() {
+	public ListaObjeto getListaCarro() {
 		return listaCarro;
 	}
 
-	public void setListaCarro(ListaCarro listaCarro) {
+	public void setListaCarro(ListaObjeto listaCarro) {
 		this.listaCarro = listaCarro;
 	}
 
