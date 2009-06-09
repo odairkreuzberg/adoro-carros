@@ -89,6 +89,7 @@ public class DaoCliente implements DaoInterface {
 				endereco.setComplemento(db.getString("complemento"));
 				endereco.setNumero(db.getInt("numero"));
 				endereco.setRua(db.getString("rua"));
+				
 				cliente.setEndereco(endereco);				
 				cliente.setCodigo(db.getInt("cod_cliente"));
 				cliente.setCpf(db.getString("cpf"));

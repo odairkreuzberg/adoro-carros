@@ -324,20 +324,6 @@ public class DialogoCarro extends DialogoPadrao {
 		 * FIM DE METODOS QUE CARREGAM OS COMBOBOX
 		 *----------------------------------------------------------*/
 
-
-		/**
-		 * Retorna true se encontrar um carro e false se nao encontrar.
-		 * 
-		 * @return boolean
-		 */
-		private boolean existeCarro() {
-			ListaObjeto listaObjeto = carro.search("Carro", "Igual", textPlaca.getText().trim());
-			if (listaObjeto.getSize() > 0) {
-				return false;
-			}
-			return true;
-		}
-
 		/**
 		 * Faz a Inserção de um Carro.
 		 */

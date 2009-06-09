@@ -1,9 +1,6 @@
 package br.iav.ac.negocio;
 
-import br.iav.ac.dao.DaoFornecedor;
 import br.iav.ac.dao.DaoFornecedorPeca;
-import br.iav.ac.dao.DaoModelo;
-import br.iav.ac.dao.DaoPeca;
 
 public class FornecedorPeca extends Objeto implements ObjetoInterface {
 	
