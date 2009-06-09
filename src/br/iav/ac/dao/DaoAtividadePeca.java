@@ -12,7 +12,7 @@ import br.iav.ac.negocio.PecaDetalhe;
 public class DaoAtividadePeca implements DaoInterface{
 
 	private DB db = PostgreSQL.create();
-	private final static String SELECT_PECAS = "";
+	private final static String SELECT_PECAS = "select atividade_peca.*, peca.*, atividade.*, peca.nome as p_nome, atividade.nome as a_nome  from  (atividade_peca inner join atividade on atividade_peca.cod_atividade = atividade.cod_atividade) inner join peca on atividade_peca.cod_peca = peca.cod_peca where atividade_peca.cod_peca = ";
 	
 	private AtividadePeca atividadePeca;
 	
