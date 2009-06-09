@@ -19,8 +19,8 @@ import br.iav.ac.telas.fornecedor.PainelFornecedor;
 import br.iav.ac.telas.funcionario.PainelFuncionario;
 import br.iav.ac.telas.marca.PainelMarca;
 import br.iav.ac.telas.modelo.PainelModelo;
-import br.iav.ac.telas.padrao.RelPadrao;
 import br.iav.ac.telas.peca.PainelPeca;
+import br.iav.ac.telas.relatorio.RelCarro;
 import br.iav.ac.telas.status.PainelStatus;
 
 public class TelaPrincipal extends javax.swing.JFrame {
@@ -42,7 +42,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	private PainelFornecedor painelFornecedor;
 	private PainelPeca painelPeca;
 	private PainelEstoque painelEstoque;
-	private RelPadrao painelRelCarro;
+	private RelCarro painelRelCarro;
 	public static TelaPrincipal instancia;
 	
 	{
@@ -149,9 +149,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			return painelApresentacao;
 		}
 		
-		private RelPadrao getPainelRelCarro() {
+		private RelCarro getPainelRelCarro() {
 			if (painelRelCarro == null){
-				painelRelCarro = new RelPadrao("Carros");
+				painelRelCarro = new RelCarro();
 			}
 			return painelRelCarro;
 		}
