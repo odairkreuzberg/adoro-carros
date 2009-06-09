@@ -24,12 +24,8 @@ public class RelPadrao extends JPanel {
 	*
 	* @param title the frame title.
 	*/
-	public RelPadrao(String title) {
+	public RelPadrao() {
 		super();
-		JLabel titulo = new JLabel(title);
-		titulo.setFont(new Font("Tahoma", Font.BOLD, 25));
-		titulo.setForeground(Color.BLUE);
-		titulo.setBounds(250, 50, 300, 100);
 		CategoryDataset dataset = createDataset();
 		JFreeChart chart = createChart(dataset);
 		ChartPanel chartPanel = new ChartPanel(chart);
