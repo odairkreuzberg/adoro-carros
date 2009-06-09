@@ -122,7 +122,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						nodoGeral.add(nodoMarca);
 						nodoGeral.add(nodoModelo);
 						nodoGeral.add(nodoStatus);
-						nodoGeral.add(nodoEstoque);
+						nodoRelatorios.add(nodoRelCarro);
+						nodoServicos.add(nodoEstoque);
 						nodoGeral.add(nodoAtividade);
 						jtOpcoes = new JTree(nodoPrincipal);
 						jtOpcoes.addTreeSelectionListener(new TreeSelectionHandler());
@@ -281,7 +282,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 				showPainel(getPainelCarro());
 			} else if (path.equals("[SMA, Geral, Fornecedor]")) {
 				showPainel(getPainelFornecedor());
-			} else if (path.equals("[SMA, Geral, Estoque]")) {
+			} else if (path.equals("[SMA, Serviços, Estoque]")) {
 				showPainel(getPainelEstoque());
 			} else if (path.equals("[SMA, Geral, Peça]")) {
 				showPainel(getPainelPeca());
