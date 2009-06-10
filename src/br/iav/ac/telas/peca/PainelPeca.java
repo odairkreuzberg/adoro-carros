@@ -65,7 +65,7 @@ public class PainelPeca extends PainelPadrao {
 		}
 		
 		/**
-		 * Carrega a Grid com todas as Fornecedores já Cadastradas.
+		 * Carrega a Grid com todas as Peças já Cadastradas.
 		 */
 		private void carregarGrid(ListaObjeto listaObjeto) {
 			Object[][] gridArray = new Object[listaObjeto.getSize()][2];

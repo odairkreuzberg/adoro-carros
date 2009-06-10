@@ -1,6 +1,5 @@
 package br.iav.ac.negocio;
 
-import javax.swing.text.StyledEditorKit.ForegroundAction;
 
 public class PecaDetalhe extends Objeto{
 	

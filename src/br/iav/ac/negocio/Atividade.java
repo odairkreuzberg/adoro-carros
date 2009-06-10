@@ -2,7 +2,6 @@ package br.iav.ac.negocio;
 
 import br.iav.ac.dao.DaoAtividade;
 import br.iav.ac.dao.DaoAtividadePeca;
-import br.iav.ac.dao.DaoModelo;
 
 public class Atividade extends Objeto {
 	
@@ -12,14 +11,14 @@ public class Atividade extends Objeto {
 	
 	private Funcionario funcionario;
 	
-	private ListaObjeto listaPeca;
+	private ListaObjeto listaAtividadePeca;
 	
 	public Atividade() {
 		super();		
 		this.nome = "";
 		this.tipo = "";
 		this.funcionario = new Funcionario();
-		this.listaPeca = new ListaObjeto(); 		
+		this.listaAtividadePeca = new ListaObjeto(); 		
 	}
 	
 	public Atividade(int codigo, String nome, String tipo, Funcionario funcionario) {
@@ -53,19 +52,19 @@ public class Atividade extends Objeto {
 		this.funcionario = funcionario;
 	}
 
-	public ListaObjeto getListaPeca() {
-		return listaPeca;
+	public ListaObjeto getListaAtividadePeca() {
+		return listaAtividadePeca;
 	}
 
-	public void setListaPeca(ListaObjeto listaPeca) {
-		this.listaPeca = listaPeca;
+	public void setListaAtividadePeca(ListaObjeto listaAtividadePeca) {
+		this.listaAtividadePeca = listaAtividadePeca;
 	}
 	
 	public Objeto clone(){
 		Atividade atividade = new Atividade();
 		atividade.setCodigo(this.getCodigo());
 		atividade.setFuncionario(this.getFuncionario());
-		atividade.setListaPeca(this.getListaPeca());
+		atividade.setListaAtividadePeca(this.getListaAtividadePeca());
 		atividade.setNome(this.getNome());
 		atividade.setTipo(this.getTipo());
 		return(atividade);
@@ -79,12 +78,9 @@ public class Atividade extends Objeto {
 		dao.insert();
 		this.setCodigo(dao.obterAtividade().getCodigo());
 		DaoAtividadePeca daoAtividadePeca = new DaoAtividadePeca();
-		AtividadePeca atividadePeca = new AtividadePeca();
-		for(int i=0;i<this.getListaPeca().getSize();i++){
-			atividadePeca.getAtividade().setCodigo(this.getCodigo());
-			//atividadePeca.getQuantidadePeca();
-			atividadePeca.getPeca().setCodigo(this.getListaPeca().getObjeto(i).getCodigo());
-			daoAtividadePeca.setAtividadePeca(atividadePeca);
+		for(int i=0;i<this.getListaAtividadePeca().getSize();i++){
+			((AtividadePeca)this.getListaAtividadePeca().getObjeto(i)).getAtividade().setCodigo(this.getCodigo());
+			daoAtividadePeca.setAtividadePeca(((AtividadePeca)this.getListaAtividadePeca().getObjeto(i)));
 			daoAtividadePeca.insert();
 		}
 	}
@@ -92,10 +88,9 @@ public class Atividade extends Objeto {
 	public void delete(){
 		DaoAtividadePeca daoAtividadePeca = new DaoAtividadePeca();
 		AtividadePeca atividadePeca = new AtividadePeca();
-		for(int i=0;i<this.getListaPeca().getSize();i++){
+		for(int i=0;i<this.getListaAtividadePeca().getSize();i++){
 			atividadePeca.getAtividade().setCodigo(this.getCodigo());
-			//atividadePeca.getQuantidadePeca();
-			atividadePeca.getPeca().setCodigo(this.getListaPeca().getObjeto(i).getCodigo());
+			atividadePeca.getPeca().setCodigo(this.getListaAtividadePeca().getObjeto(i).getCodigo());
 			daoAtividadePeca.setAtividadePeca(atividadePeca);
 			daoAtividadePeca.delete();
 		}
@@ -110,21 +105,18 @@ public class Atividade extends Objeto {
 		ListaObjeto listaAux = daoAtividadePeca.load(this.getCodigo());
 		for(int i=0;i<listaAux.getSize();i++){
 			atividadePeca.getAtividade().setCodigo(this.getCodigo());
-			//atividadePeca.getQuantidadePeca();
 			atividadePeca.getPeca().setCodigo(listaAux.getObjeto(i).getCodigo());
 			daoAtividadePeca.setAtividadePeca(atividadePeca);
 			daoAtividadePeca.delete();
 		}
-		for(int i=0;i<this.getListaPeca().getSize();i++){
-			atividadePeca.getAtividade().setCodigo(this.getCodigo());
-			//atividadePeca.getQuantidadePeca();
-			atividadePeca.getPeca().setCodigo(this.getListaPeca().getObjeto(i).getCodigo());
-			daoAtividadePeca.setAtividadePeca(atividadePeca);
+		for(int i=0;i<this.getListaAtividadePeca().getSize();i++){
+			((AtividadePeca)this.getListaAtividadePeca().getObjeto(i)).getAtividade().setCodigo(this.getCodigo());
+			daoAtividadePeca.setAtividadePeca(((AtividadePeca)this.getListaAtividadePeca().getObjeto(i)));
 			daoAtividadePeca.insert();
 		}
 		DaoAtividade dao = new DaoAtividade();
 		dao.setAtividade(this);
-		dao.delete();
+		dao.edit();
 	}
 
 	public ListaObjeto load(){
@@ -133,7 +125,7 @@ public class Atividade extends Objeto {
 		ListaObjeto listaAux = new ListaObjeto();
 		listaAux = daoAtividade.load();
 		for(int i=0;i < listaAux.getSize(); i++){
-			((Atividade)listaAux.getObjeto(i)).setListaPeca(daoAtividadePeca.load(((Atividade)listaAux.getObjeto(i)).getCodigo()));
+			((Atividade)listaAux.getObjeto(i)).setListaAtividadePeca(daoAtividadePeca.load(((Atividade)listaAux.getObjeto(i)).getCodigo()));
 			
 		}
 		return(listaAux);

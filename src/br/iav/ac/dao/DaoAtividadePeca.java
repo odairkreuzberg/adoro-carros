@@ -12,7 +12,7 @@ import br.iav.ac.negocio.PecaDetalhe;
 public class DaoAtividadePeca implements DaoInterface{
 
 	private DB db = PostgreSQL.create();
-	private final static String SELECT_PECAS = "select atividade_peca.*, peca.*, atividade.*, peca.nome as p_nome, atividade.nome as a_nome  from  (atividade_peca inner join atividade on atividade_peca.cod_atividade = atividade.cod_atividade) inner join peca on atividade_peca.cod_peca = peca.cod_peca where atividade_peca.cod_peca = ";
+	private final static String SELECT_PECAS = "select atividade_peca.quantidade_peca,peca.*, peca.nome as p_nome, atividade.* from  (atividade_peca inner join peca on atividade_peca.cod_peca = peca.cod_peca) inner join atividade on atividade_peca.cod_atividade = atividade.cod_atividade where atividade.cod_atividade = ";
 	
 	private AtividadePeca atividadePeca;
 	
@@ -30,7 +30,9 @@ public class DaoAtividadePeca implements DaoInterface{
 		if(db.connect()){			
 			db.update("delete from atividade_peca where cod_atividade = " 
 				+ atividadePeca.getAtividade().getCodigo() 
-				+ " and cod_peca = " + atividadePeca.getPeca().getCodigo());			
+				+ " and cod_peca = " + atividadePeca.getPeca().getCodigo());	
+			System.out.println(atividadePeca.getAtividade().getCodigo()+ " Atividade" );		
+			System.out.println(atividadePeca.getPeca().getCodigo()+ " Peca" );		
 			db.disconnect();
 		}		
 		
@@ -61,13 +63,13 @@ public class DaoAtividadePeca implements DaoInterface{
 				lista.insertWhitoutPersist(new AtividadePeca(
 					new Peca(
 						db.getInt("cod_peca"),
-						db.getString(" p_nome")),
+						db.getString("p_nome")),
 					new Atividade(
 						db.getInt("cod_atividade"),
 						db.getString("a_nome"),
 						db.getString("tipo"),
 						new Funcionario()),						
-					db.getInt("quantidade")));
+					db.getInt("quantidade_peca")));
 			}
 			db.disconnect();
 		}
