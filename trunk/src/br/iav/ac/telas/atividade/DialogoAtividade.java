@@ -16,21 +16,25 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import br.iav.ac.negocio.Atividade;
 import br.iav.ac.negocio.AtividadePeca;
 import br.iav.ac.negocio.Funcionario;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.negocio.Objeto;
 import br.iav.ac.negocio.Peca;
+import br.iav.ac.negocio.PecaAtividade;
 import br.iav.ac.telas.TelaPrincipal;
-import br.iav.ac.telas.cliente.PainelCliente;
+import br.iav.ac.telas.funcionario.PainelFuncionario;
 import br.iav.ac.telas.padrao.DialogoCRUD;
 import br.iav.ac.telas.padrao.PainelPadrao;
+import br.iav.ac.telas.peca.PainelPeca;
 
 
 public final class DialogoAtividade extends JDialog {
 	private JLabel labelAtividade;
 	private JLabel labelCodigo;
 	private JLabel labelFuncionario;
+	private JButton bodatoEditar;
 	private JButton botaoSalvar;
 	private JButton botaoCancelar;
 	private JPanel painelAtividade;
@@ -48,14 +52,15 @@ public final class DialogoAtividade extends JDialog {
 	private JTextField textCodigo;
 	private JLabel labelPeca;
 	private JLabel labelTipo;
-	private AtividadePeca atividadePeca;
+	private Atividade atividade;
 	private JTable gridTabela;
+	private JLabel labelAviso;
 	private JScrollPane scrollTabela;
 	private FormHandle formHandle;
 	
-	public DialogoAtividade(TelaPrincipal frame, String titulo, boolean modal, AtividadePeca atividadePeca  ) {
+	public DialogoAtividade(TelaPrincipal frame, String titulo, boolean modal, Atividade atividade  ) {
 		super(frame, titulo, modal);
-		this.atividadePeca = atividadePeca;
+		this.atividade = atividade;
 		this.initGUI();
 		this.inicializarHandlers();
 		this.setSize(356, 510);
@@ -71,6 +76,7 @@ public final class DialogoAtividade extends JDialog {
 		this.botaoPeca.addActionListener(formHandle);
 		this.botaoRemovePeca.addActionListener(formHandle);
 		this.botaoSalvar.addActionListener(formHandle);
+		this.bodatoEditar.addActionListener(formHandle);
 	}
 
 	private void initGUI() {
@@ -80,20 +86,20 @@ public final class DialogoAtividade extends JDialog {
 				{
 					painelPecas = new JPanel();
 					getContentPane().add(painelPecas);
-					painelPecas.setBounds(12, 151, 331, 293);
+					painelPecas.setBounds(12, 151, 331, 299);
 					painelPecas.setLayout(null);
 					painelPecas.setBorder(new LineBorder(new java.awt.Color(0,0,0), 1, false));
 					{
 						botaoRemovePeca = new JButton();
 						painelPecas.add(botaoRemovePeca);
-						botaoRemovePeca.setText("Remover Peça");
-						botaoRemovePeca.setBounds(236, 63, 83, 21);
+						botaoRemovePeca.setText("Remover");
+						botaoRemovePeca.setBounds(235, 63, 83, 21);
 					}
 					{
 						botaoAddPeca = new JButton();
 						painelPecas.add(botaoAddPeca);
-						botaoAddPeca.setText("Adicionar Peça");
-						botaoAddPeca.setBounds(141, 63, 84, 21);
+						botaoAddPeca.setText("Adicionar");
+						botaoAddPeca.setBounds(45, 63, 84, 21);
 					}
 					{
 						labelPeca = new JLabel();
@@ -130,7 +136,18 @@ public final class DialogoAtividade extends JDialog {
 						painelPecas.add(scrollTabela);
 						scrollTabela.setHorizontalScrollBar(new JScrollBar(0));
 						scrollTabela.setViewportView(gridTabela);
-						scrollTabela.setBounds(13, 89, 305, 185);
+						scrollTabela.setBounds(13, 104, 305, 185);
+					}
+					{
+						bodatoEditar = new JButton();
+						painelPecas.add(bodatoEditar);
+						bodatoEditar.setText("Editar");
+						bodatoEditar.setBounds(140, 63, 84, 21);
+					}
+					{
+						labelAviso = new JLabel();
+						painelPecas.add(labelAviso);
+						labelAviso.setBounds(13, 84, 305, 14);
 					}
 				}
 				{
@@ -143,6 +160,7 @@ public final class DialogoAtividade extends JDialog {
 						textCodigo = new JTextField();
 						painelAtividade.add(textCodigo);
 						textCodigo.setBounds(76, 13, 242, 21);
+						textCodigo.setEditable(false);
 					}
 					{
 						labelCodigo = new JLabel();
@@ -194,13 +212,13 @@ public final class DialogoAtividade extends JDialog {
 					botaoCancelar = new JButton();
 					getContentPane().add(botaoCancelar);
 					botaoCancelar.setText("Cancelar");
-					botaoCancelar.setBounds(270, 450, 73, 21);
+					botaoCancelar.setBounds(152, 456, 90, 21);
 				}
 				{
 					botaoSalvar = new JButton();
 					getContentPane().add(botaoSalvar);
 					botaoSalvar.setText("Salvar");
-					botaoSalvar.setBounds(192, 450, 73, 21);
+					botaoSalvar.setBounds(253, 456, 90, 21);
 				}
 			}
 			pack();
@@ -215,72 +233,151 @@ public final class DialogoAtividade extends JDialog {
 	 *----------------------------------------------------------*/
 
 	class FormHandle implements ActionListener {
+		ListaObjeto lista = new ListaObjeto();
+		ListaObjeto listaPeca = new ListaObjeto();
+		PecaAtividade pecaAtividade = new PecaAtividade();
+		
 
 		public FormHandle() {
 			super();
 			Peca peca = new Peca();
 			Funcionario funcionario = new Funcionario();
 			this.carregarComboFuncionario(funcionario.load());
-			this.carregarComboPeca(peca.load());
-			
-			
-			if (atividadePeca != null) {
-				textCodigo.setText(atividadePeca.getAtividade().getCodigo()+"");
-				textAtividade.setText(atividadePeca.getAtividade().getNome());
-				textTipo.setText(atividadePeca.getAtividade().getTipo());
-				comboPeca.setEditable(true);
-				comboPeca.setSelectedItem((Object) atividadePeca.getAtividade().getFuncionario() );
-				comboPeca.setEditable(false);
+			this.carregarComboPeca(peca.load());			
+			if (atividade.getCodigo() != 0) {
+				textCodigo.setText(atividade.getCodigo()+"");
+				textAtividade.setText(atividade.getNome());
+				textTipo.setText(atividade.getTipo());
 				comboFuncionario.setEditable(true);
-				comboFuncionario.setSelectedItem((Object) atividadePeca.getPeca());
+				comboFuncionario.setSelectedItem((Object)atividade.getFuncionario());
 				comboFuncionario.setEditable(false);
-				int cod = atividadePeca.getAtividade().getCodigo();
-				carregarGrid(atividadePeca.getListaPeca(cod));				
+				AtividadePeca ap = new AtividadePeca();
+				lista = ap.getListaPeca(atividade.getCodigo());
 			}
+			carregaLista();
+			carregarGridPeca();				
 	}
+		
+		private void carregaLista(){
+			for (int i = 0; i < lista.getSize(); i++) {
+				PecaAtividade pecaAtividade = new PecaAtividade();
+				AtividadePeca atividadePeca = (AtividadePeca)lista.getObjeto(i);
+				pecaAtividade.setCodigo(atividadePeca.getPeca().getCodigo());
+				pecaAtividade.setPeca(atividadePeca.getPeca().getNome());
+				pecaAtividade.setQtd(atividadePeca.getQuantidadePeca());
+				listaPeca.insertWhitoutPersist(pecaAtividade);
+			}	
+			lista = null;
+			lista = new ListaObjeto();
+		}
+		
+		private void reCarregaLista(){
+			for (int i = 0; i < listaPeca.getSize(); i++) {
+				AtividadePeca atividadePeca = new AtividadePeca();
+				PecaAtividade pecaAtividade = (PecaAtividade)listaPeca.getObjeto(i);
+				atividadePeca.getPeca().setCodigo(pecaAtividade.getCodigo());
+				atividadePeca.getPeca().setNome(pecaAtividade.getPeca());
+				atividadePeca.setQuantidadePeca(pecaAtividade.getQtd());
+				lista.insertWhitoutPersist(atividadePeca);
+			}			
+		}
 		/**
 		 * Carrega a Grid.
 		 */
-		private void carregarGrid(ListaObjeto listaObjeto) {
-			Peca peca = new Peca();
-			Object[][] gridArray = new Object[atividadePeca.getAtividade().getListaPeca().getSize()][3];
-			for (int i = 0; i < atividadePeca.getAtividade().getListaPeca().getSize(); i++) {
-				peca = (Peca) atividadePeca.getAtividade().getListaPeca().getObjeto(i);
-				gridArray[i][0] = peca.getCodigo();
-				gridArray[i][1] = peca.getNome();
-				gridArray[i][2] = atividadePeca.getQuantidadePeca();
+		private void carregarGridPeca() {
+			PecaAtividade pecaAtividade = new PecaAtividade();
+			Object[][] gridArray = new Object[listaPeca.getSize()][3];
+			for (int i = 0; i < listaPeca.getSize(); i++) {
+				pecaAtividade = (PecaAtividade)listaPeca.getObjeto(i);
+				gridArray[i][0] = pecaAtividade.getCodigo();
+				gridArray[i][1] = pecaAtividade.getPeca();
+				gridArray[i][2] = pecaAtividade.getQtd();
 			}
 			String[] campos = { "Codigo", "Peça", "Quantidade"};
 			DefaultTableModel model = new DefaultTableModel(gridArray, campos);
 			gridTabela.setModel(model);
 			gridTabela.setShowVerticalLines(true);
-			gridTabela.getColumnModel().getColumn(0).setPreferredWidth(50);
-			gridTabela.getColumnModel().getColumn(1).setPreferredWidth(135);
-			gridTabela.getColumnModel().getColumn(2).setPreferredWidth(70);			
+			gridTabela.getColumnModel().getColumn(0).setPreferredWidth(40);
+			gridTabela.getColumnModel().getColumn(1).setPreferredWidth(165);
+			gridTabela.getColumnModel().getColumn(2).setPreferredWidth(50);			
 		}
-		private void addPeca(){
-			Peca peca = (Peca) comboPeca.getSelectedItem();
-			atividadePeca.getAtividade().getListaPeca().insertWhitoutPersist(peca);
-			atividadePeca.setQuantidadePeca(Integer.parseInt(textQuantidade.getText()));
-
-
-			Object[][] gridArray = new Object[atividadePeca.getAtividade().getListaPeca().getSize()][3];
-			for (int i = 0; i < atividadePeca.getAtividade().getListaPeca().getSize(); i++) {
-				peca = (Peca) atividadePeca.getAtividade().getListaPeca().getObjeto(i);
-				gridArray[i][0] = peca.getCodigo();
-				gridArray[i][1] = peca.getNome();
-				gridArray[i][2] = atividadePeca.getQuantidadePeca();
+		
+		private void addPeca() {
+			if(textQuantidade.getText().equals("")){
+				labelAviso.setText("O Campo Quantidade é obrigatório!");	
+			}else{
+				try {
+					int qtd = Integer.parseInt(textQuantidade.getText());
+					PecaAtividade pecaAtividade = new PecaAtividade();
+					pecaAtividade.setPeca(((Peca)comboPeca.getSelectedItem()).getNome());
+					pecaAtividade.setCodigo(((Peca)comboPeca.getSelectedItem()).getCodigo());
+					pecaAtividade.setQtd(Integer.parseInt(textQuantidade.getText()));
+					if(listaPeca.search(pecaAtividade)== null){								
+						listaPeca.insertWhitoutPersist(pecaAtividade);
+						carregarGridPeca();	
+						textQuantidade.setText("");
+						comboPeca.setSelectedIndex(0);
+						labelAviso.setText("");
+					}else{
+						labelAviso.setText("Esta Peça já se encontra na Lista!");			
+					}
+				} catch (Exception e2) {
+					labelAviso.setText(textQuantidade.getText()+ " não é um valor válido!");
+					textQuantidade.setText("");
+				}
+			}			
+		}
+		
+		private void removerPeca() {
+			if (gridTabela.getSelectedRow() >= 0) {
+				int cod =(Integer) gridTabela.getValueAt(gridTabela.getSelectedRow(), 0);
+				PecaAtividade pecaAtividade = new PecaAtividade();
+				pecaAtividade.setCodigo(cod);
+				listaPeca.delete(pecaAtividade);
+				this.carregarGridPeca();				
+				labelAviso.setText("");									
+			}else{
+				labelAviso.setText("Para Remover uma Peça é preciso selecionar um item na Tabela!");
 			}
-			String[] campos = { "Codigo", "Peça", "Quantidade"};
-			DefaultTableModel model = new DefaultTableModel(gridArray, campos);
-			gridTabela.setModel(model);
-			gridTabela.setShowVerticalLines(true);
-			gridTabela.getColumnModel().getColumn(0).setPreferredWidth(50);
-			gridTabela.getColumnModel().getColumn(1).setPreferredWidth(135);
-			gridTabela.getColumnModel().getColumn(2).setPreferredWidth(70);	
 			
 		}
-
+		
+		private void editarPeca() {
+			if (gridTabela.getSelectedRow() >= 0) {
+				Peca peca = new Peca();
+				peca.setNome(gridTabela.getValueAt(gridTabela.getSelectedRow(),1)+"");
+				peca.setCodigo((Integer)gridTabela.getValueAt(gridTabela.getSelectedRow(),0));
+				comboPeca.setEditable(true);
+				comboPeca.setSelectedItem((Object)peca);
+				comboPeca.setEditable(false);				
+				textQuantidade.setText(gridTabela.getValueAt(gridTabela.getSelectedRow(),2)+"");
+				this.removerPeca();				
+			}else{
+				labelAviso.setText("Para Editar uma Peça é preciso selecionar um item na Tabela!");
+			}
+			
+		}
+		
+		private void editar() {
+			this.reCarregaLista();
+			atividade.setFuncionario((Funcionario)comboFuncionario.getSelectedItem());
+			atividade.setNome(textAtividade.getText());
+			atividade.setTipo(textTipo.getText());
+			atividade.setListaAtividadePeca(lista);			
+			atividade.edit();
+			
+		}
+		
+		private void inserir() {
+			this.reCarregaLista();
+			atividade.setFuncionario((Funcionario)comboFuncionario.getSelectedItem());
+			atividade.setNome(textAtividade.getText());
+			atividade.setTipo(textTipo.getText());
+			atividade.setListaAtividadePeca(lista);			
+			atividade.insert();
+			
+		}
+		
 		/**
 		 * Carrega o Combobox com os Funcionarios Cadasrados.
 		 * 
@@ -330,15 +427,25 @@ public final class DialogoAtividade extends JDialog {
 			if (e.getSource() == botaoCancelar) {
 				dispose();				
 			}else if (e.getSource() == botaoFuncionario) {
-				showPainel(new PainelCliente(), "Cadastro de Funcionário");
-				this.carregarComboFuncionario(atividadePeca.getAtividade().getFuncionario().load());				
+				showPainel(new PainelFuncionario(), "Cadastro de Funcionário");
+				this.carregarComboFuncionario(new Funcionario().load());				
 			}else if (e.getSource() == botaoPeca) {
-				showPainel(new PainelCliente(), "Cadastro de Peças");
-				this.carregarComboFuncionario(atividadePeca.getPeca().load());				
+				showPainel(new PainelPeca(), "Cadastro de Peças");
+				this.carregarComboFuncionario(new Peca().load());				
 			}else if (e.getSource() == botaoRemovePeca) {
-			}else if (e.getSource() == botaoSalvar) {
+				this.removerPeca();
 			}else if (e.getSource() == botaoAddPeca) {
 				this.addPeca();
+			}else if (e.getSource() == bodatoEditar) {
+				this.editarPeca();
+			}else if (e.getSource() == botaoSalvar) {
+				if (atividade.getCodigo() == 0) {
+					inserir();
+				} 
+				else {
+					editar();
+				}
+				dispose();
 			} 
 			
 		}

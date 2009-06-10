@@ -12,7 +12,9 @@ public class DaoAtividade implements DaoInterface {
 	
 	private Atividade atividade;
 	
-	private final static String SELECT = "select funcionario.*, atividade.*, funcionario.nome as f_nome from funcionario inner join atividade on (atividade.cod_funcionario = funcionario.cod_funcionario)";
+	private final static String SELECT = "select funcionario.*, atividade.*, " +
+		"funcionario.nome as f_nome, atividade.nome as a_nome from funcionario" +
+		" inner join atividade on (atividade.cod_funcionario = funcionario.cod_funcionario)";
 	
 
 	public Atividade getAtividade() {
@@ -36,7 +38,7 @@ public class DaoAtividade implements DaoInterface {
 	public void edit() {		
 		if(db.connect()){
 			db.update("update atividade set nome = '"+ atividade.getNome() 
-				+", tipo = '"+ atividade.getTipo() 
+				+"', tipo = '"+ atividade.getTipo() 
 				+"', cod_funcionario = " + atividade.getFuncionario().getCodigo() 
 				+ " where cod_atividade = "+ atividade.getCodigo());			
 			db.disconnect();
@@ -47,10 +49,9 @@ public class DaoAtividade implements DaoInterface {
 	@Override
 	public void insert() {		
 		if(db.connect()){					
-			db.update("insert into atividade (cod_atividade, nome, tipo " +
+			db.update("insert into atividade (nome, tipo, " +
 				"cod_funcionario)values (" 
-				+ atividade.getCodigo() + ",'"
-				+ atividade.getNome() +"'," 
+				+"'"+ atividade.getNome() +"','" 
 				+ atividade.getTipo() +"'," 
 				+ atividade.getFuncionario().getCodigo()+ ")");			
 			db.disconnect();
@@ -60,7 +61,7 @@ public class DaoAtividade implements DaoInterface {
 	public ListaObjeto load(String sql) {
 		ListaObjeto listaObjeto = new ListaObjeto();
 		if(db.connect()){
-			db.select("select funcionario.*, atividade.*, funcionario.nome as f_nome from funcionario inner join atividade on (atividade.cod_funcionario = funcionario.cod_funcionario)");
+			db.select(sql);
 				while(db.moveNext()){ 
 					Atividade atividade = new Atividade();
 					Funcionario funcionario = new Funcionario();
@@ -68,7 +69,7 @@ public class DaoAtividade implements DaoInterface {
 					funcionario.setNome(db.getString("f_nome"));
 					atividade.setCodigo(db.getInt("cod_atividade"));
 					atividade.setFuncionario(funcionario);
-					atividade.setNome(db.getString("nome"));
+					atividade.setNome(db.getString("a_nome"));
 					atividade.setTipo(db.getString("tipo"));
 					
 				listaObjeto.insertWhitoutPersist(atividade);				
@@ -85,7 +86,10 @@ public class DaoAtividade implements DaoInterface {
 
 	public Atividade obterAtividade() {		
 		if(db.connect()){
-			db.select("select funcionario.*, atividade.*, funcionario.nome as f_nome from funcionario inner join atividade on (atividade.cod_funcionario = funcionario.cod_funcionario and atividade.cod_atividade = )" + atividade.getCodigo());
+			db.select("select funcionario.*, atividade.*, funcionario.nome as " +
+				"f_nome from funcionario inner join atividade on " +
+				"(atividade.cod_funcionario = funcionario.cod_funcionario) " +
+				"and atividade.nome = '" + atividade.getNome()+"'");
 			db.moveNext();
 			Atividade atividade = new Atividade();
 			Funcionario funcionario = new Funcionario();

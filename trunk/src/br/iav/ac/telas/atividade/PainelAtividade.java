@@ -7,7 +7,6 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import br.iav.ac.negocio.Atividade;
-import br.iav.ac.negocio.AtividadePeca;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.telas.TelaPrincipal;
 import br.iav.ac.telas.padrao.PainelPadrao;
@@ -28,8 +27,8 @@ public class PainelAtividade extends PainelPadrao {
 	 */
 	private static final long serialVersionUID = 1L;
 	private CadastroHandle cadastroHandle;
-	private AtividadePeca atividadePeca;
-	private static String[] CAMPOS = { "Código", "AtividadePeca", "Tipo" };
+	//private Atividade atividade;
+	private static String[] CAMPOS = { "Código", "Atividade", "Tipo" };
 
 	/*----------------------------------------------------------
 	 * FIM DE ATTRIBUTOS
@@ -73,21 +72,22 @@ public class PainelAtividade extends PainelPadrao {
 
 		public CadastroHandle() {
 			super();
-			atividadePeca = new AtividadePeca();
-			carregarGrid(atividadePeca.getAtividade().load());
+			Atividade atividade = new Atividade();
+			carregarGrid(atividade.load());
 		}
 		
 
 		/**
-		 * retorna um AtividadePeca se existir caso contrario retorna null.
+		 * retorna uma Atividade se existir caso contrario retorna null.
 		 * 
-		 * @return AtividadePeca
+		 * @return Marca
 		 */
-		private AtividadePeca buscarAtividadePeca(){
-			String nome = getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1)+ "";
-			ListaObjeto listaObjeto = atividadePeca.getAtividade().search("AtividadePeca","Igual",nome);
+		private Atividade buscarAtividade(){
+			Atividade atividade = new Atividade();
+			String cod = getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 0)+ "";
+			ListaObjeto listaObjeto = atividade.search("Código","Igual",cod);
 			if (listaObjeto.getSize() > 0) {
-				return (AtividadePeca) listaObjeto.getObjeto(0);				
+				return (Atividade) listaObjeto.getObjeto(0);				
 			}	
 			return null;			
 		}
@@ -118,10 +118,9 @@ public class PainelAtividade extends PainelPadrao {
 			 * Chama o Forulário de AtividadePeca para fazer a Inserção de uma nova marca.  
 			 **/
 			if (e.getSource() == getBotaoNovo()) {
-				//atividadePeca.setCodigo(0);
-				//atividadePeca.setNome("");
-				new DialogoAtividade(TelaPrincipal.instancia, "Cadastro de Atividade", true, atividadePeca);
-				carregarGrid(atividadePeca.getAtividade().load());
+				Atividade atividade = new Atividade();
+				new DialogoAtividade(TelaPrincipal.instancia, "Cadastro de Atividade", true, atividade);
+				carregarGrid(atividade.load());
 			}  			
 			/**
 			 * Chama o Forulário de atividadePeca para fazer a Edição de uma marca.
@@ -129,16 +128,16 @@ public class PainelAtividade extends PainelPadrao {
 			else if (e.getSource() == getBotaoEditar()) {
 				// verifica se existe uma uma linha selecionada na Grid.
 				if (getGridTabela().getSelectedRow() >= 0) {
-					atividadePeca = buscarAtividadePeca();
+					Atividade atividade = new Atividade();
+					atividade = buscarAtividade();
 					//se retornar uma Marca existente, entao sera instanciado o formulario de Edição.
-					if(atividadePeca != null){
-						new DialogoAtividade(TelaPrincipal.instancia, "Cadastro de Marca", true, atividadePeca);	
-						carregarGrid(atividadePeca.getAtividade().load());				
+					if(atividade != null){
+						new DialogoAtividade(TelaPrincipal.instancia, "Cadastro de Atividae", true, atividade);	
+						carregarGrid(atividade.load());				
 					}
 					else{
 						JOptionPane.showMessageDialog(PainelAtividade.this,
 								"Erro ao buscar esta Marca na base de dados!");
-						atividadePeca = new AtividadePeca();
 					}	
 				} else {
 					JOptionPane.showMessageDialog(PainelAtividade.this, 
@@ -151,20 +150,20 @@ public class PainelAtividade extends PainelPadrao {
 			else if (e.getSource() == getBotaoExcluir()) {
 				// verifica se existe uma uma linha selecionada na Grid.
 				if (getGridTabela().getSelectedRow() >= 0) {
-					atividadePeca = buscarAtividadePeca();
+					Atividade  atividade = buscarAtividade();
 					//se retornar uma Marca existente, essa marca sera Excluida.
-					if (atividadePeca != null) {
+					if (atividade!= null) {
 						int resp = JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a atividadePeca "
-								+ atividadePeca.getAtividade().getNome()+ " ?", "Exclusão",JOptionPane.YES_NO_OPTION);
+								+ atividade.getNome()+ " ?", "Exclusão",JOptionPane.YES_NO_OPTION);
 						if (resp == 0) {
-							atividadePeca.delete();
-							carregarGrid(atividadePeca.load());
+							atividade.delete();
+							carregarGrid(atividade.load());
 						}
 
 					} else {
 						JOptionPane.showMessageDialog(PainelAtividade.this,
 								"Erro ao buscar esta Marca na base de dados!");
-						atividadePeca = new AtividadePeca();
+						atividade = new Atividade();
 					}
 				} else {
 					JOptionPane.showMessageDialog(PainelAtividade.this, 
@@ -175,13 +174,15 @@ public class PainelAtividade extends PainelPadrao {
 			 * Faz a atualização da Grid
 			 */
 			else if (e.getSource() == getBotaoAtualizar()) {
-				carregarGrid(atividadePeca.load());
+				Atividade atividade = new Atividade();
+				carregarGrid(atividade.load());
 			} 
 			/**
 			 * Faz uma busca com parametros passado pelo usuario
 			 */
 			else if (e.getSource() == getBotaoBuscar()) {
-				carregarGrid(atividadePeca.getAtividade().search((String) getComboAtributoBuscar()
+				Atividade atividade = new Atividade();
+				carregarGrid(atividade.search((String) getComboAtributoBuscar()
 						.getSelectedItem(), (String) getComboTipoBuscar()
 						.getSelectedItem(), getTextBuscar().getText()));
 
