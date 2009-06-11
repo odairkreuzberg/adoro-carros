@@ -6,10 +6,11 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import br.iav.ac.negocio.Cidade;
 import br.iav.ac.negocio.ListaObjeto;
+import br.iav.ac.telas.TelaPrincipal;
 import br.iav.ac.telas.padrao.PainelPadrao;
 
 /**
- * Formulário de Cadastro de Cidade
+ * Area de Consulta, Inserção, Exclusão e alteração de uma Cidade
  * 
  * @author Raphael Furlan
  */
@@ -43,7 +44,7 @@ public class PainelCidade extends PainelPadrao {
 		}		
 
 		/**
-		 * Retorna uma cidade se existir, caso contrario retorna null.
+		 * Retorna uma cidade se existir, caso contrário retorna null.
 		 * 
 		 * @return Cor
 		 */
@@ -83,7 +84,7 @@ public class PainelCidade extends PainelPadrao {
 			 **/
 			if (e.getSource() == getBotaoNovo()) {
 				Cidade cidade = new Cidade();
-				new DialogoCidade(null, "Cadastro", true, cidade);
+				new DialogoCidade(TelaPrincipal.instancia, "Cadastro", true, cidade);
 				carregarGrid(cidade.load());
 			} 			
 			/**
@@ -95,7 +96,7 @@ public class PainelCidade extends PainelPadrao {
 					Cidade cidade = buscarCidade();
 					//se retornar uma cidade existente, então será instanciado o formulario de edição.
 					if (cidade != null) {
-						new DialogoCidade(null, "Edição", true, cidade);	
+						new DialogoCidade(TelaPrincipal.instancia, "Edição", true, cidade);	
 						carregarGrid(cidade.load());				
 					} else {
 						JOptionPane.showMessageDialog(PainelCidade.this, "Erro ao buscar esta cidade na base de dados!");
@@ -109,7 +110,7 @@ public class PainelCidade extends PainelPadrao {
 			 * Faz a remoção de uma cidade.
 			 */
 			else if (e.getSource() == getBotaoExcluir()) {
-				//verifica se existe uma uma linha selecionada na grid.
+				//verifica se existe uma linha selecionada na grid.
 				if (getGridTabela().getSelectedRow() >= 0) {
 					cidade = buscarCidade();
 					//se retornar uma cidade existente, essa cidade sera excluída.

@@ -75,15 +75,15 @@ public class DaoCidade implements DaoInterface {
 		String valorSQL = "'" + valor + "'";
 		if (campo.equals("Código")) {
 			valorSQL = valor;
-			campoSQL = "where cod_cidade";
+			campoSQL = " where cod_cidade";
 			if (operador.equals("Contem")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}
 		} else if (campo.equals("Nome")) {
-			campoSQL = "where cidade.nome";
+			campoSQL = " where cidade.nome";
 		} else if (campo.equals("DDD")) {
-			campoSQL = "where cidade.ddd";
+			campoSQL = " where cidade.ddd";
 			valorSQL = valor;
 			if (operador.equals("Contem")) {
 				operador = "Igual";

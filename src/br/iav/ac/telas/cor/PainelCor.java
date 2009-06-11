@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import br.iav.ac.negocio.Cor;
 import br.iav.ac.negocio.ListaObjeto;
+import br.iav.ac.telas.TelaPrincipal;
 import br.iav.ac.telas.padrao.PainelPadrao;
 
 /**
@@ -81,7 +82,7 @@ public class PainelCor extends PainelPadrao {
 			 **/
 			if (e.getSource() == getBotaoNovo()) {
 				Cor cor = new Cor();
-				new DialogoCor(null, "Cadastro", true, cor);
+				new DialogoCor(TelaPrincipal.instancia, "Cadastro", true, cor);
 				carregarGrid(cor.load());
 			} 			
 			/**
@@ -93,7 +94,7 @@ public class PainelCor extends PainelPadrao {
 					Cor cor = buscarCor();
 					//se retornar uma cor existente, então será instanciado o formulário de edição.
 					if (cor != null) {
-						new DialogoCor(null, "Edição", true, cor);	
+						new DialogoCor(TelaPrincipal.instancia, "Edição", true, cor);	
 						carregarGrid(cor.load());				
 					} else {
 						JOptionPane.showMessageDialog(PainelCor.this, "Erro ao buscar esta cor na base de dados!");
