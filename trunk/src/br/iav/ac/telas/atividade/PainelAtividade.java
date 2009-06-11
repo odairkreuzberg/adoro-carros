@@ -27,8 +27,7 @@ public class PainelAtividade extends PainelPadrao {
 	 */
 	private static final long serialVersionUID = 1L;
 	private CadastroHandle cadastroHandle;
-	//private Atividade atividade;
-	private static String[] CAMPOS = { "Código", "Atividade", "Tipo" };
+	private static String[] CAMPOS = { "Código","Funcionário", "Atividade", "Tipo" };
 
 	/*----------------------------------------------------------
 	 * FIM DE ATTRIBUTOS
@@ -96,12 +95,13 @@ public class PainelAtividade extends PainelPadrao {
 		 * Carrega a Grid com todas as Marcaes já Cadastradas.
 		 */
 		private void carregarGrid(ListaObjeto listaObjeto) {
-			Object[][] gridArray = new Object[listaObjeto.getSize()][3];
+			Object[][] gridArray = new Object[listaObjeto.getSize()][4];
 			for (int i = 0; i < listaObjeto.getSize(); i++) {
 				Atividade atividade = (Atividade) listaObjeto.getObjeto(i);
 				gridArray[i][0] = atividade.getCodigo();
-				gridArray[i][1] = atividade.getNome();
-				gridArray[i][2] = atividade.getTipo();
+				gridArray[i][1] = atividade.getFuncionario().getNome();
+				gridArray[i][2] = atividade.getNome();
+				gridArray[i][3] = atividade.getTipo();
 			}
 			DefaultTableModel model = new DefaultTableModel(gridArray, CAMPOS);
 			getGridTabela().setModel(model);
@@ -109,8 +109,9 @@ public class PainelAtividade extends PainelPadrao {
 			//Definição do tamanho das colunas da grid
 			//TAMANHO DA GRID: 521
 			getGridTabela().getColumnModel().getColumn(0).setPreferredWidth(50);
-			getGridTabela().getColumnModel().getColumn(1).setPreferredWidth(236);
-			getGridTabela().getColumnModel().getColumn(2).setPreferredWidth(235);
+			getGridTabela().getColumnModel().getColumn(1).setPreferredWidth(171);
+			getGridTabela().getColumnModel().getColumn(2).setPreferredWidth(150);
+			getGridTabela().getColumnModel().getColumn(3).setPreferredWidth(150);
 		}
 
 		public void actionPerformed(ActionEvent e) {

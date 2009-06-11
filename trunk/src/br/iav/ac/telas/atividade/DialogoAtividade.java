@@ -68,6 +68,7 @@ public final class DialogoAtividade extends JDialog {
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
+	
 	private void inicializarHandlers() {
 		this.formHandle = new FormHandle();
 		this.botaoAddPeca.addActionListener(formHandle);

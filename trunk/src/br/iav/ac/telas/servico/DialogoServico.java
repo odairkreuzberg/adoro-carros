@@ -1,6 +1,8 @@
 package br.iav.ac.telas.servico;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -21,11 +23,17 @@ import br.iav.ac.negocio.Carro;
 import br.iav.ac.negocio.Cliente;
 import br.iav.ac.negocio.Funcionario;
 import br.iav.ac.negocio.ListaObjeto;
+import br.iav.ac.negocio.Marca;
 import br.iav.ac.negocio.Objeto;
 import br.iav.ac.negocio.Servico;
 import br.iav.ac.negocio.Status;
 import br.iav.ac.telas.TelaPrincipal;
 import br.iav.ac.telas.atividade.DialogoAtividade;
+import br.iav.ac.telas.atividade.PainelAtividade;
+import br.iav.ac.telas.carro.PainelCarro;
+import br.iav.ac.telas.cliente.PainelCliente;
+import br.iav.ac.telas.padrao.DialogoCRUD;
+import br.iav.ac.telas.padrao.PainelPadrao;
 
 public class DialogoServico extends JDialog{
 
@@ -103,6 +111,8 @@ public class DialogoServico extends JDialog{
 		this.botaoEditar.addActionListener(formHandle);
 		this.botaoExcluir.addActionListener(formHandle);
 		this.botaoSalvar.addActionListener(formHandle);
+		this.comboFuncionario.addItemListener(formHandle);
+		this.comboCliente.addItemListener(formHandle);
 	}
 
 	private void initGUI() {
@@ -342,47 +352,41 @@ public class DialogoServico extends JDialog{
 	 * CLASSE LIMITROFE
 	 *----------------------------------------------------------*/
 
-	class FormHandle implements ActionListener {
-
+	class FormHandle implements ActionListener, ItemListener  {
+		Cliente cliente = new Cliente();
+		Carro carro = new Carro();
+		Status status = new Status();
+		Funcionario funcionario = new Funcionario();
+		Atividade atividade = new Atividade();			
+		
 		public FormHandle() {
 			super();
-			Cliente cliente = new Cliente();
-			this.carregarComboCliente(cliente.load());
-			Carro carro = new Carro();
-			this.carregarComboCarro(carro.search("Cliente", "Igual", ((Cliente)comboCliente.getSelectedItem()).getNome()));
-			Status status = new Status();
-			this.carregarComboStatus(status.load());
-			Funcionario funcionario = new Funcionario();
-			this.carregarComboFuncionario(funcionario.load());
-			Atividade atividade = new Atividade();			
-			this.carregarComboAtividade(atividade.search("Funcionario", "Igual", ((Funcionario)comboFuncionario.getSelectedItem()).getNome()));
-			
-			
-			/*
-			if (comboMarca.getSelectedIndex() != -1){
-				this.carregarComboModelo(modelo.search("Marca", "Igual", ((Marca)comboMarca.getSelectedItem()).getNome()) );
-			}else{
-				this.carregarComboModelo(modelo.search("Marca", "Igual", ""));
+			this.carregarComboCliente(cliente.load());			
+			if (comboCliente.getSelectedIndex() != -1){
+				this.carregarComboCarro(carro.search("Cliente", "Igual", ((Cliente)comboCliente.getSelectedItem()).getNome()));				
 			}
-			this.carregarComboCor(cor.load());
-			this.carregarComboCliente(cliente.load());
-			if (carro.getCodigo() != 0) {
-				textCodigo.setText(String.valueOf(carro.getCodigo()));
-				textAno.setText(carro.getAnoFabricacao());
-				textPlaca.setText(carro.getPlaca());
+			this.carregarComboFuncionario(funcionario.load());
+			if(comboFuncionario.getSelectedIndex() != -1){
+				this.carregarComboAtividade(atividade.search("Funcionario", "Igual", ((Funcionario)comboFuncionario.getSelectedItem()).getNome()));
+			}
+			this.carregarComboStatus(status.load());
+			
+			if (servico.getCodigo() != 0) {
 				comboCliente.setEditable(true);
-				/comboCliente.setSelectedItem((Object) servico.getCarro().getCliente());
+				//comboCliente.setSelectedItem((Object) servico.getCarro().getCliente());
 				comboCliente.setEditable(false);
-				comboMarca.setEditable(true);
-				comboMarca.setSelectedItem((Object) carro.getModelo().getMarca());
-				comboMarca.setEditable(false);
-				comboModelo.setEditable(true);
-				comboModelo.setSelectedItem((Object) carro.getModelo());
-				comboModelo.setEditable(false);
-				comboCor.setEditable(true);
-				comboCor.setSelectedItem((Object) carro.getCor());
-				comboCor.setEditable(false);
-			}*/
+				comboFuncionario.setEditable(true);
+				//comboFuncionario.setSelectedItem((Object) carro.getModelo().getMarca());
+				comboFuncionario.setEditable(false);
+				comboCarro.setEditable(true);
+				//comboCarro.setSelectedItem((Object) carro.getModelo());
+				comboCarro.setEditable(false);
+				comboStatus.setEditable(true);
+				//comboStatus.setSelectedItem((Object) carro.getCor());
+				comboAtividade.setEditable(false);
+				//comboAtividade.setSelectedItem((Object) carro.getCor());
+				comboAtividade.setEditable(false);
+			}
 
 		}
 
@@ -461,17 +465,53 @@ public class DialogoServico extends JDialog{
 			comboFuncionario.setModel(comboModeloModel);
 		}
 
+		/**
+		 * Instancia o Caso de Uso.
+		 * 
+		 * @param painelPadrao
+		 * @param titulo
+		 */
+		private void showPainel(PainelPadrao painelPadrao, String titulo) {
+
+			DialogoCRUD dialogoCRUD = new DialogoCRUD(TelaPrincipal.instancia,
+					titulo, true);
+			dialogoCRUD.setPainel(painelPadrao);
+
+		}
+
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == botaoAdicionar) {
-			}else if (e.getSource() == botaoAtividade) {				
+			}else if (e.getSource() == botaoAtividade) {	
+				showPainel(new PainelAtividade(), "Cadastro de Atividade");	
+				this.carregarComboAtividade(atividade.search("Funcionario", "Igual", ((Funcionario)comboFuncionario.getSelectedItem()).getNome()));
 			}else if (e.getSource() == botaoCancelar) {				
-			}else if (e.getSource() == botaoCarro) {				
-			}else if (e.getSource() == botaoCliente) {				
+			}else if (e.getSource() == botaoCarro) {	
+				showPainel(new PainelCarro(), "Cadastro de Carro");	
+				this.carregarComboCarro(carro.search("Cliente", "Igual", ((Cliente)comboCliente.getSelectedItem()).getNome()));
+			}else if (e.getSource() == botaoCliente) {	
+				showPainel(new PainelCliente(), "Cadastro de Cliente");
+				this.carregarComboCliente(cliente.load());			
 			}else if (e.getSource() == botaoEditar) {				
 			}else if (e.getSource() == botaoExcluir) {				
 			}else if (e.getSource() == botaoSalvar) {				
 			}
+			
+		}
+
+
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+			
+			if(e.getSource() == comboFuncionario){
+				if(comboFuncionario.getSelectedIndex() != -1){
+					this.carregarComboAtividade(atividade.search("Funcionario", "Igual", ((Funcionario)comboFuncionario.getSelectedItem()).getNome()));
+				}				
+			}else if(e.getSource() == comboCliente){
+				if (comboCliente.getSelectedIndex() != -1){
+					this.carregarComboCarro(carro.search("Cliente", "Igual", ((Cliente)comboCliente.getSelectedItem()).getNome()));				
+				}
+			}			
 			
 		}
 		
