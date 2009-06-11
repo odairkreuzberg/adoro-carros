@@ -71,13 +71,19 @@ public class DaoCidade {
 	public ListaObjeto search(String campo, String operador, String valor) {
 		String campoSQL = campo;
 		String operadorSQL = null;
-		String valorSQL = "'" + valor + "'";
+		String valorSQL = null;
 		if (campo.equals("Código")) {
-			operador = "Igual";
-			valorSQL = "-1";
+			campoSQL = "cod_cidade";
+			valorSQL = valor;
+			if (operador.equals("Contem")) {
+				operador = "Igual";
+				valorSQL = "-1";
+			}
 		} else if (campo.equals("Nome")) {
+			valorSQL = "'" + valor + "'";
 			campoSQL = "nome";
 		} else if (campo.equals("DDD")) {
+			valorSQL = "'" + valor + "'";
 			campoSQL = "ddd";
 		}
 		if (operador.equals("Igual")) {

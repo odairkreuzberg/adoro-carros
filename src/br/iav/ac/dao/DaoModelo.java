@@ -94,6 +94,7 @@ public class DaoModelo implements DaoInterface {
 
 		if (campo.equals("Código")) {
 			campoSQL = "where cod_modelo ";
+			valorSQL = valor;
 			if (operador.equals("Contem")) {
 				operador = "Igual";
 				valorSQL = "-1";

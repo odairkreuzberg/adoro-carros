@@ -113,18 +113,24 @@ public class DaoAtividade implements DaoInterface {
 
 		String campoSQL = null;
 		String operadorSQL = null;
-		String valorSQL = "'" + valor + "'";
+		String valorSQL = null;
 
 		if (campo.equals("Código")) {
 			campoSQL = "where cod_atividade ";
+			valorSQL = valor;
 			if (operador.equals("Contem")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}
 		} else if (campo.equals("Atividade")) {
+			valorSQL = "'" + valor + "'";
 			campoSQL = "where atividade.nome ";
 		} else if (campo.equals("Tipo")) {
+			valorSQL = "'" + valor + "'";
 			campoSQL = "where tipo ";
+		} else if (campo.equals("Funcionario")) {
+			valorSQL = "'" + valor + "'";
+			campoSQL = " where funcionario.nome ";
 		}
 
 		if (operador.equals("Igual")) {

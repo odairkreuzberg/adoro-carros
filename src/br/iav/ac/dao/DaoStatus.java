@@ -63,10 +63,16 @@ public class DaoStatus implements DaoInterface {
 	public ListaObjeto search(String campo, String operador, String valor) {
 		String campoSQL = campo;
 		String operadorSQL = null;
-		String valorSQL = "'" + valor + "'";
+		String valorSQL = null;
 		if (campo.equals("Código")) {
-			campoSQL = "CAST(cod_" + tableName + " as VARCHAR)";
+			campoSQL = "cod_status";
+			valorSQL = valor;
+			if (operador.equals("Contem")) {
+				operador = "Igual";
+				valorSQL = "-1";
+			}
 		} else if (campo.equals("Nome")) {
+			valorSQL  = "'" + valor + "'";
 			campoSQL = "nome";
 		}
 		if (operador.equals("Igual")) {

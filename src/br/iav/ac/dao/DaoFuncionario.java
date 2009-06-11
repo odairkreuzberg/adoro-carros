@@ -131,7 +131,8 @@ public class DaoFuncionario implements DaoInterface {
 		String operadorSQL = null;
 		String valorSQL = "'" + valor + "'";
 		if (campo.equals("Código")) {
-			campoSQL = "where cod_funcionario";
+			valorSQL = valor;
+			campoSQL = "where cod_funcionario ";
 			if (operador.equals("Contem")) {
 				operador = "Igual";
 				valorSQL = "-1";

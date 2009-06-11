@@ -112,26 +112,33 @@ public class DaoCarro implements DaoInterface {
 		
 		String campoSQL = null;
 		String operadorSQL = null;
-		String valorSQL = "'" + valor + "'";
+		String valorSQL = null;
 		
 		if (campo.equals("Código")) {
+			valorSQL = valor;
 			campoSQL = " where cod_carro ";
 			if (operador.equals("Contem")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}
 		} else if (campo.equals("Marca")) {
-			campoSQL = "where marca.nome ";
+			valorSQL = "'" + valor + "'";
+			campoSQL = " where marca.nome ";
 		} else if (campo.equals("Modelo")) {
-			campoSQL = "where modelo.nome ";
+			valorSQL = "'" + valor + "'";
+			campoSQL = " where modelo.nome ";
 		} else if (campo.equals("Cor")) {
-			campoSQL = "where cor.nome ";
+			valorSQL = "'" + valor + "'";
+			campoSQL = " where cor.nome ";
 		} else if (campo.equals("Cliente")) {
-			campoSQL = "where cliente.nome ";
+			valorSQL = "'" + valor + "'";
+			campoSQL = " where cliente.nome ";
 		} else if (campo.equals("Placa")) {
-			campoSQL = "where placa ";
+			valorSQL = "'" + valor + "'";
+			campoSQL = " where placa ";
 		} else if (campo.equals("Ano")) {
-			campoSQL = "where ano_fabricacao ";
+			valorSQL = "'" + valor + "'";
+			campoSQL = " where ano_fabricacao ";
 		}		
 			
 		if (operador.equals("Igual")) {
