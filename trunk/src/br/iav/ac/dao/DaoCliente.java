@@ -125,50 +125,63 @@ public class DaoCliente implements DaoInterface {
 		
 		String campoSQL = null;
 		String operadorSQL = null;
-		String valorSQL = "'" + valor + "'";
+		String valorSQL = null;
 		if (campo.equals("Código")) {
+			valorSQL = valor;
 			campoSQL = "where cod_cliente";
 			if (operador.equals("Contem")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}
 		} else if (campo.equals("Nome")) {
+			valorSQL = "'" + valor + "'";
 			campoSQL = "where cliente.nome ";
 		} else if (campo.equals("Telefone")) {
+			valorSQL = "'" + valor + "'";
 			campoSQL = "where cliente.telefone ";
 		} else if (campo.equals("CPF")) {
+			valorSQL = "'" + valor + "'";
 			campoSQL = "where cliente.cpf ";
 		} else if (campo.equals("RG")) {
+			valorSQL = "'" + valor + "'";
 			campoSQL = "where cliente.rg ";
 		} else if (campo.equals("Profissão")) {
+			valorSQL = "'" + valor + "'";
 			campoSQL = "where cliente.profissao ";
 		} else if (campo.equals("Data de Nascimento")) {
+			valorSQL = "'" + valor + "'";
 			campoSQL = "where cliente.data_nascimento ";
 		} else if (campo.equals("Rua")) {
+			valorSQL = "'" + valor + "'";
 			campoSQL = "where cliente.rua ";
 		} else if (campo.equals("Número")) {
+			valorSQL = valor;
 			campoSQL = "where cliente.numero";
 			if (operador.equals("Contem")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}
 		} else if (campo.equals("Bairro")) {
+			valorSQL = "'" + valor + "'";
 			campoSQL = "where cliente.bairro ";
 		} else if (campo.equals("CEP")) {
+			valorSQL = "'" + valor + "'";
 			campoSQL = "where cliente.cep ";
 		} else if (campo.equals("Complemento")) {
+			valorSQL = "'" + valor + "'";
 			campoSQL = "where cliente.complemento ";
 		} else if (campo.equals("Cidade")) {
+			valorSQL = "'" + valor + "'";
 			campoSQL = "where cidade.nome ";
 		}
 		if (operador.equals("Igual")) {
-			operadorSQL = "=";
+			operadorSQL = "= ";
 		} else if (operador.equals("Diferente")) {
-			operadorSQL = "!=";
+			operadorSQL = "!= ";
 		} else if (operador.equals("Maior")) {
-			operadorSQL = ">";
+			operadorSQL = "> ";
 		} else if (operador.equals("Menor")) {
-			operadorSQL = "<";
+			operadorSQL = "< ";
 		} else if (operador.equals("Contem")) {
 			operadorSQL = "like";
 			valorSQL = "('%" + valor + "%')";

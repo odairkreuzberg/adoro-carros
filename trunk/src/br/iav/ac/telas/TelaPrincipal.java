@@ -22,6 +22,8 @@ import br.iav.ac.telas.marca.PainelMarca;
 import br.iav.ac.telas.modelo.PainelModelo;
 import br.iav.ac.telas.peca.PainelPeca;
 import br.iav.ac.telas.relatorio.RelCarro;
+import br.iav.ac.telas.servico.DialogoServico;
+import br.iav.ac.telas.servico.PainelServico;
 import br.iav.ac.telas.status.PainelStatus;
 
 public class TelaPrincipal extends javax.swing.JFrame {
@@ -45,6 +47,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	private PainelEstoque painelEstoque;
 	private PainelAtividade painelAtividade;
 	private RelCarro painelRelCarro;
+	private PainelServico painelServico;
 	public static TelaPrincipal instancia;
 	
 	{
@@ -108,6 +111,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						DefaultMutableTreeNode nodoEstoque = new DefaultMutableTreeNode("Estoque");
 						DefaultMutableTreeNode nodoAtividade = new DefaultMutableTreeNode("Atividade");
 						DefaultMutableTreeNode nodoRelCarro = new DefaultMutableTreeNode("Carro");
+						DefaultMutableTreeNode nodoServico = new DefaultMutableTreeNode("Serviço");
+						DefaultMutableTreeNode nodoDialogoServico = new DefaultMutableTreeNode("Orçamento");
 						nodoPrincipal.add(nodoGeral);
 						nodoPrincipal.add(nodoServicos);
 						nodoPrincipal.add(nodoRelatorios);
@@ -125,6 +130,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						nodoRelatorios.add(nodoRelCarro);
 						nodoServicos.add(nodoEstoque);
 						nodoGeral.add(nodoAtividade);
+						nodoGeral.add(nodoServico);
+						nodoGeral.add(nodoDialogoServico);
 						jtOpcoes = new JTree(nodoPrincipal);
 						jtOpcoes.addTreeSelectionListener(new TreeSelectionHandler());
 						jspOpcoes.setViewportView(jtOpcoes);
@@ -252,6 +259,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			return painelAtividade;
 		}
 		
+		private PainelServico getPainelServico() {
+			if (painelServico == null){
+				painelServico = new PainelServico();
+			}
+			return painelServico;
+		}
+		
 		private void showPainel(JPanel painelPadrao) {
 			panelPrincipal.removeAll();
 			panelPrincipal.repaint();
@@ -290,6 +304,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
 				showPainel(getPainelAtividade());
 			} else if (path.equals("[SMA, Relatórios, Carro]")) {
 				showPainel(getPainelRelCarro());
+			}  else if (path.equals("[SMA, Geral, Orçamento]")) {
+				new DialogoServico(TelaPrincipal.instancia, "Cadastro de Orçamento", true);
+			}  else if (path.equals("[SMA, Geral, Serviço]")) {
+				showPainel(getPainelServico());
 			} else {
 				showPainel(getPainelApresentacao());
 			}

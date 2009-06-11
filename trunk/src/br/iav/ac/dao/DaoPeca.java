@@ -77,7 +77,12 @@ public class DaoPeca implements DaoInterface {
 		String valorSQL = "'" + valor + "'";
 		String outroSQL = "";
 		if (campo.equals("Código")) {
-			campoSQL = " CAST(cod_"+tableName+" as VARCHAR)";
+			campoSQL = "cod_peca";
+			valorSQL = valor;
+			if (operador.equals("Contem")) {
+				operador = "Igual";
+				valorSQL = "-1";
+			}
 		} else if (campo.equals("Nome")) {
 			campoSQL = " nome";
 		}

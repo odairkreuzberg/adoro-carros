@@ -291,7 +291,7 @@ public class DialogoCarro extends DialogoPadrao {
 		}
 
 		/**
-		 * Carrega o Combobox com os nomes dos modelos que pertencem a uma Marca.
+		 * Carrega o Combobox com os nomes dos Clientes.
 		 * 
 		 * @param listaObjeto
 		 */

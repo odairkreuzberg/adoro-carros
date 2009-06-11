@@ -75,7 +75,8 @@ public class DaoCor implements DaoInterface {
 		String operadorSQL = null;
 		String valorSQL = "'" + valor + "'";
 		if (campo.equals("Código")) {
-			campoSQL = "cod_cor)";
+			valorSQL = valor;
+			campoSQL = "cod_cor";
 			if (operador.equals("Contem")) {
 				operador = "Igual";
 				valorSQL = "-1";
@@ -84,15 +85,15 @@ public class DaoCor implements DaoInterface {
 			campoSQL = "nome";
 		}
 		if (operador.equals("Igual")) {
-			operadorSQL = "=";
+			operadorSQL = "= ";
 		} else if (operador.equals("Diferente")) {
-			operadorSQL = "!=";
+			operadorSQL = "!= ";
 		} else if (operador.equals("Maior")) {
-			operadorSQL = ">";
+			operadorSQL = "> ";
 		} else if (operador.equals("Menor")) {
-			operadorSQL = "<";
+			operadorSQL = "< ";
 		} else if (operador.equals("Contem")) {
-			operadorSQL = "like";
+			operadorSQL = "like ";
 			valorSQL = "('%" + valor + "%')";
 		}
 		String sql = SELECT;

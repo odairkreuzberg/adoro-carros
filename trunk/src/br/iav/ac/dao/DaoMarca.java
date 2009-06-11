@@ -89,6 +89,7 @@ public class DaoMarca implements DaoInterface {
 		String operadorSQL = null;
 		String valorSQL = "'" + valor + "'";
 		if (campo.equals("Código")) {
+			valorSQL = valor;
 			campoSQL = "cod_marca";
 			if (operador.equals("Contem")) {
 				operador = "Igual";

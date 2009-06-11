@@ -119,6 +119,7 @@ public class DaoFornecedor implements DaoInterface {
 		String operadorSQL = null;
 		String valorSQL = "'" + valor + "'";
 		if (campo.equals("Código")) {
+			valorSQL = valor;
 			campoSQL = "where cod_fornecedor";
 			if (operador.equals("Contem")) {
 				operador = "Igual";
@@ -138,6 +139,7 @@ public class DaoFornecedor implements DaoInterface {
 			campoSQL = "where fornecedor.rua ";
 		} else if (campo.equals("Número")) {
 			campoSQL = "where fornecedor.numero";
+			valorSQL = valor;
 			if (operador.equals("Contem")) {
 				operador = "Igual";
 				valorSQL = "-1";

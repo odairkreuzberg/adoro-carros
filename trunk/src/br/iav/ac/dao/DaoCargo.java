@@ -83,14 +83,19 @@ public class DaoCargo implements DaoInterface {
 	public ListaObjeto search(String campo, String operador, String valor) {
 		String campoSQL = campo;
 		String operadorSQL = null;
-		String valorSQL = "'" + valor + "'";
+		String valorSQL;
 		if (campo.equals("Código")) {
+			campoSQL = "cod_cargo";
+			valorSQL = valor;
 			if (operador.equals("Contem")) {
 				operador = "Igual";
+				valorSQL = "-1";
 			}
 		} else if (campo.equals("Nome")) {
+			valorSQL = "'" + valor + "'";
 			campoSQL = "nome";
 		} else {
+			valorSQL = "'" + valor + "'";
 			campoSQL = "descricao";
 		}
 		if (operador.equals("Igual")) {

@@ -82,7 +82,7 @@ public class Carro extends Objeto implements ObjetoInterface {
 	}
 	
 	public String toString() {
-		return (this.getPlaca() + " - " + this.getModelo().getNome());
+		return (this.getModelo().getNome() +  " -> Placa: "+this.getPlaca());
 	}
 
 	public void delete() {
