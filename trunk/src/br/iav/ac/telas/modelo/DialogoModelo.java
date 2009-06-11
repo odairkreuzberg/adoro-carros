@@ -20,17 +20,12 @@ import br.iav.ac.telas.padrao.DialogoCRUD;
 import br.iav.ac.telas.padrao.DialogoPadrao;
 import br.iav.ac.telas.padrao.PainelPadrao;
 
-
 /**
  * Formulário de Cadastro de Modelo de um Veículo
  * 
  * @author Odair Kreuzberg
  */
 public class DialogoModelo extends DialogoPadrao {
-
-	/*----------------------------------------------------------
-	 * ATTRIBUTOS
-	 *----------------------------------------------------------*/
 
 	private FormHandle formHandle;
 	private Modelo modelo;
@@ -41,14 +36,6 @@ public class DialogoModelo extends DialogoPadrao {
 	private JLabel labelModelo;
 	private JComboBox comboMarca;
 	private JLabel labelMarca;
-
-	/*----------------------------------------------------------
-	 * FIM DE ATTRIBUTOS
-	 *----------------------------------------------------------*/
-
-	/*----------------------------------------------------------
-	 * CONSTRUTOR
-	 *----------------------------------------------------------*/
 
 	public DialogoModelo(JFrame frame, String titulo, boolean modal, Modelo modelo) {
 		super(frame, titulo, modal);
@@ -104,14 +91,6 @@ public class DialogoModelo extends DialogoPadrao {
 		this.setVisible(true);
 	}
 
-	/*----------------------------------------------------------
-	 * FIM DE CONSTRUTOR
-	 *----------------------------------------------------------*/
-
-	/*----------------------------------------------------------
-	 * INTERFACE
-	 *----------------------------------------------------------*/
-
 	private void inicializarHandlers() {
 		this.formHandle = new FormHandle();
 		getBotaoCancelar().addActionListener(formHandle);
@@ -119,16 +98,10 @@ public class DialogoModelo extends DialogoPadrao {
 		botaoMarca.addActionListener(formHandle);
 	}
 	
-	/*----------------------------------------------------------
-	 * FIM DE INTERFACE
-	 *----------------------------------------------------------*/
-
-	/*----------------------------------------------------------
-	 * CLASSE LIMITROFE
-	 *----------------------------------------------------------*/
-
 	class FormHandle implements ActionListener {
 
+		private DialogoCRUD dialogoCRUD;
+		
 		public FormHandle() {
 			super();
 			marca = new Marca();
@@ -139,9 +112,7 @@ public class DialogoModelo extends DialogoPadrao {
 			if (modelo.getCodigo() != 0) {
 				textCodigo.setText(String.valueOf(modelo.getCodigo()));
 			}
-			
 		}
-		private DialogoCRUD dialogoCRUD;
 		
 		/**
 		 * Retorna true se encontrar um modelo e false se nao encontrar.
@@ -149,8 +120,7 @@ public class DialogoModelo extends DialogoPadrao {
 		 * @return boolean
 		 */
 		private boolean existeModelo() {
-			ListaObjeto listaObjeto = modelo.search("Modelo", "Igual", textModelo
-					.getText().trim());
+			ListaObjeto listaObjeto = modelo.search("Modelo", "Igual", textModelo.getText().trim());
 			if (listaObjeto.getSize() > 0) {
 				return false;
 			}
@@ -158,32 +128,29 @@ public class DialogoModelo extends DialogoPadrao {
 		}
 		
 		/**
-		 * Faz a Inserção de um Modelo.
+		 * Faz a inserção de um modelo.
 		 */		
 		private void inserir(){
-			if (existeModelo()) {
+			if (!existeModelo()) {
 				modelo.setNome(textModelo.getText());
 				modelo.setMarca(buscarMarca());
 				modelo.insert();		
 				carregarComboMarca(marca.load());							
 			} else {
-				JOptionPane.showMessageDialog(DialogoModelo.this, 
-						"Esse modelo já se encontra na Base de Dados!");
+				JOptionPane.showMessageDialog(DialogoModelo.this, "Esse modelo já se encontra na base de dados!");
 			}			
 		}
 		
 		/**
-		 * Faz a Edição de um Modelo.
+		 * Faz a edição de um modelo.
 		 */
 		private void editar(){
 			if (!existeModelo()) {
 				modelo.setNome(textModelo.getText().trim());
 				modelo.setMarca(buscarMarca());
-				JOptionPane.showMessageDialog(DialogoModelo.this,buscarMarca().getNome());
 				modelo.edit();	
 			} else {
-				JOptionPane.showMessageDialog(DialogoModelo.this, 
-						"Esse modelo já se encontra na Base de Dados!");
+				JOptionPane.showMessageDialog(DialogoModelo.this, "Esse modelo já se encontra na Base de Dados!");
 			}
 		}
 
@@ -218,38 +185,28 @@ public class DialogoModelo extends DialogoPadrao {
 		 * @param titulo
 		 */
 		private void showPainel(PainelPadrao painelPadrao, String titulo) {
-			
 			dialogoCRUD = new DialogoCRUD(TelaPrincipal.instancia,titulo,true);
 			dialogoCRUD.setPainel(painelPadrao);
-
 		}
 
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == botaoMarca) {				
-				showPainel(new PainelMarca(),"Cadastros de Marcas");	
+				showPainel(new PainelMarca(), "Cadastro de Marcas");	
 				this.carregarComboMarca(marca.load());
-				
 			}
 			else if (e.getSource() == getBotaoCancelar()) {
-			} 
-			else if (e.getSource() == getBotaoConfirmar()) {
-//				for (int i = 0; i<comboMarca.getItemCount(); i++) {
-//					if (modelo.getMarca() == comboMarca.getItemAt(i)) {
-//						comboMarca.setSelectedIndex(i);
-//					}
-//				}
+				dispose();
+			} else if (e.getSource() == getBotaoConfirmar()) {
 				if (textModelo.getText().equals("")) {
 					JOptionPane.showMessageDialog(DialogoModelo.this,"O campo Modelo é obrigatório!");
 				} 
 				else if ( (( modelo.getCodigo() == 0 ) && (comboMarca.getSelectedIndex() == -1)) || 
 						   ((modelo.getCodigo() != 0 ) && (comboMarca.getSelectedItem() == null)) ) {
-					JOptionPane.showMessageDialog(DialogoModelo.this,"O campo Marca é obrigatório!");
-				} 				
-				else {
+					JOptionPane.showMessageDialog(DialogoModelo.this, "O campo Marca é obrigatório!");
+				} else {
 					if (modelo.getCodigo() == 0) {
 						inserir();
-					} 
-					else {
+					} else {
 						editar();
 					}
 					dispose();
@@ -257,9 +214,5 @@ public class DialogoModelo extends DialogoPadrao {
 			}
 		}
 	}
-
-	/*----------------------------------------------------------
-	 * FIM DE CLASSE LIMITROFE
-	 *----------------------------------------------------------*/
 
 }

@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import br.iav.ac.negocio.Cidade;
 import br.iav.ac.negocio.ListaObjeto;
-import br.iav.ac.telas.TelaPrincipal;
 import br.iav.ac.telas.padrao.DialogoPadrao;
 
 /**
@@ -27,7 +26,7 @@ public class DialogoCidade extends DialogoPadrao {
 	private Cidade cidade;
 
 	public DialogoCidade(JFrame frame, String titulo, boolean modal, Cidade cidade) {
-		super(TelaPrincipal.instancia, titulo, modal);
+		super(frame, titulo, modal);
 		this.cidade = cidade;
 		//25 de espaçamento entre cada atributo (JTextField e JLabel)
 		int espacoEntreLinhas = 10;
@@ -107,7 +106,7 @@ public class DialogoCidade extends DialogoPadrao {
 		 * Faz a inserção de uma cidade.
 		 */
 		private void inserir() {
-			if (existeCor()) {
+			if (!existeCor()) {
 				cidade.setNome(textNome.getText().trim());
 				cidade.setDdd(Integer.parseInt(textDdd.getText().trim()));
 				cidade.insert();
@@ -120,7 +119,7 @@ public class DialogoCidade extends DialogoPadrao {
 		 * Faz a edição de uma cidade.
 		 */
 		private void editar() {
-			if (existeCor()) {
+			if (!existeCor()) {
 				cidade.setNome(textNome.getText().trim());
 				cidade.setDdd(Integer.parseInt(textDdd.getText().trim()));
 				cidade.edit();

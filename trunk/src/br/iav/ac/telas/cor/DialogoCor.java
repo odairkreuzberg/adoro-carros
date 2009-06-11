@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import br.iav.ac.negocio.Cor;
 import br.iav.ac.negocio.ListaObjeto;
-import br.iav.ac.telas.TelaPrincipal;
 import br.iav.ac.telas.padrao.DialogoPadrao;
 
 /**
@@ -25,7 +24,7 @@ public class DialogoCor extends DialogoPadrao {
 	private Cor cor;
 
 	public DialogoCor(JFrame frame, String titulo, boolean modal, Cor cor) {
-		super(TelaPrincipal.instancia, titulo, modal);
+		super(frame, titulo, modal);
 		this.cor = cor;
 		//25 de espaçamento entre cada atributo (JTextField e JLabel)
 		int espacoEntreLinhas = 10;

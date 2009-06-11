@@ -75,13 +75,13 @@ public class DaoCor implements DaoInterface {
 		String valorSQL = "'" + valor + "'";
 		if (campo.equals("Código")) {
 			valorSQL = valor;
-			campoSQL = "where cod_cor";
+			campoSQL = " where cod_cor";
 			if (operador.equals("Contem")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}
 		} else if (campo.equals("Nome")) {
-			campoSQL = "where cor.nome";
+			campoSQL = " where cor.nome";
 		}
 		if (operador.equals("Igual")) {
 			operadorSQL = "=";
