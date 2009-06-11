@@ -11,6 +11,11 @@ import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.telas.TelaPrincipal;
 import br.iav.ac.telas.padrao.DialogoPadrao;
 
+/**
+ * Formulário de Cadastro de Cidade
+ * 
+ * @author Raphael Furlan
+ */
 public class DialogoCidade extends DialogoPadrao {
 
 	private JTextField textCodigo;
@@ -107,7 +112,7 @@ public class DialogoCidade extends DialogoPadrao {
 				cidade.setDdd(Integer.parseInt(textDdd.getText().trim()));
 				cidade.insert();
 			} else {
-				JOptionPane.showMessageDialog(DialogoCidade.this, "Essa cidade já se encontra na Base de Dados!");
+				JOptionPane.showMessageDialog(DialogoCidade.this, "Essa cidade já se encontra na base de dados!");
 			}
 		}
 
@@ -120,7 +125,7 @@ public class DialogoCidade extends DialogoPadrao {
 				cidade.setDdd(Integer.parseInt(textDdd.getText().trim()));
 				cidade.edit();
 			} else {
-				JOptionPane.showMessageDialog(DialogoCidade.this, "Essa cidade já se encontra na Base de Dados!");
+				JOptionPane.showMessageDialog(DialogoCidade.this, "Essa cidade já se encontra na base de dados!");
 			}
 		}
 

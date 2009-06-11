@@ -5,7 +5,7 @@ import br.iav.ac.database.PostgreSQL;
 import br.iav.ac.negocio.Cidade;
 import br.iav.ac.negocio.ListaObjeto;
 
-public class DaoCidade {
+public class DaoCidade implements DaoInterface {
 
 	private DB db = PostgreSQL.create();
 	private Cidade cidade;
@@ -44,7 +44,7 @@ public class DaoCidade {
 		}
 	}
 	
-	public ListaObjeto load(String sql) {
+	private ListaObjeto load(String sql) {
 		ListaObjeto lista = new ListaObjeto();
 		if (db.connect()) {
 			db.select(sql);
@@ -69,37 +69,40 @@ public class DaoCidade {
 	}
 	
 	public ListaObjeto search(String campo, String operador, String valor) {
-		String campoSQL = campo;
+		String sql = SELECT;
+		String campoSQL = null;
 		String operadorSQL = null;
-		String valorSQL = null;
+		String valorSQL = "'" + valor + "'";
 		if (campo.equals("Código")) {
-			campoSQL = "cod_cidade";
 			valorSQL = valor;
+			campoSQL = "where cod_cidade";
 			if (operador.equals("Contem")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}
 		} else if (campo.equals("Nome")) {
-			valorSQL = "'" + valor + "'";
-			campoSQL = "nome";
+			campoSQL = "where cidade.nome";
 		} else if (campo.equals("DDD")) {
-			valorSQL = "'" + valor + "'";
-			campoSQL = "ddd";
+			campoSQL = "where cidade.ddd";
+			valorSQL = valor;
+			if (operador.equals("Contem")) {
+				operador = "Igual";
+				valorSQL = "-1";
+			}
 		}
 		if (operador.equals("Igual")) {
-			operadorSQL = "= ";
+			operadorSQL = "=";
 		} else if (operador.equals("Diferente")) {
-			operadorSQL = "!= ";
+			operadorSQL = "!=";
 		} else if (operador.equals("Maior")) {
-			operadorSQL = "> ";
+			operadorSQL = ">";
 		} else if (operador.equals("Menor")) {
-			operadorSQL = "< ";
+			operadorSQL = "<";
 		} else if (operador.equals("Contem")) {
-			operadorSQL = "like ";
+			operadorSQL = "like";
 			valorSQL = "('%" + valor + "%')";
 		}
-		String sql = SELECT;
-		sql += " where " + campoSQL + " " + operadorSQL + valorSQL;
+		sql += campoSQL + " " + operadorSQL + valorSQL;
 		return this.load(sql);
 	}
 

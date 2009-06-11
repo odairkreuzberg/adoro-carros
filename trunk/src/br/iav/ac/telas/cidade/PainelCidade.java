@@ -8,6 +8,11 @@ import br.iav.ac.negocio.Cidade;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.telas.padrao.PainelPadrao;
 
+/**
+ * Formulário de Cadastro de Cidade
+ * 
+ * @author Raphael Furlan
+ */
 public class PainelCidade extends PainelPadrao {
 	
 	private CadastroHandle cadastroHandle;
@@ -77,10 +82,8 @@ public class PainelCidade extends PainelPadrao {
 			 * Chama o formulário de cidade para fazer a inserção de uma nova cidade.  
 			 **/
 			if (e.getSource() == getBotaoNovo()) {
-				cidade.setCodigo(0);
-				cidade.setNome("");
-				cidade.setDdd(0);
-				new DialogoCidade(null, "Cadastro de Cidade", true, cidade);
+				Cidade cidade = new Cidade();
+				new DialogoCidade(null, "Cadastro", true, cidade);
 				carregarGrid(cidade.load());
 			} 			
 			/**
@@ -89,13 +92,12 @@ public class PainelCidade extends PainelPadrao {
 			else if (e.getSource() == getBotaoEditar()) {
 				//verifica se existe uma uma linha selecionada na grid.
 				if (getGridTabela().getSelectedRow() >= 0) {
-					cidade = buscarCidade();
+					Cidade cidade = buscarCidade();
 					//se retornar uma cidade existente, então será instanciado o formulario de edição.
-					if(cidade != null){
-						new DialogoCidade(null, "Cadastro de Cidade", true, cidade);	
+					if (cidade != null) {
+						new DialogoCidade(null, "Edição", true, cidade);	
 						carregarGrid(cidade.load());				
-					}
-					else{
+					} else {
 						JOptionPane.showMessageDialog(PainelCidade.this, "Erro ao buscar esta cidade na base de dados!");
 						cidade = new Cidade();
 					}	
@@ -119,7 +121,6 @@ public class PainelCidade extends PainelPadrao {
 						}
 					} else {
 						JOptionPane.showMessageDialog(PainelCidade.this, "Erro ao buscar esta cidade na base de dados!");
-						cidade = new Cidade();
 					}
 				} else {
 					JOptionPane.showMessageDialog(PainelCidade.this, "Para remover é preciso selecionar uma cidade na tabela!");
@@ -127,7 +128,9 @@ public class PainelCidade extends PainelPadrao {
 			} else if (e.getSource() == getBotaoAtualizar()) {
 				carregarGrid(cidade.load());
 			} else if (e.getSource() == getBotaoBuscar()) {
-				carregarGrid(cidade.search((String) getComboAtributoBuscar().getSelectedItem(), (String) getComboTipoBuscar().getSelectedItem(), getTextBuscar().getText()));
+				carregarGrid(cidade.search((String) getComboAtributoBuscar().getSelectedItem(),
+										   (String) getComboTipoBuscar().getSelectedItem(),
+										   			getTextBuscar().getText()));
 			}
 		}
 		
