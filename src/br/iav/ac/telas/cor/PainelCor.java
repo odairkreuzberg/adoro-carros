@@ -2,50 +2,26 @@ package br.iav.ac.telas.cor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-
 import br.iav.ac.negocio.Cor;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.telas.padrao.PainelPadrao;
 
 /**
- * Area de Consulta, Inserção, Exclusão e alteração de Cor de um Veículo
+ * Área de Consulta, Inserção, Exclusão e Alteração da Cor de um Veículo.
  * 
  * @author Odair Kreuzberg
  */
 public class PainelCor extends PainelPadrao {
 
-	/*----------------------------------------------------------
-	 * ATTRIBUTOS
-	 *----------------------------------------------------------*/
-	
-	private static final long serialVersionUID = 1L;
 	private CadastroHandle cadastroHandle;
 	private static String[] CAMPOS = { "Código", "Cor" };
-
-	/*----------------------------------------------------------
-	 * FIM DE ATTRIBUTOS
-	 *----------------------------------------------------------*/
-
-	/*----------------------------------------------------------
-	 * CONSTRUTOR
-	 *----------------------------------------------------------*/
 
 	public PainelCor() {
 		super(CAMPOS);
 		inicializarHandlers();
 	}
-
-	/*----------------------------------------------------------
-	 * FIM DE CONSTRUTOR
-	 *----------------------------------------------------------*/
-
-	/*----------------------------------------------------------
-	 * METODOS DA CLASSE
-	 *----------------------------------------------------------*/
 
 	private void inicializarHandlers() {
 		this.cadastroHandle = new CadastroHandle();
@@ -56,33 +32,24 @@ public class PainelCor extends PainelPadrao {
 		this.getBotaoAtualizar().addActionListener(cadastroHandle);
 	}
 		
-	/*----------------------------------------------------------
-	 * FIM DE METODOS DA CLASSE
-	 *----------------------------------------------------------*/
-
-	/*----------------------------------------------------------
-	 * CLASSE LIMITROFE
-	 *----------------------------------------------------------*/
-
 	class CadastroHandle implements ActionListener {
+		
 		private Cor cor;
-		
-		
+				
 		public CadastroHandle() {
 			super();
 			cor = new Cor();
 			carregarGrid(cor.load());
 		}
 		
-
 		/**
-		 * retorna uma Cor se existir caso contrario retorna null.
+		 * Retorna uma Cor se existir caso contrário retorna null.
 		 * 
 		 * @return Cor
 		 */
 		private Cor buscarCor(){
 			String nome = getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1)+ "";
-			ListaObjeto listaObjeto = cor.search("Cor","Igual",nome);
+			ListaObjeto listaObjeto = cor.search("Cor", "Igual", nome);
 			if (listaObjeto.getSize() > 0) {
 				return (Cor) listaObjeto.getObjeto(0);				
 			}	
@@ -110,33 +77,31 @@ public class PainelCor extends PainelPadrao {
 
 		public void actionPerformed(ActionEvent e) {
 			/**
-			 * Chama o Forulário de Cor para fazer a Inserção de uma nova cor.  
+			 * Chama o formulário de Cor para fazer a inserção de uma nova cor.  
 			 **/
 			if (e.getSource() == getBotaoNovo()) {
 				Cor cor = new Cor();
-				new DialogoCor(null, "Cadastro de Cor", true, cor);
+				new DialogoCor(null, "Cadastro", true, cor);
 				carregarGrid(cor.load());
 			} 			
 			/**
-			 * Chama o Forulário de Cor para fazer a Edição de uma cor.
+			 * Chama o Formulário de Cor para fazer a edição de uma cor.
 			 */	
 			else if (e.getSource() == getBotaoEditar()) {
 				// verifica se existe uma uma linha selecionada na Grid.
 				if (getGridTabela().getSelectedRow() >= 0) {
 					Cor cor = buscarCor();
-					//se retornar uma Cor existente, entao sera instanciado o formulario de Edição.
+					//se retornar uma cor existente, então será instanciado o formulário de edição.
 					if(cor != null){
-						new DialogoCor(null, "Cadastro de Cor", true, cor);	
+						new DialogoCor(null, "Edição", true, cor);	
 						carregarGrid(cor.load());				
 					}
 					else{
-						JOptionPane.showMessageDialog(PainelCor.this,
-								"Erro ao buscar esta Cor na base de dados!");
+						JOptionPane.showMessageDialog(PainelCor.this, "Erro ao buscar esta cor na base de dados!");
 						cor = new Cor();
 					}	
 				} else {
-					JOptionPane.showMessageDialog(PainelCor.this, 
-							"Para editar é preciso selecionar uma cor na tabela!");
+					JOptionPane.showMessageDialog(PainelCor.this, "Para editar é preciso selecionar uma cor na tabela!");
 				}
 				
 			}			
@@ -144,41 +109,32 @@ public class PainelCor extends PainelPadrao {
 			 * Faz a Remoção de uma cor.
 			 */
 			else if (e.getSource() == getBotaoExcluir()) {
-				// verifica se existe uma uma linha selecionada na Grid.
+				// verifica se existe uma uma linha selecionada na grid.
 				if (getGridTabela().getSelectedRow() >= 0) {
 					cor = buscarCor();
-					//se retornar uma Cor existente, essa cor sera Excluida.
+					//se retornar uma cor existente, essa cor sera excluída.
 					if (cor != null) {
-						int resp = JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a modelo "
-								+ cor.getNome()+ " ?", "Exclusão",JOptionPane.YES_NO_OPTION);
+						int resp = JOptionPane.showConfirmDialog(null, "Deseja mesmo excluir a cor " + cor.getNome()+ " ?", "Exclusão", JOptionPane.YES_NO_OPTION);
 						if (resp == 0) {
 							cor.delete();
 							carregarGrid(cor.load());
 						}
 
 					} else {
-						JOptionPane.showMessageDialog(PainelCor.this,
-								"Erro ao buscar esta Cor na base de dados!");
-						//cor = new Cor();
+						JOptionPane.showMessageDialog(PainelCor.this, "Erro ao buscar esta cor na base de dados!");
 					}
 
 				} else {
-					JOptionPane
-							.showMessageDialog(PainelCor.this,
-									"Para remover é preciso selecionar uma cor na tabela!");
+					JOptionPane.showMessageDialog(PainelCor.this, "Para remover é preciso selecionar uma cor na tabela!");
 				}
 			} else if (e.getSource() == getBotaoAtualizar()) {
 				carregarGrid(cor.load());
 			} else if (e.getSource() == getBotaoBuscar()) {
-				carregarGrid(cor.search((String) getComboAtributoBuscar()
-						.getSelectedItem(), (String) getComboTipoBuscar()
-						.getSelectedItem(), getTextBuscar().getText()));
+				carregarGrid(cor.search((String) getComboAtributoBuscar().getSelectedItem(),
+										(String) getComboTipoBuscar().getSelectedItem(),
+												 getTextBuscar().getText()));
 			}
 		}
 	}
-
-	/*----------------------------------------------------------
-	 * FIM DE CLASSE LIMITROFE
-	 *----------------------------------------------------------*/
 
 }

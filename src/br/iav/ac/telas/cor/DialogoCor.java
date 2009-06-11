@@ -110,8 +110,7 @@ public class DialogoCor extends DialogoPadrao {
 		 * @return boolean
 		 */
 		private boolean existeCor() {
-			ListaObjeto listaObjeto = cor.search("cor", "Igual", textCor
-					.getText().trim());
+			ListaObjeto listaObjeto = cor.search("cor", "Igual", textCor.getText().trim());
 			if (listaObjeto.getSize() > 0) {
 				return false;
 			}
@@ -119,28 +118,26 @@ public class DialogoCor extends DialogoPadrao {
 		}
 
 		/**
-		 * Faz a Inserção de uma Cor.
+		 * Faz a inserção de uma Cor.
 		 */
 		private void inserir() {
 			if (existeCor()) {
 				cor.setNome(textCor.getText().trim());
 				cor.insert();
 			} else {
-				JOptionPane.showMessageDialog(DialogoCor.this,
-						"Essa cor já se encontra na Base de Dados!");
+				JOptionPane.showMessageDialog(DialogoCor.this, "Essa cor já se encontra na base de dados!");
 			}
 		}
 
 		/**
-		 * Faz a Edição de uma Cor.
+		 * Faz a edição de uma Cor.
 		 */
 		private void editar() {
 			if (existeCor()) {
 				cor.setNome(textCor.getText().trim());
 				cor.edit();
 			} else {
-				JOptionPane.showMessageDialog(DialogoCor.this,
-						"Essa cor já se encontra na Base de Dados!");
+				JOptionPane.showMessageDialog(DialogoCor.this, "Essa cor já se encontra na base de dados!");
 			}
 		}
 
@@ -149,8 +146,7 @@ public class DialogoCor extends DialogoPadrao {
 				dispose();
 			} else if (e.getSource() == getBotaoConfirmar()) {
 				if (textCor.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoCor.this,
-							"O campo cor é obrigatório!");
+					JOptionPane.showMessageDialog(DialogoCor.this, "O campo cor é obrigatório!");
 				} else {
 					if (cor.getCodigo() == 0) {
 						inserir();
