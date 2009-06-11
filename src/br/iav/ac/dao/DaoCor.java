@@ -80,7 +80,7 @@ public class DaoCor implements DaoInterface {
 				operador = "Igual";
 				valorSQL = "-1";
 			}
-		} else {
+		} else if (campo.equals("Nome")) {
 			campoSQL = "where cor.nome";
 		}
 		if (operador.equals("Igual")) {

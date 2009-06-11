@@ -16,7 +16,7 @@ import br.iav.ac.telas.padrao.PainelPadrao;
 public class PainelCor extends PainelPadrao {
 
 	private CadastroHandle cadastroHandle;
-	private static String[] CAMPOS = { "Código", "Cor" };
+	private static String[] CAMPOS = { "Código", "Nome" };
 
 	public PainelCor() {
 		super(CAMPOS);
@@ -49,7 +49,7 @@ public class PainelCor extends PainelPadrao {
 		 */
 		private Cor buscarCor(){
 			String nome = getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1)+ "";
-			ListaObjeto listaObjeto = cor.search("Cor", "Igual", nome);
+			ListaObjeto listaObjeto = cor.search("Nome", "Igual", nome);
 			if (listaObjeto.getSize() > 0) {
 				return (Cor) listaObjeto.getObjeto(0);				
 			}	
@@ -85,31 +85,29 @@ public class PainelCor extends PainelPadrao {
 				carregarGrid(cor.load());
 			} 			
 			/**
-			 * Chama o Formulário de Cor para fazer a edição de uma cor.
+			 * Chama o formulário de Cor para fazer a edição de uma cor.
 			 */	
 			else if (e.getSource() == getBotaoEditar()) {
-				// verifica se existe uma uma linha selecionada na Grid.
+				//verifica se existe uma uma linha selecionada na Grid.
 				if (getGridTabela().getSelectedRow() >= 0) {
 					Cor cor = buscarCor();
 					//se retornar uma cor existente, então será instanciado o formulário de edição.
-					if(cor != null){
+					if (cor != null) {
 						new DialogoCor(null, "Edição", true, cor);	
 						carregarGrid(cor.load());				
-					}
-					else{
+					} else {
 						JOptionPane.showMessageDialog(PainelCor.this, "Erro ao buscar esta cor na base de dados!");
 						cor = new Cor();
 					}	
 				} else {
 					JOptionPane.showMessageDialog(PainelCor.this, "Para editar é preciso selecionar uma cor na tabela!");
 				}
-				
 			}			
 			/**
-			 * Faz a Remoção de uma cor.
+			 * Faz a remoção de uma cor.
 			 */
 			else if (e.getSource() == getBotaoExcluir()) {
-				// verifica se existe uma uma linha selecionada na grid.
+				//verifica se existe uma uma linha selecionada na grid.
 				if (getGridTabela().getSelectedRow() >= 0) {
 					cor = buscarCor();
 					//se retornar uma cor existente, essa cor sera excluída.
@@ -119,11 +117,9 @@ public class PainelCor extends PainelPadrao {
 							cor.delete();
 							carregarGrid(cor.load());
 						}
-
 					} else {
 						JOptionPane.showMessageDialog(PainelCor.this, "Erro ao buscar esta cor na base de dados!");
 					}
-
 				} else {
 					JOptionPane.showMessageDialog(PainelCor.this, "Para remover é preciso selecionar uma cor na tabela!");
 				}

@@ -18,23 +18,11 @@ import br.iav.ac.telas.padrao.DialogoPadrao;
  */
 public class DialogoCor extends DialogoPadrao {
 
-	/*----------------------------------------------------------
-	 * ATTRIBUTOS
-	 *----------------------------------------------------------*/
-
 	private JTextField textCodigo;
-	private JLabel labelCor;
-	private JTextField textCor;
+	private JLabel labelNome;
+	private JTextField textNome;
 	private FormHandle formHandle;
 	private Cor cor;
-
-	/*----------------------------------------------------------
-	 * FIM DE ATTRIBUTOS
-	 *----------------------------------------------------------*/
-
-	/*----------------------------------------------------------
-	 * CONSTRUTOR
-	 *----------------------------------------------------------*/
 
 	public DialogoCor(JFrame frame, String titulo, boolean modal, Cor cor) {
 		super(TelaPrincipal.instancia, titulo, modal);
@@ -52,15 +40,15 @@ public class DialogoCor extends DialogoPadrao {
 			}
 			{
 				espacoEntreLinhas = espacoEntreLinhas + 25;
-				labelCor = new JLabel();
-				getPanelPrincipal().add(labelCor);
-				labelCor.setText("Cor:");
-				labelCor.setBounds(10, espacoEntreLinhas, 80, 20);
+				labelNome = new JLabel();
+				getPanelPrincipal().add(labelNome);
+				labelNome.setText("Nome:");
+				labelNome.setBounds(10, espacoEntreLinhas, 80, 20);
 			}
 			{
-				textCor = new JTextField();
-				getPanelPrincipal().add(textCor);
-				textCor.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
+				textNome = new JTextField();
+				getPanelPrincipal().add(textNome);
+				textNome.setBounds(espacoDoTextField, espacoEntreLinhas, 246, 20);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -71,37 +59,20 @@ public class DialogoCor extends DialogoPadrao {
 		this.setVisible(true);
 	}
 
-	/*----------------------------------------------------------
-	 * FIM DE CONSTRUTOR
-	 *----------------------------------------------------------*/
-
-	/*----------------------------------------------------------
-	 * METODOS DA CLASSE
-	 *----------------------------------------------------------*/
-
 	private void inicializarHandlers() {
 		this.formHandle = new FormHandle();
 		getBotaoCancelar().addActionListener(formHandle);
 		getBotaoConfirmar().addActionListener(formHandle);
 	}
 
-	/*----------------------------------------------------------
-	 * FIM DE METODOS DA CLASSE
-	 *----------------------------------------------------------*/
-
-	/*----------------------------------------------------------
-	 * CLASSE LIMITROFE
-	 *----------------------------------------------------------*/
-
 	class FormHandle implements ActionListener {
 
 		public FormHandle() {
 			super();
-			textCor.setText(cor.getNome().trim());
+			textNome.setText(cor.getNome().trim());
 			if (cor.getCodigo() != 0) {
 				textCodigo.setText(String.valueOf(cor.getCodigo()));
 			}
-
 		}
 
 		/**
@@ -110,7 +81,7 @@ public class DialogoCor extends DialogoPadrao {
 		 * @return boolean
 		 */
 		private boolean existeCor() {
-			ListaObjeto listaObjeto = cor.search("cor", "Igual", textCor.getText().trim());
+			ListaObjeto listaObjeto = cor.search("Nome", "Igual", textNome.getText().trim());
 			if (listaObjeto.getSize() > 0) {
 				return false;
 			}
@@ -122,7 +93,7 @@ public class DialogoCor extends DialogoPadrao {
 		 */
 		private void inserir() {
 			if (existeCor()) {
-				cor.setNome(textCor.getText().trim());
+				cor.setNome(textNome.getText().trim());
 				cor.insert();
 			} else {
 				JOptionPane.showMessageDialog(DialogoCor.this, "Essa cor já se encontra na base de dados!");
@@ -134,7 +105,7 @@ public class DialogoCor extends DialogoPadrao {
 		 */
 		private void editar() {
 			if (existeCor()) {
-				cor.setNome(textCor.getText().trim());
+				cor.setNome(textNome.getText().trim());
 				cor.edit();
 			} else {
 				JOptionPane.showMessageDialog(DialogoCor.this, "Essa cor já se encontra na base de dados!");
@@ -145,8 +116,8 @@ public class DialogoCor extends DialogoPadrao {
 			if (e.getSource() == getBotaoCancelar()) {
 				dispose();
 			} else if (e.getSource() == getBotaoConfirmar()) {
-				if (textCor.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoCor.this, "O campo cor é obrigatório!");
+				if (textNome.getText().equals("")) {
+					JOptionPane.showMessageDialog(DialogoCor.this, "O campo nome é obrigatório!");
 				} else {
 					if (cor.getCodigo() == 0) {
 						inserir();
@@ -157,10 +128,7 @@ public class DialogoCor extends DialogoPadrao {
 				}
 			}
 		}
+		
 	}
-
-	/*----------------------------------------------------------
-	 * FIM DE CLASSE LIMITROFE
-	 *----------------------------------------------------------*/
 
 }
