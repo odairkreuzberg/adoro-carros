@@ -99,15 +99,15 @@ public class DaoCargo implements DaoInterface {
 			campoSQL = "descricao";
 		}
 		if (operador.equals("Igual")) {
-			operadorSQL = "=";
+			operadorSQL = "= ";
 		} else if (operador.equals("Diferente")) {
-			operadorSQL = "!=";
+			operadorSQL = "!= ";
 		} else if (operador.equals("Maior")) {
-			operadorSQL = ">";
+			operadorSQL = "> ";
 		} else if (operador.equals("Menor")) {
-			operadorSQL = "<";
+			operadorSQL = "< ";
 		} else if (operador.equals("Contem")) {
-			operadorSQL = "like";
+			operadorSQL = "like ";
 			valorSQL = "('%" + valor + "%')";
 		}
 		String sql = SELECT;
