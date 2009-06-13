@@ -76,16 +76,11 @@ public class DaoAtividadePeca implements DaoInterface{
 		return lista;
 	}
 
-	@Override
-	public ListaObjeto load() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
-	public ListaObjeto load(int i) {
+	public ListaObjeto load() {
 		ListaObjeto listaObjeto = new ListaObjeto();
 		if(db.connect()){
-			db.select("select peca.cod_peca, peca.nome, atividade.cod_atividade, atividade.nome FROM atividade_peca,peca, atividade where atividade_peca.cod_peca = peca.cod_peca and atividade_peca.cod_atividade = atividade.cod_atividade");
+			db.select("select peca.cod_peca, peca.nome, atividade.cod_atividade, atividade.nome FROM atividade_peca,peca, atividade where atividade_peca.cod_peca = peca.cod_peca and atividade_peca.cod_atividade = atividade.cod_atividade ");
 			while(db.moveNext()){ 
 				listaObjeto.insertWhitoutPersist(new Peca(db.getInt("cod_peca"), db.getString("nome")));				
 			}			

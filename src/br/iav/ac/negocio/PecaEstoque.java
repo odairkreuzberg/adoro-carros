@@ -4,6 +4,10 @@ public class PecaEstoque extends Objeto{
 	private String nome;
 
 	private int quantidade;
+	
+	private int qtdEstoque;
+
+	
 
 	private float preco;
 
@@ -16,6 +20,17 @@ public class PecaEstoque extends Objeto{
 		this.nome = nome;
 		this.quantidade = quantidade;
 		this.preco = preco;
+	}
+	public int getQtdEstoque() {
+		return qtdEstoque;
+	}
+
+	public void setQtdEstoque(int qtdEstoque) {
+		this.qtdEstoque = qtdEstoque;
+	}
+
+	public int getQuantidade() {
+		return quantidade;
 	}
 
 	public String getNome() {

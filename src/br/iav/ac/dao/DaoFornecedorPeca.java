@@ -1,12 +1,9 @@
 package br.iav.ac.dao;
 
-import sun.misc.FpUtils;
 import br.iav.ac.database.DB;
 import br.iav.ac.database.PostgreSQL;
-import br.iav.ac.negocio.Fornecedor;
 import br.iav.ac.negocio.FornecedorPeca;
 import br.iav.ac.negocio.ListaObjeto;
-import br.iav.ac.negocio.Peca;
 import br.iav.ac.negocio.PecaDetalhe;
 import br.iav.ac.negocio.PecaEstoque;
 

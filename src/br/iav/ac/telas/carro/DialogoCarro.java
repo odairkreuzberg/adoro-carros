@@ -14,12 +14,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import br.iav.ac.negocio.Carro;
 import br.iav.ac.negocio.Cliente;
 import br.iav.ac.negocio.Cor;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.negocio.Marca;
 import br.iav.ac.negocio.Modelo;
-import br.iav.ac.negocio.Carro;
 import br.iav.ac.negocio.Objeto;
 import br.iav.ac.telas.TelaPrincipal;
 import br.iav.ac.telas.cliente.PainelCliente;
