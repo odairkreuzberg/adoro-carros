@@ -398,6 +398,7 @@ public class DialogoServico extends JDialog{
 		
 		ListaObjeto lista = new ListaObjeto();
 		ListaObjeto listaP = new ListaObjeto();
+		boolean carregar = false; 
 		
 		public FormHandle() {
 			super();
@@ -414,6 +415,7 @@ public class DialogoServico extends JDialog{
 			if (servico.getCodigo() != 0) {
 				
 				SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+				carregar = true;
 				
 				comboCliente.setEditable(true);
 				comboCliente.setSelectedItem((Object) servico.getCarro().getCliente());
@@ -539,6 +541,10 @@ public class DialogoServico extends JDialog{
 				gridArray[i][1] = sa.getAtividade().getNome();
 				gridArray[i][2] = sa.getAtividade().getFuncionario().getNome();
 				gridArray[i][3] = sa.getPrecoAtividade();
+				if (carregar){
+					this.carregaPecaAtividade(sa.getAtividade());
+				}
+				
 			}
 			String[] campos = { "Codigo", "Atividade", "Funcionário", "Valor R$"};
 			DefaultTableModel model = new DefaultTableModel(gridArray, campos);
@@ -547,7 +553,12 @@ public class DialogoServico extends JDialog{
 			gridTabela.getColumnModel().getColumn(0).setPreferredWidth(40);
 			gridTabela.getColumnModel().getColumn(1).setPreferredWidth(165);
 			gridTabela.getColumnModel().getColumn(2).setPreferredWidth(150);	
-			gridTabela.getColumnModel().getColumn(2).setPreferredWidth(150);			
+			gridTabela.getColumnModel().getColumn(2).setPreferredWidth(150);
+			if (carregar){
+				this.carregarGridPeca(listaP);
+				carregar = false;
+			}
+						
 		}
 
 		// Carrega a Grid de Peças	
@@ -577,6 +588,15 @@ public class DialogoServico extends JDialog{
 				((ServicoAtividade)lista.getObjeto(i)).setCodigo(cod);
 			}
 		}
+		
+		private void carregaPecaAtividade(Atividade atividade){
+			ListaObjeto pecas = atividade.getListaPeca(atividade.getCodigo());
+			for (int i = 0; i < pecas.getSize(); i++) {
+				((PecaEstoque)pecas.getObjeto(i)).setCodigo(atividade.getCodigo());
+				listaP.insertWhitoutPersist(pecas.getObjeto(i));
+			}			
+		}
+		
 		// Adiciona uma Atividade na Grid
 		private void addAtividade(){
 			if(textVAlorAtividade.getText().equals("")){
@@ -589,13 +609,8 @@ public class DialogoServico extends JDialog{
 					sv.setCodigo(((Atividade)comboAtividade.getSelectedItem()).getCodigo());
 					sv.setPrecoAtividade(valor);
 					if(lista.search(sv)== null){
-						Atividade atividade = (Atividade)comboAtividade.getSelectedItem();
-						ListaObjeto pecas = atividade.getListaPeca(atividade.getCodigo());
-						for (int i = 0; i < pecas.getSize(); i++) {
-							((PecaEstoque)pecas.getObjeto(i)).setCodigo(((Atividade)comboAtividade.getSelectedItem()).getCodigo());
-							listaP.insertWhitoutPersist(pecas.getObjeto(i));
-						}
-						carregarGridPeca(listaP);
+						this.carregaPecaAtividade((Atividade)comboAtividade.getSelectedItem());	
+						this.carregarGridPeca(listaP);
 						lista.insertWhitoutPersist(sv);
 						carregarGridAtividade();	
 						textVAlorAtividade.setText("");
@@ -722,6 +737,7 @@ public class DialogoServico extends JDialog{
 		}
 
 		private void inserir() {
+			//if
 			servico.setCarro((Carro)comboCarro.getSelectedItem());
 			SimpleDateFormat converterDate = new SimpleDateFormat("dd/MM/yyyy");
 			try {
