@@ -5,16 +5,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 
-import br.iav.ac.negocio.Cliente;
-import br.iav.ac.negocio.Funcionario;
-import br.iav.ac.negocio.ListaObjeto;
-import br.iav.ac.negocio.Marca;
 import br.iav.ac.negocio.Carro;
+import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.telas.TelaPrincipal;
-import br.iav.ac.telas.marca.DialogoMarca;
-import br.iav.ac.telas.marca.PainelMarca;
 import br.iav.ac.telas.padrao.PainelPadrao;
 
 /**

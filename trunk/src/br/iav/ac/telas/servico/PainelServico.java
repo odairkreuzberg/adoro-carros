@@ -28,7 +28,7 @@ public class PainelServico extends PainelPadrao {
 	private static final long serialVersionUID = 1L;
 	private CadastroHandle cadastroHandle;
 	//private Servico servico;
-	private static String[] CAMPOS = { "Tem que arruma", "Tem que arruma", "Tem que arruma" };
+	private static String[] CAMPOS = { "Código", "Cliente", "Carro", "Status"};
 
 	/*----------------------------------------------------------
 	 * FIM DE ATTRIBUTOS
@@ -96,21 +96,23 @@ public class PainelServico extends PainelPadrao {
 		 * Carrega a Grid com todas as Marcaes já Cadastradas.
 		 */
 		private void carregarGrid(ListaObjeto listaObjeto) {
-			//Object[][] gridArray = new Object[listaObjeto.getSize()][3];
-			//for (int i = 0; i < listaObjeto.getSize(); i++) {
-				//Servico servico = (Servico) listaObjeto.getObjeto(i);
-				//gridArray[i][0] = servico.getCodigo();
-				//gridArray[i][1] = servico.getNome();
-				//gridArray[i][2] = servico.getTipo();
-			//}
-			DefaultTableModel model = new DefaultTableModel(/*gridArray*/null, CAMPOS);
+			Object[][] gridArray = new Object[listaObjeto.getSize()][6];
+			for (int i = 0; i < listaObjeto.getSize(); i++) {
+				Servico servico = (Servico) listaObjeto.getObjeto(i);
+				gridArray[i][0] = servico.getCodigo();
+				gridArray[i][1] = servico.getCarro().getCliente().getNome();
+				gridArray[i][2] = servico.getCarro().getModelo().getNome();
+				gridArray[i][3] = servico.getStatus();
+			}
+			DefaultTableModel model = new DefaultTableModel(gridArray, CAMPOS);
 			getGridTabela().setModel(model);
 			getGridTabela().setShowVerticalLines(true);
 			//Definição do tamanho das colunas da grid
 			//TAMANHO DA GRID: 521
 			getGridTabela().getColumnModel().getColumn(0).setPreferredWidth(50);
-			getGridTabela().getColumnModel().getColumn(1).setPreferredWidth(236);
-			getGridTabela().getColumnModel().getColumn(2).setPreferredWidth(235);
+			getGridTabela().getColumnModel().getColumn(1).setPreferredWidth(181);
+			getGridTabela().getColumnModel().getColumn(2).setPreferredWidth(180);
+			getGridTabela().getColumnModel().getColumn(3).setPreferredWidth(110);
 		}
 
 		public void actionPerformed(ActionEvent e) {
@@ -153,12 +155,12 @@ public class PainelServico extends PainelPadrao {
 					Servico  servico = buscarServico();
 					//se retornar uma Marca existente, essa marca sera Excluida.
 					if (servico!= null) {
-						/*int resp = JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a servicoPeca "
-								+ servico.getNome()+ " ?", "Exclusão",JOptionPane.YES_NO_OPTION);
+						int resp = JOptionPane.showConfirmDialog(null,"Deseja " +
+							"mesmo excluir este Orçamento?", "Exclusão",JOptionPane.YES_NO_OPTION);
 						if (resp == 0) {
 							servico.delete();
 							carregarGrid(servico.load());
-						}*/
+						}
 
 					} else {
 						JOptionPane.showMessageDialog(PainelServico.this,

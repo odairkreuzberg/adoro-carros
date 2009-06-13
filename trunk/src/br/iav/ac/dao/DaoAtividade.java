@@ -5,6 +5,7 @@ import br.iav.ac.database.PostgreSQL;
 import br.iav.ac.negocio.Atividade;
 import br.iav.ac.negocio.Funcionario;
 import br.iav.ac.negocio.ListaObjeto;
+import br.iav.ac.negocio.PecaEstoque;
 
 public class DaoAtividade implements DaoInterface {
 
@@ -16,6 +17,7 @@ public class DaoAtividade implements DaoInterface {
 		"funcionario.nome as f_nome, atividade.nome as a_nome from funcionario" +
 		" inner join atividade on (atividade.cod_funcionario = funcionario.cod_funcionario)";
 	
+	 
 
 	public Atividade getAtividade() {
 		return atividade;
@@ -148,6 +150,35 @@ public class DaoAtividade implements DaoInterface {
 
 		sql += campoSQL + " " + operadorSQL + valorSQL;
 		return this.load(sql);
+	}
+
+	public ListaObjeto getListaPeca(int codigo) {
+		String sql = "select p.cod_peca, ap.quantidade_peca, p.nome," +
+			"sum(fp.quantidade) as quantidade, avg(fp.preco) as preco from" +
+			" (fornecedor_peca as fp inner join peca as p on " +
+			"fp.cod_peca = p.cod_peca) inner join atividade_peca as ap on " +
+			"ap.cod_peca = fp.cod_peca and ap.cod_atividade = "+codigo+" " +
+			"group by  p.cod_peca, p.nome, ap.quantidade_peca";
+		return this.carregaListaPeca(sql);
+		
+	}
+
+	private ListaObjeto carregaListaPeca(String sql) {
+		ListaObjeto listaObjeto = new ListaObjeto();
+		if(db.connect()){
+			db.select(sql);
+				while(db.moveNext()){ 
+					PecaEstoque pe = new PecaEstoque();
+					pe.setCodigo(db.getInt("cod_peca"));
+					pe.setNome(db.getString("nome"));
+					pe.setPreco(db.getFloat("preco"));
+					pe.setQtdEstoque(db.getInt("quantidade"));
+					pe.setQuantidade(db.getInt("quantidade_peca"));					
+				listaObjeto.insertWhitoutPersist(pe);				
+			}			
+			db.disconnect();
+		}
+		return(listaObjeto);	
 	}
 
 }

@@ -107,7 +107,7 @@ public class Atividade extends Objeto {
 	public void edit(){
 		DaoAtividadePeca daoAtividadePeca = new DaoAtividadePeca();
 		AtividadePeca atividadePeca = new AtividadePeca();
-		ListaObjeto listaAux = daoAtividadePeca.load(this.getCodigo());
+		ListaObjeto listaAux = daoAtividadePeca.load();
 		for(int i=0;i<listaAux.getSize();i++){
 			atividadePeca.getAtividade().setCodigo(this.getCodigo());
 			atividadePeca.getPeca().setCodigo(listaAux.getObjeto(i).getCodigo());
@@ -130,7 +130,7 @@ public class Atividade extends Objeto {
 		ListaObjeto listaAux = new ListaObjeto();
 		listaAux = daoAtividade.load();
 		for(int i=0;i < listaAux.getSize(); i++){
-			((Atividade)listaAux.getObjeto(i)).setListaAtividadePeca(daoAtividadePeca.load(((Atividade)listaAux.getObjeto(i)).getCodigo()));
+			((Atividade)listaAux.getObjeto(i)).setListaAtividadePeca(daoAtividadePeca.load());
 			
 		}
 		return(listaAux);
@@ -139,6 +139,11 @@ public class Atividade extends Objeto {
 	public ListaObjeto search(String campo, String operador, String valor){
 		DaoAtividade dao = new DaoAtividade();
 		return dao.search(campo, operador, valor);		
+	}
+
+	public ListaObjeto getListaPeca(int  cod) {
+		DaoAtividade dao = new DaoAtividade();
+		return dao.getListaPeca(cod);
 	}
 	
 

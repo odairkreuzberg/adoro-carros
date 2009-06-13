@@ -3,6 +3,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -11,21 +14,25 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import br.iav.ac.negocio.Atividade;
+import br.iav.ac.negocio.AtividadePeca;
 import br.iav.ac.negocio.Carro;
 import br.iav.ac.negocio.Cliente;
 import br.iav.ac.negocio.Funcionario;
 import br.iav.ac.negocio.ListaObjeto;
-import br.iav.ac.negocio.Marca;
 import br.iav.ac.negocio.Objeto;
+import br.iav.ac.negocio.Peca;
+import br.iav.ac.negocio.PecaEstoque;
 import br.iav.ac.negocio.Servico;
+import br.iav.ac.negocio.ServicoAtividade;
 import br.iav.ac.negocio.Status;
 import br.iav.ac.telas.TelaPrincipal;
 import br.iav.ac.telas.atividade.DialogoAtividade;
@@ -34,6 +41,7 @@ import br.iav.ac.telas.carro.PainelCarro;
 import br.iav.ac.telas.cliente.PainelCliente;
 import br.iav.ac.telas.padrao.DialogoCRUD;
 import br.iav.ac.telas.padrao.PainelPadrao;
+
 
 public class DialogoServico extends JDialog{
 
@@ -46,6 +54,8 @@ public class DialogoServico extends JDialog{
 	private JComboBox comboAtividade;
 	private JComboBox comboFuncionario;
 	private JTable gridTabela;
+	private JTable gridTabelaPeca;
+	private JPanel painelPeca;
 	private JTextField textTotalAtividade;
 	private JLabel labelTotalAtividade;
 	private JLabel labeTotalPeca;
@@ -60,7 +70,7 @@ public class DialogoServico extends JDialog{
 	private JLabel labelValorAtividade;
 	private JLabel labelOrcamento;
 	private JLabel jLabel1;
-	private JTextField labelCodigo;
+	private JTextField textCodigo;
 	private JButton botaoCarro;
 	private JButton botaoCliente;
 	private JComboBox comboCliente;
@@ -74,6 +84,8 @@ public class DialogoServico extends JDialog{
 	private JComboBox comboStatus;
 	private JLabel labelStatus;
 	private JTextField textDataFim;
+	private JScrollPane scrollTabela;
+	private JScrollPane scrollTabelaPeca;
 	private JTextField textDataInicio;
 	private Servico servico;
 	private FormHandle formHandle;
@@ -83,7 +95,7 @@ public class DialogoServico extends JDialog{
 		this.servico = new Servico();
 		this.initGUI();
 		this.inicializarHandlers();
-		this.setSize(559, 581);
+		this.setSize(559, 693);
 		this.setDefaultCloseOperation(DialogoAtividade.DISPOSE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
@@ -94,7 +106,7 @@ public class DialogoServico extends JDialog{
 		this.servico = servico;
 		this.initGUI();
 		this.inicializarHandlers();
-		this.setSize(559, 581);
+		this.setSize(559, 693);
 		this.setDefaultCloseOperation(DialogoAtividade.DISPOSE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
@@ -156,74 +168,29 @@ public class DialogoServico extends JDialog{
 					botaoCancelar = new JButton();
 					this.add(botaoCancelar);
 					botaoCancelar.setText("Cancelar");
-					botaoCancelar.setBounds(437, 521, 102, 21);
+					botaoCancelar.setBounds(454, 633, 86, 21);
 				}
 				{
 					botaoSalvar = new JButton();
 					this.add(botaoSalvar);
 					botaoSalvar.setText("Concluir");
-					botaoSalvar.setBounds(331, 521, 101, 21);
+					botaoSalvar.setBounds(357, 633, 86, 21);
 				}
 				{
 					painelAtividade = new JPanel();
 					this.add(painelAtividade);
 					painelAtividade.setLayout(null);
-					painelAtividade.setBounds(12, 166, 525, 343);
+					painelAtividade.setBounds(12, 166, 525, 274);
 					painelAtividade.setBorder(new LineBorder(new java.awt.Color(0,0,0), 1, false));
 					painelAtividade.setLayout(null);
 					{
-						textValorTotal = new JTextField();
-						painelAtividade.add(textValorTotal);
-						textValorTotal.setBounds(356, 309, 156, 21);
-					}
-					{
-						labelTotal = new JLabel();
-						painelAtividade.add(labelTotal);
-						labelTotal.setText("Total: R$");
-						labelTotal.setBounds(294, 312, 44, 14);
-					}
-					{
-						textDescontos = new JTextField();
-						painelAtividade.add(textDescontos);
-						textDescontos.setBounds(356, 282, 156, 21);
-					}
-					{
-						labelDesconto = new JLabel();
-						painelAtividade.add(labelDesconto);
-						labelDesconto.setText("Desconto: R$");
-						labelDesconto.setBounds(273, 285, 65, 14);
-					}
-					{
-						textTotalPeca = new JTextField();
-						painelAtividade.add(textTotalPeca);
-						textTotalPeca.setBounds(117, 309, 138, 21);
-					}
-					{
-						labeTotalPeca = new JLabel();
-						painelAtividade.add(labeTotalPeca);
-						labeTotalPeca.setText("Total Peças: R$");
-						labeTotalPeca.setBounds(30, 312, 75, 14);
-					}
-					{
-						labelTotalAtividade = new JLabel();
-						painelAtividade.add(labelTotalAtividade);
-						labelTotalAtividade.setText("Total Atividade: R$");
-						labelTotalAtividade.setBounds(13, 285, 92, 14);
-					}
-					{
-						textTotalAtividade = new JTextField();
-						painelAtividade.add(textTotalAtividade);
-						textTotalAtividade.setBounds(117, 282, 138, 21);
-					}
-					{
-						TableModel gridTabelaModel = 
-							new DefaultTableModel(
-									new String[][] { { "One", "Two" }, { "Three", "Four" } },
-									new String[] { "Column 1", "Column 2" });
 						gridTabela = new JTable();
-						painelAtividade.add(gridTabela);
-						gridTabela.setModel(gridTabelaModel);
-						gridTabela.setBounds(14, 77, 497, 196);
+						gridTabela.setShowVerticalLines(true);
+						scrollTabela = new JScrollPane();
+						painelAtividade.add(scrollTabela);
+						scrollTabela.setHorizontalScrollBar(new JScrollBar(0));
+						scrollTabela.setViewportView(gridTabela);
+						scrollTabela.setBounds(14, 77, 497, 165);
 					}
 					{
 						labelFuncionario = new JLabel();
@@ -286,7 +253,19 @@ public class DialogoServico extends JDialog{
 					{
 						textVAlorAtividade = new JTextField();
 						painelAtividade.add(textVAlorAtividade);
-						textVAlorAtividade.setBounds(84, 35, 161, 21);
+						textVAlorAtividade.setBounds(84, 35, 161, 21);						
+					}
+					{
+						textTotalAtividade = new JTextField();
+						painelAtividade.add(textTotalAtividade);
+						textTotalAtividade.setBounds(374, 248, 138, 21);
+						textTotalAtividade.setEditable(false);
+					}
+					{
+						labelTotalAtividade = new JLabel();
+						painelAtividade.add(labelTotalAtividade);
+						labelTotalAtividade.setText("Total Atividade: R$");
+						labelTotalAtividade.setBounds(277, 251, 92, 14);
 					}
 				}
 				{
@@ -324,9 +303,10 @@ public class DialogoServico extends JDialog{
 					botaoCarro.setBounds(228, 138, 22, 21);
 				}
 				{
-					labelCodigo = new JTextField();
-					this.add(labelCodigo);
-					labelCodigo.setBounds(50, 85, 200, 21);
+					textCodigo = new JTextField();
+					this.add(textCodigo);
+					textCodigo.setBounds(50, 85, 200, 21);
+					textCodigo.setEditable(false);
 				}
 				{
 					jLabel1 = new JLabel();
@@ -341,6 +321,63 @@ public class DialogoServico extends JDialog{
 					labelOrcamento.setBounds(12, 0, 525, 82);
 					labelOrcamento.setHorizontalAlignment(SwingConstants.CENTER);
 					labelOrcamento.setFont(new java.awt.Font("Arial",1,48));
+				}
+				{
+					textValorTotal = new JTextField();
+					getContentPane().add(textValorTotal);
+					textValorTotal.setBounds(250, 633, 95, 21);
+					textValorTotal.setEditable(false);
+				}
+				{
+					textDescontos = new JTextField();
+					getContentPane().add(textDescontos);
+					textDescontos.setText("0.0");
+					textDescontos.setBounds(89, 633, 95, 21);
+				}
+				{
+					labelTotal = new JLabel();
+					getContentPane().add(labelTotal);
+					labelTotal.setText("Total: R$");
+					labelTotal.setBounds(194, 636, 44, 14);
+				}
+				{
+					labelDesconto = new JLabel();
+					getContentPane().add(labelDesconto);
+					labelDesconto.setText("Desconto: R$");
+					labelDesconto.setBounds(12, 636, 65, 14);
+				}
+				{
+					painelPeca = new JPanel();
+					getContentPane().add(painelPeca);
+					painelPeca.setLayout(null);
+					painelPeca.setBounds(12, 446, 525, 178);
+					painelPeca.setBorder(new LineBorder(new java.awt.Color(0,0,0), 1, false));
+					{
+						textTotalPeca = new JTextField();
+						painelPeca.add(textTotalPeca);
+						textTotalPeca.setBounds(374, 151, 138, 21);
+						textTotalPeca.setText("0.0");
+						textTotalPeca.setEditable(false);
+					}
+					{
+						labeTotalPeca = new JLabel();
+						painelPeca.add(labeTotalPeca);
+						labeTotalPeca.setText("Total Peças: R$");
+						labeTotalPeca.setBounds(294, 154, 75, 14);
+					}
+					{						
+						
+						gridTabelaPeca = new JTable();
+						gridTabelaPeca.setShowVerticalLines(true);
+						scrollTabelaPeca = new JScrollPane();	
+						painelPeca.add(scrollTabelaPeca);		
+						scrollTabelaPeca.setHorizontalScrollBar(new JScrollBar(0));	
+						scrollTabelaPeca.setViewportView(gridTabelaPeca);		
+						scrollTabelaPeca.setBounds(13, 10, 499, 132);
+						String[] campos = { "Codigo", "Peca", "quantidade", "Valor R$"};
+						DefaultTableModel model = new DefaultTableModel(null, campos);
+						gridTabelaPeca.setModel(model);
+					}
 				}
 			}
 			pack();
@@ -357,7 +394,10 @@ public class DialogoServico extends JDialog{
 		Carro carro = new Carro();
 		Status status = new Status();
 		Funcionario funcionario = new Funcionario();
-		Atividade atividade = new Atividade();			
+		Atividade atividade = new Atividade();		
+		
+		ListaObjeto lista = new ListaObjeto();
+		ListaObjeto listaP = new ListaObjeto();
 		
 		public FormHandle() {
 			super();
@@ -372,21 +412,32 @@ public class DialogoServico extends JDialog{
 			this.carregarComboStatus(status.load());
 			
 			if (servico.getCodigo() != 0) {
+				
+				SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+				
 				comboCliente.setEditable(true);
-				//comboCliente.setSelectedItem((Object) servico.getCarro().getCliente());
+				comboCliente.setSelectedItem((Object) servico.getCarro().getCliente());
 				comboCliente.setEditable(false);
-				comboFuncionario.setEditable(true);
-				//comboFuncionario.setSelectedItem((Object) carro.getModelo().getMarca());
-				comboFuncionario.setEditable(false);
 				comboCarro.setEditable(true);
-				//comboCarro.setSelectedItem((Object) carro.getModelo());
+				comboCarro.setSelectedItem((Object) servico.getCarro());
 				comboCarro.setEditable(false);
 				comboStatus.setEditable(true);
-				//comboStatus.setSelectedItem((Object) carro.getCor());
-				comboAtividade.setEditable(false);
-				//comboAtividade.setSelectedItem((Object) carro.getCor());
-				comboAtividade.setEditable(false);
+				comboStatus.setSelectedItem((Object) servico.getStatus());
+				comboStatus.setEditable(false);	
+				if (servico.getDataFim() != null)
+				textDataFim.setText(formatador.format(servico.getDataFim()));
+				if(servico.getDataInicio() != null)
+				textDataInicio.setText(formatador.format(servico.getDataInicio()));
+				textDescontos.setText(servico.getValorDesconto()+"");
+				textTotalAtividade.setText(servico.getValorAtividade()+"");
+				System.out.println(servico.getValorAtividade());
+				textTotalPeca.setText(servico.getValorPeca()+"");
+				textValorTotal.setText(servico.getValorTotal()+"");				
+				ServicoAtividade sa = new ServicoAtividade();
+				lista = sa.getListaAtividade(servico.getCodigo());
 			}
+			carregaID();
+			carregarGridAtividade();
 
 		}
 
@@ -478,27 +529,219 @@ public class DialogoServico extends JDialog{
 			dialogoCRUD.setPainel(painelPadrao);
 
 		}
+		
+		// Carrega a Grid de Atividades
+		private void carregarGridAtividade() {
+			Object[][] gridArray = new Object[lista.getSize()][4];
+			for (int i = 0; i < lista.getSize(); i++) {
+				ServicoAtividade sa = (ServicoAtividade)lista.getObjeto(i);
+				gridArray[i][0] = sa.getCodigo();
+				gridArray[i][1] = sa.getAtividade().getNome();
+				gridArray[i][2] = sa.getAtividade().getFuncionario().getNome();
+				gridArray[i][3] = sa.getPrecoAtividade();
+			}
+			String[] campos = { "Codigo", "Atividade", "Funcionário", "Valor R$"};
+			DefaultTableModel model = new DefaultTableModel(gridArray, campos);
+			gridTabela.setModel(model);
+			gridTabela.setShowVerticalLines(true);
+			gridTabela.getColumnModel().getColumn(0).setPreferredWidth(40);
+			gridTabela.getColumnModel().getColumn(1).setPreferredWidth(165);
+			gridTabela.getColumnModel().getColumn(2).setPreferredWidth(150);	
+			gridTabela.getColumnModel().getColumn(2).setPreferredWidth(150);			
+		}
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == botaoAdicionar) {
-			}else if (e.getSource() == botaoAtividade) {	
-				showPainel(new PainelAtividade(), "Cadastro de Atividade");	
-				this.carregarComboAtividade(atividade.search("Funcionario", "Igual", ((Funcionario)comboFuncionario.getSelectedItem()).getNome()));
-			}else if (e.getSource() == botaoCancelar) {				
-			}else if (e.getSource() == botaoCarro) {	
-				showPainel(new PainelCarro(), "Cadastro de Carro");	
-				this.carregarComboCarro(carro.search("Cliente", "Igual", ((Cliente)comboCliente.getSelectedItem()).getNome()));
-			}else if (e.getSource() == botaoCliente) {	
-				showPainel(new PainelCliente(), "Cadastro de Cliente");
-				this.carregarComboCliente(cliente.load());			
-			}else if (e.getSource() == botaoEditar) {				
-			}else if (e.getSource() == botaoExcluir) {				
-			}else if (e.getSource() == botaoSalvar) {				
+		// Carrega a Grid de Peças	
+		private void carregarGridPeca(ListaObjeto listaPeca) {
+			Object[][] gridArray = new Object[listaPeca.getSize()][4];
+			for (int i = 0; i < listaPeca.getSize(); i++) {
+				PecaEstoque pe = (PecaEstoque)listaPeca.getObjeto(i);
+				gridArray[i][0] = pe.getCodigo();
+				gridArray[i][1] = pe.getNome();
+				gridArray[i][2] = pe.getQuantidade();
+				gridArray[i][3] = pe.getPreco();
+			}
+			String[] campos = { "Codigo", "Peca", "quantidade", "Valor R$"};
+			DefaultTableModel model = new DefaultTableModel(gridArray, campos);
+			gridTabelaPeca.setModel(model);
+			gridTabelaPeca.setShowVerticalLines(true);
+			gridTabelaPeca.getColumnModel().getColumn(0).setPreferredWidth(40);
+			gridTabelaPeca.getColumnModel().getColumn(1).setPreferredWidth(265);
+			gridTabelaPeca.getColumnModel().getColumn(2).setPreferredWidth(100);	
+			gridTabelaPeca.getColumnModel().getColumn(2).setPreferredWidth(100);			
+		}
+		
+		//GAMBIARRA. Carrega o ID de um ServicoAtividade com O ID da Atividade
+		private void carregaID(){
+			for (int i = 0; i < lista.getSize(); i++) {				
+				int cod = ((ServicoAtividade)lista.getObjeto(i)).getAtividade().getCodigo();
+				((ServicoAtividade)lista.getObjeto(i)).setCodigo(cod);
+			}
+		}
+		// Adiciona uma Atividade na Grid
+		private void addAtividade(){
+			if(textVAlorAtividade.getText().equals("")){
+				labelAviso.setText("O Campo Valor Da Atividade é Obrigatório!");	
+			}else{
+				try {
+					float valor = Float.parseFloat(textVAlorAtividade.getText());
+					ServicoAtividade sv = new ServicoAtividade();
+					sv.setAtividade(((Atividade)comboAtividade.getSelectedItem()));
+					sv.setCodigo(((Atividade)comboAtividade.getSelectedItem()).getCodigo());
+					sv.setPrecoAtividade(valor);
+					if(lista.search(sv)== null){
+						Atividade atividade = (Atividade)comboAtividade.getSelectedItem();
+						ListaObjeto pecas = atividade.getListaPeca(atividade.getCodigo());
+						for (int i = 0; i < pecas.getSize(); i++) {
+							((PecaEstoque)pecas.getObjeto(i)).setCodigo(((Atividade)comboAtividade.getSelectedItem()).getCodigo());
+							listaP.insertWhitoutPersist(pecas.getObjeto(i));
+						}
+						carregarGridPeca(listaP);
+						lista.insertWhitoutPersist(sv);
+						carregarGridAtividade();	
+						textVAlorAtividade.setText("");
+						comboAtividade.setSelectedIndex(0);
+						labelAviso.setText("");
+						this.CalcularValor();
+					}else{
+						labelAviso.setText("Esta Peça já se encontra na Lista!");			
+					}
+				} catch (Exception e2) {
+					labelAviso.setText(textVAlorAtividade.getText()+ " não é um valor válido!");
+					textVAlorAtividade.setText("");
+				}
+			}
+		}
+		
+		// Ao remover um Arividade este metodo eh invocado para remover as Peças da Atividade removida.
+		private void removerPeca() {
+			if (gridTabela.getSelectedRow() >= 0) {
+				int cod =(Integer) gridTabela.getValueAt(gridTabela.getSelectedRow(), 0);
+				ServicoAtividade sv = new ServicoAtividade();
+				sv.setCodigo(cod);
+				lista.delete(sv);
+				this.carregarGridAtividade();				
+				labelAviso.setText("");					
+				ListaObjeto lAux = new ListaObjeto();				
+				for (int i = 0; i < listaP.getSize(); i++) {
+					if(cod != ((PecaEstoque)listaP.getObjeto(i)).getCodigo() ){
+						lAux.insertWhitoutPersist(listaP.getObjeto(i));						
+					}					
+				}
+				listaP = lAux;
+				carregarGridPeca(listaP);
+			}else{
+				labelAviso.setText("Para Remover uma Peça é preciso selecionar um item na Tabela!");
+			}
+			this.CalcularValor();
+		}
+		
+		// Faz o Calculo do Orçamento
+		private void CalcularValor(){
+			float valorA = 0;
+			for (int i = 0; i < lista.getSize(); i++) {
+				valorA += ((ServicoAtividade)lista.getObjeto(i)).getPrecoAtividade();				
+			}
+			textTotalAtividade.setText(valorA+"");	
+			float valorP = 0;
+
+			for (int i = 0; i < listaP.getSize(); i++) {
+				valorP += ((PecaEstoque)listaP.getObjeto(i)).getPreco();				
+			}
+			textTotalPeca.setText(valorP+"");
+			float valorT = valorA + valorP;
+			textValorTotal.setText(valorT + "");
+		}
+
+		//  Seleciona os itens da Grid p/ alterar uma Atividade
+		private void editarAtividade() {
+			if (gridTabela.getSelectedRow() >= 0) {
+				Atividade atividade = new Atividade();
+				atividade.setNome(gridTabela.getValueAt(gridTabela.getSelectedRow(),1)+"");
+				atividade.setCodigo((Integer)gridTabela.getValueAt(gridTabela.getSelectedRow(),0));
+				comboAtividade.setEditable(true);
+				comboAtividade.setSelectedItem((Object)atividade);
+				comboAtividade.setEditable(false);				
+				textVAlorAtividade.setText(gridTabela.getValueAt(gridTabela.getSelectedRow(),3)+"");
+				this.removerPeca();				
+			}else{
+				labelAviso.setText("Para Editar uma Atividade é preciso selecionar um item na Tabela!");
 			}
 			
 		}
 
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == botaoAdicionar) {
+				this.addAtividade();
+			}else if (e.getSource() == botaoAtividade) {	
+				this.showPainel(new PainelAtividade(), "Cadastro de Atividade");	
+				this.carregarComboAtividade(atividade.search("Funcionario", "Igual", ((Funcionario)comboFuncionario.getSelectedItem()).getNome()));
+			}else if (e.getSource() == botaoCancelar) {	
+				dispose();
+			}else if (e.getSource() == botaoCarro) {	
+				this.showPainel(new PainelCarro(), "Cadastro de Carro");	
+				this.carregarComboCarro(carro.search("Cliente", "Igual", ((Cliente)comboCliente.getSelectedItem()).getNome()));
+			}else if (e.getSource() == botaoCliente) {	
+				this.showPainel(new PainelCliente(), "Cadastro de Cliente");
+				this.carregarComboCliente(cliente.load());			
+			}else if (e.getSource() == botaoEditar) {	
+				this.editarAtividade();
+			}else if (e.getSource() == botaoExcluir) {	
+				this.removerPeca();
+			}else if (e.getSource() == botaoSalvar) {
+				if (servico.getCodigo() == 0) {
+					this.inserir();
+				} 
+				else {
+					this.editar();
+				}
+				dispose();				
+			}
+			
+		}
+
+		private void editar() {
+			servico.setCarro((Carro)comboCarro.getSelectedItem());
+			SimpleDateFormat converterDate = new SimpleDateFormat("dd/MM/yyyy");
+			try {
+				servico.setDataFim(converterDate.parse(textDataFim.getText()));
+				servico.setDataInicio(converterDate.parse(textDataInicio.getText()));
+				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			servico.setStatus((Status)comboStatus.getSelectedItem());
+			servico.setValorAtividade(Float.parseFloat(textTotalAtividade.getText()));
+			servico.setValorDesconto(Float.parseFloat(textDescontos.getText()));
+			servico.setValorPeca(Float.parseFloat(textTotalPeca.getText()));
+			servico.setValorTotal(Float.parseFloat(textValorTotal.getText()));
+			servico.setListaServicoAtividade(lista);
+			servico.edit();
+			
+		}
+
+		private void inserir() {
+			servico.setCarro((Carro)comboCarro.getSelectedItem());
+			SimpleDateFormat converterDate = new SimpleDateFormat("dd/MM/yyyy");
+			try {
+				servico.setDataFim(converterDate.parse(textDataFim.getText()));
+				servico.setDataInicio(converterDate.parse(textDataInicio.getText()));
+				
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			servico.setStatus((Status)comboStatus.getSelectedItem());
+			servico.setValorAtividade(Float.parseFloat(textTotalAtividade.getText()));
+			servico.setValorDesconto(Float.parseFloat(textDescontos.getText()));
+			servico.setValorPeca(Float.parseFloat(textTotalPeca.getText()));
+			servico.setValorTotal(Float.parseFloat(textValorTotal.getText()));
+			servico.setListaServicoAtividade(lista);
+			servico.insert();
+			
+			
+		}
 
 		@Override
 		public void itemStateChanged(ItemEvent e) {
