@@ -6,9 +6,9 @@ public class PecaEstoque extends Objeto{
 	private int quantidade;
 	
 	private int qtdEstoque;
-
 	
-
+	private int codAtividade;	
+	
 	private float preco;
 
 	public PecaEstoque() {
@@ -21,6 +21,15 @@ public class PecaEstoque extends Objeto{
 		this.quantidade = quantidade;
 		this.preco = preco;
 	}
+
+	public int getCodAtividade() {
+		return codAtividade;
+	}
+
+	public void setCodAtividade(int codAtividade) {
+		this.codAtividade = codAtividade;
+	}
+
 	public int getQtdEstoque() {
 		return qtdEstoque;
 	}
@@ -39,10 +48,6 @@ public class PecaEstoque extends Objeto{
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public int getQunatidade() {
-		return this.quantidade;
 	}
 
 	public void setQuantidade(int quantidade) {

@@ -112,7 +112,7 @@ public class PainelEstoque extends JPanel {
 						.getObjeto(i);
 				gridArray[i][0] = pecaEstoque.getCodigo();
 				gridArray[i][1] = pecaEstoque.getNome();
-				gridArray[i][2] = pecaEstoque.getQunatidade();
+				gridArray[i][2] = pecaEstoque.getQuantidade();
 				gridArray[i][3] = pecaEstoque.getPreco();
 			}
 			String[] campos = { "Codigo", "Peça", "Quantidade", "Preço" };

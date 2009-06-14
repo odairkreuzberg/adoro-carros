@@ -137,9 +137,9 @@ public class FornecedorPeca extends Objeto implements ObjetoInterface {
 		return dao.getListaPecaFornecedor(cod);		
 	}
 
-	public FornecedorPeca temFornecedorMarca(FornecedorPeca fornecedorPeca) {
+	public FornecedorPeca temFornecedorPeca(FornecedorPeca fornecedorPeca) {
 		DaoFornecedorPeca dao = new DaoFornecedorPeca();
-		return dao.temFornecedorMarca(fornecedorPeca);
+		return dao.temFornecedorPeca(fornecedorPeca);
 	}
 	
 	/*----------------------------------------------------------

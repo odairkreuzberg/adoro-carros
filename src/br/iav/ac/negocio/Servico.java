@@ -3,6 +3,7 @@ package br.iav.ac.negocio;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import br.iav.ac.dao.DaoFornecedorPeca;
 import br.iav.ac.dao.DaoServico;
 import br.iav.ac.dao.DaoServicoAtividade;
 
@@ -139,7 +140,7 @@ public class Servico extends Objeto {
 		return (servico);
 	}
 	
-	public void insert(){
+	public void insert(ListaObjeto lista){
 		DaoServico dao = new DaoServico();
 		dao.setServico(this);
 		dao.insert();
@@ -150,7 +151,7 @@ public class Servico extends Objeto {
 			daoServicoAtividade.setServicoAtividade(((ServicoAtividade)this.getListaServicoAtividade().getObjeto(i)));
 			daoServicoAtividade.insert();
 		}
-		
+		this.editEstoque(lista);			
 	}
 	
 	@Override
@@ -207,5 +208,51 @@ public class Servico extends Objeto {
 		DaoServico dao = new DaoServico();
 		return dao.search(campo, operador, valor);		
 	}
+	
+	private void editEstoque(ListaObjeto lista){
 
+		DaoFornecedorPeca dao = new DaoFornecedorPeca();
+		int qtd = 0;
+		for (int i = 0; i < lista.getSize(); i++) {
+			PecaEstoque pe = ((PecaEstoque)lista.getObjeto(i));
+			ListaObjeto listaFP = dao.getListaFornecedorPeca(((PecaEstoque) lista.getObjeto(i)).getCodigo());
+			for (int j = 0; j < listaFP.getSize(); j++) {
+				FornecedorPeca fp = (FornecedorPeca)listaFP.getObjeto(j);
+				if(fp.getQtd() > pe.getQuantidade()){
+					qtd = fp.getQtd() - pe.getQuantidade();
+					fp.setQtd(qtd);
+					fp.setPreco(fp.getPreco());
+					dao.setFornecedorPeca(fp);
+					dao.edit();
+					break;
+				}else{					
+					qtd = 0;
+					pe.setQuantidade(pe.getQuantidade() - fp.getQtd());
+					fp.setQtd(qtd);
+					fp.setPreco(0);
+					dao.setFornecedorPeca(fp);
+					dao.editEstoque();
+				}
+			}
+		} 	
+	}
+	
+	public boolean validarPecas(ListaObjeto lista){		
+		for(int i=0;i<lista.getSize();i++){
+			PecaEstoque pe = ((PecaEstoque)lista.getObjeto(i));
+			int cod = ((PecaEstoque)lista.getObjeto(i)).getCodigo();
+			int qtd = pe.getQtdEstoque();	
+			for(int j=i;j<lista.getSize();j++){
+				if(pe.getCodigo() == cod){
+					if (qtd < pe.getQuantidade()){
+						return false;
+					}else{
+						qtd = qtd - pe.getQuantidade();
+						
+					}					
+				}				
+			}
+		}	
+		return true;		
+	}
 }

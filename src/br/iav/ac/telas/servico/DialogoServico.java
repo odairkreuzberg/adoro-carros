@@ -12,6 +12,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
@@ -21,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import br.iav.ac.negocio.Atividade;
 import br.iav.ac.negocio.AtividadePeca;
@@ -138,7 +140,9 @@ public class DialogoServico extends JDialog{
 					labelDataInicio.setBounds(280, 115, 70, 14);
 				}
 				{
-					textDataInicio = new JTextField();
+					MaskFormatter mascaraDtNascimento = new MaskFormatter("##/##/####");	            
+		            mascaraDtNascimento.setPlaceholderCharacter('_');  
+		            textDataInicio = new JFormattedTextField(mascaraDtNascimento);
 					this.add(textDataInicio);
 					textDataInicio.setBounds(358, 112, 179, 21);
 				}
@@ -149,7 +153,9 @@ public class DialogoServico extends JDialog{
 					labelDataFim.setBounds(267, 141, 83, 14);
 				}
 				{
-					textDataFim = new JTextField();
+					MaskFormatter mascaraDtNascimento = new MaskFormatter("##/##/####");	            
+		            mascaraDtNascimento.setPlaceholderCharacter('_');  
+		            textDataFim = new JFormattedTextField(mascaraDtNascimento);
 					this.add(textDataFim);
 					textDataFim.setBounds(358, 138, 179, 21);
 				}
@@ -256,7 +262,7 @@ public class DialogoServico extends JDialog{
 						textVAlorAtividade.setBounds(84, 35, 161, 21);						
 					}
 					{
-						textTotalAtividade = new JTextField();
+						textTotalAtividade = new JTextField("0.0");
 						painelAtividade.add(textTotalAtividade);
 						textTotalAtividade.setBounds(374, 248, 138, 21);
 						textTotalAtividade.setEditable(false);
@@ -323,13 +329,13 @@ public class DialogoServico extends JDialog{
 					labelOrcamento.setFont(new java.awt.Font("Arial",1,48));
 				}
 				{
-					textValorTotal = new JTextField();
+					textValorTotal = new JTextField("0.0");
 					getContentPane().add(textValorTotal);
 					textValorTotal.setBounds(250, 633, 95, 21);
 					textValorTotal.setEditable(false);
 				}
 				{
-					textDescontos = new JTextField();
+					textDescontos = new JTextField("0.0");
 					getContentPane().add(textDescontos);
 					textDescontos.setText("0.0");
 					textDescontos.setBounds(89, 633, 95, 21);
@@ -353,10 +359,9 @@ public class DialogoServico extends JDialog{
 					painelPeca.setBounds(12, 446, 525, 178);
 					painelPeca.setBorder(new LineBorder(new java.awt.Color(0,0,0), 1, false));
 					{
-						textTotalPeca = new JTextField();
+						textTotalPeca = new JTextField("0.0");
 						painelPeca.add(textTotalPeca);
 						textTotalPeca.setBounds(374, 151, 138, 21);
-						textTotalPeca.setText("0.0");
 						textTotalPeca.setEditable(false);
 					}
 					{
@@ -566,7 +571,7 @@ public class DialogoServico extends JDialog{
 			Object[][] gridArray = new Object[listaPeca.getSize()][4];
 			for (int i = 0; i < listaPeca.getSize(); i++) {
 				PecaEstoque pe = (PecaEstoque)listaPeca.getObjeto(i);
-				gridArray[i][0] = pe.getCodigo();
+				gridArray[i][0] = pe.getCodAtividade();
 				gridArray[i][1] = pe.getNome();
 				gridArray[i][2] = pe.getQuantidade();
 				gridArray[i][3] = pe.getPreco();
@@ -592,7 +597,7 @@ public class DialogoServico extends JDialog{
 		private void carregaPecaAtividade(Atividade atividade){
 			ListaObjeto pecas = atividade.getListaPeca(atividade.getCodigo());
 			for (int i = 0; i < pecas.getSize(); i++) {
-				((PecaEstoque)pecas.getObjeto(i)).setCodigo(atividade.getCodigo());
+				((PecaEstoque)pecas.getObjeto(i)).setCodAtividade(atividade.getCodigo());
 				listaP.insertWhitoutPersist(pecas.getObjeto(i));
 			}			
 		}
@@ -704,15 +709,20 @@ public class DialogoServico extends JDialog{
 			}else if (e.getSource() == botaoExcluir) {	
 				this.removerPeca();
 			}else if (e.getSource() == botaoSalvar) {
-				if (servico.getCodigo() == 0) {
-					this.inserir();
-				} 
-				else {
-					this.editar();
-				}
-				dispose();				
-			}
-			
+				if (textDataInicio.getText().equals("__/__/____")){
+					labelAviso.setText("O Campo Data de Início é Obrigatorio!");
+				}else if (textDataFim.getText().equals("__/__/____")){
+					labelAviso.setText("O Campo Data de Fim é Obrigatorio!");
+				}else{
+					if (servico.getCodigo() == 0) {
+						
+						this.inserir();
+					} 
+					else {
+						this.editar();
+					}
+				}				
+			}			
 		}
 
 		private void editar() {
@@ -737,26 +747,28 @@ public class DialogoServico extends JDialog{
 		}
 
 		private void inserir() {
-			//if
-			servico.setCarro((Carro)comboCarro.getSelectedItem());
-			SimpleDateFormat converterDate = new SimpleDateFormat("dd/MM/yyyy");
 			try {
-				servico.setDataFim(converterDate.parse(textDataFim.getText()));
-				servico.setDataInicio(converterDate.parse(textDataInicio.getText()));
-				
+				if (servico.validarPecas(listaP)) {
+					SimpleDateFormat converterDate = new SimpleDateFormat("dd/MM/yyyy");
+					servico.setCarro((Carro) comboCarro.getSelectedItem());
+					servico.setDataFim(converterDate.parse(textDataFim.getText()));
+					servico.setDataInicio(converterDate.parse(textDataInicio.getText()));
+					servico.setStatus((Status) comboStatus.getSelectedItem());
+					servico.setValorAtividade(Float.parseFloat(textTotalAtividade.getText()));
+					servico.setValorDesconto(Float.parseFloat(textDescontos.getText()));
+					servico.setValorPeca(Float.parseFloat(textTotalPeca.getText()));
+					servico.setValorTotal(Float.parseFloat(textValorTotal.getText()));
+					servico.setListaServicoAtividade(lista);
+					servico.insert(listaP);
+					dispose();
+				} else {
+					labelAviso.setText("Não Existe as Peça necessarias em Estoque para efetuar este Orçamento!");
+				}
+
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			servico.setStatus((Status)comboStatus.getSelectedItem());
-			servico.setValorAtividade(Float.parseFloat(textTotalAtividade.getText()));
-			servico.setValorDesconto(Float.parseFloat(textDescontos.getText()));
-			servico.setValorPeca(Float.parseFloat(textTotalPeca.getText()));
-			servico.setValorTotal(Float.parseFloat(textValorTotal.getText()));
-			servico.setListaServicoAtividade(lista);
-			servico.insert();
-			
-			
 		}
 
 		@Override
