@@ -283,11 +283,11 @@ public class DialogoFornecedorPeca extends JDialog {
 
 		}
 		
-		private FornecedorPeca temFornecedorMarca(){
+		private FornecedorPeca temFornecedorPeca(){
 			FornecedorPeca fornecedorPeca = new FornecedorPeca();
 			fornecedorPeca.setFornecedor((Fornecedor)comboFornecedor.getSelectedItem());
 			fornecedorPeca.setPeca((Peca)comboPeca.getSelectedItem());
-			return fornecedorPeca.temFornecedorMarca(fornecedorPeca) ;			
+			return fornecedorPeca.temFornecedorPeca(fornecedorPeca) ;			
 			
 		}
 		
@@ -295,7 +295,7 @@ public class DialogoFornecedorPeca extends JDialog {
 		 * Insere uma Compra.
 		 */
 		private void inserir() {
-			FornecedorPeca fornecedorPeca = temFornecedorMarca();
+			FornecedorPeca fornecedorPeca = temFornecedorPeca();
 			if (fornecedorPeca!= null) {
 				fornecedorPeca.setPreco(Float.parseFloat(textValor.getText()));
 				int qtd = Integer.parseInt(textQtd.getText());
@@ -324,13 +324,13 @@ public class DialogoFornecedorPeca extends JDialog {
 				} else if (textQtd.getText().equals("")) {
 					labelAviso.setText("O Campo Quantidade é Obrigatotrio!");
 				}else{
-					try {
+					//try {
 						int qtd = Integer.parseInt(textQtd.getText());
 						this.inserir();
 						dispose();
-					} catch (Exception e2) {
+				//	} catch (Exception e2) {
 						labelAviso.setText(textQtd.getText()+ " não é um Número Válido");
-					}
+				//	}
 				}
 			} else if (e.getSource() == botaoCancelar) {
 				dispose();

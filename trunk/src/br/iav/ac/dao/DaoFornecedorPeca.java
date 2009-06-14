@@ -2,8 +2,10 @@ package br.iav.ac.dao;
 
 import br.iav.ac.database.DB;
 import br.iav.ac.database.PostgreSQL;
+import br.iav.ac.negocio.Fornecedor;
 import br.iav.ac.negocio.FornecedorPeca;
 import br.iav.ac.negocio.ListaObjeto;
+import br.iav.ac.negocio.Peca;
 import br.iav.ac.negocio.PecaDetalhe;
 import br.iav.ac.negocio.PecaEstoque;
 
@@ -62,6 +64,19 @@ public class DaoFornecedorPeca implements DaoInterface {
 
 	}
 
+	public void editEstoque() {
+		if (db.connect()) {
+			db.update("update " + tableName + " set quantidade = "
+				+ fornecedorPeca.getQtd()
+				+ " where cod_fornecedor = "
+				+ fornecedorPeca.getFornecedor().getCodigo()
+				+ " and cod_peca = "
+				+ fornecedorPeca.getPeca().getCodigo());
+			db.disconnect();
+		}
+
+	}
+
 	@Override
 	public void insert() {
 		if (db.connect()) {
@@ -110,17 +125,38 @@ public class DaoFornecedorPeca implements DaoInterface {
 		return lista;
 	}
 
+	public ListaObjeto loadFP(String sql) {
+		ListaObjeto lista = new ListaObjeto();
+		if (db.connect()) {
+			db.select(sql);
+			while (db.moveNext()) {		
+				FornecedorPeca fp = new FornecedorPeca();
+				Fornecedor f = new Fornecedor();
+				Peca p = new Peca();
+				fp.setQtd(db.getInt("quantidade"));
+				f.setCodigo(db.getInt("cod_fornecedor"));
+				p.setCodigo(db.getInt("cod_peca"));
+				fp.setPreco(db.getFloat("preco"));
+				fp.setFornecedor(f);
+				fp.setPeca(p);
+				lista.insertWhitoutPersist(fp);
+			}
+			db.disconnect();
+		}
+		return lista;
+	}
+
 	@Override
 	public ListaObjeto load() {
 		return null;
 	}
 
-	public FornecedorPeca temFornecedorMarca(FornecedorPeca fornecedorPeca) {
+	public FornecedorPeca temFornecedorPeca(FornecedorPeca fornecedorPeca) {
 		String sql = "select * from fornecedor_peca where cod_fornecedor = "
 				+ fornecedorPeca.getFornecedor().getCodigo()
 				+ " and cod_peca = " + fornecedorPeca.getPeca().getCodigo();
-		if (this.load(sql).getSize() == 1) {
-			return (FornecedorPeca) this.load(sql).getObjeto(0);
+		if (this.loadFP(sql).getSize() == 1) {
+			return ((FornecedorPeca)this.loadFP(sql).getObjeto(0)) ;
 		}
 		return null;
 	}
@@ -128,6 +164,11 @@ public class DaoFornecedorPeca implements DaoInterface {
 	public ListaObjeto getListaPecaFornecedor(String cod) {
 		String sql = SELECT_PECAS + cod; 
 		return this.load(sql);
+	}
+
+	public ListaObjeto getListaFornecedorPeca(int codigo) {
+		// TODO Auto-generated method stub
+		return this.loadFP("select fornecedor_peca.*, peca.* from fornecedor_peca, peca where fornecedor_peca.cod_peca = peca.cod_peca and peca.cod_peca = " +codigo);
 	}
 
 }
