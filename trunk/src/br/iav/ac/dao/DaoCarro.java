@@ -21,7 +21,8 @@ public class DaoCarro implements DaoInterface {
 
 	private final static String SELECT = "select carro.cod_carro, carro.placa, " +
 			"carro.ano_fabricacao, modelo.nome as mo_nome, marca.nome as ma_nome, " +
-			"cor.nome as c_nome, cliente.nome as cli_nome from(carro " +
+			"cor.nome as c_nome, cliente.nome as cli_nome, cliente.cod_cliente, " +
+			"cor.cod_cor, marca.cod_marca, modelo.cod_modelo from(carro " +
 			"inner join modelo on carro.cod_modelo = modelo.cod_modelo) " +
 			"inner join marca on modelo.cod_marca = marca.cod_marca " +
 			"inner join cor on carro.cod_cor = cor.cod_cor " +
@@ -142,15 +143,15 @@ public class DaoCarro implements DaoInterface {
 		}		
 			
 		if (operador.equals("Igual")) {
-			operadorSQL = "=";
+			operadorSQL = "= ";
 		} else if (operador.equals("Diferente")) {
-			operadorSQL = "!=";
+			operadorSQL = "!= ";
 		} else if (operador.equals("Maior")) {
-			operadorSQL = ">";
+			operadorSQL = "> ";
 		} else if (operador.equals("Menor")) {
-			operadorSQL = "<";
+			operadorSQL = "< ";
 		} else if (operador.equals("Contem")) {
-			operadorSQL = "like";
+			operadorSQL = "like ";
 			valorSQL = " '%" + valor + "%'";
 		}
 		

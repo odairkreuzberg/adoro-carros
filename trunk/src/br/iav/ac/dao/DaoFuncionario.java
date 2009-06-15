@@ -18,7 +18,8 @@ public class DaoFuncionario implements DaoInterface {
 	//Nome da tabela e nome do sufixo do código
 	private final static String tableName = "funcionario";
 	
-	private final static String SELECT = "select funcionario.*, cidade.nome" +
+	private final static String SELECT = "select funcionario.*," +
+		" cidade.*, cargo.*, cidade.nome" +
 		" as ci_nome, cargo.nome as ca_nome from cidade inner join funcionario" +
 		" on (funcionario.cod_cidade = cidade.cod_cidade)inner join cargo on" +
 		" cargo.cod_cargo = funcionario.cod_cargo ";

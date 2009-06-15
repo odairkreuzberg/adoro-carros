@@ -131,7 +131,7 @@ public class DialogoModelo extends DialogoPadrao {
 		 * Faz a inserção de um modelo.
 		 */		
 		private void inserir(){
-			if (!existeModelo()) {
+			if (existeModelo()) {
 				modelo.setNome(textModelo.getText());
 				modelo.setMarca(buscarMarca());
 				modelo.insert();		
@@ -145,7 +145,7 @@ public class DialogoModelo extends DialogoPadrao {
 		 * Faz a edição de um modelo.
 		 */
 		private void editar(){
-			if (!existeModelo()) {
+			if (existeModelo()) {
 				modelo.setNome(textModelo.getText().trim());
 				modelo.setMarca(buscarMarca());
 				modelo.edit();	

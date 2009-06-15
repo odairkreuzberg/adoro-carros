@@ -378,7 +378,7 @@ public class DialogoFuncionario extends DialogoPadrao {
 		
 		
 		private void inserir(){
-			if (existeFuncionario()) {
+			//if (existeFuncionario()) {
 				try {
 					SimpleDateFormat converterDate = new SimpleDateFormat("dd/MM/yyyy");
 					funcionario.setCpf(textCpf.getText());
@@ -405,14 +405,14 @@ public class DialogoFuncionario extends DialogoPadrao {
 				} catch (ParseException e) {
 						JOptionPane.showMessageDialog(DialogoFuncionario.this, "O formato padrão de data utilizado é: \n\ndd/mm/aaaa");
 				}
-			} else {
-				JOptionPane.showMessageDialog(DialogoFuncionario.this, "Esse Funcionario já se encontra na Base de Dados!");
-			}			
+			//} else {
+			//	JOptionPane.showMessageDialog(DialogoFuncionario.this, "Esse Funcionario já se encontra na Base de Dados!");
+			//}			
 		}
 		
 
 		private void editar(){
-			if (!existeFuncionario()) {
+			//if (!existeFuncionario()) {
 				try {
 					SimpleDateFormat converterDate = new SimpleDateFormat("dd/MM/yyyy");
 					funcionario.setCpf(textCpf.getText());
@@ -439,9 +439,9 @@ public class DialogoFuncionario extends DialogoPadrao {
 				} catch (ParseException e) {
 						JOptionPane.showMessageDialog(DialogoFuncionario.this, "O formato padrão de data utilizado é: \n\ndd/mm/aaaa");
 				}
-			} else {
-				JOptionPane.showMessageDialog(DialogoFuncionario.this, "Esse Funcionario não se encontra na Base de Dados!");
-			}
+			//} else {
+			//	JOptionPane.showMessageDialog(DialogoFuncionario.this, "Esse Funcionario não se encontra na Base de Dados!");
+			/// }
 		}
 
 		private void showPainel(PainelPadrao painelPadrao, String titulo) {

@@ -128,14 +128,14 @@ public class DaoCliente implements DaoInterface {
 		String valorSQL = null;
 		if (campo.equals("Código")) {
 			valorSQL = valor;
-			campoSQL = "where cod_cliente";
+			campoSQL = " where cod_cliente ";
 			if (operador.equals("Contem")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}
 		} else if (campo.equals("Nome")) {
 			valorSQL = "'" + valor + "'";
-			campoSQL = "where cliente.nome ";
+			campoSQL = " where cliente.nome ";
 		} else if (campo.equals("Telefone")) {
 			valorSQL = "'" + valor + "'";
 			campoSQL = "where cliente.telefone ";

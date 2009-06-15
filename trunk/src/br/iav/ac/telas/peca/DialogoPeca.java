@@ -103,7 +103,7 @@ public class DialogoPeca extends DialogoPadrao {
 		 * Faz a Edição de um Peca.
 		 */
 		private void editar(){
-			if (!existePeca()) {
+			if (existePeca()) {
 				peca.setNome(textPeca.getText().trim());
 				peca.edit();	
 			} else {
