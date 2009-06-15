@@ -125,7 +125,7 @@ public class DialogoCargo extends DialogoPadrao {
 
 		//Faz a Edição de um cargo.
 		private void editar(){
-			if (!existeCargo()) {
+			if (existeCargo()) {
 				cargo.setNome(textNome.getText().trim());
 				cargo.setDescricao(textDescricao.getText().trim());
 				cargo.edit();	

@@ -303,7 +303,7 @@ public class DialogoCliente extends DialogoPadrao {
 		 * Faz a inserção de um cliente.
 		 */		
 		private void inserir(){
-			if (existeCliente()) {
+			//if (existeCliente()) {
 				try {
 					cliente.setNome(textNome.getText().trim());
 					cliente.setTelefone(textTelefone.getText().trim());
@@ -328,16 +328,16 @@ public class DialogoCliente extends DialogoPadrao {
 				} catch (ParseException e) {
 					JOptionPane.showMessageDialog(DialogoCliente.this, "O formato padrão de data utilizado é: \n\ndd/mm/aaaa\n");
 				}
-			} else {
-				JOptionPane.showMessageDialog(DialogoCliente.this, "Esse cliente já se encontra na Base de Dados!");
-			}			
+			//} else {
+			//	JOptionPane.showMessageDialog(DialogoCliente.this, "Esse cliente já se encontra na Base de Dados!");
+			//}			
 		}
 		
 		/**
 		 * Faz a edição de um cliente.
 		 */
 		private void editar(){
-			if (!existeCliente()) {
+			//if (!existeCliente()) {
 				try {
 					cliente.setNome(textNome.getText().trim());
 					cliente.setTelefone(textTelefone.getText().trim());
@@ -363,9 +363,9 @@ public class DialogoCliente extends DialogoPadrao {
 				} catch (ParseException e) {
 					JOptionPane.showMessageDialog(DialogoCliente.this, "O formato padrão de data utilizado é: \n\ndd/mm/aaaa\n");
 				}
-			} else {
-				JOptionPane.showMessageDialog(DialogoCliente.this, "Esse cliente já se encontra na Base de Dados!");
-			}
+			//} else {
+			//	JOptionPane.showMessageDialog(DialogoCliente.this, "Esse cliente já se encontra na Base de Dados!");
+			//}
 		}
 		
 		/**

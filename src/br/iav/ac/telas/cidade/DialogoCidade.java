@@ -106,7 +106,7 @@ public class DialogoCidade extends DialogoPadrao {
 		 * Faz a inserção de uma cidade.
 		 */
 		private void inserir() {
-			if (!existeCor()) {
+			if (existeCor()) {
 				cidade.setNome(textNome.getText().trim());
 				cidade.setDdd(Integer.parseInt(textDdd.getText().trim()));
 				cidade.insert();
@@ -119,7 +119,7 @@ public class DialogoCidade extends DialogoPadrao {
 		 * Faz a edição de uma cidade.
 		 */
 		private void editar() {
-			if (!existeCor()) {
+			if (existeCor()) {
 				cidade.setNome(textNome.getText().trim());
 				cidade.setDdd(Integer.parseInt(textDdd.getText().trim()));
 				cidade.edit();

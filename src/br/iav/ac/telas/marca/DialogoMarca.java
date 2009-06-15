@@ -110,7 +110,7 @@ public class DialogoMarca extends DialogoPadrao {
 		 * @return boolean
 		 */
 		private boolean existeMarca() {
-			ListaObjeto listaObjeto = marca.search("marca", "Igual", textMarca
+			ListaObjeto listaObjeto = marca.search("Marca", "Igual", textMarca
 					.getText().trim());
 			if (listaObjeto.getSize() > 0) {
 				return false;

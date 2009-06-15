@@ -299,6 +299,7 @@ public class DialogoCarro extends DialogoPadrao {
 			Objeto[] comboArray = new Objeto[listaObjeto.getSize()];
 			for (int i = 0; i < listaObjeto.getSize(); i++) {
 				Cliente cliente = (Cliente) listaObjeto.getObjeto(i);
+				System.out.println(cliente.getCodigo());
 				comboArray[i] = cliente;
 			}
 			ComboBoxModel comboModeloModel = new DefaultComboBoxModel(comboArray);
@@ -380,8 +381,10 @@ public class DialogoCarro extends DialogoPadrao {
 		 * @return Cliente
 		 */
 		private Cliente buscarCliente() {
-			String codigo = String.valueOf(((Cliente) comboCliente.getSelectedItem()).getCodigo());
-			ListaObjeto listaObjeto = cliente.search("Código", "Igual", codigo);
+			System.out.println(((Cliente)comboCliente.getSelectedItem()).getCodigo());
+			
+			int codigo = ((Cliente)comboCliente.getSelectedItem()).getCodigo();
+			ListaObjeto listaObjeto = cliente.search("Código", "Igual", codigo+"");
 			cliente = (Cliente) listaObjeto.getObjeto(0);
 			return cliente;
 

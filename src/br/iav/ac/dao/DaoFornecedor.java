@@ -35,14 +35,14 @@ public class DaoFornecedor implements DaoInterface {
 		if (db.connect()) {
 			db.update("update " + tableName + " set nome_fantasia = '" + fornecedor.getNome() + "', " +
 													"razao_social = '" + fornecedor.getRazaoSocial() + "', " +
-													"cnpj = " + fornecedor.getCnpj() + ", " +
+													"cnpj = '" + fornecedor.getCnpj() + "', " +
 													"telefone = '" + fornecedor.getTelefone() + "', " +
-													"fax = " + fornecedor.getFax() + ", " +
+													"fax = '" + fornecedor.getFax() + "', " +
 													"rua = '" + fornecedor.getEndereco().getRua() + "', " +
 													"numero = '" + fornecedor.getEndereco().getNumero() + "', " +
 													"bairro = '" + fornecedor.getEndereco().getBairro() + "', " +
 													"cod_cidade = '" + fornecedor.getEndereco().getCidade().getCodigo() + "', " +
-													"dep = '" + fornecedor.getEndereco().getCep() + "' " +
+													"cep = '" + fornecedor.getEndereco().getCep() + "', " +
 													"complemento = '" + fornecedor.getEndereco().getComplemento() + "' " +
 													"where cod_" + tableName + " = " + fornecedor.getCodigo());
 			db.disconnect();
@@ -138,7 +138,7 @@ public class DaoFornecedor implements DaoInterface {
 		} else if (campo.equals("Rua")) {
 			campoSQL = "where fornecedor.rua ";
 		} else if (campo.equals("Número")) {
-			campoSQL = "where fornecedor.numero";
+			campoSQL = "where fornecedor.numero ";
 			valorSQL = valor;
 			if (operador.equals("Contem")) {
 				operador = "Igual";
@@ -154,15 +154,15 @@ public class DaoFornecedor implements DaoInterface {
 			campoSQL = "where cidade.nome ";
 		}
 		if (operador.equals("Igual")) {
-			operadorSQL = "=";
+			operadorSQL = "= ";
 		} else if (operador.equals("Diferente")) {
-			operadorSQL = "!=";
+			operadorSQL = "!= ";
 		} else if (operador.equals("Maior")) {
-			operadorSQL = ">";
+			operadorSQL = "> ";
 		} else if (operador.equals("Menor")) {
-			operadorSQL = "<";
+			operadorSQL = "< ";
 		} else if (operador.equals("Contem")) {
-			operadorSQL = "like";
+			operadorSQL = "like ";
 			valorSQL = "('%" + valor + "%')";
 		}
 		sql += campoSQL + " " + operadorSQL + valorSQL;
