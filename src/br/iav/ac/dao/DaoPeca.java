@@ -15,6 +15,12 @@ public class DaoPeca implements DaoInterface {
 	private final static String tableName = "peca";
 	
 	private final static String SELECT = "select * from " + tableName;
+	private final static String SELECT_TEM_FORNECEDOR_PECA = "select " +
+		"peca.cod_peca from fornecedor_peca, peca where " +
+		"fornecedor_peca.cod_peca = peca.cod_peca and peca.cod_peca =  ";
+	private final static String SELECT_TEM_ATIVIDADE_PECA = "select " +
+		"peca.cod_peca from atividade_peca, peca where " +
+		"atividade_peca.cod_peca = peca.cod_peca and peca.cod_peca =  ";
 	
 	public Peca getPeca() {
 		return peca;
@@ -25,6 +31,18 @@ public class DaoPeca implements DaoInterface {
 	}
 
 	public void delete() {
+
+		String sql = SELECT_TEM_FORNECEDOR_PECA + peca.getCodigo();
+
+		if (this.load(sql).getSize() > 0) {
+			throw new RuntimeException();
+		}
+
+		sql = SELECT_TEM_ATIVIDADE_PECA + peca.getCodigo();
+
+		if (this.load(sql).getSize() > 0) {
+			throw new RuntimeException();
+		}
 		if (db.connect()) {
 			db.update("delete from " + tableName + " where cod_" + tableName + " = " + peca.getCodigo());
 			db.disconnect();

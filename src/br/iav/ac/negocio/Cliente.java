@@ -89,7 +89,12 @@ public class Cliente extends Pessoa implements ObjetoInterface {
 	public void delete() {
 		DaoCliente dao = new DaoCliente();
 		dao.setCliente(this);
-		dao.delete();
+		try {
+			dao.delete();			
+		} catch (RuntimeException e) {	
+			throw new RuntimeException("Este Cliente " 
+				+ "está vinculado com um Carro e nao pode ser excluido!");
+		}
 	}
 	
 	public void edit() {

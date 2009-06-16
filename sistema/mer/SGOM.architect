@@ -131,7 +131,7 @@
     <column id="COL56" populated="true" autoIncrement="true" name="cod_funcionario" nullable="1" physicalName="cod_funcionario" precision="10" primaryKeySeq="0" referenceCount="1" remarks="" scale="0" type="4" />
     <column id="COL57" populated="true" autoIncrement="false" name="nome" nullable="1" physicalName="nome" precision="50" referenceCount="1" remarks="" scale="0" type="12" />
     <column id="COL58" populated="true" autoIncrement="false" name="telefone" nullable="1" physicalName="telefone" precision="13" referenceCount="1" remarks="" scale="0" type="12" />
-    <column id="COL59" populated="true" autoIncrement="false" name="cpf" nullable="0" physicalName="cpf" precision="110" referenceCount="1" remarks="" scale="0" type="12" />
+    <column id="COL59" populated="true" autoIncrement="false" name="cpf" nullable="0" physicalName="cpf" precision="15" referenceCount="1" remarks="" scale="0" type="12" />
     <column id="COL60" populated="true" autoIncrement="false" name="rg" nullable="0" physicalName="rg" precision="20" referenceCount="1" remarks="" scale="0" type="12" />
     <column id="COL61" populated="true" autoIncrement="false" name="data_nascimento" nullable="0" physicalName="data_nascimento" precision="10" referenceCount="1" remarks="" scale="0" type="91" />
     <column id="COL62" populated="true" autoIncrement="false" name="salario" nullable="1" physicalName="salario" precision="0" referenceCount="1" remarks="" scale="0" type="6" />
@@ -418,7 +418,7 @@
    <reference ref-id="REL233" />
   </relationships>
  </target-database>
- <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
+ <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="true" target-schema="public"> </ddl-generator>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
  <play-pen zoom="0.8517391304347827" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB150" x="337" y="628" bgColor="0xf0f0f0" fgColor="0x000000" rounded="false" dashed="false"/>

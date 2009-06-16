@@ -13,6 +13,8 @@ public class DaoMarca implements DaoInterface {
 	private final static String tableName = "marca";
 
 	private final static String SELECT = "select * from " + tableName;
+	
+	private final static String SELECT_TEM_MODELO = "select marca.cod_marca from marca inner join modelo on (modelo.cod_marca = marca.cod_marca) where marca.cod_marca = ";
 
 	private Marca marca;
 
@@ -25,14 +27,12 @@ public class DaoMarca implements DaoInterface {
 	}
 
 	public void delete() {
+		
+		String sql = SELECT_TEM_MODELO + marca.getCodigo();
 
-		DaoModelo daoModelo = new DaoModelo();
+		if (this.load(sql).getSize() > 0) {
 
-		if (daoModelo.temMarca(marca.getCodigo())) {
-
-			throw new RuntimeException("Este modelo "
-					+ "esta vinculado com uma marca e nao pode ser "
-					+ "excluido!");
+			throw new RuntimeException();
 		}
 
 		if (db.connect()) {

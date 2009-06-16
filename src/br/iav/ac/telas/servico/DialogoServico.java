@@ -5,7 +5,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -25,13 +24,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import br.iav.ac.negocio.Atividade;
-import br.iav.ac.negocio.AtividadePeca;
 import br.iav.ac.negocio.Carro;
 import br.iav.ac.negocio.Cliente;
 import br.iav.ac.negocio.Funcionario;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.negocio.Objeto;
-import br.iav.ac.negocio.Peca;
 import br.iav.ac.negocio.PecaEstoque;
 import br.iav.ac.negocio.Servico;
 import br.iav.ac.negocio.ServicoAtividade;
@@ -643,8 +640,8 @@ public class DialogoServico extends JDialog{
 				labelAviso.setText("");					
 				ListaObjeto lAux = new ListaObjeto();				
 				for (int i = 0; i < listaP.getSize(); i++) {
-					if(cod != ((PecaEstoque)listaP.getObjeto(i)).getCodigo() ){
-						lAux.insertWhitoutPersist(listaP.getObjeto(i));						
+					if(cod != ((PecaEstoque)listaP.getObjeto(i)).getCodAtividade()){
+						lAux.insertWhitoutPersist(listaP.getObjeto(i));	
 					}					
 				}
 				listaP = lAux;
@@ -731,18 +728,17 @@ public class DialogoServico extends JDialog{
 			try {
 				servico.setDataFim(converterDate.parse(textDataFim.getText()));
 				servico.setDataInicio(converterDate.parse(textDataInicio.getText()));
-				
+				servico.setStatus((Status)comboStatus.getSelectedItem());
+				servico.setValorAtividade(Float.parseFloat(textTotalAtividade.getText()));
+				servico.setValorDesconto(Float.parseFloat(textDescontos.getText()));
+				servico.setValorPeca(Float.parseFloat(textTotalPeca.getText()));
+				servico.setValorTotal(Float.parseFloat(textValorTotal.getText()));
+				servico.setListaServicoAtividade(lista);
+				servico.edit();
+				dispose();
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			servico.setStatus((Status)comboStatus.getSelectedItem());
-			servico.setValorAtividade(Float.parseFloat(textTotalAtividade.getText()));
-			servico.setValorDesconto(Float.parseFloat(textDescontos.getText()));
-			servico.setValorPeca(Float.parseFloat(textTotalPeca.getText()));
-			servico.setValorTotal(Float.parseFloat(textValorTotal.getText()));
-			servico.setListaServicoAtividade(lista);
-			servico.edit();
 			
 		}
 
@@ -766,8 +762,8 @@ public class DialogoServico extends JDialog{
 				}
 
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				
 			}
 		}
 

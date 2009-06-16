@@ -15,6 +15,7 @@ public class DaoCor implements DaoInterface {
 
 	private final static String SELECT = "select cod_" + tableName + ", nome from " + tableName;
 
+	private final static String SELECT_TEM_CARRO = "select cor.cod_cor from carro, cor where carro.cod_cor = cor.cod_cor and cor.cod_cor =  ";
 	public Cor getCor() {
 		return cor;
 	}
@@ -24,6 +25,12 @@ public class DaoCor implements DaoInterface {
 	}
 
 	public void delete() {
+
+		String sql = SELECT_TEM_CARRO + cor.getCodigo();
+
+		if (this.load(sql).getSize() > 0) {
+			throw new RuntimeException();
+		}
 		if (db.connect()) {
 			db.update("delete from " + tableName + " where cod_" + tableName + " = " + cor.getCodigo());
 			db.disconnect();

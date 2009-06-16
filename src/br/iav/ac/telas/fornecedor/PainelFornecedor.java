@@ -107,7 +107,16 @@ public class PainelFornecedor extends PainelPadrao {
 					if (fornecedor != null) {
 						int resp = JOptionPane.showConfirmDialog(null, "Deseja mesmo excluir o fornecedor " + fornecedor.getNome()+ " ?", "Exclusão", JOptionPane.YES_NO_OPTION);
 						if (resp == 0) {
-							fornecedor.delete();
+							try {
+
+								fornecedor.delete();
+								
+							} catch (RuntimeException e2) {
+
+								JOptionPane.showMessageDialog(null, e2.getMessage(), "Erro ao excluir",JOptionPane.ERROR_MESSAGE);
+
+								return;
+							}
 							carregarGrid(fornecedor.load());
 						}
 					} else {

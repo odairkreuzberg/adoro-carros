@@ -14,7 +14,13 @@ public class DaoFornecedor implements DaoInterface {
 	
 	//Nome da tabela e nome do sufixo do código
 	private final static String tableName = "fornecedor";
+	
 	private final static String SELECT = "select fornecedor.*, cidade.nome as ci_nome, cidade.ddd as ci_ddd from cidade inner join fornecedor on (fornecedor.cod_cidade = cidade.cod_cidade) ";	
+	
+	private final static String SELECT_TEM_FORNECECEDOR_PECA = "select " +
+		"fornecedor.cod_fornecedor from fornecedor_peca, fornecedor where " +
+		"fornecedor_peca.cod_fornecedor = fornecedor.cod_fornecedor and " +
+		"fornecedor.cod_fornecedor =  ";
 	
 	public Fornecedor getFornecedor() {
 		return fornecedor;
@@ -25,6 +31,12 @@ public class DaoFornecedor implements DaoInterface {
 	}
 
 	public void delete() {
+
+		String sql = SELECT_TEM_FORNECECEDOR_PECA + fornecedor.getCodigo();
+
+		if (this.load(sql).getSize() > 0) {
+			throw new RuntimeException();
+		}
 		if (db.connect()) {
 			db.update("delete from " + tableName + " where cod_" + tableName + " = " + fornecedor.getCodigo());
 			db.disconnect();

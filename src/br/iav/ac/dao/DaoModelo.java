@@ -112,8 +112,4 @@ public class DaoModelo implements DaoInterface {
 		return this.load(sql);
 	}
 
-	public boolean temMarca(int codigo) {
-		return this.search("Marca", "Igual", String.valueOf(codigo)).getSize() > 0;
-	}
-
 }

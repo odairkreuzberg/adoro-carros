@@ -15,6 +15,12 @@ public class DaoCidade implements DaoInterface {
 	
 	private final static String SELECT = "select cod_" + tableName + ", nome, ddd from " + tableName;
 	
+	private final static String SELECT_TEM_FUNCIONARIO = "select cidade.cod_cidade from cidade, funcionario where cidade.cod_cidade = funcionario.cod_cidade and cidade.cod_cidade = ";
+	
+	private final static String SELECT_TEM_CLIENTE = "select cidade.cod_cidade from cidade, cliente where cidade.cod_cidade = cliente.cod_cidade and cidade.cod_cidade = ";
+	
+	private final static String SELECT_TEM_FORNECEDOR = "select cidade.cod_cidade from cidade, fornecedor where cidade.cod_cidade = fornecedor.cod_cidade and cidade.cod_cidade = ";
+	
 	public Cidade getCidade() {
 		return cidade;
 	}
@@ -24,6 +30,24 @@ public class DaoCidade implements DaoInterface {
 	}
 
 	public void delete() {
+
+		String sql = SELECT_TEM_FUNCIONARIO + cidade.getCodigo();
+
+		if (this.load(sql).getSize() > 0) {
+			throw new RuntimeException();
+		}
+
+		sql = SELECT_TEM_CLIENTE + cidade.getCodigo();
+
+		if (this.load(sql).getSize() > 0) {
+			throw new RuntimeException();
+		}
+
+		sql = SELECT_TEM_FORNECEDOR + cidade.getCodigo();
+
+		if (this.load(sql).getSize() > 0) {
+			throw new RuntimeException();
+		}
 		if (db.connect()) {
 			db.update("delete from " + tableName + " where cod_" + tableName + " = " + cidade.getCodigo());
 			db.disconnect();

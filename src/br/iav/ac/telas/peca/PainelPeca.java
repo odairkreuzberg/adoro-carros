@@ -123,7 +123,16 @@ public class PainelPeca extends PainelPadrao {
 					if (peca != null) {
 						int resp = JOptionPane.showConfirmDialog(null, "Deseja mesmo excluir a peça " + peca.getNome()+ " ?", "Exclusão", JOptionPane.YES_NO_OPTION);
 						if (resp == 0) {
-							peca.delete();
+							try {
+
+								peca.delete();
+								
+							} catch (RuntimeException e2) {
+
+								JOptionPane.showMessageDialog(null, e2.getMessage(), "Erro ao excluir",JOptionPane.ERROR_MESSAGE);
+
+								return;
+							}
 							carregarGrid(peca.load());
 						}
 					} else {

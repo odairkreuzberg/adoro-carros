@@ -16,6 +16,8 @@ public class DaoCargo implements DaoInterface {
 
 	private final static String SELECT = "select cod_" + tableName
 			+ ", nome, descricao from " + tableName;
+	
+	private final static String SELECT_TEM_FUNCIONARIO = "select cargo.cod_cargo from cargo, funcionario where cargo.cod_cargo = funcionario.cod_cargo and cargo.cod_cargo = ";
 
 	private Cargo cargo;
 
@@ -28,6 +30,12 @@ public class DaoCargo implements DaoInterface {
 	}
 
 	public void delete() {
+
+		String sql = SELECT_TEM_FUNCIONARIO + cargo.getCodigo();
+
+		if (this.load(sql).getSize() > 0) {
+			throw new RuntimeException();
+		}
 		if (db.connect()) {
 			db.update("delete from " + tableName + " where cod_" + tableName
 					+ " = " + cargo.getCodigo());
