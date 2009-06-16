@@ -37,7 +37,12 @@ public class Peca extends Objeto implements ObjetoInterface {
 	public void delete() {
 		DaoPeca dao = new DaoPeca();
 		dao.setPeca(this);
-		dao.delete();
+		try {
+			dao.delete();			
+		} catch (RuntimeException e) {	
+			throw new RuntimeException("Existem vinculos com esta Peça que " +
+				"não permitem sua exclusão!");
+		}
 	}
 	
 	public void edit() {

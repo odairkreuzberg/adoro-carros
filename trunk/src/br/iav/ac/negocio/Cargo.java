@@ -50,7 +50,14 @@ public class Cargo  extends Objeto implements ObjetoInterface {
 	public void delete() {
 		DaoCargo dao = new DaoCargo();
 		dao.setCargo(this);
-		dao.delete();
+		try {
+			dao.delete();			
+		} catch (RuntimeException e) {	
+			throw new RuntimeException("Este Cargo " 
+				+ "está vinculado com um Funcionário e nao pode ser excluido!");
+		}
+		
+		
 	}
 	
 	public void edit() {

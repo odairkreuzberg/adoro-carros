@@ -90,7 +90,12 @@ public class Funcionario extends Pessoa implements ObjetoInterface {
 	public void delete() {
 		DaoFuncionario dao = new DaoFuncionario();
 		dao.setFuncionario(this);
-		dao.delete();
+		try {
+			dao.delete();			
+		} catch (RuntimeException e) {	
+			throw new RuntimeException("Este Funcionário " 
+				+ "está vinculado com uma Atividade e não pode ser excluido!");
+		}
 	}
 	
 	public void edit() {

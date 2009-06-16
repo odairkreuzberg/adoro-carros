@@ -24,6 +24,11 @@ public class DaoFuncionario implements DaoInterface {
 		" on (funcionario.cod_cidade = cidade.cod_cidade)inner join cargo on" +
 		" cargo.cod_cargo = funcionario.cod_cargo ";
 	
+	private  final static String SELECT_TEM_ATIVIDADE ="select " +
+		"funcionario.cod_funcionario from atividade, funcionario where " +
+		"atividade.cod_funcionario = funcionario.cod_funcionario and " +
+		"funcionario.cod_funcionario =  ";
+	
 	public Funcionario getFuncionario() {
 		return funcionario;
 	}
@@ -33,6 +38,12 @@ public class DaoFuncionario implements DaoInterface {
 	}
 
 	public void delete() {
+
+		String sql = SELECT_TEM_ATIVIDADE + funcionario.getCodigo();
+
+		if (this.load(sql).getSize() > 0) {
+			throw new RuntimeException();
+		}
 		if (db.connect()) {
 			db.update("delete from " + tableName + " where cod_" + tableName + " = " + funcionario.getCodigo());
 			db.disconnect();

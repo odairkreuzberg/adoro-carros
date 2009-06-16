@@ -68,7 +68,12 @@ public class Fornecedor extends Pessoa implements ObjetoInterface {
 	public void delete() {
 		DaoFornecedor dao = new DaoFornecedor();
 		dao.setFornecedor(this);
-		dao.delete();
+		try {
+			dao.delete();			
+		} catch (RuntimeException e) {	
+			throw new RuntimeException("Este Fornecedor " 
+				+ "está vinculado com uma Compra e não pode ser excluido!");
+		}
 	}
 	
 	public void edit() {

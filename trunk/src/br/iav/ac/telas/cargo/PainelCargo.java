@@ -90,7 +90,17 @@ public class PainelCargo extends PainelPadrao {
 				if (getGridTabela().getSelectedRow() >= 0) {
 					if (JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir o cargo " + getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 1) + " ?", "Exclusão", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 						this.cargo.setCodigo((Integer) getGridTabela().getValueAt(getGridTabela().getSelectedRow(), 0));
-						this.cargo.delete();
+						
+						try {
+
+							this.cargo.delete();
+							
+						} catch (RuntimeException e2) {
+
+							JOptionPane.showMessageDialog(null, e2.getMessage(), "Erro ao excluir",JOptionPane.ERROR_MESSAGE);
+
+							return;
+						}
 						carregarGrid(this.cargo.load());
 					}
 				} else {

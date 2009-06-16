@@ -18,6 +18,8 @@ public class DaoCliente implements DaoInterface {
 	private final static String SELECT = "select cliente.*, cidade.nome as "
 		+ "ci_nome from cidade inner join cliente on "
 		+ "(cliente.cod_cidade = cidade.cod_cidade) ";
+	private final static String SELECT_TEM_CARRO = "select cliente.cod_cliente from carro, cliente where carro.cod_cliente = cliente.cod_cliente and cliente.cod_cliente = ";
+	
 	
 	public Cliente getCliente() {
 		return cliente;
@@ -28,6 +30,11 @@ public class DaoCliente implements DaoInterface {
 	}
 
 	public void delete() {
+		String sql = SELECT_TEM_CARRO + cliente.getCodigo();
+
+		if (this.load(sql).getSize() > 0) {
+			throw new RuntimeException();
+		}
 		if (db.connect()) {
 			db.update("delete from " + tableName + " where cod_" + tableName + " = " + cliente.getCodigo());
 			db.disconnect();

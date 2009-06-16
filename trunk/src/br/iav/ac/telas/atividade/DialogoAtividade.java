@@ -432,7 +432,7 @@ public final class DialogoAtividade extends JDialog {
 				this.carregarComboFuncionario(new Funcionario().load());				
 			}else if (e.getSource() == botaoPeca) {
 				showPainel(new PainelPeca(), "Cadastro de Peças");
-				this.carregarComboFuncionario(new Peca().load());				
+				this.carregarComboPeca(new Peca().load());				
 			}else if (e.getSource() == botaoRemovePeca) {
 				this.removerPeca();
 			}else if (e.getSource() == botaoAddPeca) {

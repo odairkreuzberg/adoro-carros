@@ -49,7 +49,12 @@ public class Cidade extends Objeto implements ObjetoInterface {
 	public void delete() {
 		DaoCidade dao = new DaoCidade();
 		dao.setCidade(this);
-		dao.delete();
+		try {
+			dao.delete();			
+		} catch (RuntimeException e) {	
+			throw new RuntimeException("Existem vinculos com esta Cidade que " +
+				"não permitem sua exclusão!");
+		}
 	}
 	
 	public void edit() {

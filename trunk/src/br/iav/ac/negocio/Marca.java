@@ -1,5 +1,7 @@
 package br.iav.ac.negocio;
 
+import javax.swing.JOptionPane;
+
 import br.iav.ac.dao.DaoMarca;
 
 public class Marca extends Objeto implements ObjetoInterface {
@@ -36,8 +38,13 @@ public class Marca extends Objeto implements ObjetoInterface {
 
 	public void delete() {
 		DaoMarca dao = new DaoMarca();
-		dao.setMarca(this);
-		dao.delete();
+		dao.setMarca(this);		
+		try {
+			dao.delete();			
+		} catch (RuntimeException e) {	
+			throw new RuntimeException("Esta Marca "
+				+ "esta vinculada com um Modelo e nao pode ser excluido!");
+		}
 	}
 	
 	public void edit() {

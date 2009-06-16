@@ -37,7 +37,12 @@ public class Cor extends Objeto implements ObjetoInterface {
 	public void delete() {
 		DaoCor dao = new DaoCor();
 		dao.setCor(this);
-		dao.delete();
+		try {
+			dao.delete();			
+		} catch (RuntimeException e) {	
+			throw new RuntimeException("Esta Cor " 
+				+ "está vinculada com um Carro e não pode ser excluida!");
+		}
 	}
 	
 	public void edit() {
