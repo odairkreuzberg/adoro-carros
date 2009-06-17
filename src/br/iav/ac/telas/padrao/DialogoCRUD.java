@@ -11,9 +11,8 @@ import br.iav.ac.telas.TelaPrincipal;
 
 
 public class DialogoCRUD extends JDialog {
-	private JButton botaoConfirmar;
 	private PainelPadrao painelPadrao;
-	private JButton botaoCancelar;
+	private JButton botaoFechar;
 	private DialogoHandler dialogoHandler;
 	
 
@@ -29,15 +28,11 @@ public class DialogoCRUD extends JDialog {
 		initGUI();
 	}
 	
-	public JButton getBotaoConfirmar() {
-		return botaoConfirmar;
-	}
-	
-	public JButton getBotaoCancelar() {
-		if (botaoCancelar == null){
-			botaoCancelar = new JButton();
+	public JButton getBotaoFechar() {
+		if (botaoFechar == null){
+			botaoFechar = new JButton();
 		}
-		return botaoCancelar;
+		return botaoFechar;
 	}
 
 	private void initGUI() {
@@ -45,15 +40,9 @@ public class DialogoCRUD extends JDialog {
 			{
 				getContentPane().setLayout(null);
 				{
-					botaoConfirmar = new JButton();
-					getContentPane().add(botaoConfirmar);
-					botaoConfirmar.setText("Confirmar");
-					botaoConfirmar.setBounds(330, 553, 97, 21);
-				}
-				{
-					getContentPane().add(getBotaoCancelar());
-					botaoCancelar.setText("Cancelar");
-					botaoCancelar.setBounds(440, 553, 97, 21);
+					getContentPane().add(getBotaoFechar());
+					botaoFechar.setText("Fechar");
+					botaoFechar.setBounds(440, 553, 97, 21);
 				}
 				{
 					getContentPane().add(this.painelPadrao);
@@ -64,7 +53,7 @@ public class DialogoCRUD extends JDialog {
 			e.printStackTrace();
 		}
 		dialogoHandler = new DialogoHandler();
-		botaoCancelar.addActionListener(dialogoHandler);
+		botaoFechar.addActionListener(dialogoHandler);
 		setSize(555, 610);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -73,7 +62,7 @@ public class DialogoCRUD extends JDialog {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//dispose();
+			dispose();
 			
 		}
 		

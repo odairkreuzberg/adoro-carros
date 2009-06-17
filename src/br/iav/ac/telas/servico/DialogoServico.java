@@ -387,6 +387,12 @@ public class DialogoServico extends JDialog{
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public boolean isModal() {
+		textDataInicio.requestFocus();
+		return super.isModal();
+	}
 	/*----------------------------------------------------------
 	 * CLASSE LIMITROFE
 	 *----------------------------------------------------------*/

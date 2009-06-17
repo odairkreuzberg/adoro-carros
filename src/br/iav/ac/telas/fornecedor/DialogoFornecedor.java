@@ -226,6 +226,12 @@ public class DialogoFornecedor extends DialogoPadrao {
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
+	
+	@Override
+	public boolean isModal() {
+		textNomeFantazia.requestFocus();
+		return super.isModal();
+	}
 
 	private void inicializarHandlers() {
 		this.formHandle = new FormHandle();

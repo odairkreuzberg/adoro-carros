@@ -85,6 +85,12 @@ public class DialogoMarca extends DialogoPadrao {
 		getBotaoConfirmar().addActionListener(formHandle);
 	}
 	
+	@Override
+	public boolean isModal() {
+		textMarca.requestFocus();
+		return super.isModal();
+	}
+	
 	/*----------------------------------------------------------
 	 * FIM DE METODOS DA CLASSE
 	 *----------------------------------------------------------*/

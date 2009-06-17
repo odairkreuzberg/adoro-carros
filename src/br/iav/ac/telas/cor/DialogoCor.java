@@ -63,6 +63,12 @@ public class DialogoCor extends DialogoPadrao {
 		getBotaoCancelar().addActionListener(formHandle);
 		getBotaoConfirmar().addActionListener(formHandle);
 	}
+	
+	@Override
+	public boolean isModal() {
+		textNome.requestFocus();
+		return super.isModal();
+	}
 
 	class FormHandle implements ActionListener {
 

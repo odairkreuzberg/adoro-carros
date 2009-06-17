@@ -83,6 +83,12 @@ public class DialogoCargo extends DialogoPadrao {
 		getBotaoConfirmar().addActionListener(formHandle);
 	}
 	
+	@Override
+	public boolean isModal() {
+		textNome.requestFocus();
+		return super.isModal();
+	}
+	
 	
 	/*----------------------------------------------------------
 	 * CLASSE LIMITROFE
@@ -93,11 +99,11 @@ public class DialogoCargo extends DialogoPadrao {
 		public FormHandle() {
 			super();
 			textNome.setText(cargo.getNome().trim());
+			textNome.requestFocus();
 			textDescricao.setText(cargo.getDescricao().trim());
 			if (cargo.getCodigo() != 0) {
 				textCodigo.setText(String.valueOf(cargo.getCodigo()));
 			}
-
 		}
 		
 

@@ -98,6 +98,12 @@ public class DialogoModelo extends DialogoPadrao {
 		botaoMarca.addActionListener(formHandle);
 	}
 	
+	@Override
+	public boolean isModal() {
+		textModelo.requestFocus();
+		return super.isModal();
+	}
+	
 	class FormHandle implements ActionListener {
 
 		private DialogoCRUD dialogoCRUD;

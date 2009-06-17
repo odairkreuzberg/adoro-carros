@@ -26,6 +26,19 @@ import br.iav.ac.telas.servico.DialogoServico;
 import br.iav.ac.telas.servico.PainelServico;
 import br.iav.ac.telas.status.PainelStatus;
 
+
+/**
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 public class TelaPrincipal extends javax.swing.JFrame {
 	
 	private JPanel panelOpcoes;
@@ -53,7 +66,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	{
 		//Set Look & Feel
 		try {
-			javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel");
+			javax.swing.UIManager.setLookAndFeel("com.jgoodies.looks.plastic.PlasticXPLookAndFeel");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -91,7 +104,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 				{
 					jspOpcoes = new JScrollPane();
 					panelOpcoes.add(jspOpcoes);
-					jspOpcoes.setBounds(10, 11, 195, 184);
+					jspOpcoes.setBounds(10, 11, 195, 530);
 					{
 						DefaultMutableTreeNode nodoPrincipal = new DefaultMutableTreeNode("SMA");
 						DefaultMutableTreeNode nodoGeral = new DefaultMutableTreeNode("Geral");
@@ -135,6 +148,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						jtOpcoes = new JTree(nodoPrincipal);
 						jtOpcoes.addTreeSelectionListener(new TreeSelectionHandler());
 						jspOpcoes.setViewportView(jtOpcoes);
+						jtOpcoes.setPreferredSize(new java.awt.Dimension(193, 245));
 					}
 				}
 			}
