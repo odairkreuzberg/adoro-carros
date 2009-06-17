@@ -88,19 +88,10 @@ public class DaoAtividade implements DaoInterface {
 
 	public Atividade obterAtividade() {		
 		if(db.connect()){
-			db.select("select funcionario.*, atividade.*, funcionario.nome as " +
-				"f_nome from funcionario inner join atividade on " +
-				"(atividade.cod_funcionario = funcionario.cod_funcionario) " +
-				"and atividade.nome = '" + atividade.getNome()+"'");
+			db.select("select max(atividade.cod_atividade) from atividade");
 			db.moveNext();
 			Atividade atividade = new Atividade();
-			Funcionario funcionario = new Funcionario();
-			funcionario.setCodigo(db.getInt("cod_funcionario"));
-			funcionario.setNome(db.getString("f_nome"));
 			atividade.setCodigo(db.getInt("cod_atividade"));
-			atividade.setFuncionario(funcionario);
-			atividade.setNome(db.getString("nome"));
-			atividade.setTipo(db.getString("tipo"));
 			db.disconnect();
 			return(atividade);
 		}

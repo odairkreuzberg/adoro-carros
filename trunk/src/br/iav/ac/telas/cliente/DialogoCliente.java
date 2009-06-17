@@ -61,7 +61,7 @@ public class DialogoCliente extends DialogoPadrao {
 	private Cliente cliente;
 	private Cidade cidade;
 
-	public DialogoCliente(JFrame frame, String titulo, boolean modal, Cliente cliente) {
+	public DialogoCliente(JFrame frame, String titulo, boolean modal, Cliente cliente) {		
 		super(frame, titulo, modal);
 		this.cliente = cliente;
 		//25 de espaçamento entre cada atributo (JTextField e JLabel)
@@ -237,7 +237,11 @@ public class DialogoCliente extends DialogoPadrao {
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
-
+	@Override
+	public boolean isModal() {
+		textNome.requestFocus();
+		return super.isModal();
+	}
 	private void inicializarHandlers() {
 		this.formHandle = new FormHandle();
 		getBotaoCancelar().addActionListener(formHandle);

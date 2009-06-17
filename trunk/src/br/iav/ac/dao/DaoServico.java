@@ -169,7 +169,7 @@ public class DaoServico implements DaoInterface{
 
 	public Servico obterServido() {
 		if(db.connect()){
-			db.select("select cod_servico from servico order by cod_servico desc limit 1");
+			db.select("select max(servico.cod_servico) from servico");
 			db.moveNext();
 			Servico servico = new Servico();
 			servico.setCodigo(db.getInt("cod_servico"));
