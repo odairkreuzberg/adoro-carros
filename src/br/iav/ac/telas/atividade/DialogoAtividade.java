@@ -227,12 +227,6 @@ public final class DialogoAtividade extends JDialog {
 			e.printStackTrace();
 		}
 	}
-	
-	@Override
-	public boolean isModal() {
-		textAtividade.requestFocus();
-		return super.isModal();
-	}
 
 
 	/*----------------------------------------------------------

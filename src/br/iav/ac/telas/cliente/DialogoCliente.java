@@ -237,11 +237,6 @@ public class DialogoCliente extends DialogoPadrao {
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
-	@Override
-	public boolean isModal() {
-		textNome.requestFocus();
-		return super.isModal();
-	}
 	private void inicializarHandlers() {
 		this.formHandle = new FormHandle();
 		getBotaoCancelar().addActionListener(formHandle);

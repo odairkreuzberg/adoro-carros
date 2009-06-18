@@ -83,12 +83,6 @@ public class DialogoCargo extends DialogoPadrao {
 		getBotaoConfirmar().addActionListener(formHandle);
 	}
 	
-	@Override
-	public boolean isModal() {
-		textNome.requestFocus();
-		return super.isModal();
-	}
-	
 	
 	/*----------------------------------------------------------
 	 * CLASSE LIMITROFE

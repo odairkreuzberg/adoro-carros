@@ -191,12 +191,6 @@ public class DialogoFornecedorPeca extends JDialog {
 		botaoFornecedor.addActionListener(formHandle);
 		botaoPeca.addActionListener(formHandle);
 	}
-	
-	@Override
-	public boolean isModal() {
-		comboFornecedor.requestFocus();
-		return super.isModal();
-	}
 
 	/*----------------------------------------------------------
 	 * FIM DE METODOS DA CLASSE

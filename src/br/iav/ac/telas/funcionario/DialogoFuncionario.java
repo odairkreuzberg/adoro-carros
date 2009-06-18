@@ -280,12 +280,6 @@ public class DialogoFuncionario extends DialogoPadrao {
 		botaoCidade.addActionListener(formHandle);
 	}
 	
-	@Override
-	public boolean isModal() {
-		textNome.requestFocus();
-		return super.isModal();
-	}
-	
 	
 	/*----------------------------------------------------------
 	 * CLASSE LIMITROFE
