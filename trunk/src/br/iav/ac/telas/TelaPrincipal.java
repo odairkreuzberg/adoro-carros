@@ -66,7 +66,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	{
 		//Set Look & Feel
 		try {
-			javax.swing.UIManager.setLookAndFeel("com.jgoodies.looks.plastic.PlasticXPLookAndFeel");
+			javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

@@ -210,12 +210,6 @@ public class DialogoCarro extends DialogoPadrao {
 		botaoModelo.addActionListener(formHandle);
 		comboMarca.addItemListener(formHandle);
 	}
-	
-	@Override
-	public boolean isModal() {
-		comboCliente.requestFocus();
-		return super.isModal();
-	}
 
 	/*----------------------------------------------------------
 	 * FIM DE INTERFACE
