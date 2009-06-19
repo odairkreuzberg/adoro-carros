@@ -88,10 +88,10 @@ public class DaoAtividade implements DaoInterface {
 
 	public Atividade obterAtividade() {		
 		if(db.connect()){
-			db.select("select max(atividade.cod_atividade) from atividade");
+			db.select("select max(atividade.cod_atividade) as cod from atividade");
 			db.moveNext();
 			Atividade atividade = new Atividade();
-			atividade.setCodigo(db.getInt("cod_atividade"));
+			atividade.setCodigo(db.getInt("cod"));
 			db.disconnect();
 			return(atividade);
 		}

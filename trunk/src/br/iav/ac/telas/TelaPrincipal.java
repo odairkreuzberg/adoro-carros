@@ -15,6 +15,7 @@ import br.iav.ac.telas.carro.PainelCarro;
 import br.iav.ac.telas.cidade.PainelCidade;
 import br.iav.ac.telas.cliente.PainelCliente;
 import br.iav.ac.telas.cor.PainelCor;
+import br.iav.ac.telas.estoque.DialogoFornecedorPeca;
 import br.iav.ac.telas.estoque.PainelEstoque;
 import br.iav.ac.telas.fornecedor.PainelFornecedor;
 import br.iav.ac.telas.funcionario.PainelFuncionario;
@@ -22,23 +23,11 @@ import br.iav.ac.telas.marca.PainelMarca;
 import br.iav.ac.telas.modelo.PainelModelo;
 import br.iav.ac.telas.peca.PainelPeca;
 import br.iav.ac.telas.relatorio.RelCarro;
-import br.iav.ac.telas.servico.DialogoServico;
+import br.iav.ac.telas.servico.DialogoOrcamento;
+import br.iav.ac.telas.servico.PainelOrcamento;
 import br.iav.ac.telas.servico.PainelServico;
 import br.iav.ac.telas.status.PainelStatus;
 
-
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
 public class TelaPrincipal extends javax.swing.JFrame {
 	
 	private JPanel panelOpcoes;
@@ -53,7 +42,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	private PainelCliente painelCliente;
 	private PainelCargo painelCargo;
 	private PainelFuncionario painelFuncionario;
-	private PainelStatus painelStatus;
 	private PainelCarro painelCarro;
 	private PainelFornecedor painelFornecedor;
 	private PainelPeca painelPeca;
@@ -61,6 +49,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	private PainelAtividade painelAtividade;
 	private RelCarro painelRelCarro;
 	private PainelServico painelServico;
+	private PainelOrcamento painelOrcamento;
 	public static TelaPrincipal instancia;
 	
 	{
@@ -107,8 +96,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
 					jspOpcoes.setBounds(10, 11, 195, 530);
 					{
 						DefaultMutableTreeNode nodoPrincipal = new DefaultMutableTreeNode("SMA");
-						DefaultMutableTreeNode nodoGeral = new DefaultMutableTreeNode("Geral");
-						DefaultMutableTreeNode nodoServicos = new DefaultMutableTreeNode("Serviços");
+						DefaultMutableTreeNode nodoCadastro = new DefaultMutableTreeNode("Cadastro");
+						DefaultMutableTreeNode nodoMovimento = new DefaultMutableTreeNode("Movimento");
+						DefaultMutableTreeNode nodoAlmox = new DefaultMutableTreeNode("Almoxarifado");
+						DefaultMutableTreeNode nodoServico = new DefaultMutableTreeNode("Serviços");
 						DefaultMutableTreeNode nodoRelatorios = new DefaultMutableTreeNode("Relatórios");
 						DefaultMutableTreeNode nodoCargo = new DefaultMutableTreeNode("Cargo");
 						DefaultMutableTreeNode nodoCarro = new DefaultMutableTreeNode("Carro");
@@ -120,31 +111,40 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						DefaultMutableTreeNode nodoPeca = new DefaultMutableTreeNode("Peça");
 						DefaultMutableTreeNode nodoMarca = new DefaultMutableTreeNode("Marca");
 						DefaultMutableTreeNode nodoModelo = new DefaultMutableTreeNode("Modelo");
-						DefaultMutableTreeNode nodoStatus = new DefaultMutableTreeNode("Status");
 						DefaultMutableTreeNode nodoEstoque = new DefaultMutableTreeNode("Estoque");
+						DefaultMutableTreeNode nodoCompra = new DefaultMutableTreeNode("Aquisição de Material");
 						DefaultMutableTreeNode nodoAtividade = new DefaultMutableTreeNode("Atividade");
 						DefaultMutableTreeNode nodoRelCarro = new DefaultMutableTreeNode("Carro");
-						DefaultMutableTreeNode nodoServico = new DefaultMutableTreeNode("Serviço");
-						DefaultMutableTreeNode nodoDialogoServico = new DefaultMutableTreeNode("Orçamento");
-						nodoPrincipal.add(nodoGeral);
-						nodoPrincipal.add(nodoServicos);
+						DefaultMutableTreeNode nodoServicoConcluido = new DefaultMutableTreeNode("Serviços Concluido");
+						DefaultMutableTreeNode nodoOrdemServico = new DefaultMutableTreeNode("Ordem de Serviço");
+						DefaultMutableTreeNode nodoOrcamento = new DefaultMutableTreeNode("Serviços não Concluido");
+						nodoPrincipal.add(nodoCadastro);
+						nodoPrincipal.add(nodoMovimento);
 						nodoPrincipal.add(nodoRelatorios);
-						nodoGeral.add(nodoCargo);
-						nodoGeral.add(nodoCarro);
-						nodoGeral.add(nodoCidade);
-						nodoGeral.add(nodoCliente);
-						nodoGeral.add(nodoCor);
-						nodoGeral.add(nodoFornecedor);
-						nodoGeral.add(nodoFuncionario);
-						nodoGeral.add(nodoPeca);
-						nodoGeral.add(nodoMarca);
-						nodoGeral.add(nodoModelo);
-						nodoGeral.add(nodoStatus);
-						nodoRelatorios.add(nodoRelCarro);
-						nodoServicos.add(nodoEstoque);
-						nodoGeral.add(nodoAtividade);
-						nodoGeral.add(nodoServico);
-						nodoGeral.add(nodoDialogoServico);
+						nodoCadastro.add(nodoCargo);
+						nodoCadastro.add(nodoCarro);
+						nodoCadastro.add(nodoCidade);
+						nodoCadastro.add(nodoCliente);
+						nodoCadastro.add(nodoCor);
+						nodoCadastro.add(nodoFornecedor);
+						nodoCadastro.add(nodoFuncionario);
+						nodoCadastro.add(nodoPeca);
+						nodoCadastro.add(nodoMarca);
+						nodoCadastro.add(nodoModelo);					
+						nodoCadastro.add(nodoAtividade);
+						
+						nodoRelatorios.add(nodoRelCarro);						
+
+						nodoAlmox.add(nodoEstoque);
+						nodoAlmox.add(nodoCompra);
+						
+						nodoServico.add(nodoOrdemServico);
+						nodoServico.add(nodoOrcamento);
+						nodoServico.add(nodoServicoConcluido);
+						
+						nodoMovimento.add(nodoAlmox);
+						nodoMovimento.add(nodoServico);
+						
 						jtOpcoes = new JTree(nodoPrincipal);
 						jtOpcoes.addTreeSelectionListener(new TreeSelectionHandler());
 						jspOpcoes.setViewportView(jtOpcoes);
@@ -231,13 +231,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			return painelFuncionario;
 		}
 		
-		private PainelStatus getPainelStatus() {
-			if (painelStatus == null){
-				painelStatus = new PainelStatus();
-			}
-			return painelStatus;
-		}
-		
 		private PainelCarro getPainelCarro() {
 			if (painelCarro == null){
 				painelCarro = new PainelCarro();
@@ -280,6 +273,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			return painelServico;
 		}
 		
+		private PainelOrcamento getPainelOrcamento() {
+			if (painelOrcamento == null){
+				painelOrcamento = new PainelOrcamento();
+			}
+			return painelOrcamento;
+		}
+		
 		private void showPainel(JPanel painelPadrao) {
 			panelPrincipal.removeAll();
 			panelPrincipal.repaint();
@@ -290,39 +290,41 @@ public class TelaPrincipal extends javax.swing.JFrame {
 		@Override
 		public void valueChanged(TreeSelectionEvent e) {
 			String path = e.getPath().toString().trim();
-			if (path.equals("[SMA, Geral, Cargo]")) {		
+			if (path.equals("[SMA, Cadastro, Cargo]")) {		
 				showPainel(getPainelCargo());
-			} else if (path.equals("[SMA, Geral, Cidade]")) {
+			} else if (path.equals("[SMA, Cadastro, Cidade]")) {
 				showPainel(getPainelCidade());
-			} else if (path.equals("[SMA, Geral, Cliente]")) {
+			} else if (path.equals("[SMA, Cadastro, Cliente]")) {
 				showPainel(getPainelCliente());
-			} else if (path.equals("[SMA, Geral, Cor]")) {				
+			} else if (path.equals("[SMA, Cadastro, Cor]")) {				
 				showPainel(getPainelCor());
-			} else if (path.equals("[SMA, Geral, Funcionário]")) {
+			} else if (path.equals("[SMA, Cadastro, Funcionário]")) {
 				showPainel(getPainelFuncionario());
-			} else if (path.equals("[SMA, Geral, Marca]")) {			
+			} else if (path.equals("[SMA, Cadastro, Marca]")) {			
 				showPainel(getPainelMarca());
-			} else if (path.equals("[SMA, Geral, Modelo]")) {		
+			} else if (path.equals("[SMA, Cadastro, Modelo]")) {		
 				showPainel(getPainelModelo());
-			} else if (path.equals("[SMA, Geral, Status]")) {
-				showPainel(getPainelStatus());
-			} else if (path.equals("[SMA, Geral, Carro]")) {
+			} else if (path.equals("[SMA, Cadastro, Carro]")) {
 				showPainel(getPainelCarro());
-			} else if (path.equals("[SMA, Geral, Fornecedor]")) {
+			} else if (path.equals("[SMA, Cadastro, Fornecedor]")) {
 				showPainel(getPainelFornecedor());
-			} else if (path.equals("[SMA, Serviços, Estoque]")) {
-				showPainel(getPainelEstoque());
-			} else if (path.equals("[SMA, Geral, Peça]")) {
+			} else if (path.equals("[SMA, Cadastro, Peça]")) {
 				showPainel(getPainelPeca());
-			} else if (path.equals("[SMA, Geral, Atividade]")) {
+			} else if (path.equals("[SMA, Cadastro, Atividade]")) {
 				showPainel(getPainelAtividade());
+			} else if (path.equals("[SMA, Movimento, Serviços, Serviços não Concluido]")) {
+				showPainel(getPainelOrcamento());
+			} else if (path.equals("[SMA, Movimento, Serviços, Serviços Concluido]")) {
+				showPainel(getPainelServico());
+			} else if (path.equals("[SMA, Movimento, Serviços, Ordem de Serviço]")) {
+				new DialogoOrcamento(TelaPrincipal.instancia, "Ordem de Serviço", true);
+			} else if (path.equals("[SMA, Movimento, Almoxarifado, Estoque]")) {
+				showPainel(getPainelEstoque());
+			} else if (path.equals("[SMA, Movimento, Almoxarifado, Aquisição de Material]")) {
+				new DialogoFornecedorPeca(TelaPrincipal.instancia,"Aquisição de Material", true);
 			} else if (path.equals("[SMA, Relatórios, Carro]")) {
 				showPainel(getPainelRelCarro());
-			}  else if (path.equals("[SMA, Geral, Orçamento]")) {
-				new DialogoServico(TelaPrincipal.instancia, "Cadastro de Orçamento", true);
-			}  else if (path.equals("[SMA, Geral, Serviço]")) {
-				showPainel(getPainelServico());
-			} else {
+			}  else {
 				showPainel(getPainelApresentacao());
 			}
 		}

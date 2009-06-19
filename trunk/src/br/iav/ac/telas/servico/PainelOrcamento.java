@@ -11,6 +11,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -20,7 +21,6 @@ import javax.swing.table.DefaultTableModel;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.negocio.Servico;
 import br.iav.ac.telas.TelaPrincipal;
-
 
 
 /**
@@ -35,9 +35,11 @@ import br.iav.ac.telas.TelaPrincipal;
 * THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
 * LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
 */
-public class PainelServico extends JPanel {
+public class PainelOrcamento extends JPanel {
 
-	private JButton botaoVisualisar;
+	private JButton botaoOrdemServico;
+	private JRadioButton botaoTodos;
+	private JButton botaoEditar;
 	private JButton botaoBuscar;
 	private JTable gridTabela;
 	private JScrollPane scrollTabela;
@@ -47,17 +49,26 @@ public class PainelServico extends JPanel {
 	private JLabel labelFiltro;
 	private static final String[] CAMPOS = {"Código","Cliente", "Carro", "Status"};
 	private CadastroHandle cadastroHandle;
+	private JRadioButton botaoAndamento;
+	private JRadioButton botaoOrcamento;
+	private ButtonGroup grupo;
 	private JButton botaoAtualisar;
 
-	public PainelServico() {
+	public PainelOrcamento() {
 		this.setSize(549, 553);
 		this.setLayout(null);
 		try {
 			{
-				botaoVisualisar = new JButton();
-				this.add(botaoVisualisar);
-				botaoVisualisar.setText("Visualisar");
-				botaoVisualisar.setBounds(12, 12, 113, 60);
+				botaoOrdemServico = new JButton();
+				this.add(botaoOrdemServico);
+				botaoOrdemServico.setText("Nova ");
+				botaoOrdemServico.setBounds(12, 11, 81, 27);
+			}
+			{
+				botaoEditar = new JButton();
+				this.add(botaoEditar);
+				botaoEditar.setText("Visualisar");
+				botaoEditar.setBounds(104, 11, 81, 27);
 			}
 			{
 				botaoBuscar = new JButton();
@@ -68,27 +79,27 @@ public class PainelServico extends JPanel {
 			{
 				textBuscar = new JTextField();
 				this.add(textBuscar);
-				textBuscar.setBounds(264, 50, 188, 21);
+				textBuscar.setBounds(298, 50, 154, 21);
 			}
 			{
 				labelFiltro = new JLabel();
 				this.add(labelFiltro);
 				labelFiltro.setText("Filtrar Por:");
-				labelFiltro.setBounds(264, 18, 51, 14);
+				labelFiltro.setBounds(12, 53, 51, 14);
 			}
 			{
 				ComboBoxModel comboOperadorModel = new DefaultComboBoxModel(new String[] { "Contem", "Igual", "Diferente", "Maior",	"Menor" });
 				comboTipoBuscar = new JComboBox();
 				this.add(comboTipoBuscar);
 				comboTipoBuscar.setModel(comboOperadorModel);
-				comboTipoBuscar.setBounds(441, 11, 96, 27);
+				comboTipoBuscar.setBounds(190, 47, 96, 27);
 			}
 			{
 				ComboBoxModel coboCampoModel = new DefaultComboBoxModel(new String[] { "Cliente", "Carro" });
 				comboAtributoBuscar = new JComboBox();
 				this.add(comboAtributoBuscar);
 				comboAtributoBuscar.setModel(coboCampoModel);
-				comboAtributoBuscar.setBounds(333, 12, 96, 27);
+				comboAtributoBuscar.setBounds(75, 47, 96, 27);
 			}
 			{
 				DefaultTableModel model = new DefaultTableModel(new Object[0][0], null);
@@ -102,10 +113,35 @@ public class PainelServico extends JPanel {
 				scrollTabela.setBounds(12, 87, 525, 454);
 			}
 			{
-				botaoAtualisar = new JButton();
-				this.add(botaoAtualisar);
-				botaoAtualisar.setText("Atualisar");
-				botaoAtualisar.setBounds(141, 12, 112, 60);
+				botaoOrcamento = new JRadioButton();
+				this.add(botaoOrcamento);
+				botaoOrcamento.setText("Orçamento");
+				botaoOrcamento.setBounds(350, 14, 83, 20);
+			}
+			{
+				botaoAndamento = new JRadioButton();
+				this.add(botaoAndamento);
+				botaoAndamento.setText("Em andamento");
+				botaoAndamento.setBounds(439, 14, 99, 20);
+			}
+			{
+				botaoTodos = new JRadioButton();
+				this.add(botaoTodos);
+				botaoTodos.setText("Todos");
+				botaoTodos.setBounds(288, 14, 57, 20);
+				botaoTodos.setSelected(true);
+			}
+			{
+				grupo = new ButtonGroup();
+				grupo.add(botaoOrcamento);
+				grupo.add(botaoTodos);
+				{
+					botaoAtualisar = new JButton();
+					this.add(botaoAtualisar);
+					botaoAtualisar.setText("Atualisar");
+					botaoAtualisar.setBounds(196, 11, 81, 27);
+				}
+				grupo.add(botaoAndamento);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -119,8 +155,12 @@ public class PainelServico extends JPanel {
 
 	private void inicializarHandlers() {
 		this.cadastroHandle = new CadastroHandle();
+		this.botaoAndamento.addActionListener(cadastroHandle);
+		this.botaoTodos.addActionListener(cadastroHandle);
+		this.botaoOrcamento.addActionListener(cadastroHandle);
 		this.botaoBuscar.addActionListener(cadastroHandle);
-		this.botaoVisualisar.addActionListener(cadastroHandle);
+		this.botaoEditar.addActionListener(cadastroHandle);
+		this.botaoOrdemServico.addActionListener(cadastroHandle);
 		this.botaoAtualisar.addActionListener(cadastroHandle);
 	}
 		
@@ -137,7 +177,23 @@ public class PainelServico extends JPanel {
 		public CadastroHandle() {
 			super();
 			Servico servico = new Servico();
-			carregarGrid(servico.search("Status", "Igual", "Concluido"));
+			carregarGrid(servico.search("Status", "Diferente", "Concluido"));
+		}
+		
+
+		/**
+		 * retorna uma Servico se existir caso contrario retorna null.
+		 * 
+		 * @return Marca
+		 */
+		private Servico buscarServico(){
+			Servico servico = new Servico();
+			String cod = gridTabela.getValueAt(gridTabela.getSelectedRow(), 0)+ "";
+			ListaObjeto listaObjeto = servico.search("Código","Igual",cod);
+			if (listaObjeto.getSize() > 0) {
+				return (Servico) listaObjeto.getObjeto(0);				
+			}	
+			return null;			
 		}
 		
 		/**
@@ -162,32 +218,28 @@ public class PainelServico extends JPanel {
 			gridTabela.getColumnModel().getColumn(2).setPreferredWidth(180);
 			gridTabela.getColumnModel().getColumn(3).setPreferredWidth(110);
 		}
-		
-
-		/**
-		 * retorna uma Servico se existir caso contrario retorna null.
-		 * 
-		 * @return Marca
-		 */
-		private Servico buscarServico(){
-			Servico servico = new Servico();
-			String cod = gridTabela.getValueAt(gridTabela.getSelectedRow(), 0)+ "";
-			ListaObjeto listaObjeto = servico.search("Código","Igual",cod);
-			if (listaObjeto.getSize() > 0) {
-				return (Servico) listaObjeto.getObjeto(0);				
-			}	
-			return null;			
-		}
 
 		public void actionPerformed(ActionEvent e) {
-			 			
-			if(e.getSource() == botaoVisualisar) {
+			/**
+			 * Chama o Forulário de ServicoPeca para fazer a Inserção de uma nova marca.  
+			 **/
+			if (e.getSource() == botaoOrdemServico) {
+				Servico servico = new Servico();
+				new DialogoOrcamento(TelaPrincipal.instancia, "Ordem de Seriço", true, servico);
+				carregarGrid(servico.search("Status", "Diferente", "Concluido"));
+			}  			
+			/**
+			 * Chama o Forulário de servicoPeca para fazer a Edição de uma marca.
+			 */	
+			else if (e.getSource() == botaoEditar) {
+				// verifica se existe uma uma linha selecionada na Grid.
 				if (gridTabela.getSelectedRow() >= 0) {
 					Servico servico = new Servico();
 					servico = buscarServico();
+					//se retornar uma Marca existente, entao sera instanciado o formulario de Edição.
 					if(servico != null){
-						new DialogoServico(TelaPrincipal.instancia, "Ordem de Serviço", true, servico);
-						carregarGrid(servico.search("Status", "Igual", "Concluido"));
+						new DialogoOrcamento(TelaPrincipal.instancia, "Ordem de Serviço", true, servico);
+						carregarGrid(servico.search("Status", "Diferente", "Concluido"));
 					}
 					else{
 						JOptionPane.showMessageDialog(null,
@@ -197,15 +249,44 @@ public class PainelServico extends JPanel {
 					JOptionPane.showMessageDialog(null, 
 							"Para editar é preciso selecionar uma marca na tabela!");
 				}
-			} else if (e.getSource() == botaoBuscar) {
+			}
+			else if (e.getSource() == botaoAndamento) {
 				Servico servico = new Servico();
-				carregarGrid(servico.search((String) comboAtributoBuscar.getSelectedItem()
-						+ " Concluido", (String) comboTipoBuscar
-						.getSelectedItem(), textBuscar.getText()));
+				carregarGrid(servico.search("Status", "Igual", "Em andamento"));
+			}
+			else if (e.getSource() == botaoOrcamento) {
+				Servico servico = new Servico();
+				carregarGrid(servico.search("Status", "Igual", "Orçamento"));
+			}
+			else if (e.getSource() == botaoTodos) {
+				Servico servico = new Servico();
+				carregarGrid(servico.search("Status", "Diferente", "Concluido"));
+			} 
+			else if (e.getSource() == botaoAtualisar) {
+				Servico servico = new Servico();
+				carregarGrid(servico.search("Status", "Diferente", "Concluido"));
+			} 
+			/**
+			 * Faz uma busca com parametros passado pelo usuario
+			 */
+			else if (e.getSource() == botaoBuscar) {
+				Servico servico = new Servico();
+				if (botaoOrcamento.isSelected()){
+					carregarGrid(servico.search((String) comboAtributoBuscar
+							.getSelectedItem()+ " orçamento", (String) comboTipoBuscar
+							.getSelectedItem(), textBuscar.getText()));
+					
+				}else if(botaoAndamento.isSelected()){
+					carregarGrid(servico.search((String) comboAtributoBuscar
+							.getSelectedItem()+ " andamento", (String) comboTipoBuscar
+							.getSelectedItem(), textBuscar.getText()));
+				}else{
+					carregarGrid(servico.search((String) comboAtributoBuscar
+							.getSelectedItem()+ " todos", (String) comboTipoBuscar
+							.getSelectedItem(), textBuscar.getText()));
+					
+				}
 
-			}else if(e.getSource() == botaoAtualisar) {
-				Servico servico = new Servico();
-				carregarGrid(servico.search("Status", "Igual", "Concluido"));
 			}
 		}
 	}

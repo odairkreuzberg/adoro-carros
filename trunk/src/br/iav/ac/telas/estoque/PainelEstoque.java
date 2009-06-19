@@ -18,15 +18,28 @@ import br.iav.ac.telas.TelaPrincipal;
 
 /*
  */
+
+/**
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 public class PainelEstoque extends JPanel {
 
 	private JButton botaoCompra;
 	private JButton botaoDetalhe;
 	private JTable gridTabela;
-	private JLabel labelEstoque;
 	private JLabel labelAviso;
 	private JScrollPane scrollTabela;
 	private EstoqueHandler estoqueHandler;
+	private JButton botaoAtulisar;
 
 	public PainelEstoque() {
 		this.setSize(549, 553);
@@ -36,13 +49,13 @@ public class PainelEstoque extends JPanel {
 				botaoCompra = new JButton();
 				this.add(botaoCompra);
 				botaoCompra.setText("Comprar");
-				botaoCompra.setBounds(12, 127, 119, 27);
+				botaoCompra.setBounds(12, 12, 119, 27);
 			}
 			{
 				botaoDetalhe = new JButton();
 				this.add(botaoDetalhe);
 				botaoDetalhe.setText("Detalhe");
-				botaoDetalhe.setBounds(136, 127, 116, 27);
+				botaoDetalhe.setBounds(142, 12, 116, 27);
 			}
 			{
 				gridTabela = new JTable();
@@ -52,15 +65,7 @@ public class PainelEstoque extends JPanel {
 				scrollTabela.setViewportView(gridTabela);
 				gridTabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 				this.add(scrollTabela);
-				scrollTabela.setBounds(12, 171, 525, 370);
-			}
-			{
-				labelEstoque = new JLabel();
-				this.add(labelEstoque);
-				labelEstoque.setText("Estoque");
-				labelEstoque.setBounds(12, 12, 525, 89);
-				labelEstoque.setEnabled(false);
-				labelEstoque.setFont(new java.awt.Font("Tahoma", 1, 72));
+				scrollTabela.setBounds(12, 50, 525, 491);
 			}
 			{
 				labelAviso = new JLabel();
@@ -70,6 +75,13 @@ public class PainelEstoque extends JPanel {
 				labelAviso.setBounds(12, 154, 525, 14);
 				labelAviso.setFont(new java.awt.Font("Tahoma", 1, 11));
 				labelAviso.setVisible(false);
+			}
+			{
+				botaoAtulisar = new JButton();
+				this.add(botaoAtulisar);
+				botaoAtulisar.setText("Atualisar");
+				botaoAtulisar.setBounds(269, 12, 116, 23);
+				botaoAtulisar.setSize(116, 27);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -83,6 +95,7 @@ public class PainelEstoque extends JPanel {
 		this.estoqueHandler = new EstoqueHandler();
 		this.botaoCompra.addActionListener(estoqueHandler);
 		this.botaoDetalhe.addActionListener(estoqueHandler);
+		this.botaoAtulisar.addActionListener(estoqueHandler);
 	}
 
 	/*----------------------------------------------------------
@@ -128,18 +141,12 @@ public class PainelEstoque extends JPanel {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			/**
-			 * 
-			 **/
+			
 			if (e.getSource() == botaoCompra) {
 				new DialogoFornecedorPeca(TelaPrincipal.instancia,
-						"Compra de Peça", true);
+						"Aquisição de Material", true);
 				carregarGrid(fornecedorPeca.getPecas());
-
 			}
-			/**
-			 * 
-			 */
 			else if (e.getSource() == botaoDetalhe) {
 				if (gridTabela.getSelectedRow() >= 0) {
 					labelAviso.setVisible(false);
@@ -153,6 +160,9 @@ public class PainelEstoque extends JPanel {
 
 				}
 
+			}
+			else if (e.getSource() == botaoAtulisar) {
+				carregarGrid(fornecedorPeca.getPecas());				
 			}
 		}
 	}

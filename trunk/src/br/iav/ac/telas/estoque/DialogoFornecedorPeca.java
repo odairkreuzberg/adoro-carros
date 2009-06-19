@@ -3,8 +3,6 @@ package br.iav.ac.telas.estoque;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -14,8 +12,6 @@ import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
@@ -128,7 +124,7 @@ public class DialogoFornecedorPeca extends JDialog {
 			labelValor.setBounds(10, espacoEntreLinhas, 80, 20);
 		}
 		{  
-			DecimalFormat  decimal = new DecimalFormat("#,###.00");  
+			DecimalFormat  decimal = new DecimalFormat();  
 		    NumberFormatter numFormatter = new NumberFormatter(decimal);  
 		    numFormatter.setFormat(decimal);  
 		    numFormatter.setAllowsInvalid(false);  
