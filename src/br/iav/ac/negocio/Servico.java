@@ -144,18 +144,19 @@ public class Servico extends Objeto {
 		DaoServico dao = new DaoServico();
 		dao.setServico(this);
 		dao.insert();
-		setCodigo(dao.obterServido().getCodigo());		
+		setCodigo(dao.obterServido().getCodigo());
 		DaoServicoAtividade daoServicoAtividade = new DaoServicoAtividade();
 		for(int i = 0; i < this.getListaServicoAtividade().getSize(); i++){
 			((ServicoAtividade)this.getListaServicoAtividade().getObjeto(i)).getServico().setCodigo(this.getCodigo());
 			daoServicoAtividade.setServicoAtividade(((ServicoAtividade)this.getListaServicoAtividade().getObjeto(i)));
 			daoServicoAtividade.insert();
 		}
-		this.editEstoque(lista);			
+		if(this.getStatus().getNome().equals("Concluido")){
+			this.editEstoque(lista);
+		}			
 	}
 	
-	@Override
-	public void edit() {
+	public void edit(ListaObjeto lista) {
 		DaoServicoAtividade daoServicoAtividade = new DaoServicoAtividade();
 		ServicoAtividade servicoAtividade = new ServicoAtividade();
 		ListaObjeto listaAux = daoServicoAtividade.load(this.getCodigo());
@@ -173,6 +174,9 @@ public class Servico extends Objeto {
 		DaoServico dao = new DaoServico();
 		dao.setServico(this);
 		dao.edit();
+		if(this.getStatus().getNome().equals("Concluido")){
+			this.editEstoque(lista);
+		}
 	}
 	
 	@Override

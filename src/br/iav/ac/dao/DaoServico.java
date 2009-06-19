@@ -131,9 +131,10 @@ public class DaoServico implements DaoInterface{
 		String campoSQL = null;
 		String operadorSQL = null;
 		String valorSQL = null;
-
+		String outroValorSQL = "";
+		
 		if (campo.equals("Código")) {
-			campoSQL = " where cod_servico ";
+			campoSQL = " where cod_servico";
 			valorSQL = valor;
 			if (operador.equals("Contem")) {
 				operador = "Igual";
@@ -142,10 +143,42 @@ public class DaoServico implements DaoInterface{
 		}else if (campo.equals("Cliente")) {
 			valorSQL = "'" + valor + "'";
 			campoSQL = " where cliente.nome ";
-		} else if (campo.equals("Carro")) {
+		}else if (campo.equals("Cliente orçamento")) {
+			valorSQL = "'" + valor + "'";
+			campoSQL = " where cliente.nome ";
+			outroValorSQL = " and status.nome = 'Orçamento'";
+		}else if (campo.equals("Cliente andamento")) {
+			valorSQL = "'" + valor + "'";
+			campoSQL = " where cliente.nome ";
+			outroValorSQL = " and status.nome = 'Em andamento'";
+		}else if (campo.equals("Cliente todos")) {
+			valorSQL = "'" + valor + "'";
+			campoSQL = " where cliente.nome ";
+			outroValorSQL = " and status.nome != 'Concluido'";
+		}else if (campo.equals("Cliente Concluido")) {
+			valorSQL = "'" + valor + "'";
+			campoSQL = " where cliente.nome ";
+			outroValorSQL = " and status.nome = 'Concluido'";
+		}else if (campo.equals("Carro orçamento")) {
 			valorSQL = "'" + valor + "'";
 			campoSQL = " where modelo.nome ";
-		} else if (campo.equals("Status")) {
+			outroValorSQL = " and status.nome = 'Orçamento'";
+		}else if (campo.equals("Carro andamento")) {
+			valorSQL = "'" + valor + "'";
+			campoSQL = " where modelo.nome ";
+			outroValorSQL = " and status.nome = 'Em andamento'";
+		}else if (campo.equals("Carro todos")) {
+			valorSQL = "'" + valor + "'";
+			campoSQL = " where modelo.nome ";
+			outroValorSQL = " and status.nome != 'Concluido'";
+		}else if (campo.equals("Carro Concluido")) {
+			valorSQL = "'" + valor + "'";
+			campoSQL = " where modelo.nome ";
+			outroValorSQL = " and status.nome = 'Concluido'";
+		}else if (campo.equals("Carro")) {
+			valorSQL = "'" + valor + "'";
+			campoSQL = " where modelo.nome ";
+		}else if (campo.equals("Status")) {
 			valorSQL = "'" + valor + "'";
 			campoSQL = " where status.nome ";
 		}
@@ -163,16 +196,16 @@ public class DaoServico implements DaoInterface{
 			valorSQL = " '%" + valor + "%'";
 		}
 
-		sql += campoSQL + " " + operadorSQL + valorSQL;
+		sql += campoSQL + " " + operadorSQL + valorSQL + outroValorSQL;
 		return this.load(sql);
 	}
 
 	public Servico obterServido() {
 		if(db.connect()){
-			db.select("select max(servico.cod_servico) from servico");
+			db.select("select max(servico.cod_servico) as cod from servico");
 			db.moveNext();
 			Servico servico = new Servico();
-			servico.setCodigo(db.getInt("cod_servico"));
+			servico.setCodigo(db.getInt("cod"));
 			db.disconnect();
 			return(servico);
 		}
