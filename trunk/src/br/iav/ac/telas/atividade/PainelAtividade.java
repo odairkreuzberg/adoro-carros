@@ -133,16 +133,16 @@ public class PainelAtividade extends PainelPadrao {
 					atividade = buscarAtividade();
 					//se retornar uma Marca existente, entao sera instanciado o formulario de Edição.
 					if(atividade != null){
-						new DialogoAtividade(TelaPrincipal.instancia, "Cadastro de Atividae", true, atividade);	
+						new DialogoAtividade(TelaPrincipal.instancia, "Editar Atividade", true, atividade);	
 						carregarGrid(atividade.load());				
 					}
 					else{
 						JOptionPane.showMessageDialog(PainelAtividade.this,
-								"Erro ao buscar esta Marca na base de dados!");
+								"Erro ao buscar esta Atividade na base de dados!");
 					}	
 				} else {
 					JOptionPane.showMessageDialog(PainelAtividade.this, 
-							"Para editar é preciso selecionar uma marca na tabela!");
+							"Para editar é preciso selecionar uma Atividade na tabela!");
 				}
 			} 			
 			/**
@@ -154,7 +154,7 @@ public class PainelAtividade extends PainelPadrao {
 					Atividade  atividade = buscarAtividade();
 					//se retornar uma Marca existente, essa marca sera Excluida.
 					if (atividade!= null) {
-						int resp = JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a atividadePeca "
+						int resp = JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a Atividade "
 								+ atividade.getNome()+ " ?", "Exclusão",JOptionPane.YES_NO_OPTION);
 						if (resp == 0) {
 							atividade.delete();
@@ -163,12 +163,12 @@ public class PainelAtividade extends PainelPadrao {
 
 					} else {
 						JOptionPane.showMessageDialog(PainelAtividade.this,
-								"Erro ao buscar esta Marca na base de dados!");
+								"Erro ao buscar esta Atividade na base de dados!");
 						atividade = new Atividade();
 					}
 				} else {
 					JOptionPane.showMessageDialog(PainelAtividade.this, 
-							"Para remover é preciso selecionar uma atividadePeca na tabela!");
+							"Para remover é preciso selecionar uma Atividade na tabela!");
 				}
 			} 
 			/**

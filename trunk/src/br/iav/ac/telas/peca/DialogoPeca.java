@@ -41,7 +41,7 @@ public class DialogoPeca extends DialogoPadrao {
 				espacoEntreLinhas = espacoEntreLinhas + 25;
 				labelPeca = new JLabel();
 				getPanelPrincipal().add(labelPeca);
-				labelPeca.setText("Peca:");
+				labelPeca.setText("Peça:");
 				labelPeca.setBounds(10, espacoEntreLinhas, 80, 20);
 			}
 			{

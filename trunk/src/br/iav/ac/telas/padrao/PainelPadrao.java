@@ -74,7 +74,7 @@ public class PainelPadrao extends JPanel {
 				labelFiltro.setBounds(12, 53, 51, 14);
 			}
 			{
-				ComboBoxModel comboOperadorModel = new DefaultComboBoxModel(new String[] { "Contem", "Igual", "Diferente", "Maior",	"Menor" });
+				ComboBoxModel comboOperadorModel = new DefaultComboBoxModel(new String[] { "Contém", "Igual", "Diferente", "Maior",	"Menor" });
 				comboTipoBuscar = new JComboBox();
 				this.add(comboTipoBuscar);
 				comboTipoBuscar.setModel(comboOperadorModel);
