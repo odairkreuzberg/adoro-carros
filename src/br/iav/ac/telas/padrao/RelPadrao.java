@@ -26,11 +26,11 @@ public class RelPadrao extends JPanel {
 	*/
 	public RelPadrao() {
 		super();
-		CategoryDataset dataset = createDataset();
-		JFreeChart chart = createChart(dataset);
-		ChartPanel chartPanel = new ChartPanel(chart);
-		chartPanel.setPreferredSize(new java.awt.Dimension(549, 553));
-		this.add(chartPanel);
+		//CategoryDataset dataset = createDataset();
+		//JFreeChart chart = createChart(dataset);
+		//ChartPanel chartPanel = new ChartPanel(chart);
+		//chartPanel.setPreferredSize(new java.awt.Dimension(549, 553));
+		//this.add(chartPanel);
 		this.setSize(549, 553);
 	}
 
