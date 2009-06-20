@@ -176,9 +176,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 		}
 		
 		private RelCarro getPainelRelCarro() {
-			if (painelRelCarro == null){
-				painelRelCarro = new RelCarro();
-			}
+			painelRelCarro = new RelCarro();
 			return painelRelCarro;
 		}
 		
