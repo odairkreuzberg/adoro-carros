@@ -84,7 +84,7 @@ public class PainelCidade extends PainelPadrao {
 			 **/
 			if (e.getSource() == getBotaoNovo()) {
 				Cidade cidade = new Cidade();
-				new DialogoCidade(TelaPrincipal.instancia, "Cadastro", true, cidade);
+				new DialogoCidade(TelaPrincipal.instancia, "Cadastro de Cidade", true, cidade);
 				carregarGrid(cidade.load());
 			} 			
 			/**
@@ -96,7 +96,7 @@ public class PainelCidade extends PainelPadrao {
 					Cidade cidade = buscarCidade();
 					//se retornar uma cidade existente, então será instanciado o formulario de edição.
 					if (cidade != null) {
-						new DialogoCidade(TelaPrincipal.instancia, "Edição", true, cidade);	
+						new DialogoCidade(TelaPrincipal.instancia, "Editar Cidade", true, cidade);	
 						carregarGrid(cidade.load());				
 					} else {
 						JOptionPane.showMessageDialog(PainelCidade.this, "Erro ao buscar esta cidade na base de dados!");

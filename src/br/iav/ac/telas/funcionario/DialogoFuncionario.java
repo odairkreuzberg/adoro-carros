@@ -451,17 +451,17 @@ public class DialogoFuncionario extends DialogoPadrao {
 
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == botaoCidade) {				
-				showPainel(new PainelCidade(), "Cadastros de Cidades");	
+				showPainel(new PainelCidade(), "Consulta de Cidades");	
 				this.carregarComboCidade(cidade.load());
 			} else if (e.getSource() == botaoCargo) {
-				showPainel(new PainelCargo(), "Cadastros de Cargos");	
+				showPainel(new PainelCargo(), "Consulta de Cargos");	
 				this.carregarComboCargo(cargo.load());				
 			} else if (e.getSource() == getBotaoCancelar()) {
 				dispose();
 			} else if (e.getSource() == getBotaoConfirmar()) {
 				if (textNome.getText().equals("")) {
 					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo nome é obrigatório!");
-				}else if (textTelefone.getText().equals("")) {
+				}else if (textTelefone.getText().equals("____-____")) {
 					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo telefone é obrigatório!");
 				}else if (textCpf.getText().equals("___.___.___-__")) {
 					JOptionPane.showMessageDialog(DialogoFuncionario.this,"O campo cpf é obrigatório!");

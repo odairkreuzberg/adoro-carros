@@ -102,7 +102,7 @@ public class PainelPeca extends PainelPadrao {
 					peca = buscarPeca();
 					//Se retornar uma peça existente, então sera instanciado o formulário de edição.
 					if (peca != null){
-						new DialogoPeca(null, "Cadastro de Peça", true, peca);	
+						new DialogoPeca(null, "Editar Peça", true, peca);	
 						carregarGrid(peca.load());				
 					} else {
 						JOptionPane.showMessageDialog(PainelPeca.this, "Erro ao buscar esta peça na base de dados!");

@@ -85,7 +85,7 @@ public class PainelCliente extends PainelPadrao {
 				if (getGridTabela().getSelectedRow() >= 0) {
 					cliente = buscarCliente();
 					if (cliente != null) {
-						new DialogoCliente(null, "Cadastro de Cliente", true, this.cliente);
+						new DialogoCliente(null, "Editar Cliente", true, this.cliente);
 						carregarGrid(cliente.load());	
 					} else {
 						JOptionPane.showMessageDialog(PainelCliente.this, "Erro ao buscar este cliente na base de dados!");

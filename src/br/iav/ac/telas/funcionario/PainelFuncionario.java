@@ -95,14 +95,14 @@ public class PainelFuncionario extends PainelPadrao {
 				if (getGridTabela().getSelectedRow() >= 0) {
 					this.funcionario = buscarFuncionario();
 					if (this.funcionario != null) {
-						new DialogoFuncionario(null, "Cadastro de Funcionário", true, this.funcionario);
+						new DialogoFuncionario(null, "Editar Funcionário", true, this.funcionario);
 						carregarGrid(this.funcionario.load());	
 					} else {
-						JOptionPane.showMessageDialog(PainelFuncionario.this, "Erro ao buscar este Funcionario na base de dados!");
+						JOptionPane.showMessageDialog(PainelFuncionario.this, "Erro ao buscar este Funcionário na base de dados!");
 						funcionario = new Funcionario();
 					}
 				} else {
-					JOptionPane.showMessageDialog(PainelFuncionario.this, "Para editar é preciso selecionar um funcionário na tabela!");
+					JOptionPane.showMessageDialog(PainelFuncionario.this, "Para editar é preciso selecionar um Funcionário na tabela!");
 				}
 			} else if (e.getSource() == getBotaoExcluir()) {
 				if (getGridTabela().getSelectedRow() >= 0) {

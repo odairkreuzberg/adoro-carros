@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -24,6 +25,7 @@ import br.iav.ac.negocio.Objeto;
 import br.iav.ac.negocio.Peca;
 import br.iav.ac.negocio.PecaAtividade;
 import br.iav.ac.telas.TelaPrincipal;
+import br.iav.ac.telas.cidade.DialogoCidade;
 import br.iav.ac.telas.funcionario.PainelFuncionario;
 import br.iav.ac.telas.padrao.DialogoCRUD;
 import br.iav.ac.telas.padrao.PainelPadrao;
@@ -210,16 +212,16 @@ public final class DialogoAtividade extends JDialog {
 					}
 				}
 				{
-					botaoCancelar = new JButton();
-					getContentPane().add(botaoCancelar);
-					botaoCancelar.setText("Cancelar");
-					botaoCancelar.setBounds(152, 456, 90, 21);
-				}
-				{
 					botaoSalvar = new JButton();
 					getContentPane().add(botaoSalvar);
 					botaoSalvar.setText("Salvar");
-					botaoSalvar.setBounds(253, 456, 90, 21);
+					botaoSalvar.setBounds(152, 456, 90, 21);
+				}
+				{
+					botaoCancelar = new JButton();
+					getContentPane().add(botaoCancelar);
+					botaoCancelar.setText("Cancelar");
+					botaoCancelar.setBounds(253, 456, 90, 21);
 				}
 			}
 			pack();
@@ -440,15 +442,18 @@ public final class DialogoAtividade extends JDialog {
 			}else if (e.getSource() == bodatoEditar) {
 				this.editarPeca();
 			}else if (e.getSource() == botaoSalvar) {
-				if (atividade.getCodigo() == 0) {
-					inserir();
-				} 
-				else {
-					editar();
+				if (textAtividade.getText().equals("")) {
+					JOptionPane.showMessageDialog(DialogoAtividade.this, "O campo atividade é obrigatório!");
+				}else{
+					if (atividade.getCodigo() == 0) {
+						inserir();
+					} 
+					else {
+						editar();
+					}
+					dispose();
 				}
-				dispose();
-			} 
-			
+			}
 		}
 
 	/*----------------------------------------------------------
