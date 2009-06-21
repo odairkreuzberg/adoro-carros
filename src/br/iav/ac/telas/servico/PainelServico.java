@@ -56,7 +56,7 @@ public class PainelServico extends JPanel {
 			{
 				botaoVisualisar = new JButton();
 				this.add(botaoVisualisar);
-				botaoVisualisar.setText("Visualisar");
+				botaoVisualisar.setText("Visualizar");
 				botaoVisualisar.setBounds(12, 12, 113, 60);
 			}
 			{
@@ -104,7 +104,7 @@ public class PainelServico extends JPanel {
 			{
 				botaoAtualisar = new JButton();
 				this.add(botaoAtualisar);
-				botaoAtualisar.setText("Atualisar");
+				botaoAtualisar.setText("Atualizar");
 				botaoAtualisar.setBounds(141, 12, 112, 60);
 			}
 		} catch (Exception e) {
