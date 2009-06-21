@@ -61,13 +61,13 @@ public class PainelOrcamento extends JPanel {
 			{
 				botaoOrdemServico = new JButton();
 				this.add(botaoOrdemServico);
-				botaoOrdemServico.setText("Nova ");
+				botaoOrdemServico.setText("Novo");
 				botaoOrdemServico.setBounds(12, 11, 81, 27);
 			}
 			{
 				botaoEditar = new JButton();
 				this.add(botaoEditar);
-				botaoEditar.setText("Visualisar");
+				botaoEditar.setText("Visualizar");
 				botaoEditar.setBounds(104, 11, 81, 27);
 			}
 			{
@@ -138,7 +138,7 @@ public class PainelOrcamento extends JPanel {
 				{
 					botaoAtualisar = new JButton();
 					this.add(botaoAtualisar);
-					botaoAtualisar.setText("Atualisar");
+					botaoAtualisar.setText("Atualizar");
 					botaoAtualisar.setBounds(196, 11, 81, 27);
 				}
 				grupo.add(botaoAndamento);
