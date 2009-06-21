@@ -115,9 +115,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						DefaultMutableTreeNode nodoCompra = new DefaultMutableTreeNode("Aquisição de Material");
 						DefaultMutableTreeNode nodoAtividade = new DefaultMutableTreeNode("Atividade");
 						DefaultMutableTreeNode nodoRelCarro = new DefaultMutableTreeNode("Carro");
-						DefaultMutableTreeNode nodoServicoConcluido = new DefaultMutableTreeNode("Serviços Concluido");
+						DefaultMutableTreeNode nodoServicoConcluido = new DefaultMutableTreeNode("Serviços Concluídos");
 						DefaultMutableTreeNode nodoOrdemServico = new DefaultMutableTreeNode("Ordem de Serviço");
-						DefaultMutableTreeNode nodoOrcamento = new DefaultMutableTreeNode("Serviços não Concluido");
+						DefaultMutableTreeNode nodoOrcamento = new DefaultMutableTreeNode("Serviços não Concluídos");
 						nodoPrincipal.add(nodoCadastro);
 						nodoPrincipal.add(nodoMovimento);
 						nodoPrincipal.add(nodoRelatorios);
@@ -310,9 +310,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
 				showPainel(getPainelPeca());
 			} else if (path.equals("[SMA, Cadastro, Atividade]")) {
 				showPainel(getPainelAtividade());
-			} else if (path.equals("[SMA, Movimento, Serviços, Serviços não Concluido]")) {
+			} else if (path.equals("[SMA, Movimento, Serviços, Serviços não Concluídos]")) {
 				showPainel(getPainelOrcamento());
-			} else if (path.equals("[SMA, Movimento, Serviços, Serviços Concluido]")) {
+			} else if (path.equals("[SMA, Movimento, Serviços, Serviços Concluídos]")) {
 				showPainel(getPainelServico());
 			} else if (path.equals("[SMA, Movimento, Serviços, Ordem de Serviço]")) {
 				new DialogoOrcamento(TelaPrincipal.instancia, "Ordem de Serviço", true);
