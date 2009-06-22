@@ -1,7 +1,6 @@
 package br.iav.ac.negocio;
 
 import br.iav.ac.dao.DaoCargo;
-import br.iav.ac.dao.DaoCor;
 
 public class Cargo  extends Objeto implements ObjetoInterface {
 
@@ -81,5 +80,10 @@ public class Cargo  extends Objeto implements ObjetoInterface {
 		DaoCargo dao = new DaoCargo();
 		return dao.search(campo, operador, valor);		
 	}	
+	
+	public boolean existeCargo(Cargo cargo){
+		DaoCargo dao = new DaoCargo();
+		return dao.existeCargo(cargo);		
+	}
 	
 }

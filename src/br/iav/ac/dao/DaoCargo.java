@@ -123,4 +123,10 @@ public class DaoCargo implements DaoInterface {
 		return this.load(sql);
 	}
 
+	public boolean existeCargo(Cargo cargo) {
+		String sql = "select cargo.* from cargo where '" + cargo.getNome() +
+			"' = cargo.nome and cargo.cod_cargo != " + cargo.getCodigo();
+		return this.load(sql).getSize() > 0;
+	}
+
 }
