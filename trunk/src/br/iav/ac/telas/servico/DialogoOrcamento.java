@@ -1,6 +1,8 @@
 package br.iav.ac.telas.servico;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.ParseException;
@@ -110,7 +112,7 @@ public class DialogoOrcamento extends JDialog{
 		this.servico = new Servico();
 		this.initGUI();
 		this.inicializarHandlers();
-		this.setSize(559, 693);
+		this.setSize(568,704);
 		this.setDefaultCloseOperation(DialogoAtividade.DISPOSE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
@@ -121,7 +123,7 @@ public class DialogoOrcamento extends JDialog{
 		this.servico = servico;
 		this.initGUI();
 		this.inicializarHandlers();
-		this.setSize(559, 693);
+		this.setSize(568,704);
 		this.setDefaultCloseOperation(DialogoAtividade.DISPOSE_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
@@ -143,6 +145,7 @@ public class DialogoOrcamento extends JDialog{
 		this.botaoConcluido.addActionListener(formHandle);
 		this.comboFuncionario.addItemListener(formHandle);
 		this.comboCliente.addItemListener(formHandle);
+		this.textDescontos.addFocusListener(formHandle);
 	}
 
 	private void initGUI() {
@@ -254,6 +257,7 @@ public class DialogoOrcamento extends JDialog{
 						painelAtividade.add(labelAviso);
 						labelAviso.setText("Aviso");
 						labelAviso.setBounds(14, 63, 497, 14);
+						labelAviso.setFont(new java.awt.Font("Segoe UI",1,12));
 					}
 					{
 						labelValorAtividade = new JLabel();
@@ -412,7 +416,7 @@ public class DialogoOrcamento extends JDialog{
 	 * CLASSE LIMITROFE
 	 *----------------------------------------------------------*/
 
-	class FormHandle implements ActionListener, ItemListener  {
+	class FormHandle implements ActionListener, ItemListener,  FocusListener {
 		Cliente cliente = new Cliente();
 		Carro carro = new Carro();
 		Status status = new Status();
@@ -678,6 +682,7 @@ public class DialogoOrcamento extends JDialog{
 			}
 			textTotalPeca.setText(valorP+"");
 			float valorT = valorA + valorP;
+			valorT = valorT - Float.parseFloat(textDescontos.getText());
 			textValorTotal.setText(valorT + "");
 		}
 
@@ -817,6 +822,23 @@ public class DialogoOrcamento extends JDialog{
 				}
 			}			
 			
+		}
+
+		@Override
+		public void focusGained(FocusEvent arg0) {
+			textDescontos.setText("");
+			
+		}
+
+		@Override
+		public void focusLost(FocusEvent arg0) {
+			try {
+				float i = Integer.parseInt(textDescontos.getText());
+				this.CalcularValor();
+			} catch (Exception e) {
+				labelAviso.setText(textDescontos.getText() + " não é um valor valido!");
+				textDescontos.setText("0.0");
+			}			
 		}
 		
 		

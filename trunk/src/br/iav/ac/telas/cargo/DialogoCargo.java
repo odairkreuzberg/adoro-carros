@@ -2,6 +2,7 @@ package br.iav.ac.telas.cargo;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -10,7 +11,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import br.iav.ac.negocio.Cargo;
-import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.telas.padrao.DialogoPadrao;
 
 /**
@@ -46,7 +46,7 @@ public class DialogoCargo extends DialogoPadrao {
             	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelNome = new JLabel();
             	getPanelPrincipal().add(labelNome);
-            	labelNome.setText("Nome:");
+            	labelNome.setText("Nome: *");
             	labelNome.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
@@ -100,37 +100,46 @@ public class DialogoCargo extends DialogoPadrao {
 			}
 		}
 		
-
-		//Retorna true se encontrar um cargo e false se nao encontrar.
-		private boolean existeCargo() {
-			ListaObjeto listaObjeto = cargo.search("Nome", "Igual", textNome.getText().trim());
-			if (listaObjeto.getSize() > 0) {
-				return false;
-			}
-			return true;
+		private boolean validarCampos() {
+		if (textNome.getText().trim().length()>50) {
+			JOptionPane.showMessageDialog(DialogoCargo.this, "O campo Nome estourou o limite de Caracter!");
+			textNome.requestFocus();
+			return false;
+		}else if (textNome.getText().equals("")) {
+			JOptionPane.showMessageDialog(DialogoCargo.this, "O campo Nome é obrigatorio!");
+			textNome.requestFocus();
+			return false;
+		}else if (textDescricao.getText().trim().length()>100) {
+			JOptionPane.showMessageDialog(DialogoCargo.this, "O campo Descrição estourou o limite de Caracter!");
+			textDescricao.requestFocus();
+			return false;
+		}
+		return true;
+			
 		}
 		
-		
 		//Faz a Inserção de um cargo.
-		private void inserir(){
-			if (existeCargo()) {
+		private void inserir(){	
+			if(validarCampos()){
 				cargo.setNome(textNome.getText().trim());
 				cargo.setDescricao(textDescricao.getText().trim());
-				cargo.insert();							
-			} else {
-				JOptionPane.showMessageDialog(DialogoCargo.this, "Esse cargo já se encontra na Base de Dados!");
-			}			
+				cargo.insert();
+				dispose();
+			}
 		}
 		
 
 		//Faz a Edição de um cargo.
-		private void editar(){
-			if (existeCargo()) {
+		private void editar() {
+			if (validarCampos()) {
 				cargo.setNome(textNome.getText().trim());
 				cargo.setDescricao(textDescricao.getText().trim());
-				cargo.edit();	
-			} else{
-				JOptionPane.showMessageDialog(DialogoCargo.this, "Esse cargo já se encontra na Base de Dados!");
+				if (cargo.existeCargo(cargo)) {
+					cargo.edit();
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(DialogoCargo.this, "Este Cargo já se Encontra na Base de Dados!");					
+				}
 			}
 		}
 
@@ -146,7 +155,6 @@ public class DialogoCargo extends DialogoPadrao {
 					} else {
 						editar();
 					}
-					dispose();
 				}
 			}
 		}
