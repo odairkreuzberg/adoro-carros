@@ -111,6 +111,11 @@ public class Carro extends Objeto implements ObjetoInterface {
 	public ListaObjeto search(String campo, String operador, String valor){
 		DaoCarro dao = new DaoCarro();
 		return dao.search(campo, operador, valor);		
+	}
+	
+	public ListaObjeto searchGrafico(){
+		DaoCarro dao = new DaoCarro();
+		return dao.searchGrafico();		
 	}	
 	
 }
