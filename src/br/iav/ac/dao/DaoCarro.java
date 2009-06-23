@@ -108,13 +108,11 @@ public class DaoCarro implements DaoInterface {
 	}
 
 	public ListaObjeto search(String campo, String operador, String valor) {
-
 		String sql = SELECT;
-		
 		String campoSQL = null;
 		String operadorSQL = null;
 		String valorSQL = null;
-		
+		//Pegando o Campo
 		if (campo.equals("Código")) {
 			valorSQL = valor;
 			campoSQL = " where cod_carro ";
@@ -140,8 +138,8 @@ public class DaoCarro implements DaoInterface {
 		} else if (campo.equals("Ano")) {
 			valorSQL = "'" + valor + "'";
 			campoSQL = " where ano_fabricacao ";
-		}		
-			
+		}
+		//Comparador
 		if (operador.equals("Igual")) {
 			operadorSQL = "= ";
 		} else if (operador.equals("Diferente")) {
@@ -154,9 +152,22 @@ public class DaoCarro implements DaoInterface {
 			operadorSQL = "like ";
 			valorSQL = " '%" + valor + "%'";
 		}
-		
+		//Gerando a String do SQL
 		sql += campoSQL + " " + operadorSQL + valorSQL;
 		return this.load(sql);
+	}
+	
+	public ListaObjeto searchGrafico() {
+		StringBuffer sql = new StringBuffer();
+		//Selecionando
+		sql.append("select count(carro.cod_carro) as cod_carro, modelo.nome as mo_nome, marca.nome as ma_nome ");
+		//Agrupando as tabelas
+		sql.append("from carro inner join modelo on carro.cod_modelo = modelo.cod_modelo inner join marca on modelo.cod_marca = marca.cod_marca ");
+		//Gerando grupos
+		sql.append("group by mo_nome,  ma_nome ");
+		//Ordenando
+		sql.append("order by cod_carro desc limit 5 ");
+		return this.load(sql.toString());
 	}
 
 }
