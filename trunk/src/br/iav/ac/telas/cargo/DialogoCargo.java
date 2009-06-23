@@ -123,8 +123,12 @@ public class DialogoCargo extends DialogoPadrao {
 			if(validarCampos()){
 				cargo.setNome(textNome.getText().trim());
 				cargo.setDescricao(textDescricao.getText().trim());
-				cargo.insert();
-				dispose();
+				if(cargo.search("Nome", "Igual", cargo.getNome()).getSize() == 0){					
+					cargo.insert();
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(DialogoCargo.this, "Este Cargo já se Encontra na Base de Dados!");					
+				}
 			}
 		}
 		
@@ -134,7 +138,7 @@ public class DialogoCargo extends DialogoPadrao {
 			if (validarCampos()) {
 				cargo.setNome(textNome.getText().trim());
 				cargo.setDescricao(textDescricao.getText().trim());
-				if (cargo.existeCargo(cargo)) {
+				if (!cargo.existeCargo(cargo)) {
 					cargo.edit();
 					dispose();
 				} else {
