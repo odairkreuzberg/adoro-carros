@@ -155,7 +155,7 @@ public class DialogoFornecedorPeca extends JDialog {
 			espacoEntreLinhas = espacoEntreLinhas + 45;
 			botaoComprar = new JButton();
 			getContentPane().add(botaoComprar);
-			botaoComprar.setText("Coprar");
+			botaoComprar.setText("Comprar");
 			botaoComprar.setBounds(91, espacoEntreLinhas, 80, 21);
 		}
 		{
