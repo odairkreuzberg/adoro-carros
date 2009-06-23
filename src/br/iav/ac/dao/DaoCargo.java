@@ -114,7 +114,7 @@ public class DaoCargo implements DaoInterface {
 			operadorSQL = "> ";
 		} else if (operador.equals("Menor")) {
 			operadorSQL = "< ";
-		} else if (operador.equals("Contem")) {
+		} else if (operador.equals("Contém")) {
 			operadorSQL = "like ";
 			valorSQL = "('%" + valor + "%')";
 		}
@@ -126,6 +126,7 @@ public class DaoCargo implements DaoInterface {
 	public boolean existeCargo(Cargo cargo) {
 		String sql = "select cargo.* from cargo where '" + cargo.getNome() +
 			"' = cargo.nome and cargo.cod_cargo != " + cargo.getCodigo();
+		System.out.println(this.load(sql).getSize());
 		return this.load(sql).getSize() > 0;
 	}
 

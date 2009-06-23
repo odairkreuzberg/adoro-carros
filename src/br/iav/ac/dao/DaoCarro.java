@@ -148,7 +148,7 @@ public class DaoCarro implements DaoInterface {
 			operadorSQL = "> ";
 		} else if (operador.equals("Menor")) {
 			operadorSQL = "< ";
-		} else if (operador.equals("Contem")) {
+		} else if (operador.equals("Contém")) {
 			operadorSQL = "like ";
 			valorSQL = " '%" + valor + "%'";
 		}
