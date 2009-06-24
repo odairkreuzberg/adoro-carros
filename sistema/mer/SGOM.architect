@@ -303,18 +303,18 @@
     </index>
    </folder>
   </table>
-  <table id="TAB181" populated="true" name="Atividade_peca" objectType="TABLE" physicalName="AtividadePeca" remarks="" >
+  <table id="TAB181" populated="true" name="Atividade_peca" objectType="TABLE" physicalName="Atividade_Peca" remarks="" >
    <folder id="FOL182" populated="true" name="Columns" physicalName="Columns" type="1" >
     <column id="COL183" populated="true" autoIncrement="false" name="cod_atividade" nullable="0" physicalName="cod_atividade" precision="10" primaryKeySeq="0" referenceCount="1" remarks="" scale="0" type="4" />
     <column id="COL184" populated="true" autoIncrement="false" name="cod_peca" nullable="0" physicalName="cod_peca" precision="10" primaryKeySeq="1" referenceCount="1" remarks="" scale="0" type="4" />
-    <column id="COL185" populated="true" autoIncrement="false" autoIncrementSequenceName="AtividadePeca_quantidade_peca_seq" defaultValue="" name="quantidade_peca" nullable="1" physicalName="quantidade_peca" precision="10" referenceCount="1" remarks="" scale="0" type="4" />
+    <column id="COL185" populated="true" autoIncrement="false" autoIncrementSequenceName="Atividade_Peca_quantidade_peca_seq" defaultValue="" name="quantidade_peca" nullable="1" physicalName="quantidade_peca" precision="10" referenceCount="1" remarks="" scale="0" type="4" />
    </folder>
    <folder id="FOL186" populated="true" name="Exported Keys" physicalName="Exported Keys" type="3" >
    </folder>
    <folder id="FOL187" populated="true" name="Imported Keys" physicalName="Imported Keys" type="2" >
    </folder>
    <folder id="FOL188" populated="true" name="Indices" physicalName="Indices" type="4" >
-    <index id="IDX189" populated="true" clustered="false" name="AtividadePeca_pk" physicalName="atividadepeca_pk" primaryKeyIndex="true" unique="true" >
+    <index id="IDX189" populated="true" clustered="false" name="Atividade_Peca_pk" physicalName="atividadepeca_pk" primaryKeyIndex="true" unique="true" >
      <index-column id="IDC190" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL183" name="cod_atividade" physicalName="cod_atividade" />
      <index-column id="IDC191" populated="true" ascendingOrDescending="UNSPECIFIED" column-ref="COL184" name="cod_peca" physicalName="cod_peca" />
     </index>
