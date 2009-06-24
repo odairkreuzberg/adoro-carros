@@ -145,7 +145,7 @@ public class DaoFuncionario implements DaoInterface {
 		if (campo.equals("Código")) {
 			valorSQL = valor;
 			campoSQL = "where cod_funcionario ";
-			if (operador.equals("Contem")) {
+			if (operador.equals("Contém")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}

@@ -15,7 +15,8 @@ public class DaoModelo implements DaoInterface {
 	private final static String tableName = "modelo";
 
 	private final static String SELECT = "select modelo.*, marca.nome as ma_nome" + " from marca inner join modelo on (modelo.cod_marca = marca.cod_marca) ";
-
+	private final static String SELECT_TEM_CARRO = "select modelo.cod_modelo from carro, modelo where carro.cod_modelo = modelo.cod_modelo and modelo.cod_modelo =  ";
+	
 	public Modelo getModelo() {
 		return modelo;
 	}
@@ -25,6 +26,12 @@ public class DaoModelo implements DaoInterface {
 	}
 
 	public void delete() {
+
+		String sql = SELECT_TEM_CARRO + modelo.getCodigo();
+
+		if (this.load(sql).getSize() > 0) {
+			throw new RuntimeException();
+		}
 		if (db.connect()) {
 			db.update("delete from " + tableName + " where cod_" + tableName + " = " + modelo.getCodigo());
 			db.disconnect();
@@ -87,7 +94,7 @@ public class DaoModelo implements DaoInterface {
 		if (campo.equals("Código")) {
 			campoSQL = " where cod_modelo ";
 			valorSQL = valor;
-			if (operador.equals("Contem")) {
+			if (operador.equals("Contém")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}
@@ -110,6 +117,13 @@ public class DaoModelo implements DaoInterface {
 		}
 		sql += campoSQL + " " + operadorSQL + valorSQL;
 		return this.load(sql);
+	}
+
+	public boolean existeModelo(Modelo modelo) {
+		String sql = "select modelo.* from modelo where '" + modelo.getNome() +
+		"' = modelo.nome and modelo.cod_modelo != " + modelo.getCodigo();
+	System.out.println(this.load(sql).getSize());
+	return this.load(sql).getSize() > 0;
 	}
 
 }

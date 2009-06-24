@@ -32,6 +32,19 @@ import br.iav.ac.telas.padrao.PainelPadrao;
 import br.iav.ac.telas.peca.PainelPeca;
 
 
+
+/**
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 public final class DialogoAtividade extends JDialog {
 	private JLabel labelAtividade;
 	private JLabel labelCodigo;
@@ -162,41 +175,41 @@ public final class DialogoAtividade extends JDialog {
 					{
 						textCodigo = new JTextField();
 						painelAtividade.add(textCodigo);
-						textCodigo.setBounds(76, 13, 242, 21);
+						textCodigo.setBounds(94, 13, 224, 21);
 						textCodigo.setEditable(false);
 					}
 					{
 						labelCodigo = new JLabel();
 						painelAtividade.add(labelCodigo);
 						labelCodigo.setText("Código:");
-						labelCodigo.setBounds(13, 16, 37, 14);
+						labelCodigo.setBounds(13, 16, 55, 14);
 					}
 					{
 						textAtividade = new JTextField();
 						painelAtividade.add(textAtividade);
-						textAtividade.setBounds(74, 40, 244, 21);
+						textAtividade.setBounds(94, 40, 224, 21);
 					}
 					{
 						labelAtividade = new JLabel();
 						painelAtividade.add(labelAtividade);
-						labelAtividade.setText("Atividade:");
-						labelAtividade.setBounds(13, 43, 49, 14);
+						labelAtividade.setText("Atividade: *");
+						labelAtividade.setBounds(13, 43, 61, 14);
 					}
 					{
 						textTipo = new JTextField();
 						painelAtividade.add(textTipo);
-						textTipo.setBounds(76, 67, 242, 21);
+						textTipo.setBounds(94, 67, 224, 21);
 					}
 					{
 						labelTipo = new JLabel();
 						painelAtividade.add(labelTipo);
 						labelTipo.setText("Tipo:");
-						labelTipo.setBounds(13, 70, 24, 14);
+						labelTipo.setBounds(13, 70, 63, 14);
 					}
 					{
 						comboFuncionario = new JComboBox();
 						painelAtividade.add(comboFuncionario);
-						comboFuncionario.setBounds(76, 94, 214, 21);
+						comboFuncionario.setBounds(93, 94, 197, 21);
 					}
 					{
 						botaoFuncionario = new JButton();
@@ -207,8 +220,8 @@ public final class DialogoAtividade extends JDialog {
 					{
 						labelFuncionario = new JLabel();
 						painelAtividade.add(labelFuncionario);
-						labelFuncionario.setText("Funcionário:");
-						labelFuncionario.setBounds(13, 97, 59, 14);
+						labelFuncionario.setText("Funcionário: *");
+						labelFuncionario.setBounds(13, 97, 85, 14);
 					}
 				}
 				{

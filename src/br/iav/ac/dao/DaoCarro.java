@@ -116,7 +116,7 @@ public class DaoCarro implements DaoInterface {
 		if (campo.equals("Código")) {
 			valorSQL = valor;
 			campoSQL = " where cod_carro ";
-			if (operador.equals("Contem")) {
+			if (operador.equals("Contém")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}

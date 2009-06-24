@@ -67,7 +67,7 @@ public class DaoStatus implements DaoInterface {
 		if (campo.equals("Código")) {
 			campoSQL = "cod_status";
 			valorSQL = valor;
-			if (operador.equals("Contem")) {
+			if (operador.equals("Contém")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}

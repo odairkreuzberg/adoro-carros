@@ -49,7 +49,12 @@ public class Modelo extends Objeto implements ObjetoInterface {
 	public void delete() {
 		DaoModelo dao = new DaoModelo();
 		dao.setModelo(this);
-		dao.delete();
+		try {
+			dao.delete();			
+		} catch (RuntimeException e) {	
+			throw new RuntimeException("Este Modelo " 
+				+ "está vinculado com um Carro e não pode ser excluido!");
+		}
 	}
 	
 	public void edit() {
@@ -72,6 +77,11 @@ public class Modelo extends Objeto implements ObjetoInterface {
 	public ListaObjeto search(String campo, String operador, String valor){
 		DaoModelo dao = new DaoModelo();
 		return dao.search(campo, operador, valor);		
+	}
+
+	public boolean existeModelo(Modelo modelo) {
+		DaoModelo dao = new DaoModelo();
+		return dao.existeModelo(modelo);
 	}
 	
 }

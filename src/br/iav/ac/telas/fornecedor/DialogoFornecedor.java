@@ -76,8 +76,8 @@ public class DialogoFornecedor extends DialogoPadrao {
             	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelNomeFantazia = new JLabel();
             	getPanelPrincipal().add(labelNomeFantazia);
-            	labelNomeFantazia.setText("Nome Fantazia:");
-            	labelNomeFantazia.setBounds(10, espacoEntreLinhas, 80, 20);
+            	labelNomeFantazia.setText("Nome Fantazia:*");
+            	labelNomeFantazia.setBounds(8, espacoEntreLinhas, 90, 20);
 	        }
 	        {
 	        	textNomeFantazia = new JTextField();
@@ -88,7 +88,7 @@ public class DialogoFornecedor extends DialogoPadrao {
             	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelRazaoSocial = new JLabel();
             	getPanelPrincipal().add(labelRazaoSocial);
-            	labelRazaoSocial.setText("Razão Social:");
+            	labelRazaoSocial.setText("Razão Social:*");
             	labelRazaoSocial.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
@@ -100,7 +100,7 @@ public class DialogoFornecedor extends DialogoPadrao {
             	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelCnpj = new JLabel();
             	getPanelPrincipal().add(labelCnpj);
-            	labelCnpj.setText("CNPJ:");
+            	labelCnpj.setText("CNPJ:*");
             	labelCnpj.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
@@ -114,11 +114,11 @@ public class DialogoFornecedor extends DialogoPadrao {
             	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelTelefone = new JLabel();
             	getPanelPrincipal().add(labelTelefone);
-            	labelTelefone.setText("Telefone:");
+            	labelTelefone.setText("Telefone:*");
             	labelTelefone.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	            mascaraTelefone = new MaskFormatter("(##)####-####");	            
+	            mascaraTelefone = new MaskFormatter("####-####");	            
 	            mascaraTelefone.setPlaceholderCharacter('_');  
 	        	textTelefone = new JFormattedTextField(mascaraTelefone);
 	        	getPanelPrincipal().add(textTelefone);
@@ -132,7 +132,7 @@ public class DialogoFornecedor extends DialogoPadrao {
             	labelFax.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
-	            mascaraFax = new MaskFormatter("(##)####-####");	            
+	            mascaraFax = new MaskFormatter("####-####");	            
 	            mascaraFax.setPlaceholderCharacter('_');  
 	        	textFax = new JFormattedTextField(mascaraFax);
 	        	getPanelPrincipal().add(textFax);
@@ -204,7 +204,7 @@ public class DialogoFornecedor extends DialogoPadrao {
             	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelCidade = new JLabel();
             	getPanelPrincipal().add(labelCidade);
-            	labelCidade.setText("Cidade:");
+            	labelCidade.setText("Cidade:*");
             	labelCidade.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
@@ -258,60 +258,51 @@ public class DialogoFornecedor extends DialogoPadrao {
 			}
 		}
 		
-		private boolean existeFornecedor(){
-			ListaObjeto listaObjeto = fornecedor.search("Razão Social", "Igual", textRazaoSocial.getText().trim());
-			if (listaObjeto.getSize() > 0) {
-				return false;
-			}			
-			return true;
-		}
-		
 		/**
 		 * Faz a inserção de um fornecedor.
 		 */		
-		private void inserir(){
-			if (existeFornecedor()) {
-				fornecedor.setNome(textNomeFantazia.getText().trim());
-				fornecedor.setCnpj(textCnpj.getText().trim());
-				fornecedor.setFax(textFax.getText().trim());
-				fornecedor.setRazaoSocial(textRazaoSocial.getText().trim());
-				fornecedor.setTelefone(textTelefone.getText().trim());
+		private void inserir() {
+			fornecedor.setNome(textNomeFantazia.getText().trim());
+			fornecedor.setCnpj(textCnpj.getText().trim());
+			fornecedor.setFax(textFax.getText().trim());
+			fornecedor.setRazaoSocial(textRazaoSocial.getText().trim());
+			fornecedor.setTelefone(textTelefone.getText().trim());
 
-				Endereco endereco = new Endereco(textRua.getText().trim(),
-												 Integer.valueOf(textNumero.getText().trim()),
-												 textBairro.getText().trim(),
-												 buscarCidade(),
-												 textCep.getText().trim(),
-												 textComplemento.getText().trim());
-				fornecedor.setEndereco(endereco);
-				fornecedor.insert();					
-			} else {
-				JOptionPane.showMessageDialog(DialogoFornecedor.this, "Esse fornecedor já se encontra na Base de Dados!");
-			}			
+			Endereco endereco = new Endereco();
+			endereco.setBairro(textBairro.getText().trim());
+			endereco.setCep(textCep.getText().trim());
+			endereco.setCidade(buscarCidade());
+			endereco.setComplemento(textComplemento.getText().trim());
+			endereco.setRua(textRua.getText().trim());
+			if (!textNumero.getText().trim().equals("")){
+				endereco.setNumero(Integer.valueOf(textNumero.getText().trim()));
+			}
+			fornecedor.setEndereco(endereco);
+			fornecedor.insert();
+
 		}
 		
 		/**
 		 * Faz a edição de um fornecedor.
 		 */
 		private void editar(){
-			if (existeFornecedor()) {
-				fornecedor.setNome(textNomeFantazia.getText().trim());
-				fornecedor.setCnpj(textCnpj.getText().trim());
-				fornecedor.setFax(textFax.getText().trim());
-				fornecedor.setRazaoSocial(textRazaoSocial.getText().trim());
-				fornecedor.setTelefone(textTelefone.getText().trim());
-
-				Endereco endereco = new Endereco(textRua.getText().trim(),
-												 Integer.valueOf(textNumero.getText().trim()),
-												 textBairro.getText().trim(),
-												 buscarCidade(),
-												 textCep.getText().trim(),
-												 textComplemento.getText().trim());
-				fornecedor.setEndereco(endereco);
-				fornecedor.edit();
-			} else {
-				JOptionPane.showMessageDialog(DialogoFornecedor.this, "Esse fornecedor já se encontra na Base de Dados!");
+			fornecedor.setNome(textNomeFantazia.getText().trim());
+			fornecedor.setCnpj(textCnpj.getText().trim());
+			fornecedor.setFax(textFax.getText().trim());
+			fornecedor.setRazaoSocial(textRazaoSocial.getText().trim());
+			fornecedor.setTelefone(textTelefone.getText().trim());
+			Endereco endereco = new Endereco();
+			endereco.setBairro(textBairro.getText().trim());
+			endereco.setCep(textCep.getText().trim());
+			endereco.setCidade(buscarCidade());
+			endereco.setComplemento(textComplemento.getText().trim());
+			endereco.setRua(textRua.getText().trim());
+			if (!textNumero.getText().trim().equals("")){
+				endereco.setNumero(Integer.valueOf(textNumero.getText().trim()));
 			}
+			fornecedor.setEndereco(endereco);
+			fornecedor.edit();
+			
 		}
 		
 		/**
@@ -355,27 +346,18 @@ public class DialogoFornecedor extends DialogoPadrao {
 				
 			} else if (e.getSource() == getBotaoConfirmar()) {
 				if (textNomeFantazia.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoFornecedor.this, "O campo nome é obrigatório!");
+					JOptionPane.showMessageDialog(DialogoFornecedor.this, "O campo Nome Fantasia é obrigatório!");
 					textNomeFantazia.requestFocus();
 				} else if (textRazaoSocial.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoFornecedor.this, "O campo telefone é obrigatório!");
-					textTelefone.requestFocus();
-				} else if (textCnpj.getText().equals("")) {
+					JOptionPane.showMessageDialog(DialogoFornecedor.this, "O campo Razão Social é obrigatório!");
+					textRazaoSocial.requestFocus();
+				} else if (textCnpj.getText().equals("__.___.___/____-__")) {
 					JOptionPane.showMessageDialog(DialogoFornecedor.this, "O campo CNPJ é obrigatório!");
 					textCnpj.requestFocus();
-				}else if (textRua.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoFornecedor.this, "O campo rua é obrigatório!");
-					textRua.requestFocus();
-				} else if (textNumero.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoFornecedor.this, "O campo número é obrigatório!");
-					textNumero.requestFocus();
-				} else if (textBairro.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoFornecedor.this, "O campo bairro é obrigatório!");
-					textBairro.requestFocus();
-				} else if (textCep.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoFornecedor.this, "O campo CEP é obrigatório!");
-					textCep.requestFocus();
-				} else if (comboCidade.getSelectedIndex() == -1) {
+				} else if (textTelefone.getText().equals("____-____")) {
+					JOptionPane.showMessageDialog(DialogoFornecedor.this, "O campo Telefone é obrigatório!");
+					textTelefone.requestFocus();
+				}else if (comboCidade.getSelectedIndex() == -1) {
 					JOptionPane.showMessageDialog(DialogoFornecedor.this, "O campo Cidade é obrigatório!");
 					comboCidade.requestFocus();					
 				}else {

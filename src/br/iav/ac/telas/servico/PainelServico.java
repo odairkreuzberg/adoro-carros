@@ -42,7 +42,7 @@ public class PainelServico extends JPanel {
 	private JTable gridTabela;
 	private JScrollPane scrollTabela;
 	private JTextField textBuscar;
-	private JComboBox comboTipoBuscar; //Contem, Igual, Diferente, Maior, Menor
+	private JComboBox comboTipoBuscar; //Contém, Igual, Diferente, Maior, Menor
 	private JComboBox comboAtributoBuscar; //Atributos da classe para buscar
 	private JLabel labelFiltro;
 	private static final String[] CAMPOS = {"Código","Cliente", "Carro", "Status"};
@@ -77,7 +77,7 @@ public class PainelServico extends JPanel {
 				labelFiltro.setBounds(264, 18, 51, 14);
 			}
 			{
-				ComboBoxModel comboOperadorModel = new DefaultComboBoxModel(new String[] { "Contem", "Igual", "Diferente", "Maior",	"Menor" });
+				ComboBoxModel comboOperadorModel = new DefaultComboBoxModel(new String[] { "Contém", "Igual", "Diferente", "Maior",	"Menor" });
 				comboTipoBuscar = new JComboBox();
 				this.add(comboTipoBuscar);
 				comboTipoBuscar.setModel(comboOperadorModel);

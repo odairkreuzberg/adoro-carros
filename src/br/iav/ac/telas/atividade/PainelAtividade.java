@@ -157,7 +157,19 @@ public class PainelAtividade extends PainelPadrao {
 						int resp = JOptionPane.showConfirmDialog(null,"Deseja mesmo excluir a Atividade "
 								+ atividade.getNome()+ " ?", "Exclusão",JOptionPane.YES_NO_OPTION);
 						if (resp == 0) {
-							atividade.delete();
+							try {
+
+								atividade.delete();
+
+							} catch (RuntimeException e2) {
+
+								JOptionPane.showMessageDialog(null, e2
+										.getMessage(), "Erro ao excluir",
+										JOptionPane.ERROR_MESSAGE);
+
+								return;
+							}
+							
 							carregarGrid(atividade.load());
 						}
 

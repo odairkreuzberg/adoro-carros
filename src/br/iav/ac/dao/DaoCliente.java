@@ -136,7 +136,7 @@ public class DaoCliente implements DaoInterface {
 		if (campo.equals("Código")) {
 			valorSQL = valor;
 			campoSQL = " where cod_cliente ";
-			if (operador.equals("Contem")) {
+			if (operador.equals("Contém")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}
@@ -164,7 +164,7 @@ public class DaoCliente implements DaoInterface {
 		} else if (campo.equals("Número")) {
 			valorSQL = valor;
 			campoSQL = "where cliente.numero";
-			if (operador.equals("Contem")) {
+			if (operador.equals("Contém")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}

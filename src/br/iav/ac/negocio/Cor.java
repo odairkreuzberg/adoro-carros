@@ -66,5 +66,10 @@ public class Cor extends Objeto implements ObjetoInterface {
 		DaoCor dao = new DaoCor();
 		return dao.search(campo, operador, valor);		
 	}
+
+	public boolean existeCor(Cor cor) {
+		DaoCor dao = new DaoCor();
+		return dao.existeCor(cor);
+	}
 	
 }

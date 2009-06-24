@@ -106,13 +106,20 @@ public class DaoMarca implements DaoInterface {
 			operadorSQL = ">";
 		} else if (operador.equals("Menor")) {
 			operadorSQL = "<";
-		} else if (operador.equals("Contem")) {
+		} else if (operador.equals("Contém")) {
 			operadorSQL = "like";
 			valorSQL = " '%" + valor + "%'";
 		}
 		String sql = SELECT;
 		sql += " where " + campoSQL + " " + operadorSQL + valorSQL;
 		return this.load(sql);
+	}
+
+	public boolean existeMarca(Marca marca) {
+		String sql = "select marca.* from marca where '" + marca.getNome() +
+		"' = marca.nome and marca.cod_marca != " + marca.getCodigo();
+	System.out.println(this.load(sql).getSize());
+	return this.load(sql).getSize() > 0;
 	}
 
 }

@@ -17,7 +17,8 @@ public class DaoAtividade implements DaoInterface {
 		"funcionario.nome as f_nome, atividade.nome as a_nome from funcionario" +
 		" inner join atividade on (atividade.cod_funcionario = funcionario.cod_funcionario)";
 	
-	 
+	private final static String SELECT_TEM_SERVICO_ATIVIDADE = "select atividade.cod_atividade from servico_atividade, atividade where servico_atividade.cod_atividade = atividade.cod_atividade and atividade.cod_atividade =  ";
+	
 
 	public Atividade getAtividade() {
 		return atividade;
@@ -29,11 +30,18 @@ public class DaoAtividade implements DaoInterface {
 
 	@Override
 	public void delete() {
-		if(db.connect()){			
-			db.update("delete from atividade where cod_atividade = " + atividade.getCodigo());			
+
+		String sql = SELECT_TEM_SERVICO_ATIVIDADE + atividade.getCodigo();
+
+		if (this.load(sql).getSize() > 0) {
+			throw new RuntimeException();
+		}
+		if (db.connect()) {
+			db.update("delete from atividade where cod_atividade = "
+					+ atividade.getCodigo());
 			db.disconnect();
-		}		
-		
+		}
+
 	}
 
 	@Override
@@ -111,7 +119,7 @@ public class DaoAtividade implements DaoInterface {
 		if (campo.equals("Código")) {
 			campoSQL = "where cod_atividade ";
 			valorSQL = valor;
-			if (operador.equals("Contem")) {
+			if (operador.equals("Contém")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}

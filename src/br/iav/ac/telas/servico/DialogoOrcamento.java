@@ -376,7 +376,7 @@ public class DialogoOrcamento extends JDialog{
 						scrollTabelaPeca.setHorizontalScrollBar(new JScrollBar(0));	
 						scrollTabelaPeca.setViewportView(gridTabelaPeca);		
 						scrollTabelaPeca.setBounds(13, 10, 499, 132);
-						String[] campos = { "Codigo", "Peca", "quantidade", "Valor R$"};
+						String[] campos = {"Peca", "quantidade", "Valor R$","Valor Total R$"};
 						DefaultTableModel model = new DefaultTableModel(null, campos);
 						gridTabelaPeca.setModel(model);
 					}
@@ -581,22 +581,24 @@ public class DialogoOrcamento extends JDialog{
 
 		// Carrega a Grid de Peças	
 		private void carregarGridPeca(ListaObjeto listaPeca) {
-			Object[][] gridArray = new Object[listaPeca.getSize()][3];
+			Object[][] gridArray = new Object[listaPeca.getSize()][4];
 			for (int i = 0; i < listaPeca.getSize(); i++) {
 				PecaEstoque pe = (PecaEstoque)listaPeca.getObjeto(i);
 				//gridArray[i][0] = pe.getCodAtividade();
 				gridArray[i][0] = pe.getNome();
 				gridArray[i][1] = pe.getQuantidade();
 				gridArray[i][2] = pe.getPreco();
+				gridArray[i][3] = pe.getPreco()*pe.getQuantidade();
 			}
-			String[] campos = {"Peca", "quantidade", "Valor R$"};
+			String[] campos = {"Peca", "quantidade", "Valor R$","Valor Total R$"};
 			DefaultTableModel model = new DefaultTableModel(gridArray, campos);
 			gridTabelaPeca.setModel(model);
 			gridTabelaPeca.setShowVerticalLines(true);
 			//gridTabelaPeca.getColumnModel().getColumn(0).setPreferredWidth(40);
 			gridTabelaPeca.getColumnModel().getColumn(0).setPreferredWidth(265);
 			gridTabelaPeca.getColumnModel().getColumn(1).setPreferredWidth(100);	
-			gridTabelaPeca.getColumnModel().getColumn(2).setPreferredWidth(100);			
+			gridTabelaPeca.getColumnModel().getColumn(2).setPreferredWidth(100);	
+			gridTabelaPeca.getColumnModel().getColumn(3).setPreferredWidth(100);			
 		}
 		
 		//GAMBIARRA. Carrega o ID de um ServicoAtividade com O ID da Atividade
@@ -678,7 +680,8 @@ public class DialogoOrcamento extends JDialog{
 			float valorP = 0;
 
 			for (int i = 0; i < listaP.getSize(); i++) {
-				valorP += ((PecaEstoque)listaP.getObjeto(i)).getPreco();				
+				PecaEstoque pe = (PecaEstoque)listaP.getObjeto(i);
+				valorP += pe.getPreco()*pe.getQuantidade() ;				
 			}
 			textTotalPeca.setText(valorP+"");
 			float valorT = valorA + valorP;

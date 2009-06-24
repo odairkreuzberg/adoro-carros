@@ -2,12 +2,13 @@ package br.iav.ac.telas.marca;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
 import br.iav.ac.negocio.Marca;
-import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.telas.TelaPrincipal;
 import br.iav.ac.telas.padrao.DialogoPadrao;
 
@@ -54,7 +55,7 @@ public class DialogoMarca extends DialogoPadrao {
             	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelMarca = new JLabel();
             	getPanelPrincipal().add(labelMarca);
-            	labelMarca.setText("Marca:");
+            	labelMarca.setText("Marca:*");
             	labelMarca.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
@@ -104,43 +105,43 @@ public class DialogoMarca extends DialogoPadrao {
 
 		}
 		
-		/**
-		 * Retorna true se encontrar uma marca e false se nao encontrar.
-		 * 
-		 * @return boolean
-		 */
-		private boolean existeMarca() {
-			ListaObjeto listaObjeto = marca.search("Marca", "Igual", textMarca
-					.getText().trim());
-			if (listaObjeto.getSize() > 0) {
-				return false;
+		private boolean validarCampos() {
+		if (textMarca.getText().trim().length()>50) {
+			JOptionPane.showMessageDialog(DialogoMarca.this, "O campo Nome estourou o limite de Caracter!");
+			textMarca.requestFocus();
+			return false;
+		}else if (textMarca.getText().equals("")) {
+			JOptionPane.showMessageDialog(DialogoMarca.this, "O campo Nome é obrigatorio!");
+			textMarca.requestFocus();
+			return false;
+		}
+		return true;
+			
+		}
+
+		//Faz a Inserção de uma Cor.
+		private void inserir(){	
+			if(validarCampos()){
+				marca.setNome(textMarca.getText().trim());
+				if(marca.search("Nome", "Igual", marca.getNome()).getSize() == 0){					
+					marca.insert();
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(DialogoMarca.this, "Esta Marca já se Encontra na Base de Dados!");					
+				}
 			}
-			return true;
 		}
-		
-		/**
-		 * Faz a Inserção de uma Marca.
-		 */		
-		private void inserir(){
-			if (existeMarca()) {
+
+		//Faz a Edição de uma Cor.
+		private void editar() {
+			if (validarCampos()) {
 				marca.setNome(textMarca.getText().trim());
-				marca.insert();							
-			} else {
-				JOptionPane.showMessageDialog(DialogoMarca.this, 
-						"Essa marca já se encontra na Base de Dados!");
-			}			
-		}
-		
-		/**
-		 * Faz a Edição de uma Marca.
-		 */
-		private void editar(){
-			if (existeMarca()) {
-				marca.setNome(textMarca.getText().trim());
-				marca.edit();	
-			} else{
-				JOptionPane.showMessageDialog(DialogoMarca.this, 
-						"Essa marca já se encontra na Base de Dados!");
+				if (!marca.existeMarca(marca)) {
+					marca.edit();
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(DialogoMarca.this, "Esta Marca já se Encontra na Base de Dados!");					
+				}
 			}
 		}
 
@@ -157,7 +158,6 @@ public class DialogoMarca extends DialogoPadrao {
 					} else {
 						editar();
 					}
-					dispose();
 				}
 			}
 		}

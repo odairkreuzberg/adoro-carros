@@ -97,7 +97,7 @@ public class DaoPeca implements DaoInterface {
 		if (campo.equals("Código")) {
 			campoSQL = "cod_peca";
 			valorSQL = valor;
-			if (operador.equals("Contem")) {
+			if (operador.equals("Contém")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}
@@ -118,6 +118,13 @@ public class DaoPeca implements DaoInterface {
 		}
 		sql += " where " + outroSQL + campoSQL + " " + operadorSQL + valorSQL;
 		return this.load(sql);
+	}
+
+	public boolean existePeca(Peca peca) {
+		String sql = "select peca.* from peca where '" + peca.getNome() +
+		"' = peca.nome and peca.cod_peca != " + peca.getCodigo();
+	System.out.println(this.load(sql).getSize());
+	return this.load(sql).getSize() > 0;
 	}
 	
 }

@@ -79,18 +79,18 @@ public class DialogoFornecedorPeca extends JDialog {
 		//25 de espaçamento entre cada atributo (JTextField e JLabel)
 		int espacoEntreLinhas = 10;
 		//Espaçamento dos JTextField
-		int espacoDoTextField = 70;
+		int espacoDoTextField = 80;
 		getContentPane().setLayout(null);
 		{
 			labelFornecedor = new JLabel();
 			getContentPane().add(labelFornecedor);
-			labelFornecedor.setText("Fornecedor:");
+			labelFornecedor.setText("Fornecedor:*");
 			labelFornecedor.setBounds(10, espacoEntreLinhas, 80, 20);
 		}
 		{
 			comboFornecedor = new JComboBox();
 			getContentPane().add(comboFornecedor);
-			comboFornecedor.setBounds(espacoDoTextField, espacoEntreLinhas, 240, 20);
+			comboFornecedor.setBounds(espacoDoTextField, espacoEntreLinhas, 230, 20);
 		}
 		{
 			botaoFornecedor = new JButton();
@@ -102,13 +102,13 @@ public class DialogoFornecedorPeca extends JDialog {
 			espacoEntreLinhas = espacoEntreLinhas + 25;
 			labelPeca = new JLabel();
 			getContentPane().add(labelPeca);
-			labelPeca.setText("Peça:");
+			labelPeca.setText("Peça:*");
 			labelPeca.setBounds(10, espacoEntreLinhas, 80, 20);
 		}
 		{
 			comboPeca = new JComboBox();
 			getContentPane().add(comboPeca);
-			comboPeca.setBounds(espacoDoTextField, espacoEntreLinhas, 240, 20);
+			comboPeca.setBounds(espacoDoTextField, espacoEntreLinhas, 230, 20);
 		}
 		{
 			botaoPeca = new JButton();
@@ -120,7 +120,7 @@ public class DialogoFornecedorPeca extends JDialog {
 			espacoEntreLinhas = espacoEntreLinhas + 25;
 			labelValor = new JLabel();
 			getContentPane().add(labelValor);
-			labelValor.setText("Valor:");
+			labelValor.setText("Valor:*");
 			labelValor.setBounds(10, espacoEntreLinhas, 80, 20);
 		}
 		{  
@@ -131,20 +131,20 @@ public class DialogoFornecedorPeca extends JDialog {
 		    textValor = new JFormattedTextField();  
 		    textValor .setFormatterFactory( new DefaultFormatterFactory(numFormatter)); 
 			getContentPane().add(textValor);
-			textValor.setBounds(espacoDoTextField, espacoEntreLinhas, 270, 20);
+			textValor.setBounds(espacoDoTextField, espacoEntreLinhas, 260, 20);
 			
 		}
 		{
 			espacoEntreLinhas = espacoEntreLinhas + 25;
 			labelQtd = new JLabel();
 			getContentPane().add(labelQtd);
-			labelQtd.setText("Quantidade:");
+			labelQtd.setText("Quantidade:*");
 			labelQtd.setBounds(10, espacoEntreLinhas, 80, 20);
 		}
 		{
 			textQtd = new JFormattedTextField(mascQtd);
 			getContentPane().add(textQtd);
-			textQtd.setBounds(espacoDoTextField, espacoEntreLinhas, 270, 20);
+			textQtd.setBounds(espacoDoTextField, espacoEntreLinhas, 260, 20);
 		}
 		{
 			labelAviso = new JLabel();

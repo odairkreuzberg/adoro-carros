@@ -79,7 +79,7 @@ public class DialogoCliente extends DialogoPadrao {
             	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelNome = new JLabel();
             	getPanelPrincipal().add(labelNome);
-            	labelNome.setText("Nome:");
+            	labelNome.setText("Nome:*");
             	labelNome.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
@@ -91,7 +91,7 @@ public class DialogoCliente extends DialogoPadrao {
             	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelTelefone = new JLabel();
             	getPanelPrincipal().add(labelTelefone);
-            	labelTelefone.setText("Telefone:");
+            	labelTelefone.setText("Telefone:*");
             	labelTelefone.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
@@ -103,7 +103,7 @@ public class DialogoCliente extends DialogoPadrao {
             	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelCpf = new JLabel();
             	getPanelPrincipal().add(labelCpf);
-            	labelCpf.setText("CPF:");
+            	labelCpf.setText("CPF:*");
             	labelCpf.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
@@ -129,8 +129,8 @@ public class DialogoCliente extends DialogoPadrao {
             	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelDataNascimento = new JLabel();
             	getPanelPrincipal().add(labelDataNascimento);
-            	labelDataNascimento.setText("Dt. Nascimento:");
-            	labelDataNascimento.setBounds(10, espacoEntreLinhas, 80, 20);
+            	labelDataNascimento.setText("Dt. Nascimento:*");
+            	labelDataNascimento.setBounds(8, espacoEntreLinhas, 90, 20);
 	        }
 	        {
 	            mascaraDtNascimento = new MaskFormatter("##/##/####");	            
@@ -215,7 +215,7 @@ public class DialogoCliente extends DialogoPadrao {
             	espacoEntreLinhas = espacoEntreLinhas + 25;
             	labelCidade = new JLabel();
             	getPanelPrincipal().add(labelCidade);
-            	labelCidade.setText("Cidade:");
+            	labelCidade.setText("Cidade:*");
             	labelCidade.setBounds(10, espacoEntreLinhas, 80, 20);
 	        }
 	        {
@@ -288,14 +288,6 @@ public class DialogoCliente extends DialogoPadrao {
 			textCep.setText("");
 			textComplemento.setText("");
 			comboCidade.setSelectedIndex(0);
-		}
-		
-		private boolean existeCliente(){
-			ListaObjeto listaObjeto = cliente.search("Código", "Igual", textCodigo.getText().trim());
-			if (listaObjeto.getSize() > 0) {
-				return false;
-			}			
-			return true;
 		}
 		
 		/**
