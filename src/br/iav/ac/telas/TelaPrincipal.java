@@ -23,10 +23,11 @@ import br.iav.ac.telas.marca.PainelMarca;
 import br.iav.ac.telas.modelo.PainelModelo;
 import br.iav.ac.telas.peca.PainelPeca;
 import br.iav.ac.telas.relatorio.RelCarro;
+import br.iav.ac.telas.relatorio.RelCliente;
+import br.iav.ac.telas.relatorio.RelAtividade;
 import br.iav.ac.telas.servico.DialogoOrcamento;
 import br.iav.ac.telas.servico.PainelOrcamento;
 import br.iav.ac.telas.servico.PainelServico;
-import br.iav.ac.telas.status.PainelStatus;
 
 public class TelaPrincipal extends javax.swing.JFrame {
 	
@@ -48,6 +49,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 	private PainelEstoque painelEstoque;
 	private PainelAtividade painelAtividade;
 	private RelCarro painelRelCarro;
+	private RelCliente painelRelCliente;
+	private RelAtividade painelRelAtividade;
 	private PainelServico painelServico;
 	private PainelOrcamento painelOrcamento;
 	public static TelaPrincipal instancia;
@@ -101,6 +104,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						DefaultMutableTreeNode nodoAlmox = new DefaultMutableTreeNode("Almoxarifado");
 						DefaultMutableTreeNode nodoServico = new DefaultMutableTreeNode("Serviços");
 						DefaultMutableTreeNode nodoRelatorios = new DefaultMutableTreeNode("Relatórios");
+						DefaultMutableTreeNode nodoAtividade = new DefaultMutableTreeNode("Atividade");
 						DefaultMutableTreeNode nodoCargo = new DefaultMutableTreeNode("Cargo");
 						DefaultMutableTreeNode nodoCarro = new DefaultMutableTreeNode("Carro");
 						DefaultMutableTreeNode nodoCidade = new DefaultMutableTreeNode("Cidade");
@@ -113,14 +117,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						DefaultMutableTreeNode nodoModelo = new DefaultMutableTreeNode("Modelo");
 						DefaultMutableTreeNode nodoEstoque = new DefaultMutableTreeNode("Estoque");
 						DefaultMutableTreeNode nodoCompra = new DefaultMutableTreeNode("Aquisição de Material");
-						DefaultMutableTreeNode nodoAtividade = new DefaultMutableTreeNode("Atividade");
 						DefaultMutableTreeNode nodoRelCarro = new DefaultMutableTreeNode("Carro");
+						DefaultMutableTreeNode nodoRelCliente = new DefaultMutableTreeNode("Cliente");
+						DefaultMutableTreeNode nodoRelAtividade = new DefaultMutableTreeNode("Atividade");
 						DefaultMutableTreeNode nodoServicoConcluido = new DefaultMutableTreeNode("Serviços Concluídos");
 						DefaultMutableTreeNode nodoOrdemServico = new DefaultMutableTreeNode("Ordem de Serviço");
 						DefaultMutableTreeNode nodoOrcamento = new DefaultMutableTreeNode("Serviços não Concluídos");
+						
 						nodoPrincipal.add(nodoCadastro);
 						nodoPrincipal.add(nodoMovimento);
 						nodoPrincipal.add(nodoRelatorios);
+						
+						nodoCadastro.add(nodoAtividade);
 						nodoCadastro.add(nodoCargo);
 						nodoCadastro.add(nodoCarro);
 						nodoCadastro.add(nodoCidade);
@@ -130,10 +138,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						nodoCadastro.add(nodoFuncionario);
 						nodoCadastro.add(nodoPeca);
 						nodoCadastro.add(nodoMarca);
-						nodoCadastro.add(nodoModelo);					
-						nodoCadastro.add(nodoAtividade);
+						nodoCadastro.add(nodoModelo);
 						
-						nodoRelatorios.add(nodoRelCarro);						
+						nodoRelatorios.add(nodoRelAtividade);
+						nodoRelatorios.add(nodoRelCarro);
+						nodoRelatorios.add(nodoRelCliente);
 
 						nodoAlmox.add(nodoEstoque);
 						nodoAlmox.add(nodoCompra);
@@ -178,6 +187,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
 		private RelCarro getPainelRelCarro() {
 			painelRelCarro = new RelCarro();
 			return painelRelCarro;
+		}
+		
+		private RelCliente getPainelRelCliente() {
+			painelRelCliente = new RelCliente();
+			return painelRelCliente;
+		}
+		
+		private RelAtividade getPainelRelAtividade() {
+			painelRelAtividade = new RelAtividade();
+			return painelRelAtividade;
 		}
 		
 		private PainelCidade getPainelCidade() {
@@ -320,9 +339,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 				showPainel(getPainelEstoque());
 			} else if (path.equals("[SMA, Movimento, Almoxarifado, Aquisição de Material]")) {
 				new DialogoFornecedorPeca(TelaPrincipal.instancia,"Aquisição de Material", true);
+			} else if (path.equals("[SMA, Relatórios, Atividade]")) {
+				showPainel(getPainelRelAtividade());
 			} else if (path.equals("[SMA, Relatórios, Carro]")) {
 				showPainel(getPainelRelCarro());
-			}  else {
+			} else if (path.equals("[SMA, Relatórios, Cliente]")) {
+				showPainel(getPainelRelCliente());
+			} else {
 				showPainel(getPainelApresentacao());
 			}
 		}

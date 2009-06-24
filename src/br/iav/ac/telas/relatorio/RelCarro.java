@@ -27,10 +27,9 @@ public class RelCarro extends RelPadrao {
 	private ArrayList dados;
 	
 	public RelCarro() {
-		//super();
 		dados = this.gerarDados();
 		try {
-			this.add(gerarGrafico("Relatório de Carros Cadastrados", "Carros", "Quantidade"));
+			this.add(gerarGrafico("Relatório de Carros", "Carros", "Quantidade"));
 		} catch (Exception e) {
 			
 		}
@@ -45,10 +44,14 @@ public class RelCarro extends RelPadrao {
 			for (int i = 0; i < dados.size(); i++) {
 				Carro carro = (Carro) dados.get(i); //Pega o dado na posição 'i' para adicionar ao Dataset
 				if (carro != null) {
-					//Adicionando os dados no Dataset
-					defaultCategoryDataset.addValue(carro.getCodigo(), //passando o código do carro 
-													"Quantidade", //Deixando o label "Quantidade" para ele não fazer comparações
-													carro.getModelo().getMarca().getNome() + " " + carro.getModelo().getNome()); //Colocando o nome do dado Ex: "Renault Clio"
+					if (carro.getCodigo() != 0 &&
+						!carro.getModelo().getNome().equals("") &&
+						!carro.getModelo().getMarca().getNome().equals("")) {
+						//Adicionando os dados no Dataset
+						defaultCategoryDataset.addValue(carro.getCodigo(), //passando o código do carro 
+														"Quantidade", //Deixando o label "Quantidade" para ele não fazer comparações
+														carro.getModelo().getMarca().getNome() + " " + carro.getModelo().getNome()); //Colocando o nome do dado Ex: "Renault Clio"
+					}
 				}
 			}
 			//Criando o Gráfico
@@ -81,15 +84,12 @@ public class RelCarro extends RelPadrao {
 		Carro carro = new Carro();
 		ArrayList arrayList = new ArrayList();
 		ListaObjeto listaObjeto = carro.searchGrafico();
-		for (int i = 0; i <= listaObjeto.getSize(); i++) {
-			arrayList.add(listaObjeto.getObjeto(i));
+		if (listaObjeto.getSize() != 0) {
+			for (int i = 0; i <= listaObjeto.getSize(); i++) {
+				arrayList.add(listaObjeto.getObjeto(i));
+			}
 		}
 		return arrayList;
-	}
-
-	private int gerarQuantidade(Carro carro) {
-		ListaObjeto listaObjeto = carro.searchGrafico();
-		return listaObjeto.getSize();
 	}
 
 }
