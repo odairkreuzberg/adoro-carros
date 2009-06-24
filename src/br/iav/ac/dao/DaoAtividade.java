@@ -171,5 +171,18 @@ public class DaoAtividade implements DaoInterface {
 		}
 		return(listaObjeto);	
 	}
+	
+	public ListaObjeto searchGrafico() {
+		StringBuffer sql = new StringBuffer();
+		//Selecionando
+		sql.append("SELECT COUNT(atividade.cod_atividade) AS cod_atividade, atividade.nome AS a_nome ");
+		//Agrupando as tabelas
+		sql.append("FROM servico_atividade INNER JOIN atividade ON servico_atividade.cod_atividade = atividade.cod_atividade ");
+		//Gerando grupos
+		sql.append("GROUP BY a_nome ");
+		//Ordenando
+		sql.append("ORDER BY cod_atividade DESC LIMIT 5 ");
+		return this.load(sql.toString());
+	}
 
 }
