@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import br.iav.ac.negocio.Cor;
 import br.iav.ac.negocio.ListaObjeto;
+import br.iav.ac.telas.cargo.DialogoCargo;
 import br.iav.ac.telas.padrao.DialogoPadrao;
 
 /**
@@ -41,7 +42,7 @@ public class DialogoCor extends DialogoPadrao {
 				espacoEntreLinhas = espacoEntreLinhas + 25;
 				labelNome = new JLabel();
 				getPanelPrincipal().add(labelNome);
-				labelNome.setText("Nome:");
+				labelNome.setText("Nome:*");
 				labelNome.setBounds(10, espacoEntreLinhas, 80, 20);
 			}
 			{
@@ -73,41 +74,44 @@ public class DialogoCor extends DialogoPadrao {
 				textCodigo.setText(String.valueOf(cor.getCodigo()));
 			}
 		}
-
-		/**
-		 * Retorna true se encontrar uma cor e false se nao encontrar.
-		 * 
-		 * @return boolean
-		 */
-		private boolean existeCor() {
-			ListaObjeto listaObjeto = cor.search("Nome", "Igual", textNome.getText().trim());
-			if (listaObjeto.getSize() > 0) {
-				return false;
-			}
-			return true;
+		
+		private boolean validarCampos() {
+		if (textNome.getText().trim().length()>50) {
+			JOptionPane.showMessageDialog(DialogoCor.this, "O campo Nome estourou o limite de Caracter!");
+			textNome.requestFocus();
+			return false;
+		}else if (textNome.getText().equals("")) {
+			JOptionPane.showMessageDialog(DialogoCor.this, "O campo Nome é obrigatorio!");
+			textNome.requestFocus();
+			return false;
+		}
+		return true;
+			
 		}
 
-		/**
-		 * Faz a inserção de uma Cor.
-		 */
-		private void inserir() {
-			if (existeCor()) {
+		//Faz a Inserção de uma Cor.
+		private void inserir(){	
+			if(validarCampos()){
 				cor.setNome(textNome.getText().trim());
-				cor.insert();
-			} else {
-				JOptionPane.showMessageDialog(DialogoCor.this, "Essa cor já se encontra na base de dados!");
+				if(cor.search("Nome", "Igual", cor.getNome()).getSize() == 0){					
+					cor.insert();
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(DialogoCor.this, "Esta Cor já se Encontra na Base de Dados!");					
+				}
 			}
 		}
 
-		/**
-		 * Faz a edição de uma Cor.
-		 */
+		//Faz a Edição de uma Cor.
 		private void editar() {
-			if (existeCor()) {
+			if (validarCampos()) {
 				cor.setNome(textNome.getText().trim());
-				cor.edit();
-			} else {
-				JOptionPane.showMessageDialog(DialogoCor.this, "Essa cor já se encontra na base de dados!");
+				if (!cor.existeCor(cor)) {
+					cor.edit();
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(DialogoCor.this, "Esta Cor já se Encontra na Base de Dados!");					
+				}
 			}
 		}
 
@@ -123,7 +127,6 @@ public class DialogoCor extends DialogoPadrao {
 					} else {
 						editar();
 					}
-					dispose();
 				}
 			}
 		}

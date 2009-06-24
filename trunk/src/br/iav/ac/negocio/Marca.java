@@ -68,5 +68,10 @@ public class Marca extends Objeto implements ObjetoInterface {
 		DaoMarca dao = new DaoMarca();
 		return dao.search(campo, operador, valor);		
 	}
+
+	public boolean existeMarca(Marca marca) {
+		DaoMarca dao = new DaoMarca();
+		return dao.existeMarca(marca);
+	}
 	
 }

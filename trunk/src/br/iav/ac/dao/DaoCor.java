@@ -83,7 +83,7 @@ public class DaoCor implements DaoInterface {
 		if (campo.equals("Código")) {
 			valorSQL = valor;
 			campoSQL = " where cod_cor";
-			if (operador.equals("Contem")) {
+			if (operador.equals("Contém")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}
@@ -104,6 +104,13 @@ public class DaoCor implements DaoInterface {
 		}
 		sql += campoSQL + " " + operadorSQL + valorSQL;
 		return this.load(sql);
+	}
+
+	public boolean existeCor(Cor cor) {
+		String sql = "select cor.* from cor where '" + cor.getNome() +
+		"' = cor.nome and cor.cod_cor != " + cor.getCodigo();
+	System.out.println(this.load(sql).getSize());
+	return this.load(sql).getSize() > 0;
 	}
 
 }

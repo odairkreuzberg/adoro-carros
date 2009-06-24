@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.negocio.Peca;
+import br.iav.ac.telas.cor.DialogoCor;
 import br.iav.ac.telas.padrao.DialogoPadrao;
 
 /**
@@ -41,7 +42,7 @@ public class DialogoPeca extends DialogoPadrao {
 				espacoEntreLinhas = espacoEntreLinhas + 25;
 				labelPeca = new JLabel();
 				getPanelPrincipal().add(labelPeca);
-				labelPeca.setText("Peça:");
+				labelPeca.setText("Peça:*");
 				labelPeca.setBounds(10, espacoEntreLinhas, 80, 20);
 			}
 			{
@@ -74,40 +75,43 @@ public class DialogoPeca extends DialogoPadrao {
 			}
 		}
 		
-		/**
-		 * Retorna true se encontrar um peca e false se nao encontrar.
-		 * 
-		 * @return boolean
-		 */
-		private boolean existePeca() {
-			ListaObjeto listaObjeto = peca.search("Nome", "Igual", textPeca.getText().trim());
-			if (listaObjeto.getSize() > 0) {
-				return false;
+		private boolean validarCampos() {
+		if (textPeca.getText().trim().length()>50) {
+			JOptionPane.showMessageDialog(DialogoPeca.this, "O campo Nome estourou o limite de Caracter!");
+			textPeca.requestFocus();
+			return false;
+		}else if (textPeca.getText().equals("")) {
+			JOptionPane.showMessageDialog(DialogoPeca.this, "O campo Nome é obrigatorio!");
+			textPeca.requestFocus();
+			return false;
+		}
+		return true;
+			
+		}
+
+		//Faz a Inserção de uma Peça.
+		private void inserir(){	
+			if(validarCampos()){
+				peca.setNome(textPeca.getText().trim());
+				if(peca.search("Nome", "Igual", peca.getNome()).getSize() == 0){					
+					peca.insert();
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(DialogoPeca.this, "Esta Peça já se Encontra na Base de Dados!");					
+				}
 			}
-			return true;
 		}
-		
-		/**
-		 * Faz a Inserção de um Peca.
-		 */		
-		private void inserir(){
-			if (existePeca()) {
+
+		//Faz a Edição de uma Peça.
+		private void editar() {
+			if (validarCampos()) {
 				peca.setNome(textPeca.getText().trim());
-				peca.insert();		
-			} else {
-				JOptionPane.showMessageDialog(DialogoPeca.this,	"Esta peça já se encontra na Base de Dados!");
-			}			
-		}
-		
-		/**
-		 * Faz a Edição de um Peca.
-		 */
-		private void editar(){
-			if (existePeca()) {
-				peca.setNome(textPeca.getText().trim());
-				peca.edit();	
-			} else {
-				JOptionPane.showMessageDialog(DialogoPeca.this,	"Esta peça já se encontra na Base de Dados!");
+				if (!peca.existePeca(peca)) {
+					peca.edit();
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(DialogoPeca.this, "Esta Peça já se Encontra na Base de Dados!");					
+				}
 			}
 		}
 
@@ -125,7 +129,6 @@ public class DialogoPeca extends DialogoPadrao {
 					else {
 						editar();
 					}
-					dispose();
 				}
 			}
 		}

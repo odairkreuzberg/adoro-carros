@@ -91,7 +91,7 @@ public class DialogoCarro extends DialogoPadrao {
 				espacoEntreLinhas = espacoEntreLinhas + 25;
 				labelCliente = new JLabel();
 				getPanelPrincipal().add(labelCliente);
-				labelCliente.setText("Cliente:");
+				labelCliente.setText("Cliente:*");
 				labelCliente.setBounds(10, espacoEntreLinhas, 80, 20);
 			}
 			{
@@ -109,7 +109,7 @@ public class DialogoCarro extends DialogoPadrao {
 				espacoEntreLinhas = espacoEntreLinhas + 25;
 				labelMarca = new JLabel();
 				getPanelPrincipal().add(labelMarca);
-				labelMarca.setText("Marca:");
+				labelMarca.setText("Marca:*");
 				labelMarca.setBounds(10, espacoEntreLinhas, 80, 20);
 			}
 			{
@@ -127,7 +127,7 @@ public class DialogoCarro extends DialogoPadrao {
 				espacoEntreLinhas = espacoEntreLinhas + 25;
 				labelModelo = new JLabel();
 				getPanelPrincipal().add(labelModelo);
-				labelModelo.setText("Modelo:");
+				labelModelo.setText("Modelo:*");
 				labelModelo.setBounds(10, espacoEntreLinhas, 80, 20);
 			}
 			{
@@ -145,7 +145,7 @@ public class DialogoCarro extends DialogoPadrao {
 				espacoEntreLinhas = espacoEntreLinhas + 25;
 				labelCor = new JLabel();
 				getPanelPrincipal().add(labelCor);
-				labelCor.setText("Cor:");
+				labelCor.setText("Cor:*");
 				labelCor.setBounds(10, espacoEntreLinhas, 80, 20);
 			}
 			{
@@ -163,7 +163,7 @@ public class DialogoCarro extends DialogoPadrao {
 				espacoEntreLinhas = espacoEntreLinhas + 25;
 				labelPlaca = new JLabel();
 				getPanelPrincipal().add(labelPlaca);
-				labelPlaca.setText("Placa:");
+				labelPlaca.setText("Placa:*");
 				labelPlaca.setBounds(10, espacoEntreLinhas, 80, 20);
 			}
 			{
@@ -175,7 +175,7 @@ public class DialogoCarro extends DialogoPadrao {
 				espacoEntreLinhas = espacoEntreLinhas + 25;
 				labelAno = new JLabel();
 				getPanelPrincipal().add(labelAno);
-				labelAno.setText("Ano:");
+				labelAno.setText("Ano:*");
 				labelAno.setBounds(10, espacoEntreLinhas, 80, 20);
 			}
 			{

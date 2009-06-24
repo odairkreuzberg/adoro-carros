@@ -92,6 +92,14 @@ public class Atividade extends Objeto {
 	}
 
 	public void delete(){
+		DaoAtividade dao = new DaoAtividade();
+		dao.setAtividade(this);
+	try {
+		dao.delete();			
+	} catch (RuntimeException e) {	
+		throw new RuntimeException("Esta Atividade " 
+			+ "está vinculada com um Serviço e não pode ser excluida!");
+	}
 		DaoAtividadePeca daoAtividadePeca = new DaoAtividadePeca();
 		AtividadePeca atividadePeca = new AtividadePeca();
 		for(int i=0;i<this.getListaAtividadePeca().getSize();i++){
@@ -100,9 +108,6 @@ public class Atividade extends Objeto {
 			daoAtividadePeca.setAtividadePeca(atividadePeca);
 			daoAtividadePeca.delete();
 		}
-		DaoAtividade dao = new DaoAtividade();
-		dao.setAtividade(this);
-		dao.delete();
 	}
 	
 	public void edit(){

@@ -15,6 +15,7 @@ import br.iav.ac.negocio.Marca;
 import br.iav.ac.negocio.Modelo;
 import br.iav.ac.negocio.Objeto;
 import br.iav.ac.telas.TelaPrincipal;
+import br.iav.ac.telas.cor.DialogoCor;
 import br.iav.ac.telas.marca.PainelMarca;
 import br.iav.ac.telas.padrao.DialogoCRUD;
 import br.iav.ac.telas.padrao.DialogoPadrao;
@@ -55,7 +56,7 @@ public class DialogoModelo extends DialogoPadrao {
 				espacoEntreLinhas = espacoEntreLinhas + 25;
 				labelMarca = new JLabel();
 				getPanelPrincipal().add(labelMarca);
-				labelMarca.setText("Marca:");
+				labelMarca.setText("Marca:*");
 				labelMarca.setBounds(10, espacoEntreLinhas, 80, 20);
 			}
 			{
@@ -73,7 +74,7 @@ public class DialogoModelo extends DialogoPadrao {
 				espacoEntreLinhas = espacoEntreLinhas + 25;
 				labelModelo = new JLabel();
 				getPanelPrincipal().add(labelModelo);
-				labelModelo.setText("Modelo:");
+				labelModelo.setText("Modelo:*");
 				labelModelo.setBounds(10, espacoEntreLinhas, 80, 20);
 			}
 			{
@@ -113,46 +114,6 @@ public class DialogoModelo extends DialogoPadrao {
 				textCodigo.setText(String.valueOf(modelo.getCodigo()));
 			}
 		}
-		
-		/**
-		 * Retorna true se encontrar um modelo e false se nao encontrar.
-		 * 
-		 * @return boolean
-		 */
-		private boolean existeModelo() {
-			ListaObjeto listaObjeto = modelo.search("Modelo", "Igual", textModelo.getText().trim());
-			if (listaObjeto.getSize() > 0) {
-				return false;
-			}
-			return true;
-		}
-		
-		/**
-		 * Faz a inserção de um modelo.
-		 */		
-		private void inserir(){
-			if (existeModelo()) {
-				modelo.setNome(textModelo.getText());
-				modelo.setMarca(buscarMarca());
-				modelo.insert();		
-				carregarComboMarca(marca.load());							
-			} else {
-				JOptionPane.showMessageDialog(DialogoModelo.this, "Esse modelo já se encontra na base de dados!");
-			}			
-		}
-		
-		/**
-		 * Faz a edição de um modelo.
-		 */
-		private void editar(){
-			if (existeModelo()) {
-				modelo.setNome(textModelo.getText().trim());
-				modelo.setMarca(buscarMarca());
-				modelo.edit();	
-			} else {
-				JOptionPane.showMessageDialog(DialogoModelo.this, "Esse modelo já se encontra na Base de Dados!");
-			}
-		}
 
 		/**
 		 * Carrega o Combobox com os nomes de todas as marcas cadastradas.
@@ -179,6 +140,52 @@ public class DialogoModelo extends DialogoPadrao {
 			return marca;
 		}
 		
+		private boolean validarCampos() {
+		if (textModelo.getText().trim().length()>50) {
+			JOptionPane.showMessageDialog(DialogoModelo.this, "O campo Nome estourou o limite de Caracter!");
+			textModelo.requestFocus();
+			return false;
+		}else if (comboMarca.getSelectedIndex() == -1) {
+			JOptionPane.showMessageDialog(DialogoModelo.this, "O campo Marca é obrigatorio!");
+			comboMarca.requestFocus();
+			return false;
+		}else if (textModelo.getText().equals("")) {
+			JOptionPane.showMessageDialog(DialogoModelo.this, "O campo Nome é obrigatorio!");
+			textModelo.requestFocus();
+			return false;
+		}
+		return true;
+			
+		}
+
+		//Faz a Inserção de um Modelo.
+		private void inserir(){	
+			if(validarCampos()){
+				modelo.setNome(textModelo.getText().trim());
+				modelo.setMarca(buscarMarca());
+				if(modelo.search("Modelo", "Igual", modelo.getNome()).getSize() == 0){					
+					modelo.insert();
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(DialogoModelo.this, "Este Modelo já se Encontra na Base de Dados!");					
+				}
+			}
+		}
+
+		//Faz a Edição de um Modelo.
+		private void editar() {
+			if (validarCampos()) {
+				modelo.setNome(textModelo.getText().trim());
+				modelo.setMarca(buscarMarca());
+				if (!modelo.existeModelo(modelo)) {
+					modelo.edit();
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(DialogoModelo.this, "Este Modelo já se Encontra na Base de Dados!");					
+				}
+			}
+		}
+		
 		/**
 		 * Instancia o Caso de Uso Marca.
 		 * @param painelPadrao
@@ -197,22 +204,12 @@ public class DialogoModelo extends DialogoPadrao {
 			else if (e.getSource() == getBotaoCancelar()) {
 				dispose();
 			} else if (e.getSource() == getBotaoConfirmar()) {
-				if (textModelo.getText().equals("")) {
-					JOptionPane.showMessageDialog(DialogoModelo.this,"O campo Modelo é obrigatório!");
-				} 
-				else if ( (( modelo.getCodigo() == 0 ) && (comboMarca.getSelectedIndex() == -1)) || 
-						   ((modelo.getCodigo() != 0 ) && (comboMarca.getSelectedItem() == null)) ) {
-					JOptionPane.showMessageDialog(DialogoModelo.this, "O campo Marca é obrigatório!");
+				if (modelo.getCodigo() == 0) {
+					inserir();
 				} else {
-					if (modelo.getCodigo() == 0) {
-						inserir();
-					} else {
-						editar();
-					}
-					dispose();
+					editar();
 				}
 			}
 		}
 	}
-
 }

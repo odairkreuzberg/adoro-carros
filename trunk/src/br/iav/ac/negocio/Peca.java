@@ -66,5 +66,10 @@ public class Peca extends Objeto implements ObjetoInterface {
 		DaoPeca dao = new DaoPeca();
 		return dao.search(campo, operador, valor);		
 	}
+
+	public boolean existePeca(Peca peca) {
+		DaoPeca dao = new DaoPeca();
+		return dao.existePeca(peca);
+	}
 	
 }

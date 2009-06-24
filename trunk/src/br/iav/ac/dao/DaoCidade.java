@@ -100,7 +100,7 @@ public class DaoCidade implements DaoInterface {
 		if (campo.equals("Código")) {
 			valorSQL = valor;
 			campoSQL = " where cod_cidade";
-			if (operador.equals("Contem")) {
+			if (operador.equals("Contém")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}
@@ -109,7 +109,7 @@ public class DaoCidade implements DaoInterface {
 		} else if (campo.equals("DDD")) {
 			campoSQL = " where cidade.ddd";
 			valorSQL = valor;
-			if (operador.equals("Contem")) {
+			if (operador.equals("Contém")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}

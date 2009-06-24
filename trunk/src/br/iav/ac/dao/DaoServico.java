@@ -136,7 +136,7 @@ public class DaoServico implements DaoInterface{
 		if (campo.equals("Código")) {
 			campoSQL = " where cod_servico";
 			valorSQL = valor;
-			if (operador.equals("Contem")) {
+			if (operador.equals("Contém")) {
 				operador = "Igual";
 				valorSQL = "-1";
 			}

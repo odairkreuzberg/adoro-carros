@@ -118,7 +118,16 @@ public class PainelModelo extends PainelPadrao {
 					if (modelo != null) {
 						int resp = JOptionPane.showConfirmDialog(null, "Deseja mesmo excluir a modelo "	+ modelo.getNome()+ " ?", "Exclusão", JOptionPane.YES_NO_OPTION);
 						if (resp == 0) {
-							modelo.delete();
+							try {
+
+								modelo.delete();
+								
+							} catch (RuntimeException e2) {
+
+								JOptionPane.showMessageDialog(null, e2.getMessage(), "Erro ao excluir",JOptionPane.ERROR_MESSAGE);
+
+								return;
+							}
 							carregarGrid(modelo.load());
 						}
 					} else {
