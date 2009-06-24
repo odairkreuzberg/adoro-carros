@@ -23,6 +23,7 @@ public class DB {
 	}	
 
 	public DB(String url, String usr, String pass) {
+		//System.out.println(url);
 		this.url = url;
 		this.usr = usr;
 		this.pass = pass;		
@@ -66,7 +67,7 @@ public class DB {
 	
 	public boolean select(String sql) {
 		
-		System.out.println("Select: " + sql);
+		//System.out.println("Select: " + sql);
 		
 		try {
 			stmt = con.createStatement();		
@@ -80,7 +81,7 @@ public class DB {
 
 	public boolean update(String sql) {
 		
-		System.out.println("Update: " + sql);
+		//System.out.println("Update: " + sql);
 		
 		try {
 			stmt = con.createStatement();		

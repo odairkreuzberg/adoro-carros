@@ -7,7 +7,6 @@ import br.iav.ac.negocio.AtividadePeca;
 import br.iav.ac.negocio.Funcionario;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.negocio.Peca;
-import br.iav.ac.negocio.PecaDetalhe;
 
 public class DaoAtividadePeca implements DaoInterface{
 
