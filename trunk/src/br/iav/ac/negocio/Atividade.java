@@ -2,6 +2,7 @@ package br.iav.ac.negocio;
 
 import br.iav.ac.dao.DaoAtividade;
 import br.iav.ac.dao.DaoAtividadePeca;
+import br.iav.ac.dao.DaoCliente;
 
 public class Atividade extends Objeto {
 	
@@ -146,5 +147,9 @@ public class Atividade extends Objeto {
 		return dao.getListaPeca(cod);
 	}
 	
+	public ListaObjeto searchGrafico(){
+		DaoAtividade dao = new DaoAtividade();
+		return dao.searchGrafico();		
+	}
 
 }
