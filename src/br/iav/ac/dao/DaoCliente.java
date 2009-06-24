@@ -196,5 +196,18 @@ public class DaoCliente implements DaoInterface {
 		sql += campoSQL + " " + operadorSQL + valorSQL;
 		return this.load(sql);
 	}
+	
+	public ListaObjeto searchGrafico() {
+		StringBuffer sql = new StringBuffer();
+		//Selecionando
+		sql.append("SELECT COUNT(servico.cod_servico) AS cod_servico, cliente.nome AS nome, cliente.cod_cliente ");
+		//Agrupando as tabelas
+		sql.append("FROM servico INNER JOIN carro ON carro.cod_carro = servico.cod_carro INNER JOIN cliente ON cliente.cod_cliente = carro.cod_cliente ");
+		//Gerando grupos
+		sql.append("GROUP BY nome, cliente.cod_cliente ");
+		//Ordenando
+		sql.append("ORDER BY cod_servico DESC LIMIT 5 ");
+		return this.load(sql.toString());
+	}
 
 }

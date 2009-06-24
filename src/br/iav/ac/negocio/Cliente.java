@@ -2,6 +2,7 @@ package br.iav.ac.negocio;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import br.iav.ac.dao.DaoCliente;
 
 public class Cliente extends Pessoa implements ObjetoInterface {
@@ -117,6 +118,11 @@ public class Cliente extends Pessoa implements ObjetoInterface {
 	public ListaObjeto search(String campo, String operador, String valor){
 		DaoCliente dao = new DaoCliente();
 		return dao.search(campo, operador, valor);		
+	}
+	
+	public ListaObjeto searchGrafico(){
+		DaoCliente dao = new DaoCliente();
+		return dao.searchGrafico();		
 	}
 	
 }
