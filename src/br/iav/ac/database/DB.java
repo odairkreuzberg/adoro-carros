@@ -141,5 +141,7 @@ public class DB {
 			return null;
 		}	
 	}
-
+	public Connection getConnection(){
+		return this.con;
+	}
 }		
