@@ -9,6 +9,13 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
+
 import br.iav.ac.telas.atividade.PainelAtividade;
 import br.iav.ac.telas.cargo.PainelCargo;
 import br.iav.ac.telas.carro.PainelCarro;
@@ -25,6 +32,7 @@ import br.iav.ac.telas.peca.PainelPeca;
 import br.iav.ac.telas.relatorio.RelCarro;
 import br.iav.ac.telas.relatorio.RelCliente;
 import br.iav.ac.telas.relatorio.RelAtividade;
+import br.iav.ac.telas.relatorio.RelServicoAtrasado;
 import br.iav.ac.telas.servico.DialogoOrcamento;
 import br.iav.ac.telas.servico.PainelOrcamento;
 import br.iav.ac.telas.servico.PainelServico;
@@ -123,10 +131,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						DefaultMutableTreeNode nodoServicoConcluido = new DefaultMutableTreeNode("Serviços Concluídos");
 						DefaultMutableTreeNode nodoOrdemServico = new DefaultMutableTreeNode("Ordem de Serviço");
 						DefaultMutableTreeNode nodoOrcamento = new DefaultMutableTreeNode("Serviços não Concluídos");
+						DefaultMutableTreeNode nodoRelServicoAtrasado = new DefaultMutableTreeNode("Serviços Atrasados");
 						
 						nodoPrincipal.add(nodoCadastro);
 						nodoPrincipal.add(nodoMovimento);
 						nodoPrincipal.add(nodoRelatorios);
+						
 						
 						nodoCadastro.add(nodoAtividade);
 						nodoCadastro.add(nodoCargo);
@@ -143,6 +153,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						nodoRelatorios.add(nodoRelAtividade);
 						nodoRelatorios.add(nodoRelCarro);
 						nodoRelatorios.add(nodoRelCliente);
+						nodoRelatorios.add(nodoRelServicoAtrasado);
 
 						nodoAlmox.add(nodoEstoque);
 						nodoAlmox.add(nodoCompra);
@@ -345,6 +356,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
 				showPainel(getPainelRelCarro());
 			} else if (path.equals("[SMA, Relatórios, Cliente]")) {
 				showPainel(getPainelRelCliente());
+			} else if (path.equals("[SMA, Relatórios, Serviços Atrasados]")) {
+				RelServicoAtrasado relatorioServicoAtrasado = new RelServicoAtrasado();
+				relatorioServicoAtrasado.exibirRelatorio();
 			} else {
 				showPainel(getPainelApresentacao());
 			}
