@@ -1,13 +1,7 @@
 package br.iav.ac.telas.relatorio;
 
-import java.util.HashMap;
-
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
-import br.iav.ac.database.DB;
-import br.iav.ac.database.PostgreSQL;
 import br.iav.ac.negocio.Servico;
 
 public class RelServicoAtrasado {
@@ -18,15 +12,7 @@ public class RelServicoAtrasado {
 	}
 	
 	public void exibirRelatorio(){
-		try{
-			DB db = PostgreSQL.create();
-			if(db.connect()){
-				JasperPrint print = JasperFillManager.fillReport("relServicoAtrasado.jasper",null,db.getConnection());
-				JasperViewer.viewReport(print,false);
-				db.disconnect();
-			}
-		}catch(JRException e){
-			e.printStackTrace();
-		}
+		JasperPrint print = servico.gerarRelatorioServicoAtrasado();
+		JasperViewer.viewReport(print,false);
 	}
 }

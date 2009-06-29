@@ -1,8 +1,8 @@
 package br.iav.ac.negocio;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import net.sf.jasperreports.engine.JasperPrint;
 import br.iav.ac.dao.DaoFornecedorPeca;
 import br.iav.ac.dao.DaoServico;
 import br.iav.ac.dao.DaoServicoAtividade;
@@ -258,5 +258,10 @@ public class Servico extends Objeto {
 			}
 		}	
 		return true;		
+	}
+	
+	public JasperPrint gerarRelatorioServicoAtrasado(){
+		DaoServico dao =  new DaoServico();
+		return dao.gerarRelatorioServicoAtrasado();
 	}
 }
