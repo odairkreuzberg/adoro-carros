@@ -9,13 +9,6 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.view.JasperViewer;
-
 import br.iav.ac.telas.atividade.PainelAtividade;
 import br.iav.ac.telas.cargo.PainelCargo;
 import br.iav.ac.telas.carro.PainelCarro;
@@ -29,9 +22,9 @@ import br.iav.ac.telas.funcionario.PainelFuncionario;
 import br.iav.ac.telas.marca.PainelMarca;
 import br.iav.ac.telas.modelo.PainelModelo;
 import br.iav.ac.telas.peca.PainelPeca;
+import br.iav.ac.telas.relatorio.RelAtividade;
 import br.iav.ac.telas.relatorio.RelCarro;
 import br.iav.ac.telas.relatorio.RelCliente;
-import br.iav.ac.telas.relatorio.RelAtividade;
 import br.iav.ac.telas.relatorio.RelServicoAtrasado;
 import br.iav.ac.telas.servico.DialogoOrcamento;
 import br.iav.ac.telas.servico.PainelOrcamento;

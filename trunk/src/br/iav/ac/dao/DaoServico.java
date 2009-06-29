@@ -2,15 +2,15 @@ package br.iav.ac.dao;
 
 import java.text.SimpleDateFormat;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import br.iav.ac.database.DB;
 import br.iav.ac.database.PostgreSQL;
-import br.iav.ac.negocio.Atividade;
 import br.iav.ac.negocio.Carro;
 import br.iav.ac.negocio.Cliente;
-import br.iav.ac.negocio.Funcionario;
 import br.iav.ac.negocio.ListaObjeto;
 import br.iav.ac.negocio.Modelo;
-import br.iav.ac.negocio.Objeto;
 import br.iav.ac.negocio.Servico;
 import br.iav.ac.negocio.Status;
 
@@ -212,5 +212,19 @@ public class DaoServico implements DaoInterface{
 		else{
 			return(null);
 		}
+	}
+
+	public JasperPrint gerarRelatorioServicoAtrasado(){
+		try{
+			DB db = PostgreSQL.create();
+			if(db.connect()){
+				JasperPrint print = JasperFillManager.fillReport("relServicoAtrasado.jasper",null,db.getConnection());
+				db.disconnect();
+				return print;
+			}
+		}catch(JRException e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
