@@ -25,6 +25,7 @@ import br.iav.ac.telas.peca.PainelPeca;
 import br.iav.ac.telas.relatorio.RelAtividade;
 import br.iav.ac.telas.relatorio.RelCarro;
 import br.iav.ac.telas.relatorio.RelCliente;
+import br.iav.ac.telas.relatorio.RelEstoque;
 import br.iav.ac.telas.relatorio.RelServicoAtrasado;
 import br.iav.ac.telas.servico.DialogoOrcamento;
 import br.iav.ac.telas.servico.PainelOrcamento;
@@ -125,6 +126,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						DefaultMutableTreeNode nodoOrdemServico = new DefaultMutableTreeNode("Ordem de Serviço");
 						DefaultMutableTreeNode nodoOrcamento = new DefaultMutableTreeNode("Serviços não Concluídos");
 						DefaultMutableTreeNode nodoRelServicoAtrasado = new DefaultMutableTreeNode("Serviços Atrasados");
+						DefaultMutableTreeNode nodoRelEstoque = new DefaultMutableTreeNode("Estoque");
 						
 						nodoPrincipal.add(nodoCadastro);
 						nodoPrincipal.add(nodoMovimento);
@@ -147,6 +149,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 						nodoRelatorios.add(nodoRelCarro);
 						nodoRelatorios.add(nodoRelCliente);
 						nodoRelatorios.add(nodoRelServicoAtrasado);
+						nodoRelatorios.add(nodoRelEstoque);
 
 						nodoAlmox.add(nodoEstoque);
 						nodoAlmox.add(nodoCompra);
@@ -352,6 +355,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
 			} else if (path.equals("[SMA, Relatórios, Serviços Atrasados]")) {
 				RelServicoAtrasado relatorioServicoAtrasado = new RelServicoAtrasado();
 				relatorioServicoAtrasado.exibirRelatorio();
+			} else if (path.equals("[SMA, Relatórios, Estoque]")) {
+				RelEstoque relEstoque = new RelEstoque();
+				relEstoque.exibirRelatorio();				
 			} else {
 				showPainel(getPainelApresentacao());
 			}

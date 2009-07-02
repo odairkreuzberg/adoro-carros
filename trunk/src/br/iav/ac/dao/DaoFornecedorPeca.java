@@ -1,5 +1,8 @@
 package br.iav.ac.dao;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import br.iav.ac.database.DB;
 import br.iav.ac.database.PostgreSQL;
 import br.iav.ac.negocio.Fornecedor;
@@ -171,4 +174,17 @@ public class DaoFornecedorPeca implements DaoInterface {
 		return this.loadFP("select fornecedor_peca.*, peca.* from fornecedor_peca, peca where fornecedor_peca.cod_peca = peca.cod_peca and peca.cod_peca = " +codigo);
 	}
 
+	public JasperPrint gerarRelatorioPecas(){
+		try{
+			DB db = PostgreSQL.create();
+			if(db.connect()){
+				JasperPrint print = JasperFillManager.fillReport("relPecas.jasper",null,db.getConnection());
+				db.disconnect();
+				return print;
+			}
+		}catch(JRException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

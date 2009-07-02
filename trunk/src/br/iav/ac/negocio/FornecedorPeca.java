@@ -1,6 +1,8 @@
 package br.iav.ac.negocio;
 
+import net.sf.jasperreports.engine.JasperPrint;
 import br.iav.ac.dao.DaoFornecedorPeca;
+import br.iav.ac.dao.DaoServico;
 
 public class FornecedorPeca extends Objeto implements ObjetoInterface {
 	
@@ -146,5 +148,9 @@ public class FornecedorPeca extends Objeto implements ObjetoInterface {
 	 * FIM DE PERSISTENCIA
 	 *----------------------------------------------------------*/
 
+	public JasperPrint gerarRelatorioPecas(){
+		DaoFornecedorPeca dao =  new DaoFornecedorPeca();
+		return dao.gerarRelatorioPecas();
+	}	
 
 }
