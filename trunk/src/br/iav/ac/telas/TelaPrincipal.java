@@ -1,5 +1,6 @@
 package br.iav.ac.telas;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -86,6 +87,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 		try {
 			getContentPane().setLayout(null);
 			this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+			ImageIcon img = new ImageIcon("res/car.jpg");
+			this.setIconImage(img.getImage());
 			this.setResizable(false);
 			this.setTitle("Adoro Carros");
 			this.setSize(800, 600);

@@ -79,7 +79,7 @@ public class PainelEstoque extends JPanel {
 			{
 				botaoAtulisar = new JButton();
 				this.add(botaoAtulisar);
-				botaoAtulisar.setText("Atualisar");
+				botaoAtulisar.setText("Atualizar");
 				botaoAtulisar.setBounds(269, 12, 116, 23);
 				botaoAtulisar.setSize(116, 27);
 			}

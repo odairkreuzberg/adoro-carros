@@ -23,7 +23,6 @@ public class DB {
 	}	
 
 	public DB(String url, String usr, String pass) {
-		//System.out.println(url);
 		this.url = url;
 		this.usr = usr;
 		this.pass = pass;		

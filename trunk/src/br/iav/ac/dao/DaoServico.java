@@ -109,8 +109,8 @@ public class DaoServico implements DaoInterface{
 					servico.setValorTotal(db.getFloat("valor_total"));
 					servico.setCarro(carro);
 					servico.setStatus(status);	
-					servico.setDataFim(db.getDate("data_inicio"));	
-					servico.setDataInicio(db.getDate("data_fim"));
+					servico.setDataFim(db.getDate("data_fim"));	
+					servico.setDataInicio(db.getDate("data_inicio"));
 					listaObjeto.insertWhitoutPersist(servico);				
 			}			
 			db.disconnect();
