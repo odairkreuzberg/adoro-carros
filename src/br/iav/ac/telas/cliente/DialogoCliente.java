@@ -349,7 +349,7 @@ public class DialogoCliente extends DialogoPadrao {
 													 textCep.getText().trim(),
 													 textComplemento.getText().trim());
 					cliente.setEndereco(endereco);
-					JOptionPane.showMessageDialog(DialogoCliente.this, buscarCidade().getNome());
+					//JOptionPane.showMessageDialog(DialogoCliente.this, buscarCidade().getNome());
 					cliente.edit();
 				} catch (ParseException e) {
 					JOptionPane.showMessageDialog(DialogoCliente.this, "O formato padrão de data utilizado é: \n\ndd/mm/aaaa\n");
@@ -413,24 +413,6 @@ public class DialogoCliente extends DialogoPadrao {
 				} else if (textDataNascimento.getText().equals("__/__/____")) {
 					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo data de nascimento é obrigatório!");
 					textDataNascimento.requestFocus();
-//				} else if (textProfissao.getText().equals("")) {
-//					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo profissão é obrigatório!");
-//					textProfissao.requestFocus();
-//				} else if (textRua.getText().equals("")) {
-//					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo rua é obrigatório!");
-//					textRua.requestFocus();
-//				} else if (textNumero.getText().equals("")) {
-//					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo número é obrigatório!");
-//					textNumero.requestFocus();
-//				} else if (textBairro.getText().equals("")) {
-//					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo bairro é obrigatório!");
-//					textBairro.requestFocus();
-//				} else if (textCep.getText().equals("")) {
-//					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo CEP é obrigatório!");
-//					textCep.requestFocus();
-//				} else if (textComplemento.getText().equals("")) {
-//					JOptionPane.showMessageDialog(DialogoCliente.this, "O campo complemento é obrigatório!");
-//					textComplemento.requestFocus();
 				}else if ( ((cliente.getCodigo() == 0) && ( comboCidade.getSelectedIndex() == -1)) ||
 						   ((cliente.getCodigo() != 0) && ( comboCidade.getSelectedItem() == null)) ){
 					JOptionPane.showMessageDialog(DialogoCliente.this,"O campo Cidade é obrigatório!");		

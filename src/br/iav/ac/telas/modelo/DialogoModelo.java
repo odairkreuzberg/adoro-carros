@@ -145,7 +145,7 @@ public class DialogoModelo extends DialogoPadrao {
 			JOptionPane.showMessageDialog(DialogoModelo.this, "O campo Nome estourou o limite de Caracter!");
 			textModelo.requestFocus();
 			return false;
-		}else if (comboMarca.getSelectedIndex() == -1) {
+		} else if ((comboMarca.getSelectedIndex() == -1) && (comboMarca.getSelectedItem().toString().trim().equals(""))) {
 			JOptionPane.showMessageDialog(DialogoModelo.this, "O campo Marca é obrigatorio!");
 			comboMarca.requestFocus();
 			return false;
