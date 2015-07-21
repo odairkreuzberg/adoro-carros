@@ -1,0 +1,1 @@
+Projeto academico desenvolvido para a materia Informatica Aplicada V com o professor Everton Pasqual, realizado na UDC
